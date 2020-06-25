@@ -8,7 +8,8 @@ class ThemeNotifier with ChangeNotifier {
     ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.green,
-        scaffoldBackgroundColor: Color(0xffeaf0fe)),
+        scaffoldBackgroundColor: Color(0xf6f6f6f6)),
+//        scaffoldBackgroundColor: Colors.transparent),
     ThemeData(
       brightness: Brightness.dark,
       primarySwatch: Colors.green,

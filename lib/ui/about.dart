@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-// import 'package:package_info/package_info.dart';
 
 class About extends StatefulWidget {
   @override
@@ -29,7 +28,7 @@ class _AboutState extends State<About> {
           icon: Icon(Icons.keyboard_backspace),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('About'),
+        title: Text('درباره ما'),
         elevation: 0.0,
       ),
       body: Padding(
@@ -40,7 +39,7 @@ class _AboutState extends State<About> {
             Card(
               elevation: 0,
               child: ListTile(
-                title: Text('Version'),
+                title: Text('نسخه'),
                 trailing: Text('$version+$buildNumber'),
               ),
             ),

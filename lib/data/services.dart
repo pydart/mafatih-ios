@@ -1,19 +1,26 @@
 import 'dart:convert';
-
-import 'package:alqurani/data/models/allasmaul.dart';
-import 'package:alqurani/data/models/alldoa.dart';
-import 'package:alqurani/data/models/allsurah.dart';
-import 'package:alqurani/data/models/ayatkursi.dart';
-import 'package:alqurani/data/models/jadwalsholat.dart';
-import 'package:alqurani/data/models/surahinfo.dart';
+import 'package:mafatih/data/models/DailyDoa.dart';
+import 'package:mafatih/data/models/ayatkursi.dart';
+import 'package:mafatih/data/models/surahinfo.dart';
+import 'package:mafatih/data/models/dailyDoaInfo.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'models/FaslInfo.dart';
+import 'models/FaslSecInfo.dart';
+import 'models/MixedTextInfoAll.dart';
 
 class ServiceData {
   var infosurah = 'surah/surah-info.json';
+//  var infdailyDoa = 'surah/dailyDoa-info.json';
+  var infdailyDoa = 'python/DailyDoa/dailyDoa-info.json';
+  var infoFasl = 'python/Babs/infoBabs.json';
+  static var infoFasl1 = 'python/Babs/infobab1.json';
+  static var infoFasl2 = 'python/Babs/infobab2.json';
+  static var infoFasl3 = 'python/Babs/infobab3.json';
+  var dict = {1: infoFasl1, 2: infoFasl2, 3: infoFasl3};
   var listdoa = 'surah/doa-harian.json';
   var listasmaulhusna = 'surah/asmaul-husna.json';
-  var ayatkursi = 'surah/ayat-kursi.json';
+  var ayatkursi = 'python/DailyDoa/dailyDoa-info.json';
   var jadwalsholat = 'http://muslimsalat.com/';
 
   Future<List<SurahInfo>> loadInfo() async {
@@ -22,25 +29,45 @@ class ServiceData {
     return data.map((model) => SurahInfo.fromJson(model)).toList();
   }
 
-  Future<AllSurah> loadSurah(int number) async {
-    final response = await rootBundle.loadString('surah/$number.json');
+  Future<List<dailyDoaInfo>> loaddailyDoaInfo() async {
+    var response = await rootBundle.loadString(infdailyDoa);
+    Iterable data = json.decode(response);
+    return data.map((model) => dailyDoaInfo.fromJson(model)).toList();
+  }
+
+  Future<List<FaslInfo>> loadFaslInfo() async {
+    var response = await rootBundle.loadString(infoFasl);
+    Iterable data = json.decode(response);
+    return data.map((model) => FaslInfo.fromJson(model)).toList();
+  }
+
+  Future<List<FaslSecInfo>> loadFaslSecInfo(int index) async {
+    var response = await rootBundle.loadString(dict[index]); //dict[index]
+    Iterable data = json.decode(response);
+    return data.map((model) => FaslSecInfo.fromJson(model)).toList();
+  }
+
+  Future<List<MixedTextInfoAll>> loadMixedTextInfoAll() async {
+    var response =
+        await rootBundle.loadString('python/Babs/infobabMixedTextInfoAll.json');
+    Iterable data = json.decode(response);
+    return data.map((model) => MixedTextInfoAll.fromJson(model)).toList();
+  }
+
+  Future<DailyDoa> loadDailyDoa(int number) async {
+    final response =
+        await rootBundle.loadString('python/DailyDoa/$number.json');
     var res = json.decode(response);
     var data = res['$number'];
-    return AllSurah.fromJson(data);
+    return DailyDoa.fromJson(data);
   }
 
-  Future<List<AllDoa>> loadDoa() async {
-    var response = await rootBundle.loadString(listdoa);
+  Future<DailyDoa> loadSec(int indexFasl, int number) async {
+    final response =
+        await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
     var res = json.decode(response);
-    Iterable data = res['data'];
-    return data.map((model) => AllDoa.fromJson(model)).toList();
-  }
-
-  Future<List<AllAsmaul>> loadAsmaul() async {
-    var response = await rootBundle.loadString(listasmaulhusna);
-    var res = json.decode(response);
-    Iterable data = res['data'];
-    return data.map((model) => AllAsmaul.fromJson(model)).toList();
+    var data = res['$number'];
+    return DailyDoa.fromJson(data);
   }
 
   Future<AyathKursi> loadAyatKursi() async {
@@ -48,11 +75,5 @@ class ServiceData {
     var res = json.decode(response);
     var data = res['data'];
     return AyathKursi.fromJson(data);
-  }
-
-  Future<JadwalDaily> loadJadwalSholat(String lokasi) async {
-    var response = await http.get('$jadwalsholat$lokasi/daily.json');
-    var res = json.decode(response.body);
-    return JadwalDaily.fromJson(res);
   }
 }
