@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'home_about.dart';
 import 'listpage/listFasl.dart';
 import 'package:mafatih/ui/notesSearch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'file:///G:/Flutter/Qurani2 -Babs/lib/library/Globals.dart' as globals;
+import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
+    as globals;
 import 'package:screen/screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -61,39 +64,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  /// Get saved Brightness or the default value if Brightness level is not defined
-  getBrightnessLevel() async {
-    prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(globals.BRIGHTNESS_LEVEL)) {
-      var _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
-      setState(() {
-        globals.brightnessLevel =
-            _brightnessLevel > 1 ? _brightnessLevel / 10 : _brightnessLevel;
-      });
-    } else {
-      getScreenBrightness();
-      // globals.brightnessLevel = globals.DEFAULT_BRIGHTNESS_LEVEL;
-    }
-  }
-
-  /// Get Screen Brightness
-  void getScreenBrightness() async {
-    print(globals.brightnessLevel);
-    globals.brightnessLevel = await Screen.brightness;
-    globals.brightnessLevel = globals.brightnessLevel > 1
-        ? globals.brightnessLevel / 10
-        : globals.brightnessLevel;
-    print(
-        "?????????????????????????         ${globals.brightnessLevel} ??????????????????getScreenBrightness?????????????");
-  }
-
   /// get bookmarkPage from sharedPreferences
   getBookmark() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BOOKMARKED_PAGE_index)) {
-      var titleBookMarked = prefs.getStringList(globals.BOOKMARKED_PAGE_title);
+      List<String> titleBookMarked =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_title);
 
-      var savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index);
+      List<String> savedStrList =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_index);
       List<int> indexBookMarked =
           savedStrList.map((i) => int.parse(i)).toList();
 
@@ -110,29 +89,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
       /// if not found return default value
     } else {
-      // globals.titleBookMarked.add(globals.DEFAULT_BOOKMARKED_PAGE_title);
-      // globals.indexBookMarked.add(globals.DEFAULT_BOOKMARKED_PAGE_index);
-      // globals.indexFaslBookMarked.add(globals.DEFAULT_BOOKMARKED_PAGE_indexFasl);
+      setState(() {
+        globals.titleBookMarked = [];
+        globals.indexBookMarked = [];
+        globals.indexFaslBookMarked = [];
+      });
     }
   }
 
   @override
   void initState() {
-    // Screen.setBrightness(globals.brightnessLevel);
-    Screen.keepOn(true);
-
     /// get Saved preferences
     getBookmark();
-    getBrightnessLevel();
     getLastViewedPage();
 //    Timer(Duration(seconds: 3),
 //        () => Navigator.pushReplacementNamed(context, "index"));
-
-//    Screen.setBrightness(globals.brightnessLevel);
-
-    setState(() {
-      Screen.setBrightness(globals.brightnessLevel);
-    });
 
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 1, vsync: this);
@@ -143,28 +114,57 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("آیا قصد خروج از برنامه را دارید؟"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("بله"),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+                FlatButton(
+                  child: Text(
+                    "خیر",
+                    textAlign: TextAlign.right,
+                  ),
+                  onPressed: () => Navigator.pop(context, false),
+                ),
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Container(
-          child: Drawer(child: Drawers()),
+//    Screen.setBrightness(globals.brightnessLevel);
+//    var dark = Provider.of<ThemeNotifier>(context);
+//    setState(() {
+//      dark.switchTheme(true);
+//    });
+
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        drawer: Container(
+            child: Drawer(child: Drawers()),
 //        width: 700.0 / MediaQuery.of(context).devicePixelRatio,
-          width: 200),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              title:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Image.asset(
-                  'assets/font_mafatih.png',
-                  color: Colors.white,
-                  height: 150,
-                  width: 152,
-                ),
-              ]),
-              actions: <Widget>[
+            width: 200),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                pinned: true,
+                title:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Image.asset(
+                    'assets/font_mafatih.png',
+                    color: Colors.white,
+                    height: 150,
+                    width: 152,
+                  ),
+                ]),
+                actions: <Widget>[
 //                  IconButton(
 //                    icon: Icon(Icons.search),
 //                    onPressed: () {
@@ -173,30 +173,31 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 //                    },
 //                  ),
 
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    showSearch(context: context, delegate: NotesSearch());
-                  },
-                ),
-              ],
-            )
-          ];
-        },
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/bitmap.png"),
-              fit: BoxFit.fill,
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      showSearch(context: context, delegate: NotesSearch());
+                    },
+                  ),
+                ],
+              )
+            ];
+          },
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bitmap.png"),
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: ListView(
-              // controller: _tabController,
-              children: <Widget>[
-                ListFasl(),
-              ],
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: ListView(
+                // controller: _tabController,
+                children: <Widget>[
+                  ListFasl(),
+                ],
+              ),
             ),
           ),
         ),

@@ -46,3 +46,20 @@ const BOOKMARKED_PAGE = 'bookmarkedPage';
 const BOOKMARKED_PAGE_title = 'bookmarkedPageTitle';
 const BOOKMARKED_PAGE_index = 'bookmarkedPageIndex';
 const BOOKMARKED_PAGE_indexFasl = 'bookmarkedPageIndexFasl';
+
+const FontArabic_LEVEL = 'FontArabic_level';
+const FontTarj_LEVEL = 'FontTarj_level';
+const FontTozih_LEVEL = 'FontTozih_level';
+
+const TarjActive = 'TarjActive';
+const TozihActive = 'TozihActive';
+const DarkMode = 'DarkMode';
+
+
+double fontArabicLevel;
+double fontTarjLevel;
+double fontTozihLevel;
+
+bool tarjActive;
+bool tozihActive;
+bool darkMode;

@@ -4,7 +4,8 @@ import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/ui/widget/cardsetting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'file:///G:/Flutter/Qurani2 -Babs/lib/library/Globals.dart' as globals;
+import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
+    as globals;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
@@ -14,12 +15,55 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   double tempBrightnessLevel = globals.brightnessLevel;
+  double tempFontArabicLevel = globals.fontArabicLevel;
+  double tempFontTarjLevel = globals.fontTarjLevel;
+  double tempFontTozihLevel = globals.fontTozihLevel;
+
+  bool tempTarjActive = globals.tarjActive;
+  bool tempTozihActive = globals.tozihActive;
+  bool tempDarkMode = globals.darkMode;
 
   SharedPreferences prefs;
   setBrightnessLevel(double level) async {
     globals.brightnessLevel = level;
     prefs = await SharedPreferences.getInstance();
-    prefs.setDouble(globals.BRIGHTNESS_LEVEL, globals.brightnessLevel);
+    prefs.setDouble(globals.BRIGHTNESS_LEVEL, level);
+  }
+
+  setFontArabicLevel(double level) async {
+    globals.fontArabicLevel = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setDouble(globals.FontArabic_LEVEL, level);
+  }
+
+  setFontTarjLevel(double level) async {
+    globals.fontTarjLevel = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setDouble(globals.FontTarj_LEVEL, level);
+  }
+
+  setFontTozihLevel(double level) async {
+    globals.fontTozihLevel = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setDouble(globals.FontTozih_LEVEL, level);
+  }
+
+  setTarjActive(bool level) async {
+    globals.tarjActive = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(globals.TarjActive, level);
+  }
+
+  setTozihActive(bool level) async {
+    globals.tozihActive = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(globals.TozihActive, level);
+  }
+
+  setDarkModeActive(bool level) async {
+    globals.darkMode = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(globals.DarkMode, level);
   }
 
   @override
@@ -27,66 +71,125 @@ class _SettingsState extends State<Settings> {
     var ui = Provider.of<UiState>(context);
     var dark = Provider.of<ThemeNotifier>(context);
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.keyboard_backspace),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text('تنظیمات'),
-          elevation: 0.0,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_backspace),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: Column(
-          children: <Widget>[
-            CardSetting(
-              title: 'تم تاریک',
-              leading: Switch(
-                value: dark.darkmode,
-                onChanged: (newValue) => dark.switchTheme(newValue),
-              ),
+        title: Text('تنظیمات'),
+        elevation: 0.0,
+      ),
+      body: ListView(
+        children: <Widget>[
+          CardSetting(
+            title: 'تم تاریک',
+            leading: Switch(
+              value: tempDarkMode,
+              onChanged: (newValue) {
+                setState(() {
+                  tempDarkMode = newValue;
+//                    ui.fontSizeTozih = newValue;
+                  setDarkModeActive(newValue);
+                  dark.switchTheme();
+                });
+              },
             ),
-            CardSetting(
-              title: 'ترجمه',
-              leading: Switch(
-                value: ui.terjemahan,
-                onChanged: (newValue) => ui.terjemahan = newValue,
-              ),
+          ),
+          CardSetting(
+            title: 'ترجمه',
+            leading: Switch(
+              value: tempTarjActive,
+              onChanged: (newValue) {
+                setState(() {
+                  ui.terjemahan = newValue;
+                  tempTarjActive = newValue;
+                  setTarjActive(newValue);
+                });
+              },
             ),
-            CardSetting(
-              title: 'توضیحات',
-              leading: Switch(
-                value: ui.tafsir,
-                onChanged: (newValue) => ui.tafsir = newValue,
-              ),
+          ),
+          CardSetting(
+            title: 'توضیحات',
+            leading: Switch(
+              value: tempTozihActive,
+              onChanged: (newValue) {
+                setState(() {
+                  ui.tafsir = newValue;
+                  tempTozihActive = newValue;
+                  setTozihActive(newValue);
+                });
+              },
             ),
-            CardSlider(
-              title: 'سایز متن ',
-              slider: Slider(
-                min: 0.5,
-                value: ui.sliderFontSize,
-                onChanged: (newValue) => ui.fontSize = newValue,
-              ),
-              trailing: ui.fontSize.toInt().toString(),
-            ),
-            CardSlider(
-              title: 'نور صفحه',
-              slider: Slider(
-                min: 0.1,
-                max: 1,
-                divisions: 10,
-                value: tempBrightnessLevel,
+          ),
+          CardSlider(
+            title: 'سایز متن توضیحات ',
+            slider: Slider(
+                min: 14,
+                max: 1.5 * 30,
+//                value: ui.sliderfontSizeTozih,
+                value: tempFontTozihLevel,
                 onChanged: (newValue) {
                   setState(() {
-                    tempBrightnessLevel = newValue;
+                    tempFontTozihLevel = newValue;
+                    ui.fontSizeTozih = newValue;
+                    setFontTozihLevel(newValue);
                   });
-                  Screen.setBrightness(tempBrightnessLevel);
+                }),
+//            trailing: ui.fontSizeTozih.toInt().toString(),
+            trailing: tempFontTozihLevel.toInt().toString(),
+          ),
+          CardSlider(
+            title: 'سایز متن فارسی ',
+            slider: Slider(
+                min: 14,
+                max: 1.5 * 30,
+                value: tempFontTarjLevel,
+                onChanged: (newValue) {
+                  setState(() {
+                    tempFontTarjLevel = newValue;
+                    ui.fontSizetext = newValue;
+                    setFontTarjLevel(newValue);
+                  });
+                }),
+            trailing: tempFontTarjLevel.toInt().toString(),
+          ),
+          CardSlider(
+            title: 'سایز متن عربی',
+            slider: Slider(
+                min: 14,
+                max: 1.5 * 30,
+                value: tempFontArabicLevel,
+                onChanged: (newValue) {
+                  setState(() {
+                    ui.fontSize = newValue;
+                    tempFontArabicLevel = newValue;
+                    setFontArabicLevel(newValue);
+                  });
+                }),
+            trailing: tempFontArabicLevel.toInt().toString(),
+          ),
+          CardSlider(
+            title: 'نور صفحه',
+            slider: Slider(
+              min: 0.1,
+              max: 1,
+              divisions: 10,
+              value: tempBrightnessLevel,
+              onChanged: (newValue) {
+                setState(() {
+                  tempBrightnessLevel =
+                      double.parse(newValue.toStringAsFixed(1));
+                });
+                Screen.setBrightness(tempBrightnessLevel);
 //                  ui.lightlevel = newValue;
-                  setBrightnessLevel(newValue);
-                },
-              ),
-              trailing: (tempBrightnessLevel * 10).toInt().toString(),
+                setBrightnessLevel(tempBrightnessLevel);
+              },
             ),
-          ],
-        ));
+            trailing: (tempBrightnessLevel * 10).toInt().toString(),
+          ),
+        ],
+      ),
+    );
   }
 }
 

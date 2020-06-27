@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
+    as globals;
 
 class UiState with ChangeNotifier {
-  static double ayahsize = 1;
-  static double textsize = 1;
-  static double fontSizeT = 1;
+  static double ayahsize = globals.fontArabicLevel;
+  static double textsize = globals.fontTarjLevel;
+  static double fontSizeT = globals.fontTozihLevel;
 
-  static bool translate = false;
-  static bool makna = false;
+  static bool translate = globals.tarjActive;
+  static bool makna = globals.tozihActive;
 //  static double light = 0.5;
 
   set fontSize(newValue) {
@@ -14,7 +16,7 @@ class UiState with ChangeNotifier {
     notifyListeners();
   }
 
-  double get fontSize => ayahsize * 33;
+  double get fontSize => ayahsize;
   double get sliderFontSize => ayahsize;
 
   set fontSizetext(newValue) {
@@ -22,7 +24,7 @@ class UiState with ChangeNotifier {
     notifyListeners();
   }
 
-  double get fontSizetext => textsize * 28;
+  double get fontSizetext => textsize;
   double get sliderFontSizetext => textsize;
 
   set fontSizeTozih(newValue) {
@@ -30,7 +32,7 @@ class UiState with ChangeNotifier {
     notifyListeners();
   }
 
-  double get fontSizeTozih => fontSizeT * 30;
+  double get fontSizeTozih => fontSizeT;
   double get sliderfontSizeTozih => fontSizeT;
 
 //  set lightlevel(newValue) {

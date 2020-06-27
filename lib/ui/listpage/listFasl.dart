@@ -24,7 +24,9 @@ class _ListFaslState extends State<ListFasl> {
     /// Go to Bookmarked page
     if (indexTabHome == 0) {
       setState(() {
-        getBookmark();
+        globals.titleBookMarked = [];
+        globals.indexBookMarked = [];
+        globals.indexFaslBookMarked = [];
 
         /// in case Bookmarked page is null (Bookmarked page initialized in splash screen)
         if (globals.indexBookMarked == null) {
@@ -37,18 +39,20 @@ class _ListFaslState extends State<ListFasl> {
           // globals.indexBookMarked.add(globals.DEFAULT_BOOKMARKED_PAGE_index);
           // globals.indexFaslBookMarked.add(
           //     globals.DEFAULT_BOOKMARKED_PAGE_indexFasl);
+        } else {
+          getBookmark();
         }
-      });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Favorites(
-              titlebookmark: globals.titleBookMarked,
-              indexbookmark: globals.indexBookMarked,
-              indexFaslbookmark: globals.indexFaslBookMarked),
-        ),
-      );
+//        Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//            builder: (context) => Favorites(
+//                titlebookmark: globals.titleBookMarked,
+//                indexbookmark: globals.indexBookMarked,
+//                indexFaslbookmark: globals.indexFaslBookMarked),
+//          ),
+//        );
+      });
       // Navigator.of(context).pushAndRemoveUntil(
       //     MaterialPageRoute(
       //         builder: (context) => DetailSec(
@@ -66,13 +70,14 @@ class _ListFaslState extends State<ListFasl> {
   getBookmark() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BOOKMARKED_PAGE_index)) {
-      var titleBookMarked = prefs.getStringList(globals.BOOKMARKED_PAGE_title);
+      final titleBookMarked =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_title);
 
-      var savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index);
+      final savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index);
       List<int> indexBookMarked =
           savedStrList.map((i) => int.parse(i)).toList();
 
-      var savedStrFaslList =
+      final savedStrFaslList =
           prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
       List<int> indexFaslBookMarked =
           savedStrFaslList.map((i) => int.parse(i)).toList();
@@ -157,14 +162,28 @@ class _ListFaslState extends State<ListFasl> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     ListTile(
-                                      title: Center(
-                                        child: Text(
-                                          "فهرست منتخب",
-                                          style: AppStyle.titleBab,
+                                        title: Center(
+                                          child: Text(
+                                            "فهرست منتخب",
+                                            style: AppStyle.titleBab,
+                                          ),
                                         ),
-                                      ),
-                                      onTap: () => _onItemTapped(0),
-                                    )
+                                        onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Favorites(
+//                                                      titlebookmark: globals
+//                                                          .titleBookMarked,
+//                                                      indexbookmark: globals
+//                                                          .indexBookMarked,
+//                                                      indexFaslbookmark: globals
+//                                                          .indexFaslBookMarked,
+
+                                                          )),
+                                            )
+//          ), //_onItemTapped(0),
+                                        )
                                   ])))),
                   Container(
                       height: 60,

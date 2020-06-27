@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
+    as globals;
 
 enum MyTheme { light, dark }
 
@@ -20,8 +22,8 @@ class ThemeNotifier with ChangeNotifier {
   MyTheme _current = MyTheme.light;
   ThemeData _currentTheme = themes[0];
 
-  void switchTheme(newValue) {
-    darkmode = newValue;
+  void switchTheme() {
+    darkmode = globals.darkMode;
     currentTheme == MyTheme.light
         ? currentTheme = MyTheme.dark
         : currentTheme = MyTheme.light;

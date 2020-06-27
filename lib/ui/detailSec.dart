@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa.dart';
 import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'file:///G:/Flutter/Qurani2 -Babs/lib/library/Globals.dart' as globals;
+import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
+    as globals;
 import '../data/utils/style.dart';
 
 class DetailSec extends StatefulWidget {
@@ -33,7 +34,6 @@ class _DetailSecState extends State<DetailSec> {
   /// Declare SharedPreferences
   SharedPreferences prefs;
   bool isBookmarked;
-  var isBookmarkedValue = 0;
   static Color iconBookmarkcolor;
 
   Widget _bookmarkWidget = Container();
@@ -42,47 +42,47 @@ class _DetailSecState extends State<DetailSec> {
   int indexCurrentPage;
   int indexFaslCurrentPage;
 
-  /// Get Screen Brightness
-  void getScreenBrightness() async {
-    globals.brightnessLevel = await Screen.brightness;
-  }
-
   /// Navigation event handler
   _onItemTapped(int indexTab) {
     setState(() {
       _selectedIndex = indexTab;
-    });
 
-    /// Go to Bookmarked page
-    if (indexTab == 2) {
-      isBookmarked
-          ? setState(() {
-              globals.titleBookMarked.remove(globals.titleCurrentPage);
-              globals.indexBookMarked.remove(globals.indexCurrentPage);
-              globals.indexFaslBookMarked.remove(globals.indexFaslCurrentPage);
+      /// Go to Bookmarked page
+      if (indexTab == 2) {
+        isBookmarked
+            ? setState(() {
+                iconBookmarkcolor = Colors.white;
+                globals.titleBookMarked.remove(globals.titleCurrentPage);
+                globals.indexBookMarked.remove(globals.indexCurrentPage);
+                globals.indexFaslBookMarked
+                    .remove(globals.indexFaslCurrentPage);
+                globals.titleBookMarked = globals.titleBookMarked;
+                globals.indexBookMarked = globals.indexBookMarked;
+                globals.indexFaslBookMarked = globals.indexFaslBookMarked;
+                print(
+                    "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+              })
+            : setState(() {
+                iconBookmarkcolor = Colors.red;
+                globals.titleBookMarked.add(globals.titleCurrentPage);
+                globals.indexBookMarked.add(globals.indexCurrentPage);
+                globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
 
-              print(
-                  "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
-            })
-          : setState(() {
-              iconBookmarkcolor = Colors.red;
-              globals.titleBookMarked.add(globals.titleCurrentPage);
-              globals.indexBookMarked.add(globals.indexCurrentPage);
-              globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
-
-              print(
-                  "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
-            });
-      if (globals.indexBookMarked != null) {
-        setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-            globals.indexFaslBookMarked);
+                print(
+                    "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+              });
+        if (globals.indexBookMarked != null) {
+          setBookmark(globals.titleBookMarked, globals.indexBookMarked,
+              globals.indexFaslBookMarked);
+        }
+      } else if (indexTab == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      } else if (indexTab == 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Settings()));
       }
-    } else if (indexTab == 0) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-    } else if (indexTab == 1) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Settings()));
-    }
+    });
   }
 
   PageController _pageControllerBuilder() {
@@ -94,16 +94,16 @@ class _DetailSecState extends State<DetailSec> {
   void setBookmark(
       List<String> _title, List<int> _index, List<int> _indexFasl) async {
     prefs = await SharedPreferences.getInstance();
-    if (_index[0] != null && !_index[0].isNaN) {
-      await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
+//    if (_index[0] != null && !_index[0].isNaN) {
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
 
-      List<String> _strindex = _index.map((i) => i.toString()).toList();
-      await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
+    List<String> _strindex = _index.map((i) => i.toString()).toList();
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
 
-      List<String> _strindexFasl = _indexFasl.map((i) => i.toString()).toList();
-      await prefs.setStringList(
-          globals.BOOKMARKED_PAGE_indexFasl, _strindexFasl);
-    }
+    List<String> _strindexFasl = _indexFasl.map((i) => i.toString()).toList();
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_indexFasl, _strindexFasl);
+
+//    }
   }
 
   /// set lastViewedPage in sharedPreferences
@@ -134,15 +134,54 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void initState() {
+    setState(() {
+      if (globals.titleBookMarked.contains(widget.detail)) {
+        print(
+            "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked.contains(widget.detail)");
+        isBookmarked = true;
+        iconBookmarkcolor = Colors.red;
+      } else {
+        isBookmarked = false;
+        iconBookmarkcolor = Colors.white;
+      }
+    });
+
+    /// Update lastViewedPage
+    setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
+    if (globals.titleBookMarked == null) {
+      isBookmarked = false;
+      print("globals.titleBookMarked== null ????????????????????????????");
+      globals.titleBookMarked = [];
+      globals.indexBookMarked = [];
+      globals.indexFaslBookMarked = [];
+    }
+
     /// Prevent screen from going into sleep mode:
     Screen.keepOn(true);
     super.initState();
   }
 
+//  Future<bool> _onBackPressed() {
+//    if (globals.indexBookMarked != null) {
+//      setBookmark(globals.titleBookMarked, globals.indexBookMarked,
+//          globals.indexFaslBookMarked);
+//
+//      print(
+//          " _onBackPressed   ######################################################   _onBackPressed");
+//    }
+////    () async => true;
+//    Navigator.pop(context, true);
+//  }
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
-    return Scaffold(
+    return
+//      WillPopScope(
+//      onWillPop: _onBackPressed,
+//      onWillPop: () async => true,
+
+        Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
@@ -170,113 +209,89 @@ class _DetailSecState extends State<DetailSec> {
       body: FutureBuilder<DailyDoa>(
         future: ServiceData().loadSec(widget.indexFasl, widget.index),
         builder: (c, snapshot) {
-          titleCurrentPage = snapshot.data.title;
-          globals.titleCurrentPage = titleCurrentPage;
-          indexCurrentPage = snapshot.data.number;
-          globals.indexCurrentPage = indexCurrentPage;
-          indexFaslCurrentPage = snapshot.data.bab;
-          globals.indexFaslCurrentPage = indexFaslCurrentPage;
-
-          /// Update lastViewedPage
-          setLastViewedPage(
-              titleCurrentPage, indexCurrentPage, indexFaslCurrentPage);
-          if (globals.titleBookMarked == null) {
-            isBookmarked = false;
-            print(
-                "globals.titleBookMarked== null ????????????????????????????");
-            globals.titleBookMarked = [];
-            globals.indexBookMarked = [];
-            globals.indexFaslBookMarked = [];
-          } else if (globals.titleBookMarked.contains(titleCurrentPage)) {
-            print(
-                "globals.titleBookMarked.contains(titleCurrentPage) ????????????????????????????");
-            isBookmarked = true;
-            isBookmarkedValue = 1;
-          } else {
-            isBookmarked = false;
-            isBookmarkedValue = 0;
-          }
-          print("$isBookmarked:$indexCurrentPage");
-
-          if (isBookmarked) {
-//            _bookmarkWidget = Bookmark();
-            iconBookmarkcolor = Colors.red;
-          } else {
-//            _bookmarkWidget = Container();
-            iconBookmarkcolor = Colors.white;
+          if (snapshot.hasData) {
+            titleCurrentPage = snapshot.data.title;
+            globals.titleCurrentPage = titleCurrentPage;
+            indexCurrentPage = snapshot.data.number;
+            globals.indexCurrentPage = indexCurrentPage;
+            indexFaslCurrentPage = snapshot.data.bab;
+            globals.indexFaslCurrentPage = indexFaslCurrentPage;
           }
 
           return snapshot.hasData
-              ? ListView.builder(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemCount: snapshot.data.arabic.length,
-                  itemBuilder: (BuildContext c, int i) {
-                    String key = snapshot.data.arabic.keys.elementAt(i);
-                    // return Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       horizontal: 15.0, vertical: 5.0),
-                    return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5.0),
-                            child: Column(
-                              children: <Widget>[
-                                if (ui.tafsir &&
-                                    snapshot.data.tozih[key] != null)
+              ? Scrollbar(
+                  child: ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: snapshot.data.arabic.length,
+                    itemBuilder: (BuildContext c, int i) {
+                      String key = snapshot.data.arabic.keys.elementAt(i);
+                      // return Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 15.0, vertical: 5.0),
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Column(
+                                children: <Widget>[
+                                  if (ui.tafsir &&
+                                      snapshot.data.tozih[key] != null)
+                                    ListTile(
+                                      title: Text(
+                                        '${snapshot.data.tozih[key]}',
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                          fontFamily: 'AdobeArabic-Regular',
+//                                          fontSize: ui.fontSizeTozih,
+                                          fontSize: globals.fontTozihLevel,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ),
                                   ListTile(
+                                    // leading: Text(
+                                    //   snapshot.data.arabic.keys.elementAt(i),
+                                    //   style: AppStyle.number,
+                                    // ),
                                     title: Text(
-                                      '${snapshot.data.tozih[key]}',
+                                      '${snapshot.data.arabic[key]}',
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                         fontFamily: 'AdobeArabic-Regular',
-                                        fontSize: ui.fontSizeTozih,
+//                                        fontSize: ui.fontSize,
+                                        fontSize: globals.fontArabicLevel,
+
 //                                        fontWeight: FontWeight.w600,
                                         height: 1.5,
                                       ),
                                     ),
                                   ),
-
-                                ListTile(
-                                  // leading: Text(
-                                  //   snapshot.data.arabic.keys.elementAt(i),
-                                  //   style: AppStyle.number,
-                                  // ),
-                                  title: Text(
-                                    '${snapshot.data.arabic[key]}',
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontFamily: 'AdobeArabic-Regular',
-                                      fontSize: ui.fontSize,
-                                      fontWeight: FontWeight.w600,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ),
-
-                                if (ui.terjemahan)
                                   AppStyle.spaceH10,
+                                  if (ui.terjemahan)
 //                                Text(
 //                                  'ترجمه',
 //                                  style: AppStyle.end2subtitle,
 //                                ),
-                                ListTile(
-                                  title: Text(
-                                    '${snapshot.data.farsi[key]}',
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontFamily: 'AdobeArabic-Regular',
-                                      fontSize: ui.fontSizetext,
-//                                        fontWeight: FontWeight.w600,
-                                      height: 1.5,
+                                    ListTile(
+                                      title: Text(
+                                        '${snapshot.data.farsi[key]}',
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                          fontFamily: 'AdobeArabic-Regular',
+//                                          fontSize: ui.fontSizetext,
+                                          fontSize: globals.fontTarjLevel,
+                                          height: 1.5,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ]);
-                  },
+                                ],
+                              ),
+                            )
+                          ]);
+                    },
+                  ),
                 )
               : Center(child: CircularProgressIndicator());
         },

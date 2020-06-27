@@ -67,74 +67,73 @@ class _ListSecState extends State<ListSec> {
           future: ServiceData().loadFaslSecInfo(widget.indexFasl),
           builder: (c, snapshot) {
             return snapshot.hasData
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView(
+                ? Scrollbar(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListView(
 //                        itemExtent: 60,
-                        physics: ScrollPhysics(),
-                        shrinkWrap: true,
-                        children: snapshot.data.map((data) {
-                          return data.indent == "1"
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Column(children: [
-                                    Container(
-                                      child: Card(
-                                          elevation: 0.0,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              side: BorderSide(
-                                                  width: 0.5,
-                                                  color: Colors.green)),
-                                          child: Container(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: snapshot.data.map((data) {
+                            return data.indent == "1"
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: Column(children: [
+                                      Container(
+                                        child: Card(
+                                            elevation: 0.0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                side: BorderSide(
+                                                    width: 0.5,
+                                                    color: Colors.green)),
+                                            child: Container(
 //                                              margin:
 //                                                  const EdgeInsets.symmetric(
 //                                                      vertical: 1),
-                                              padding: EdgeInsets.all(1),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    ListTile(
-                                                        title: Center(
-                                                          child: Text(
-                                                            data.title,
-                                                            style:
-                                                                AppStyle.title,
-                                                            textAlign: TextAlign
-                                                                .center,
+                                                padding: EdgeInsets.all(1),
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                          title: Center(
+                                                            child: Text(
+                                                              data.title,
+                                                              style: AppStyle
+                                                                  .title,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        contentPadding:
-                                                            EdgeInsets
-                                                                .symmetric(
-                                                                    vertical:
-                                                                        0.0,
-                                                                    horizontal:
-                                                                        16),
-                                                        dense: true,
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          DetailSec(
-                                                                            detail:
-                                                                                data.title,
-                                                                            index:
-                                                                                data.index,
-                                                                            indent:
-                                                                                data.indent,
-                                                                            indexFasl:
-                                                                                widget.indexFasl,
-                                                                          )));
-                                                        })
-                                                  ]))),
-                                    )
-                                  ]))
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          0.0,
+                                                                      horizontal:
+                                                                          16),
+                                                          dense: true,
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            DetailSec(
+                                                                              detail: data.title,
+                                                                              index: data.index,
+                                                                              indent: data.indent,
+                                                                              indexFasl: widget.indexFasl,
+                                                                            )));
+                                                          })
+                                                    ]))),
+                                      )
+                                    ]))
 //                              : data.indent == "2"
 //                                  ? Padding(
 //                                      padding: const EdgeInsets.symmetric(
@@ -299,58 +298,62 @@ class _ListSecState extends State<ListSec> {
 //                                                                  })
 //                                                            ])))
 //                                              ]))
-                              : data.indent == "titr"
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 0.0),
-                                      child: Column(children: [
-                                        Card(
-                                            elevation: 0.0,
-                                            color: Colors.transparent,
-                                            child: Container(
-                                                padding: EdgeInsets.all(1.0),
+                                : data.indent == "titr"
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 0.0),
+                                        child: Column(children: [
+                                          Card(
+                                              elevation: 0.0,
+                                              color: Colors.transparent,
+                                              child: Container(
+                                                  padding: EdgeInsets.all(1.0),
 //                                        padding: EdgeInsets.symmetric(horizontal: 12.0),
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      ListTile(
-                                                          leading:
-                                                              // Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                                              SvgPicture.asset(
-                                                            'assets/GolCard.svg',
-                                                            color: Colors.green,
-                                                            height: 50,
-                                                            width: 50,
+                                                  child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        ListTile(
+                                                            leading:
+                                                                // Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                                                                SvgPicture
+                                                                    .asset(
+                                                              'assets/GolCard.svg',
+                                                              color:
+                                                                  Colors.green,
+                                                              height: 50,
+                                                              width: 50,
 //                                                                        fit: BoxFit
 //                                                                            .contain,
-                                                          ),
-                                                          title: Text(
-                                                            data.title,
-                                                            style: AppStyle
-                                                                .titleFasl,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                          trailing:
-                                                              SvgPicture.asset(
-                                                            'assets/GolCard.svg',
-                                                            color: Colors.green,
-                                                            height: 50,
-                                                            width: 50,
-                                                          ),
+                                                            ),
+                                                            title: Text(
+                                                              data.title,
+                                                              style: AppStyle
+                                                                  .titleFasl,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            trailing: SvgPicture
+                                                                .asset(
+                                                              'assets/GolCard.svg',
+                                                              color:
+                                                                  Colors.green,
+                                                              height: 50,
+                                                              width: 50,
+                                                            ),
 
-                                                          // ]),
-                                                          contentPadding:
-                                                              EdgeInsets
-                                                                  .symmetric(
-                                                                      vertical:
-                                                                          0.0,
-                                                                      horizontal:
-                                                                          16),
-                                                          dense: true,
-                                                          onTap: () {
+                                                            // ]),
+                                                            contentPadding:
+                                                                EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            0.0,
+                                                                        horizontal:
+                                                                            16),
+                                                            dense: true,
+                                                            onTap: () {
 //                                                                        Navigator.push(
 //                                                                            context,
 //                                                                            MaterialPageRoute(
@@ -359,12 +362,12 @@ class _ListSecState extends State<ListSec> {
 //                                                                                      index: data.index,
 //                                                                                      indexFasl: widget.indexFasl,
 //                                                                                    )));
-                                                          })
-                                                    ])))
-                                      ]))
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 0.0));
+                                                            })
+                                                      ])))
+                                        ]))
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 0.0));
 
 //                                  : Padding(
 //                                      padding: const EdgeInsets.symmetric(
@@ -404,7 +407,8 @@ class _ListSecState extends State<ListSec> {
 //                                                          })
 //                                                    ])))
 //                                      ]));
-                        }).toList()),
+                          }).toList()),
+                    ),
                   )
 //                : PKCardListSkeleton(
 //                    isCircularImage: true,
