@@ -67,7 +67,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   /// get bookmarkPage from sharedPreferences
   getBookmark() async {
     prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(globals.BOOKMARKED_PAGE_index)) {
+    if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
       List<String> titleBookMarked =
           prefs.getStringList(globals.BOOKMARKED_PAGE_title);
 
@@ -76,15 +76,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       List<int> indexBookMarked =
           savedStrList.map((i) => int.parse(i)).toList();
 
-      var savedStrFaslList =
+      List<String> savedStrFaslList =
           prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
       List<int> indexFaslBookMarked =
           savedStrFaslList.map((i) => int.parse(i)).toList();
+
+      List<String> savedStrCodeList =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_Code);
+      List<int> codeBookMarked =
+          savedStrCodeList.map((i) => int.parse(i)).toList();
 
       setState(() {
         globals.titleBookMarked = titleBookMarked;
         globals.indexBookMarked = indexBookMarked;
         globals.indexFaslBookMarked = indexFaslBookMarked;
+        globals.codeBookMarked = codeBookMarked;
       });
 
       /// if not found return default value
@@ -93,6 +99,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.titleBookMarked = [];
         globals.indexBookMarked = [];
         globals.indexFaslBookMarked = [];
+        globals.codeBookMarked = [];
       });
     }
   }
@@ -100,6 +107,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     /// get Saved preferences
+    Screen.setBrightness(globals.brightnessLevel);
+
     getBookmark();
     getLastViewedPage();
 //    Timer(Duration(seconds: 3),
@@ -137,12 +146,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-//    Screen.setBrightness(globals.brightnessLevel);
-//    var dark = Provider.of<ThemeNotifier>(context);
-//    setState(() {
-//      dark.switchTheme(true);
-//    });
-
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(

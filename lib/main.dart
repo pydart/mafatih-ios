@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'مفاتیح الجنان',
         theme: Provider.of<ThemeNotifier>(context).curretThemeData,
-        initialRoute: '/',
+        initialRoute: 'mafatih/',
         routes: {
           'home': (context) => Home(),
           '/settings': (context) => Settings(),

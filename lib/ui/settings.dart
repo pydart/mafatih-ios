@@ -84,12 +84,15 @@ class _SettingsState extends State<Settings> {
           CardSetting(
             title: 'تم تاریک',
             leading: Switch(
-              value: tempDarkMode,
+              value: dark.darkmode,
+
+//              value: tempDarkMode,
               onChanged: (newValue) {
                 setState(() {
                   tempDarkMode = newValue;
 //                    ui.fontSizeTozih = newValue;
                   setDarkModeActive(newValue);
+                  globals.darkMode = newValue;
                   dark.switchTheme();
                 });
               },

@@ -129,6 +129,7 @@ class _ListSecState extends State<ListSec> {
                                                                               index: data.index,
                                                                               indent: data.indent,
                                                                               indexFasl: widget.indexFasl,
+                                                                              code: widget.indexFasl * 1000 + data.index,
                                                                             )));
                                                           })
                                                     ]))),

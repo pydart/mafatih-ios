@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacementNamed(context, 'home'));
 
 //    //   setState(() {
-//    Screen.setBrightness(globals.brightnessLevel);
+    Screen.setBrightness(globals.brightnessLevel);
 ////   });
     getFontsLevel();
     getOtherSettings();
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
   getBrightnessLevel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BRIGHTNESS_LEVEL)) {
-      var _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
+      double _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
       double _brightnessLevel2;
       setState(() {
         _brightnessLevel2 =
@@ -121,7 +121,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getOtherSettings() async {
     SharedPreferences prefs;
-//    var dark = Provider.of<ThemeNotifier>(context);
 
     prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -146,10 +145,15 @@ class _SplashScreenState extends State<SplashScreen> {
       var _darkMode = prefs.getBool(globals.DarkMode);
       setState(() {
         globals.darkMode = _darkMode;
-//        _darkMode ?? dark.switchTheme();
+//        dark.switchTheme();
       });
     }
 
+    if (globals.darkMode == null) {
+      globals.darkMode = false;
+    }
+
+//    Provider.of<ThemeNotifier>(context).curretThemeData2;
     print(
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.tozihActive}          globals.tozihActive');
   }

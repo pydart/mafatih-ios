@@ -20,11 +20,16 @@ class ThemeNotifier with ChangeNotifier {
   ];
 
   MyTheme _current = MyTheme.light;
+//  ThemeData _currentTheme2 = globals.darkMode ? themes[1] : themes[0];
   ThemeData _currentTheme = themes[0];
 
   void switchTheme() {
+    if (globals.darkMode == null) {
+      globals.darkMode = false;
+    }
     darkmode = globals.darkMode;
     currentTheme == MyTheme.light
+//    currentTheme == darkmode
         ? currentTheme = MyTheme.dark
         : currentTheme = MyTheme.light;
   }
@@ -44,5 +49,7 @@ class ThemeNotifier with ChangeNotifier {
 
   get currentTheme => _current;
   get curretThemeData => _currentTheme;
+//  get curretThemeData2 => _currentTheme2;
+
   get darkmode => _darkmode;
 }

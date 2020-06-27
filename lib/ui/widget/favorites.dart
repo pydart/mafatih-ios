@@ -11,12 +11,14 @@ class Favorites extends StatefulWidget {
   List<String> titlebookmark = globals.titleBookMarked;
   List<int> indexbookmark = globals.indexBookMarked;
   List<int> indexFaslbookmark = globals.indexFaslBookMarked;
+  List<int> codebookmark = globals.codeBookMarked;
 
   Favorites(
       {Key key,
       @required this.titlebookmark,
       this.indexbookmark,
-      this.indexFaslbookmark})
+      this.indexFaslbookmark,
+      this.codebookmark})
       : super(key: key);
 
   @override
@@ -34,8 +36,9 @@ getBookmark() async {
     globals.titleBookMarked = [];
     globals.indexBookMarked = [];
     globals.indexFaslBookMarked = [];
+    globals.codeBookMarked = [];
   } else {
-    if (prefs.containsKey(globals.BOOKMARKED_PAGE_index)) {
+    if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
       final titleBookMarked =
           prefs.getStringList(globals.BOOKMARKED_PAGE_title);
 
@@ -47,9 +50,16 @@ getBookmark() async {
           prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
       List<int> indexFaslBookMarked =
           savedStrFaslList.map((i) => int.parse(i)).toList();
+
+      List<String> savedStrCodeList =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_Code);
+      List<int> codeBookMarked =
+          savedStrCodeList.map((i) => int.parse(i)).toList();
+
       globals.titleBookMarked = titleBookMarked;
       globals.indexBookMarked = indexBookMarked;
       globals.indexFaslBookMarked = indexFaslBookMarked;
+      globals.codeBookMarked = codeBookMarked;
     }
   }
 }
@@ -63,6 +73,7 @@ class _FavoritesState extends State<Favorites> {
       widget.titlebookmark = globals.titleBookMarked;
       widget.indexbookmark = globals.indexBookMarked;
       widget.indexFaslbookmark = globals.indexFaslBookMarked;
+      widget.codebookmark = globals.codeBookMarked;
     });
 
 //    Favorites();
@@ -70,12 +81,6 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   Widget build(BuildContext context) {
-//    getBookmark(); //globals.indexBookMarked = !null ??
-//    setState(() {
-//      widget.titlebookmark = globals.titleBookMarked;
-//      widget.indexbookmark = globals.indexBookMarked;
-//      widget.indexFaslbookmark = globals.indexFaslBookMarked;
-//    });
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -170,6 +175,8 @@ class _FavoritesState extends State<Favorites> {
                                                 // 1,
                                                 indexFasl: widget
                                                     .indexFaslbookmark[index],
+                                                code:
+                                                    widget.codebookmark[index],
                                               ))).then((value) {
                                     setState(() {
                                       widget.titlebookmark =
@@ -178,6 +185,8 @@ class _FavoritesState extends State<Favorites> {
                                           globals.indexBookMarked;
                                       widget.indexFaslbookmark =
                                           globals.indexFaslBookMarked;
+                                      widget.codebookmark =
+                                          globals.codeBookMarked;
                                     });
                                   });
                                 })))))));

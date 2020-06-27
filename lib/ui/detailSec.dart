@@ -13,13 +13,14 @@ import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
 import '../data/utils/style.dart';
 
 class DetailSec extends StatefulWidget {
-  final detail, index, indent, indexFasl;
+  final detail, index, indent, indexFasl, code;
   DetailSec({
     Key key,
     @required this.detail,
     this.index,
     this.indent,
     this.indexFasl,
+    this.code,
   }) : super(key: key);
 
   @override
@@ -41,6 +42,7 @@ class _DetailSecState extends State<DetailSec> {
   String titleCurrentPage;
   int indexCurrentPage;
   int indexFaslCurrentPage;
+  int codeCurrentPage;
 
   /// Navigation event handler
   _onItemTapped(int indexTab) {
@@ -56,9 +58,12 @@ class _DetailSecState extends State<DetailSec> {
                 globals.indexBookMarked.remove(globals.indexCurrentPage);
                 globals.indexFaslBookMarked
                     .remove(globals.indexFaslCurrentPage);
-                globals.titleBookMarked = globals.titleBookMarked;
-                globals.indexBookMarked = globals.indexBookMarked;
-                globals.indexFaslBookMarked = globals.indexFaslBookMarked;
+                globals.codeBookMarked.remove(globals.codeCurrentPage);
+
+//                globals.titleBookMarked = globals.titleBookMarked;
+//                globals.indexBookMarked = globals.indexBookMarked;
+//                globals.indexFaslBookMarked = globals.indexFaslBookMarked;
+//                globals.codeBookMarked = globals.codeBookMarked;
                 print(
                     "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               })
@@ -67,13 +72,14 @@ class _DetailSecState extends State<DetailSec> {
                 globals.titleBookMarked.add(globals.titleCurrentPage);
                 globals.indexBookMarked.add(globals.indexCurrentPage);
                 globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
+                globals.codeBookMarked.add(globals.codeCurrentPage);
 
                 print(
                     "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               });
         if (globals.indexBookMarked != null) {
           setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-              globals.indexFaslBookMarked);
+              globals.indexFaslBookMarked, globals.codeBookMarked);
         }
       } else if (indexTab == 0) {
         Navigator.push(
@@ -91,8 +97,8 @@ class _DetailSecState extends State<DetailSec> {
   }
 
   /// set bookmarkPage in sharedPreferences
-  void setBookmark(
-      List<String> _title, List<int> _index, List<int> _indexFasl) async {
+  void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
+      List<int> _code) async {
     prefs = await SharedPreferences.getInstance();
 //    if (_index[0] != null && !_index[0].isNaN) {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
@@ -103,7 +109,8 @@ class _DetailSecState extends State<DetailSec> {
     List<String> _strindexFasl = _indexFasl.map((i) => i.toString()).toList();
     await prefs.setStringList(globals.BOOKMARKED_PAGE_indexFasl, _strindexFasl);
 
-//    }
+    List<String> _strcode = _code.map((i) => i.toString()).toList();
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
   }
 
   /// set lastViewedPage in sharedPreferences
@@ -135,12 +142,15 @@ class _DetailSecState extends State<DetailSec> {
   @override
   void initState() {
     setState(() {
-      if (globals.titleBookMarked.contains(widget.detail)) {
+      if (globals.codeBookMarked.contains(widget.code)) {
         print(
-            "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked.contains(widget.detail)");
+            "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked.contains(${widget.detail})");
         isBookmarked = true;
         iconBookmarkcolor = Colors.red;
       } else {
+        print(
+            "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked does NOT contain (${widget.detail})");
+
         isBookmarked = false;
         iconBookmarkcolor = Colors.white;
       }
@@ -148,6 +158,7 @@ class _DetailSecState extends State<DetailSec> {
 
     /// Update lastViewedPage
     setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
+
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
       print("globals.titleBookMarked== null ????????????????????????????");
@@ -216,6 +227,8 @@ class _DetailSecState extends State<DetailSec> {
             globals.indexCurrentPage = indexCurrentPage;
             indexFaslCurrentPage = snapshot.data.bab;
             globals.indexFaslCurrentPage = indexFaslCurrentPage;
+            codeCurrentPage = indexFaslCurrentPage * 1000 + indexCurrentPage;
+            globals.codeCurrentPage = codeCurrentPage;
           }
 
           return snapshot.hasData
