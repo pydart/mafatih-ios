@@ -10,7 +10,6 @@ import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
     as globals;
-import '../data/utils/style.dart';
 
 class DetailSec extends StatefulWidget {
   final detail, index, indent, indexFasl, code;

@@ -7,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'home_about.dart';
 import 'listpage/listFasl.dart';
-import 'package:mafatih/ui/notesSearch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
     as globals;
 import 'package:screen/screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'notesSearch.dart';
 
 class Home extends StatefulWidget {
   @override

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../detailSec.dart';
 import '../home2.dart';
-import 'package:mafatih/ui/notesSearch.dart';
+import '../notesSearch.dart';
 import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
     as globals;
 

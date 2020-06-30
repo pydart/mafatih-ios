@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mafatih/data/utils/style.dart';
 
-import 'detailSec.dart';
+import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/ui/detailSec.dart';
 
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   List<MixedTextInfoAll> notes;

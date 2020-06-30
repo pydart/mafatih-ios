@@ -7,9 +7,6 @@ import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
-    as globals;
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => UiState()),

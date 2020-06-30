@@ -6,10 +6,9 @@ import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:provider/provider.dart';
-import 'package:mafatih/ui/notesSearch.dart';
-
 import '../detailSec.dart';
 import '../home2.dart';
+import '../notesSearch.dart';
 
 class ListSec extends StatefulWidget {
   final detail, indexFasl;
