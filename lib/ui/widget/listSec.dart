@@ -29,11 +29,13 @@ class _ListSecState extends State<ListSec> {
             icon: Icon(
               Icons.keyboard_backspace,
             ),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Home())), //Navigator.of(context).pop(),
+            onPressed: () => Navigator.pop(context),
+
+//            onPressed: () => Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                    builder: (context) =>
+//                        Home())), //Navigator.of(context).pop(),
           ),
           title: Center(
             child: Text(

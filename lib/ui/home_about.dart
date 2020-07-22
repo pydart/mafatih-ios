@@ -28,9 +28,6 @@ class _HomeAboutState extends State<HomeAbout>
 
   @override
   Widget build(BuildContext context) {
-    var ui = Provider.of<UiState>(context);
-    var dark = Provider.of<ThemeNotifier>(context);
-
     return Scaffold(
         body: NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -38,9 +35,9 @@ class _HomeAboutState extends State<HomeAbout>
           SliverAppBar(
             leading: IconButton(
               icon: Icon(Icons.keyboard_backspace),
-//              onPressed: () => Navigator.of(context).pop(),
-              onPressed: () => Navigator.popUntil(
-                  context, ModalRoute.withName(Navigator.defaultRouteName)),
+              onPressed: () => Navigator.of(context).pop(),
+//              onPressed: () => Navigator.popUntil(
+//                  context, ModalRoute.withName(Navigator.defaultRouteName)),
 
 //              onPressed: () =>
 //                  Navigator.of(context).popUntil((route) => route.isFirst),

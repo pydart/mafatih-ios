@@ -8,10 +8,10 @@ import 'package:provider/provider.dart';
 import 'home_about.dart';
 import 'listpage/listFasl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
-    as globals;
+import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:screen/screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
 import 'notesSearch.dart';
 
@@ -22,10 +22,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  final String dogFoodUrl = 'https://www.svgrepo.com/show/3682/dog-food.svg';
 
   /// Used for Bottom Navigation
-//  int _selectedIndex = 0;
   int indexTabHome = 0;
 
   /// Navigation event handler
@@ -105,6 +103,32 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
+  /// get bookmarkPage from sharedPreferences
+  getFontsize() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(globals.FontArabic_LEVEL)) {
+      double _fontarabiclevel = prefs.getDouble(globals.FontArabic_LEVEL);
+
+      double _fonttarjlevel = prefs.getDouble(globals.FontTarj_LEVEL);
+
+      double _fonttozihlevel = prefs.getDouble(globals.FontTozih_LEVEL);
+
+      setState(() {
+        globals.fontArabicLevel = _fontarabiclevel;
+        globals.fontTarjLevel = _fonttarjlevel;
+        globals.fontTozihLevel = _fonttozihlevel;
+      });
+
+      /// if not found return default value
+    } else {
+      setState(() {
+        globals.fontArabicLevel = 23;
+        globals.fontTarjLevel = 21;
+        globals.fontTozihLevel = 25;
+      });
+    }
+  }
+
   @override
   void initState() {
     /// get Saved preferences
@@ -132,7 +156,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               actions: <Widget>[
                 FlatButton(
                   child: Text("بله"),
-                  onPressed: () => Navigator.pop(context, true),
+                  onPressed: () => exit(0),
+//                  onPressed: () => Navigator.pop(context, true),
                 ),
                 FlatButton(
                   child: Text(
@@ -163,7 +188,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Image.asset(
                     'assets/font_mafatih.png',
-                    color: Colors.white,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.green,
                     height: 150,
                     width: 152,
                   ),
@@ -242,6 +269,7 @@ class Drawers extends StatelessWidget {
 
                     child: SvgPicture.asset(
                       "assets/MafatihDrawer.svg",
+//                      fit: BoxFit.cover,
 //                      semanticsLabel: 'Feed button',
 //                      placeholderBuilder: (context) => Icon(Icons.error),
                     ),

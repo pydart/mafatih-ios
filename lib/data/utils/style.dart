@@ -76,7 +76,7 @@ class AppStyle {
       TextStyle(fontSize: 18.0, fontFamily: 'IRANSans', color: Colors.green);
 
   static final detailsurahTitle = TextStyle(
-      fontSize: 24.0,
+      fontSize: 20.0,
       fontWeight: FontWeight.w600,
       fontFamily: 'IRANSans',
       color: Colors.white);

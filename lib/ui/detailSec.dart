@@ -1,4 +1,6 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
+import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/home2.dart';
@@ -8,11 +10,12 @@ import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa.dart';
 import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
-    as globals;
+import 'package:mafatih/library/Globals.dart' as globals;
+
+import 'notesSearch.dart';
 
 class DetailSec extends StatefulWidget {
-  final detail, index, indent, indexFasl, code;
+  final detail, index, indent, indexFasl, code, query;
   DetailSec({
     Key key,
     @required this.detail,
@@ -20,6 +23,7 @@ class DetailSec extends StatefulWidget {
     this.indent,
     this.indexFasl,
     this.code,
+    this.query,
   }) : super(key: key);
 
   @override
@@ -42,6 +46,9 @@ class _DetailSecState extends State<DetailSec> {
   int indexCurrentPage;
   int indexFaslCurrentPage;
   int codeCurrentPage;
+  var themeNotifier = ThemeNotifier();
+
+  ScrollController _controller;
 
   /// Navigation event handler
   _onItemTapped(int indexTab) {
@@ -58,11 +65,7 @@ class _DetailSecState extends State<DetailSec> {
                 globals.indexFaslBookMarked
                     .remove(globals.indexFaslCurrentPage);
                 globals.codeBookMarked.remove(globals.codeCurrentPage);
-
-//                globals.titleBookMarked = globals.titleBookMarked;
-//                globals.indexBookMarked = globals.indexBookMarked;
-//                globals.indexFaslBookMarked = globals.indexFaslBookMarked;
-//                globals.codeBookMarked = globals.codeBookMarked;
+                isBookmarked = false;
                 print(
                     "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               })
@@ -72,10 +75,12 @@ class _DetailSecState extends State<DetailSec> {
                 globals.indexBookMarked.add(globals.indexCurrentPage);
                 globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
                 globals.codeBookMarked.add(globals.codeCurrentPage);
+                isBookmarked = true;
 
                 print(
                     "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               });
+
         if (globals.indexBookMarked != null) {
           setBookmark(globals.titleBookMarked, globals.indexBookMarked,
               globals.indexFaslBookMarked, globals.codeBookMarked);
@@ -168,20 +173,26 @@ class _DetailSecState extends State<DetailSec> {
 
     /// Prevent screen from going into sleep mode:
     Screen.keepOn(true);
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+
     super.initState();
   }
 
-//  Future<bool> _onBackPressed() {
-//    if (globals.indexBookMarked != null) {
-//      setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-//          globals.indexFaslBookMarked);
-//
-//      print(
-//          " _onBackPressed   ######################################################   _onBackPressed");
-//    }
-////    () async => true;
-//    Navigator.pop(context, true);
-//  }
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the bottom");
+      });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+      setState(() {
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the top");
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,6 +210,17 @@ class _DetailSecState extends State<DetailSec> {
             color: iconBookmarkcolor,
           ),
           onPressed: () {
+            String smsSaved = "با موفقیت به منتخب ها افزوده شد";
+            String smsRemoved = "با موفقیت از منتخب ها حذف شد";
+
+            Fluttertoast.showToast(
+                msg: isBookmarked ? smsRemoved : smsSaved,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 18.0);
+
             _onItemTapped(2);
           },
         ),
@@ -233,6 +255,7 @@ class _DetailSecState extends State<DetailSec> {
           return snapshot.hasData
               ? Scrollbar(
                   child: ListView.builder(
+                    controller: _controller,
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: snapshot.data.arabic.length,
                     itemBuilder: (BuildContext c, int i) {
@@ -248,53 +271,117 @@ class _DetailSecState extends State<DetailSec> {
                                   const EdgeInsets.symmetric(vertical: 5.0),
                               child: Column(
                                 children: <Widget>[
-                                  if (ui.tafsir &&
-                                      snapshot.data.tozih[key] != null)
+                                  if (snapshot.data.tozih[key] != "" &&
+                                      snapshot.data.tozih[key] !=
+                                          null) //ui.tafsir &&
                                     ListTile(
-                                      title: Text(
-                                        '${snapshot.data.tozih[key]}',
-                                        textAlign: TextAlign.justify,
+//                                      title:  Text(
+//                                        '${snapshot.data.tozih[key]}',
+//                                        textAlign: TextAlign.justify,
+//                                        style: TextStyle(
+//                                          fontFamily: 'AdobeArabic-Regular',
+////                                          fontSize: ui.fontSizeTozih,
+//                                          fontSize: globals.fontTozihLevel,
+//                                          height: 1.5,
+//                                        ),
+//                                      ),
+
+                                        title: RichText(
+                                      textAlign: TextAlign.justify,
+                                      text: TextSpan(
+                                        children: highlightOccurrencesDetailSec(
+                                            snapshot.data.tozih[key],
+                                            widget.query,
+                                            globals.fontTozihLevel + 4),
                                         style: TextStyle(
-                                          fontFamily: 'AdobeArabic-Regular',
-//                                          fontSize: ui.fontSizeTozih,
-                                          fontSize: globals.fontTozihLevel,
-                                          height: 1.5,
+//                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'AdobeArabic-Regular',
+                                            fontSize: globals.fontTozihLevel,
+                                            height: 1.5,
+//                                            color:
+//                                                Theme.of(context).buttonColor),
+                                            color: snapshot
+                                                    .data.arabic[key].isEmpty
+                                                ? Theme.of(context).accentColor
+                                                : Theme.of(context)
+                                                    .buttonColor),
+                                      ),
+                                    )),
+
+                                  if (snapshot.data.arabic[key] != "" &&
+                                      snapshot.data.arabic[key] != null)
+                                    ListTile(
+                                      // leading: Text(
+                                      //   snapshot.data.arabic.keys.elementAt(i),
+                                      //   style: AppStyle.number,
+                                      // ),
+//                                      title: Text(
+//                                        '${snapshot.data.arabic[key]}',
+//                                        textAlign: TextAlign.justify,
+//                                        style: TextStyle(
+//                                          fontFamily: 'Neirizi',
+////                                        fontSize: ui.fontSize,
+//                                          fontSize: globals.fontArabicLevel,
+//
+////                                        fontWeight: FontWeight.w600,
+//                                          height: 2.5,
+//                                        ),
+//                                      ),
+
+                                      title: RichText(
+                                        textAlign: TextAlign.justify,
+                                        text: TextSpan(
+                                          children:
+                                              highlightOccurrencesDetailSec(
+                                                  snapshot.data.arabic[key],
+                                                  widget.query,
+                                                  globals.fontArabicLevel + 4),
+                                          style: TextStyle(
+                                            fontFamily: 'Neirizi',
+                                            fontSize: globals.fontArabicLevel,
+                                            height: 2.5,
+                                            color:
+                                                Theme.of(context).accentColor,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ListTile(
-                                    // leading: Text(
-                                    //   snapshot.data.arabic.keys.elementAt(i),
-                                    //   style: AppStyle.number,
-                                    // ),
-                                    title: Text(
-                                      '${snapshot.data.arabic[key]}',
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                        fontFamily: 'AdobeArabic-Regular',
-//                                        fontSize: ui.fontSize,
-                                        fontSize: globals.fontArabicLevel,
+//                                  AppStyle.spaceH10,
 
-//                                        fontWeight: FontWeight.w600,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                                  AppStyle.spaceH10,
-                                  if (ui.terjemahan)
+                                  if (ui.terjemahan &&
+                                      snapshot.data.farsi[key] != null &&
+                                      snapshot.data.farsi[key] != "")
 //                                Text(
 //                                  'ترجمه',
 //                                  style: AppStyle.end2subtitle,
 //                                ),
                                     ListTile(
-                                      title: Text(
-                                        '${snapshot.data.farsi[key]}',
+//                                      title: Text(
+//                                        '${snapshot.data.farsi[key]}',
+//                                        textAlign: TextAlign.justify,
+//                                        style: TextStyle(
+//                                          fontFamily: 'AdobeArabic-Regular',
+////                                          fontSize: ui.fontSizetext,
+//                                          fontSize: globals.fontTarjLevel,
+//                                          height: 1.5,
+//                                        ),
+//                                      ),
+
+                                      title: RichText(
                                         textAlign: TextAlign.justify,
-                                        style: TextStyle(
-                                          fontFamily: 'AdobeArabic-Regular',
-//                                          fontSize: ui.fontSizetext,
-                                          fontSize: globals.fontTarjLevel,
-                                          height: 1.5,
+                                        text: TextSpan(
+                                          children:
+                                              highlightOccurrencesDetailSec(
+                                                  snapshot.data.farsi[key],
+                                                  widget.query,
+                                                  globals.fontTarjLevel + 4),
+                                          style: TextStyle(
+                                            fontFamily: 'AdobeArabic-Regular',
+                                            fontSize: globals.fontTarjLevel,
+                                            height: 1.5,
+                                            color:
+                                                Theme.of(context).accentColor,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -310,4 +397,46 @@ class _DetailSecState extends State<DetailSec> {
       ),
     );
   }
+}
+
+List<TextSpan> highlightOccurrencesDetailSec(
+    String source, String query, double _fontSize) {
+  if (query == null ||
+      query.isEmpty ||
+      !source.toLowerCase().contains(query.toLowerCase())) {
+    return [TextSpan(text: source)];
+  }
+  final matches = query.toLowerCase().allMatches(source.toLowerCase());
+
+  int lastMatchEnd = 0;
+
+  final List<TextSpan> children = [];
+  for (var i = 0; i < matches.length; i++) {
+    final match = matches.elementAt(i);
+
+    if (match.start != lastMatchEnd) {
+      children.add(TextSpan(
+        text: source.substring(lastMatchEnd, match.start),
+//          style: TextStyle(
+//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
+      ));
+    }
+
+    children.add(TextSpan(
+      text: source.substring(match.start, match.end),
+      style: TextStyle(
+          fontWeight: FontWeight.bold, fontSize: _fontSize, color: Colors.green
+          // color: Colors.black,
+          ),
+    ));
+
+    if (i == matches.length - 1 && match.end != source.length) {
+      children.add(TextSpan(
+        text: source.substring(match.end, source.length),
+      ));
+    }
+
+    lastMatchEnd = match.end;
+  }
+  return children;
 }

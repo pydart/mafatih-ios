@@ -1,8 +1,9 @@
 import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/splashScreen.dart';
-import 'package:mafatih/ui/about.dart';
+//import 'package:mafatih/ui/about.dart';
 import 'package:mafatih/ui/home2.dart';
+import 'package:mafatih/ui/home_about.dart';
 import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           'home': (context) => Home(),
           '/settings': (context) => Settings(),
-          '/about': (context) => About(),
+//          '/about': (context) => HomeAbout(),
         },
         home: SplashScreen());
   }

@@ -4,8 +4,8 @@ import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/ui/widget/cardsetting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
-    as globals;
+import 'package:mafatih/library/Globals.dart' as globals;
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
@@ -18,6 +18,10 @@ class _SettingsState extends State<Settings> {
   double tempFontArabicLevel = globals.fontArabicLevel;
   double tempFontTarjLevel = globals.fontTarjLevel;
   double tempFontTozihLevel = globals.fontTozihLevel;
+
+//  double tempFontArabicLevel = 23;
+//  double tempFontTarjLevel = 21;
+//  double tempFontTozihLevel = 25;
 
   bool tempTarjActive = globals.tarjActive;
   bool tempTozihActive = globals.tozihActive;
@@ -84,8 +88,9 @@ class _SettingsState extends State<Settings> {
           CardSetting(
             title: 'تم تاریک',
             leading: Switch(
-              value: dark.darkmode,
+              activeColor: Colors.green,
 
+              value: tempDarkMode,
 //              value: tempDarkMode,
               onChanged: (newValue) {
                 setState(() {
@@ -101,6 +106,7 @@ class _SettingsState extends State<Settings> {
           CardSetting(
             title: 'ترجمه',
             leading: Switch(
+              activeColor: Colors.green,
               value: tempTarjActive,
               onChanged: (newValue) {
                 setState(() {
@@ -111,19 +117,19 @@ class _SettingsState extends State<Settings> {
               },
             ),
           ),
-          CardSetting(
-            title: 'توضیحات',
-            leading: Switch(
-              value: tempTozihActive,
-              onChanged: (newValue) {
-                setState(() {
-                  ui.tafsir = newValue;
-                  tempTozihActive = newValue;
-                  setTozihActive(newValue);
-                });
-              },
-            ),
-          ),
+//          CardSetting(
+//            title: 'توضیحات',
+//            leading: Switch(
+//              value: tempTozihActive,
+//              onChanged: (newValue) {
+//                setState(() {
+//                  ui.tafsir = newValue;
+//                  tempTozihActive = newValue;
+//                  setTozihActive(newValue);
+//                });
+//              },
+//            ),
+//          ),
           CardSlider(
             title: 'سایز متن توضیحات ',
             slider: Slider(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mafatih/data/utils/style.dart';
 
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/ui/detailSec.dart';
+import 'package:mafatih/ui/detailSec.dart';
 
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   List<MixedTextInfoAll> notes;
@@ -50,9 +50,12 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
         Icons.arrow_back,
         // color: Colors.black,
       ),
-      onPressed: () {
-        close(context, null);
-      },
+
+      onPressed: () => Navigator.pop(context),
+
+//      onPressed: () {
+//        close(context, null);
+//      },
 //      onPressed: () => Navigator.popAndPushNamed(context, '/home'),
     );
   }
@@ -68,17 +71,23 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 50,
-              height: 50,
-              child: Icon(
-                Icons.search,
-                size: 50,
-                // color: Colors.black,
+              width: 100,
+              height: 100,
+              child: Container(
+                child: SvgPicture.asset("assets/zarebin.svg"),
+//                color: Colors.grey,
+//                height: 25,
+//                width: 25,
               ),
             ),
             Text(
-              'مطلب مورد نظر را برای جستجو وارد نمایید!',
-              // style: TextStyle(color: Colors.black),
+              'جستجو در برنامه',
+              style: TextStyle(
+                color: Theme.of(context).accentColor,
+                fontSize: 15.0,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'IRANSans',
+              ),
             )
           ],
         )),
@@ -97,17 +106,30 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                width: 50,
-                height: 50,
-                child: Icon(
-                  Icons.sentiment_dissatisfied,
-                  size: 50,
-                  // color: Colors.black,
+//                width: 50,
+//                height: 50,
+//                child: Icon(
+//                  Icons.sentiment_dissatisfied,
+//                  size: 50,
+//                  // color: Colors.black,
+//                ),
+                width: 100,
+                height: 100,
+                child: Container(
+                  child: SvgPicture.asset("assets/notfound.svg"),
+//                color: Colors.grey,
+//                height: 25,
+//                width: 25,
                 ),
               ),
               Text(
                 'هیچ نتیجه ای یافت نشد!',
-                // style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  color: Theme.of(context).accentColor,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: 'IRANSans',
+                ),
               )
             ],
           )),
@@ -150,15 +172,23 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
 
   List<MixedTextInfoAll> getFilteredList(List<MixedTextInfoAll> note) {
     filteredNotes = [];
+    List<MixedTextInfoAll> _filteredNotesTitle = [];
+    List<MixedTextInfoAll> _filteredNotesArabic = [];
+
     for (int i = 0; i < note.length; i++) {
-      if (note[i]
-          .title
-          .toLowerCase()
-          .contains(query)) //|| note[i].arabic.toLowerCase().contains(query)
+      if (note[i].title.contains(query)) //
       {
-        filteredNotes.add(note[i]);
+        _filteredNotesTitle.add(note[i]);
+      }
+
+      if (note[i].arabic.contains(query) && !note[i].title.contains(query)) //
+      {
+        _filteredNotesArabic.add(note[i]);
       }
     }
+//    filteredNotes.addAll(_filteredNotesTitle);
+//    filteredNotes.addAll(_filteredNotesArabic);
+    filteredNotes = _filteredNotesTitle + _filteredNotesArabic;
     return filteredNotes;
   }
 
@@ -185,7 +215,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
             Text(
               "جستجو در برنامه",
               style: TextStyle(
-                color: Colors.grey,
+                color: Theme.of(context).accentColor,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w900,
                 fontFamily: 'IRANSans',
@@ -219,31 +249,52 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                   itemCount:
                       filteredNotes.length == null ? 0 : filteredNotes.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: RichText(
-                        text: TextSpan(
-                          children: highlightOccurrences(
-                              filteredNotes[index].title, query),
-                          style: TextStyle(
+                    return Container(
+                      padding: EdgeInsets.all(0.0),
+                      child: ListTile(
+                        title: RichText(
+                          text: TextSpan(
+                            children: highlightOccurrences(
+                                filteredNotes[index].title, query),
+                            style: TextStyle(
                               fontFamily: 'IRANSans',
-                              fontSize: 20,
-                              color: Colors.grey[900]
-                              // color: Colors.grey,
-                              ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailSec(
-                              detail: filteredNotes[index].title,
-                              index: filteredNotes[index].indexbab,
-                              indexFasl: filteredNotes[index].bab,
+                              fontSize: 17,
+                              color: Theme.of(context)
+                                  .accentColor, // color: Colors.grey,
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        subtitle: RichText(
+                          maxLines: 2,
+                          text: TextSpan(
+                            children: highlightOccurrences(
+                                filteredNotes[index].arabic, ""),
+                            style: TextStyle(
+                              fontFamily: 'IRANSans',
+                              fontSize: 12,
+//                              color: Theme.of(context)
+//                                  .accentColor, // color: Colors.grey,
+                              color: Colors.grey[600], // color: Colors.grey,
+//
+//                                  color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailSec(
+                                  detail: filteredNotes[index].titleDetail,
+                                  index: filteredNotes[index].indexbab,
+                                  indexFasl: filteredNotes[index].bab,
+                                  query: query,
+                                  code: filteredNotes[index].bab * 1000 +
+                                      filteredNotes[index].indexbab),
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 ),
@@ -270,15 +321,16 @@ List<TextSpan> highlightOccurrences(String source, String query) {
 
     if (match.start != lastMatchEnd) {
       children.add(TextSpan(
-          text: source.substring(lastMatchEnd, match.start),
-          style: TextStyle(
-              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])));
+        text: source.substring(lastMatchEnd, match.start),
+//          style: TextStyle(
+//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
+      ));
     }
 
     children.add(TextSpan(
       text: source.substring(match.start, match.end),
       style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 24, color: Colors.green
+          fontWeight: FontWeight.bold, fontSize: 17, color: Colors.green
           // color: Colors.black,
           ),
     ));

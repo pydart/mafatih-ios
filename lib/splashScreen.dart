@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:provider/provider.dart';
-import 'data/themes.dart';
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
-    as globals;
+import 'package:mafatih/data/themes.dart';
 import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,10 +15,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   /// Declare SharedPreferences
   SharedPreferences prefs;
-
+  var dark;
   @override
   void initState() {
-//    Screen.keepOn(true);
     super.initState();
 
     /// get Saved preferences
@@ -39,17 +38,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void dispose() {
     super.dispose();
   }
-
-  /// get bookmarkPage from sharedPreferences
-//  getLastViewedPage() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    if (prefs.containsKey(globals.LAST_VIEWED_PAGE)) {
-//      var _lastViewedPage = prefs.getInt(globals.LAST_VIEWED_PAGE);
-//      setState(() {
-//        globals.lastViewedPage = _lastViewedPage;
-//      });
-//    }
-//  }
 
   /// Get saved Brightness or the default value if Brightness level is not defined
   getBrightnessLevel() async {
@@ -91,9 +79,9 @@ class _SplashScreenState extends State<SplashScreen> {
   getFontsLevel() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      globals.fontArabicLevel = 30;
-      globals.fontTarjLevel = 28;
-      globals.fontTozihLevel = 30;
+      globals.fontArabicLevel = 23;
+      globals.fontTarjLevel = 21;
+      globals.fontTozihLevel = 25;
     });
 
     if (prefs.containsKey(globals.FontArabic_LEVEL)) {
@@ -119,12 +107,13 @@ class _SplashScreenState extends State<SplashScreen> {
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.fontArabicLevel}             globals.fontArabicLevel');
   }
 
+  bool _darkMode;
   getOtherSettings() async {
     SharedPreferences prefs;
 
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      globals.tarjActive = false;
+      globals.tarjActive = true;
       globals.tozihActive = false;
       globals.darkMode = false;
     });
@@ -142,10 +131,9 @@ class _SplashScreenState extends State<SplashScreen> {
       });
     }
     if (prefs.containsKey(globals.DarkMode)) {
-      var _darkMode = prefs.getBool(globals.DarkMode);
+      _darkMode = prefs.getBool(globals.DarkMode);
       setState(() {
-        globals.darkMode = _darkMode;
-//        dark.switchTheme();
+        globals.darkMode = false;
       });
     }
 
@@ -158,32 +146,21 @@ class _SplashScreenState extends State<SplashScreen> {
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.tozihActive}          globals.tozihActive');
   }
 
-  /// get bookmarkPage from sharedPreferences
-//  getBookmark() async {
-//    prefs = await SharedPreferences.getInstance();
-//    if (prefs.containsKey(globals.BOOKMARKED_PAGE)) {
-//      var bookmarkedPage = prefs.getInt(globals.BOOKMARKED_PAGE);
-//      setState(() {
-//        globals.bookmarkedPage = bookmarkedPage;
-//      });
-//
-//      /// if not found return default value
-//    } else {
-//      globals.bookmarkedPage = globals.DEFAULT_BOOKMARKED_PAGE;
-//    }
-//  }
-
   @override
   Widget build(BuildContext context) {
+//    dark = Provider.of<ThemeNotifier>(context);
+//    _darkMode ?? dark.switchTheme();
+
     return Scaffold(
-      body: Container(
+        body: new SafeArea(
+      child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/startUp.png"),
+            image: AssetImage("assets/startUp0.png"),
             fit: BoxFit.fill,
           ),
         ),
       ),
-    );
+    ));
   }
 }

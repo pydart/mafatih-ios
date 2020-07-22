@@ -3,6 +3,7 @@ import 'package:mafatih/data/models/DailyDoa.dart';
 import 'package:mafatih/data/models/ayatkursi.dart';
 import 'package:mafatih/data/models/surahinfo.dart';
 import 'package:mafatih/data/models/dailyDoaInfo.dart';
+import 'package:mafatih/data/models/JsonMappingForSearch.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'models/FaslInfo.dart';
@@ -48,10 +49,17 @@ class ServiceData {
   }
 
   Future<List<MixedTextInfoAll>> loadMixedTextInfoAll() async {
-    var response =
-        await rootBundle.loadString('python/Babs/infobabMixedTextInfoAll.json');
+    var response = await rootBundle.loadString(
+        'python/Babs/ListofJsonForSearch2.json'); //infobabMixedTextInfoAll
     Iterable data = json.decode(response);
     return data.map((model) => MixedTextInfoAll.fromJson(model)).toList();
+  }
+
+  Future<List<JsonMappingForSearch>> loadForSearch() async {
+    var response =
+        await rootBundle.loadString('python/Babs/ListofJsonForSearch.json');
+    Iterable data = json.decode(response);
+    return data.map((model) => JsonMappingForSearch.fromJson(model)).toList();
   }
 
   Future<DailyDoa> loadDailyDoa(int number) async {

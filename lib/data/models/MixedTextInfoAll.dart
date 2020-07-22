@@ -9,6 +9,8 @@ String MixedTextInfoToJson(List<MixedTextInfoAll> data) =>
 
 class MixedTextInfoAll {
   String title;
+  String titleDetail;
+
   String arabic;
   int index;
   int indexbab;
@@ -16,6 +18,7 @@ class MixedTextInfoAll {
 
   MixedTextInfoAll({
     this.title,
+    this.titleDetail,
     this.arabic,
     this.index,
     this.bab,
@@ -25,15 +28,16 @@ class MixedTextInfoAll {
   factory MixedTextInfoAll.fromJson(Map<String, dynamic> json) =>
       MixedTextInfoAll(
         title: json["title"] == null ? null : json["title"],
+        titleDetail: json["titleDetail"] == null ? null : json["titleDetail"],
         index: json["index"] == null ? null : json["index"],
         arabic: json["arabic"][0] == null ? null : json["arabic"][0],
         bab: json["bab"] == null ? null : json["bab"],
         indexbab: json["indexbab"] == null ? null : json["indexbab"],
       );
 
-
   Map<String, dynamic> toJson() => {
         "title": title == null ? null : title,
+        "titleDetail": titleDetail == null ? null : titleDetail,
         "index": index == null ? null : index,
         "bab": bab == null ? null : bab,
         "arabic": arabic == null ? null : arabic,

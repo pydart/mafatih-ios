@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
-    as globals;
+import 'package:mafatih/library/Globals.dart' as globals;
+
 
 class UiState with ChangeNotifier {
   static double ayahsize = globals.fontArabicLevel;

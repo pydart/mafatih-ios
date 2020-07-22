@@ -4,8 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../detailSec.dart';
 import '../home2.dart';
 import '../notesSearch.dart';
-import 'file:///G:/Flutter/Qurani2_Babs_SplitText/lib/library/Globals.dart'
-    as globals;
+import 'package:mafatih/library/Globals.dart' as globals;
 
 class Favorites extends StatefulWidget {
   List<String> titlebookmark = globals.titleBookMarked;
@@ -87,11 +86,13 @@ class _FavoritesState extends State<Favorites> {
             icon: Icon(
               Icons.keyboard_backspace,
             ),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Home())), //Navigator.of(context).pop(),
+            onPressed: () => Navigator.pop(context),
+
+//            onPressed: () => Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                    builder: (context) =>
+//                        Home())), //Navigator.of(context).pop(),
           ),
           title: Center(
             child: Text(
@@ -101,14 +102,14 @@ class _FavoritesState extends State<Favorites> {
             ),
           ),
           elevation: 0.0,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: NotesSearch());
-              },
-            ),
-          ],
+//          actions: <Widget>[
+////            IconButton(
+////              icon: Icon(Icons.search),
+////              onPressed: () {
+////                showSearch(context: context, delegate: NotesSearch());
+////              },
+////            ),
+//          ],
         ),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
