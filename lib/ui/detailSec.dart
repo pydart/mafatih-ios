@@ -301,7 +301,7 @@ class _DetailSecState extends State<DetailSec> {
 //                                            color:
 //                                                Theme.of(context).buttonColor),
                                             color: snapshot
-                                                    .data.arabic[key].isEmpty
+                                                    .data.arabic["1"].isEmpty
                                                 ? Theme.of(context).accentColor
                                                 : Theme.of(context)
                                                     .buttonColor),
