@@ -6,6 +6,8 @@ import 'package:mafatih/ui/home2.dart';
 import 'package:mafatih/ui/home_about.dart';
 import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:mafatih/ui/widget/favorites.dart';
+import 'package:mafatih/ui/widget/listSec.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -53,6 +55,8 @@ class _MyAppState extends State<MyApp> {
         routes: {
           'home': (context) => Home(),
           '/settings': (context) => Settings(),
+          '/Favorites': (context) => Favorites(),
+          '/ListSec': (context) => ListSec(),
 //          '/about': (context) => HomeAbout(),
         },
         home: SplashScreen());

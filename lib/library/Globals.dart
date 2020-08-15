@@ -57,6 +57,7 @@ const FontTozih_LEVEL = 'FontTozih_level';
 const TarjActive = 'TarjActive';
 const TozihActive = 'TozihActive';
 const DarkMode = 'DarkMode';
+const LaterDialog = 'LaterDialog';
 
 double fontArabicLevel;
 double fontTarjLevel;
@@ -65,3 +66,4 @@ double fontTozihLevel;
 bool tarjActive;
 bool tozihActive;
 bool darkMode;
+bool laterDialog;

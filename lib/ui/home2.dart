@@ -4,6 +4,7 @@ import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'home_about.dart';
 import 'listpage/listFasl.dart';
@@ -12,7 +13,8 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:screen/screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 import 'notesSearch.dart';
 
 class Home extends StatefulWidget {
@@ -25,6 +27,132 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   /// Used for Bottom Navigation
   int indexTabHome = 0;
+  final APP_STORE_URL =
+      'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftwareUpdate?id=YOUR-APP-ID&mt=8';
+  final PLAY_STORE_URL = 'https://cafebazaar.ir/app/pydart.mafatih';
+  String postUrl = 'https://mafatih.herokuapp.com/buildnumber';
+  String newVersionBuildNumber;
+  double currentBuildNumber;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  _getBuildNumber() async {
+    try {
+//      Response response = await Dio().get(postUrl);
+      http.Response response = await http.get(postUrl).whenComplete(() {
+        print(
+            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Complete");
+      });
+      print(
+          ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>response");
+      if (response.statusCode == 200) {
+        print(
+            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>response.statusCode == 200");
+        var Results = response.body;
+        newVersionBuildNumber = Results;
+        print(
+            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> newVersionBuildNumber >>>>>>>> $newVersionBuildNumber");
+//        setState(() {
+//          newVersionBuildNumber = Results;
+//        });
+      } else {
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+  }
+
+  versionCheck(context) async {
+    print(
+        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           currentVersion');
+    //Get Current installed version of app
+    final PackageInfo info = await PackageInfo.fromPlatform();
+//    double currentVersion =
+//        double.parse(info.version.trim().replaceAll(".", ""));
+//    currentBuildNumber =
+//        double.parse(info.buildNumber.trim().replaceAll(".", ""));
+    currentBuildNumber = double.parse(info.buildNumber);
+    print(
+        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   $currentBuildNumber         currentVersion');
+    await _getBuildNumber();
+    print(
+        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% newVersionBuildNumber          ${double.parse(newVersionBuildNumber)} ');
+    print(
+        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% currentBuildNumber          $currentBuildNumber ');
+    setState(() {
+      currentBuildNumber = currentBuildNumber > 1000
+          ? currentBuildNumber - 1000
+          : currentBuildNumber;
+    });
+    try {
+//      //Get Latest version info from firebase config
+//      final RemoteConfig remoteConfig = await RemoteConfig.instance;
+//      // Using default duration to force fetching from remote server.
+//      await remoteConfig.fetch(expiration: const Duration(seconds: 0));
+//      await remoteConfig.activateFetched();
+//      remoteConfig.getString('force_update_current_version');
+//      double newVersion = double.parse(remoteConfig
+//          .getString('force_update_current_version')
+//          .trim()
+//          .replaceAll(".", ""));
+
+      if (double.parse(newVersionBuildNumber) > currentBuildNumber) {
+        print(
+            '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           ${prefs.containsKey(globals.LaterDialog)}');
+//        _showVersionDialog(context);
+        if (!prefs.containsKey(globals.LaterDialog)) {
+          await _upgrader();
+        }
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+//    on FetchThrottledException catch (exception) {
+//      // Fetch throttled.
+//      print(exception);
+//    } catch (exception) {
+//      print('Unable to fetch remote config. Cached or default values will be '
+//          'used');
+//    }
+  }
+
+//  MyGlobals myGlobals = MyGlobals();
+
+//  _showVersionDialog(context) async {
+//    await showDialog<String>(
+//      context: myGlobals.scaffoldKey.currentContext,
+//      barrierDismissible: false,
+//      builder: (BuildContext context) {
+//        String title = "New Update Available";
+//        String message =
+//            "There is a newer version of app available please update it now.";
+//        String btnLabel = "Update Now";
+//        String btnLabelCancel = "Later";
+//        return new AlertDialog(
+//          title: Text(title),
+//          content: Text(message),
+//          actions: <Widget>[
+//            FlatButton(
+//              child: Text(btnLabel),
+//              onPressed: () => _launchURL(PLAY_STORE_URL),
+//            ),
+//            FlatButton(
+//              child: Text(btnLabelCancel),
+//              onPressed: () => Navigator.pop(context),
+//            ),
+//          ],
+//        );
+//      },
+//    );
+//  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   /// Navigation event handler
 
@@ -131,6 +259,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    try {
+      versionCheck(context);
+    } catch (e) {
+      print(e);
+    }
+
     /// get Saved preferences
     Screen.setBrightness(globals.brightnessLevel);
 
@@ -141,6 +275,119 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 1, vsync: this);
+
+    getBrightnessLevel();
+    Screen.setBrightness(globals.brightnessLevel);
+
+    getFontsLevel();
+    getOtherSettings();
+  }
+
+  /// Get saved Brightness or the default value if Brightness level is not defined
+  getBrightnessLevel() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(globals.BRIGHTNESS_LEVEL)) {
+      double _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
+      double _brightnessLevel2;
+      setState(() {
+        _brightnessLevel2 =
+            _brightnessLevel > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
+        globals.brightnessLevel =
+            double.parse(_brightnessLevel2.toStringAsFixed(1));
+      });
+    } else {
+      await getScreenBrightness();
+    }
+  }
+
+  /// Get Screen Brightness
+  void getScreenBrightness() async {
+    double _brightnessLevel3;
+    double _brightnessLevel4;
+
+    print(globals.brightnessLevel);
+    _brightnessLevel3 = await Screen.brightness;
+
+    _brightnessLevel4 =
+        _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
+    globals.brightnessLevel =
+        double.parse(_brightnessLevel4.toStringAsFixed(1));
+    print(
+        "?????????????????????????         ${globals.brightnessLevel} ?????????????????? Main getScreenBrightness  integer ?????????????");
+
+    print(
+        "?????????????????????????         ${_brightnessLevel3} ?????????????????? Main Screen.brightness ?????????????");
+  }
+
+  /// Get saved Brightness or the default value if Brightness level is not defined
+  getFontsLevel() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      globals.fontArabicLevel = 23;
+      globals.fontTarjLevel = 21;
+      globals.fontTozihLevel = 25;
+    });
+
+    if (prefs.containsKey(globals.FontArabic_LEVEL)) {
+      var _fontArabicLevel = prefs.getDouble(globals.FontArabic_LEVEL);
+      setState(() {
+        globals.fontArabicLevel = _fontArabicLevel;
+      });
+    }
+    if (prefs.containsKey(globals.FontTarj_LEVEL)) {
+      var _fontTarjLevel = prefs.getDouble(globals.FontTarj_LEVEL);
+      setState(() {
+        globals.fontTarjLevel = _fontTarjLevel;
+      });
+    }
+    if (prefs.containsKey(globals.FontTozih_LEVEL)) {
+      var _fontTozihLevel = prefs.getDouble(globals.FontTozih_LEVEL);
+      setState(() {
+        globals.fontTozihLevel = _fontTozihLevel;
+      });
+    }
+
+    print(
+        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.fontArabicLevel}             globals.fontArabicLevel');
+  }
+
+  bool _darkMode;
+  getOtherSettings() async {
+    SharedPreferences prefs;
+
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      globals.tarjActive = true;
+      globals.tozihActive = false;
+      globals.darkMode = false;
+    });
+
+    if (prefs.containsKey(globals.TozihActive)) {
+      var _tozihActive = prefs.getBool(globals.TozihActive);
+      setState(() {
+        globals.tozihActive = _tozihActive;
+      });
+    }
+    if (prefs.containsKey(globals.TarjActive)) {
+      var _tarjActive = prefs.getBool(globals.TarjActive);
+      setState(() {
+        globals.tarjActive = _tarjActive;
+      });
+    }
+    if (prefs.containsKey(globals.DarkMode)) {
+      _darkMode = prefs.getBool(globals.DarkMode);
+      setState(() {
+        globals.darkMode = false;
+      });
+    }
+
+    if (globals.darkMode == null) {
+      globals.darkMode = false;
+    }
+
+//    Provider.of<ThemeNotifier>(context).curretThemeData2;
+    print(
+        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.tozihActive}          globals.tozihActive');
   }
 
   @override
@@ -165,6 +412,54 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     textAlign: TextAlign.right,
                   ),
                   onPressed: () => Navigator.pop(context, false),
+                ),
+              ],
+            ));
+  }
+
+  setLaterDialog() async {
+    bool level = false;
+    globals.laterDialog = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(globals.LaterDialog, level);
+  }
+
+  Future<bool> _upgrader() {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title:
+                  Text("نسخه جدیدی از برنامه برای به روزرسانی موجود می باشد.",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'IRANSans',
+                        fontSize: 16,
+                      )),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("به روزرسانی",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'IRANSans',
+                        fontSize: 16,
+                      )),
+                  onPressed: () => _launchURL(PLAY_STORE_URL),
+//                  onPressed: () => Navigator.pop(context, true),
+                ),
+                FlatButton(
+                  child: Text(
+                    "بعدا",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'IRANSans',
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  onPressed: () {
+                    setLaterDialog();
+                    Navigator.pop(context, false);
+                  },
                 ),
               ],
             ));
@@ -246,121 +541,124 @@ class Drawers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: ListView(
+    return Scaffold(
+      body: Container(
+        color: Colors.transparent,
+        child: ListView(
 //      padding: EdgeInsets.only(left: 80),
-        shrinkWrap: true,
+          shrinkWrap: true,
 
-        children: <Widget>[
-          Container(
-            height: 130,
+          children: <Widget>[
+            Container(
+              height: 130,
 //            color: Colors.green[500],
-            child: DrawerHeader(
-              margin: EdgeInsets.only(bottom: 0.0),
-              padding: EdgeInsets.only(right: 0, bottom: 0.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: 130,
-                    width: double.infinity,
+              child: DrawerHeader(
+                margin: EdgeInsets.only(bottom: 0.0),
+                padding: EdgeInsets.only(right: 0, bottom: 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      height: 130,
+                      width: double.infinity,
 
-                    child: SvgPicture.asset(
-                      "assets/MafatihDrawer.svg",
-//                      fit: BoxFit.cover,
-//                      semanticsLabel: 'Feed button',
-//                      placeholderBuilder: (context) => Icon(Icons.error),
-                    ),
+//                      child: SvgPicture.asset(
+//                        "assets/MafatihDrawer.svg",
+////                      fit: BoxFit.cover,
+////                      semanticsLabel: 'Feed button',
+////                      placeholderBuilder: (context) => Icon(Icons.error),
+//                      ),
+                      child: Image.asset("assets/MafatihDrawer.png"),
 
 //                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            height: 1,
-            color: Colors.green[500],
-          ),
-          ListTile(
-            leading: Wrap(
-              spacing: 12, // space between two icons
-              children: <Widget>[
-                Icon(Icons.info), // icon-1
-                Text(
-                  'درباره برنامه',
-                  style: AppStyle.setting,
-                ),
-              ],
+            Container(
+              height: 1,
+              color: Colors.green[500],
             ),
+            ListTile(
+              leading: Wrap(
+                spacing: 12, // space between two icons
+                children: <Widget>[
+                  Icon(Icons.info), // icon-1
+                  Text(
+                    'درباره برنامه',
+                    style: AppStyle.setting,
+                  ),
+                ],
+              ),
 //            trailing: Icon(Icons.keyboard_arrow_left),
-            onTap: () => Navigator.push(
-              context,
-              new MaterialPageRoute(builder: (context) => new HomeAbout()),
-            ),
+              onTap: () => Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => new HomeAbout()),
+              ),
 //            onTap: () => Navigator.popAndPushNamed(context, '/ayatkursi'),
-          ),
-          ListTile(
+            ),
+            ListTile(
 //              title: Text(
 //                'تنظیمات',
 ////                textAlign: TextAlign.right,
 //              ),
-              leading: Wrap(
-                spacing: 12, // space between two icons
-                children: <Widget>[
-                  Icon(Icons.settings), // icon-1
-                  Text(
-                    'تنظیمات',
-                    style: AppStyle.setting,
-                  ),
-                ],
-              ),
+                leading: Wrap(
+                  spacing: 12, // space between two icons
+                  children: <Widget>[
+                    Icon(Icons.settings), // icon-1
+                    Text(
+                      'تنظیمات',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
-              onTap: () => Navigator.popAndPushNamed(context, '/settings')),
-          Text(
-            '  مرتبط ها',
-            style: AppStyle.settingRelated,
-          ),
-          Container(
-            height: 1,
-            color: Colors.green[500],
-          ),
-          ListTile(
-              leading: Wrap(
-                spacing: 12, // space between two icons
-                children: <Widget>[
+                onTap: () => Navigator.popAndPushNamed(context, '/settings')),
+            Text(
+              '  مرتبط ها',
+              style: AppStyle.settingRelated,
+            ),
+            Container(
+              height: 1,
+              color: Colors.green[500],
+            ),
+            ListTile(
+                leading: Wrap(
+                  spacing: 12, // space between two icons
+                  children: <Widget>[
 //                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
 //                  new Image.asset("assets/asmaIcon.png"),
-                  new IconTheme(
-                    data: new IconThemeData(
-                      color: null,
-                    ), //IconThemeData
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
 
-                    child: Container(
-                      child: new SvgPicture.asset("assets/Asma.svg"),
+                      child: Container(
+                        child: new SvgPicture.asset("assets/Asma.svg"),
 //                        color: Colors.white,
-                      height: 25,
-                      width: 25,
+                        height: 25,
+                        width: 25,
+                      ),
                     ),
-                  ),
 
-                  Text(
-                    'اسما',
-                    style: AppStyle.setting,
-                  ),
-                ],
-              ),
+                    Text(
+                      'اسما',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
-              onTap: () async {
-                String url = "https://cafebazaar.ir/app/msh.mehrdad.asma";
-                if (await canLaunch(url))
-                  await launch(url);
-                else
-                  throw 'Could not launch $url';
-              }),
-        ],
+                onTap: () async {
+                  String url = "https://cafebazaar.ir/app/msh.mehrdad.asma";
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    throw 'Could not launch $url';
+                }),
+          ],
+        ),
       ),
     );
   }

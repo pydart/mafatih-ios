@@ -7,9 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mafatih/ui/widget/listSec.dart';
 import 'package:flutter/material.dart';
-import 'package:pk_skeleton/pk_skeleton.dart';
-import 'file:///G:/Flutter/Qurani2 -Babs/lib/library/Globals.dart' as globals;
-import 'package:mafatih/ui/detailSec.dart';
+import 'package:mafatih/library/Globals.dart' as globals;
 
 class ListFasl extends StatefulWidget {
   @override

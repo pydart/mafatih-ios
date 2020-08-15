@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:screen/screen.dart';
@@ -16,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   /// Declare SharedPreferences
   SharedPreferences prefs;
   var dark;
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 //    getBookmark();
     getBrightnessLevel();
 //    getLastViewedPage();
-    Timer(Duration(seconds: 1),
+    Timer(Duration(milliseconds: 0),
         () => Navigator.pushReplacementNamed(context, 'home'));
 
 //    //   setState(() {

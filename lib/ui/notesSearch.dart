@@ -9,7 +9,20 @@ import 'package:mafatih/ui/detailSec.dart';
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   List<MixedTextInfoAll> notes;
   List<MixedTextInfoAll> filteredNotes = [];
-
+  bool titleSearchActive = true;
+  bool textSearchActive = false;
+  List<int> selectedDoa = [
+    1110,
+    1119,
+    1122,
+    1124,
+    1132,
+    3055,
+    3153,
+    3222,
+    3224,
+    3216,
+  ];
   @override
   ThemeData appBarTheme(BuildContext context) {
     assert(context != null);
@@ -176,12 +189,14 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     List<MixedTextInfoAll> _filteredNotesArabic = [];
 
     for (int i = 0; i < note.length; i++) {
-      if (note[i].title.contains(query)) //
+      if (titleSearchActive && note[i].title.contains(query)) //
       {
         _filteredNotesTitle.add(note[i]);
       }
 
-      if (note[i].arabic.contains(query) && !note[i].title.contains(query)) //
+      if (textSearchActive &&
+          note[i].arabic.contains(query) &&
+          !note[i].title.contains(query)) //
       {
         _filteredNotesArabic.add(note[i]);
       }
@@ -195,35 +210,99 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query == '') {
-      return Container(
-        // color: Colors.white,
-        child: Center(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: 100,
-              height: 100,
-              child: Container(
-                child: SvgPicture.asset("assets/zarebin.svg"),
+      return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+//        return CheckboxListTile(
+//          title: const Text('Item'),
+//          value: titleSearchActive,
+//          onChanged: (bool newValue) {
+//            setState(() {
+//              titleSearchActive = newValue;
+//            });
+//          },
+//        );
+//      });
+        return Column(children: <Widget>[
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Row(
+//                mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("فهرست",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'IRANSans',
+                          fontSize: 18,
+                        )),
+                    Checkbox(
+                      activeColor: Colors.green,
+                      value: titleSearchActive,
+                      onChanged: (bool value) {
+                        setState(() {
+                          titleSearchActive = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+//                mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("متن",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'IRANSans',
+                          fontSize: 18,
+                        )),
+                    Checkbox(
+                      value: textSearchActive,
+                      activeColor: Colors.green,
+                      onChanged: (bool value) {
+                        setState(() {
+                          textSearchActive = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ]),
+          Container(
+            height: 1,
+            color: Colors.green,
+          ),
+          SizedBox(height: 150),
+          Container(
+            // color: Colors.white,
+            child: Center(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Container(
+                    child: SvgPicture.asset("assets/zarebin.svg"),
 //                color: Colors.grey,
 //                height: 25,
 //                width: 25,
-              ),
-            ),
-            Text(
-              "جستجو در برنامه",
-              style: TextStyle(
-                color: Theme.of(context).accentColor,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'IRANSans',
-              ),
-            )
-          ],
-        )),
-      );
+                  ),
+                ),
+                Text(
+                  "جستجو در برنامه",
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: 'IRANSans',
+                  ),
+                )
+              ],
+            )),
+          ),
+        ]);
+      });
     } else {
       filteredNotes = [];
       return FutureBuilder<List<MixedTextInfoAll>>(
@@ -245,6 +324,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
             } else {
               return Container(
                 // color: Colors.white,
+
                 child: ListView.builder(
                   itemCount:
                       filteredNotes.length == null ? 0 : filteredNotes.length,
@@ -252,17 +332,29 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     return Container(
                       padding: EdgeInsets.all(0.0),
                       child: ListTile(
-                        title: RichText(
-                          text: TextSpan(
-                            children: highlightOccurrences(
-                                filteredNotes[index].title, query),
-                            style: TextStyle(
-                              fontFamily: 'IRANSans',
-                              fontSize: 17,
-                              color: Theme.of(context)
-                                  .accentColor, // color: Colors.grey,
+                        title: Row(
+                          children: <Widget>[
+                            selectedDoa.contains(
+                                    1000 * filteredNotes[index].bab +
+                                        filteredNotes[index].indexbab)
+                                ? Icon(
+                                    Icons.star,
+                                    color: Colors.grey,
+                                  )
+                                : Container(),
+                            RichText(
+                              text: TextSpan(
+                                children: highlightOccurrences(
+                                    filteredNotes[index].title, query),
+                                style: TextStyle(
+                                  fontFamily: 'IRANSans',
+                                  fontSize: 17,
+                                  color: Theme.of(context)
+                                      .accentColor, // color: Colors.grey,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                         subtitle: RichText(
                           maxLines: 2,
@@ -280,6 +372,10 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                             ),
                           ),
                         ),
+//                        //[1009,1010,1011,1014,1017,1028, 1029,1030,1031,1032,1033,1034,1110,1119,1122,1124,1132,3153,3222,3224,3216,]
+//                        leading: filteredNotes[index].index == 3
+//                            ? Icon(Icons.star)
+//                            : null,
                         onTap: () {
                           Navigator.push(
                             context,

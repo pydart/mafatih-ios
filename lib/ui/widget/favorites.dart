@@ -81,6 +81,36 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+//        appBar: AppBar(
+//          leading: IconButton(
+//            icon: Icon(
+//              Icons.keyboard_backspace,
+//            ),
+//            onPressed: () => Navigator.pop(context),
+//
+////            onPressed: () => Navigator.push(
+////                context,
+////                MaterialPageRoute(
+////                    builder: (context) =>
+////                        Home())), //Navigator.of(context).pop(),
+//          ),
+//          title: Center(
+//            child: Text(
+//              "فهرست منتخب",
+//              textAlign: TextAlign.center,
+//              style: AppStyle.titleup,
+//            ),
+//          ),
+//          elevation: 0.0,
+////          actions: <Widget>[
+//////            IconButton(
+//////              icon: Icon(Icons.search),
+//////              onPressed: () {
+//////                showSearch(context: context, delegate: NotesSearch());
+//////              },
+//////            ),
+////          ],
+//        ),
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
@@ -97,19 +127,29 @@ class _FavoritesState extends State<Favorites> {
           title: Center(
             child: Text(
               "فهرست منتخب",
-              textAlign: TextAlign.center,
               style: AppStyle.titleup,
             ),
           ),
           elevation: 0.0,
-//          actions: <Widget>[
-////            IconButton(
-////              icon: Icon(Icons.search),
-////              onPressed: () {
-////                showSearch(context: context, delegate: NotesSearch());
-////              },
-////            ),
-//          ],
+          actions: <Widget>[
+//            Directionality(
+//              textDirection: TextDirection.rtl,
+//            ),
+            // IconButton(
+            //   icon: Icon(Icons.more_vert),
+            //   onPressed: () {
+            //     Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => Settings()));
+            //   },
+            // )
+
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: NotesSearch());
+              },
+            ),
+          ],
         ),
         body: Padding(
             padding: const EdgeInsets.all(8.0),

@@ -49,6 +49,33 @@ class _DetailSecState extends State<DetailSec> {
   var themeNotifier = ThemeNotifier();
 
   ScrollController _controller;
+  final itemSize = globals.fontTozihLevel * 1.7;
+  final queryOffset = 100;
+  double _scrollPosition;
+
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _controller.position.pixels;
+    });
+  }
+
+  _moveUp() {
+    //_controller.jumpTo(_controller.offset - itemSize);
+    _controller.animateTo(_scrollPosition - 100,
+        curve: Curves.linear, duration: Duration(milliseconds: 500));
+  }
+
+  _moveDown() {
+    //_controller.jumpTo(_controller.offset + itemSize);
+    _controller.animateTo(_scrollPosition,
+        curve: Curves.linear, duration: Duration(milliseconds: 500));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   /// Navigation event handler
   _onItemTapped(int indexTab) {
@@ -145,6 +172,9 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+
     setState(() {
       if (globals.codeBookMarked.contains(widget.code)) {
         print(
@@ -173,25 +203,70 @@ class _DetailSecState extends State<DetailSec> {
 
     /// Prevent screen from going into sleep mode:
     Screen.keepOn(true);
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);
 
     super.initState();
   }
 
-  _scrollListener() {
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the bottom");
-      });
+//  _scrollListener() {
+//    if (_controller.offset >= _controller.position.maxScrollExtent &&
+//        !_controller.position.outOfRange) {
+//      setState(() {
+//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the bottom");
+//      });
+//    }
+//    if (_controller.offset <= _controller.position.minScrollExtent &&
+//        !_controller.position.outOfRange) {
+//      setState(() {
+//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the top");
+//      });
+//    }
+//  }
+
+  List<TextSpan> highlightOccurrencesDetailSec(
+      String source, String query, double _fontSize) {
+    if (query == null ||
+        query.isEmpty ||
+        !source.toLowerCase().contains(query.toLowerCase())) {
+      return [TextSpan(text: source)];
     }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      setState(() {
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the top");
-      });
+    final matches = query.toLowerCase().allMatches(source.toLowerCase());
+
+    int lastMatchEnd = 0;
+
+    final List<TextSpan> children = [];
+    for (var i = 0; i < matches.length; i++) {
+      final match = matches.elementAt(i);
+
+      if (match.start != lastMatchEnd) {
+        children.add(TextSpan(
+          text: source.substring(lastMatchEnd, match.start),
+//          style: TextStyle(
+//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
+        ));
+      }
+
+      children.add(TextSpan(
+        text: source.substring(match.start, match.end),
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: _fontSize,
+            color: Colors.green
+            // color: Colors.black,
+            ),
+      ));
+
+      if (i == matches.length - 1 && match.end != source.length) {
+//        _scrollPosition = _controller.offset;
+//        print(
+//            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _scrollPosition $_scrollPosition");
+        children.add(TextSpan(
+          text: source.substring(match.end, source.length),
+        ));
+      }
+
+      lastMatchEnd = match.end;
     }
+    return children;
   }
 
   @override
@@ -212,7 +287,6 @@ class _DetailSecState extends State<DetailSec> {
           onPressed: () {
             String smsSaved = "با موفقیت به منتخب ها افزوده شد";
             String smsRemoved = "با موفقیت از منتخب ها حذف شد";
-
             Fluttertoast.showToast(
                 msg: isBookmarked ? smsRemoved : smsSaved,
                 toastLength: Toast.LENGTH_SHORT,
@@ -220,7 +294,6 @@ class _DetailSecState extends State<DetailSec> {
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 18.0);
-
             _onItemTapped(2);
           },
         ),
@@ -253,28 +326,50 @@ class _DetailSecState extends State<DetailSec> {
           }
 
           return snapshot.hasData
-              ? Scrollbar(
-                  child: ListView.builder(
-                    controller: _controller,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: snapshot.data.arabic.length,
-                    itemBuilder: (BuildContext c, int i) {
-                      String key = snapshot.data.arabic.keys.elementAt(i);
-                      // return Padding(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       horizontal: 15.0, vertical: 5.0),
-                      return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 5.0),
-                              child: Column(
-                                children: <Widget>[
-                                  if (snapshot.data.tozih[key] != "" &&
-                                      snapshot.data.tozih[key] !=
-                                          null) //ui.tafsir &&
-                                    ListTile(
+              ? Column(children: <Widget>[
+//                  Container(
+//                    height: 50.0,
+//                    color: Colors.green,
+//                    child: Center(
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          RaisedButton(
+//                            child: Text("up"),
+//                            onPressed: _moveUp,
+//                          ),
+//                          RaisedButton(
+//                            child: Text("down"),
+//                            onPressed: _moveDown,
+//                          )
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+                  Expanded(
+                    child: Scrollbar(
+                      child: ListView.builder(
+                        controller: _controller,
+//                        itemExtent: 1000,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemCount: snapshot.data.arabic.length,
+                        itemBuilder: (BuildContext c, int i) {
+                          String key = snapshot.data.arabic.keys.elementAt(i);
+                          // return Padding(
+                          //   padding: const EdgeInsets.symmetric(
+                          //       horizontal: 15.0, vertical: 5.0),
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      if (snapshot.data.tozih[key] != "" &&
+                                          snapshot.data.tozih[key] !=
+                                              null) //ui.tafsir &&
+                                        ListTile(
 //                                      title:  Text(
 //                                        '${snapshot.data.tozih[key]}',
 //                                        textAlign: TextAlign.justify,
@@ -286,35 +381,39 @@ class _DetailSecState extends State<DetailSec> {
 //                                        ),
 //                                      ),
 
-                                        title: RichText(
-                                      textAlign: TextAlign.justify,
-                                      text: TextSpan(
-                                        children: highlightOccurrencesDetailSec(
-                                            snapshot.data.tozih[key],
-                                            widget.query,
-                                            globals.fontTozihLevel + 4),
-                                        style: TextStyle(
+                                            title: RichText(
+                                          textAlign: TextAlign.justify,
+                                          text: TextSpan(
+                                            children:
+                                                highlightOccurrencesDetailSec(
+                                                    snapshot.data.tozih[key],
+                                                    widget.query,
+                                                    globals.fontTozihLevel + 4),
+                                            style: TextStyle(
 //                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'AdobeArabic-Regular',
-                                            fontSize: globals.fontTozihLevel,
-                                            height: 1.5,
+                                                fontFamily:
+                                                    'AdobeArabic-Regular',
+                                                fontSize:
+                                                    globals.fontTozihLevel,
+                                                height: 1.5,
 //                                            color:
 //                                                Theme.of(context).buttonColor),
-                                            color: snapshot
-                                                    .data.arabic["1"].isEmpty
-                                                ? Theme.of(context).accentColor
-                                                : Theme.of(context)
-                                                    .buttonColor),
-                                      ),
-                                    )),
+                                                color: snapshot.data.arabic["1"]
+                                                        .isEmpty
+                                                    ? Theme.of(context)
+                                                        .accentColor
+                                                    : Theme.of(context)
+                                                        .buttonColor),
+                                          ),
+                                        )),
 
-                                  if (snapshot.data.arabic[key] != "" &&
-                                      snapshot.data.arabic[key] != null)
-                                    ListTile(
-                                      // leading: Text(
-                                      //   snapshot.data.arabic.keys.elementAt(i),
-                                      //   style: AppStyle.number,
-                                      // ),
+                                      if (snapshot.data.arabic[key] != "" &&
+                                          snapshot.data.arabic[key] != null)
+                                        ListTile(
+                                          // leading: Text(
+                                          //   snapshot.data.arabic.keys.elementAt(i),
+                                          //   style: AppStyle.number,
+                                          // ),
 //                                      title: Text(
 //                                        '${snapshot.data.arabic[key]}',
 //                                        textAlign: TextAlign.justify,
@@ -328,34 +427,36 @@ class _DetailSecState extends State<DetailSec> {
 //                                        ),
 //                                      ),
 
-                                      title: RichText(
-                                        textAlign: TextAlign.justify,
-                                        text: TextSpan(
-                                          children:
-                                              highlightOccurrencesDetailSec(
-                                                  snapshot.data.arabic[key],
-                                                  widget.query,
-                                                  globals.fontArabicLevel + 4),
-                                          style: TextStyle(
-                                            fontFamily: 'Neirizi',
-                                            fontSize: globals.fontArabicLevel,
-                                            height: 2.5,
-                                            color:
-                                                Theme.of(context).accentColor,
+                                          title: RichText(
+                                            textAlign: TextAlign.justify,
+                                            text: TextSpan(
+                                              children:
+                                                  highlightOccurrencesDetailSec(
+                                                      snapshot.data.arabic[key],
+                                                      widget.query,
+                                                      globals.fontArabicLevel +
+                                                          4),
+                                              style: TextStyle(
+                                                fontFamily: 'Neirizi',
+                                                fontSize:
+                                                    globals.fontArabicLevel,
+                                                height: 2.5,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
 //                                  AppStyle.spaceH10,
 
-                                  if (ui.terjemahan &&
-                                      snapshot.data.farsi[key] != null &&
-                                      snapshot.data.farsi[key] != "")
+                                      if (ui.terjemahan &&
+                                          snapshot.data.farsi[key] != null &&
+                                          snapshot.data.farsi[key] != "")
 //                                Text(
 //                                  'ترجمه',
 //                                  style: AppStyle.end2subtitle,
 //                                ),
-                                    ListTile(
+                                        ListTile(
 //                                      title: Text(
 //                                        '${snapshot.data.farsi[key]}',
 //                                        textAlign: TextAlign.justify,
@@ -367,76 +468,38 @@ class _DetailSecState extends State<DetailSec> {
 //                                        ),
 //                                      ),
 
-                                      title: RichText(
-                                        textAlign: TextAlign.justify,
-                                        text: TextSpan(
-                                          children:
-                                              highlightOccurrencesDetailSec(
-                                                  snapshot.data.farsi[key],
-                                                  widget.query,
-                                                  globals.fontTarjLevel + 4),
-                                          style: TextStyle(
-                                            fontFamily: 'AdobeArabic-Regular',
-                                            fontSize: globals.fontTarjLevel,
-                                            height: 1.5,
-                                            color:
-                                                Theme.of(context).accentColor,
+                                          title: RichText(
+                                            textAlign: TextAlign.justify,
+                                            text: TextSpan(
+                                              children:
+                                                  highlightOccurrencesDetailSec(
+                                                      snapshot.data.farsi[key],
+                                                      widget.query,
+                                                      globals.fontTarjLevel +
+                                                          4),
+                                              style: TextStyle(
+                                                fontFamily:
+                                                    'AdobeArabic-Regular',
+                                                fontSize: globals.fontTarjLevel,
+                                                height: 1.5,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            )
-                          ]);
-                    },
-                  ),
-                )
+                                    ],
+                                  ),
+                                )
+                              ]);
+                        },
+                      ),
+                    ),
+                  )
+                ])
               : Center(child: CircularProgressIndicator());
         },
       ),
     );
   }
-}
-
-List<TextSpan> highlightOccurrencesDetailSec(
-    String source, String query, double _fontSize) {
-  if (query == null ||
-      query.isEmpty ||
-      !source.toLowerCase().contains(query.toLowerCase())) {
-    return [TextSpan(text: source)];
-  }
-  final matches = query.toLowerCase().allMatches(source.toLowerCase());
-
-  int lastMatchEnd = 0;
-
-  final List<TextSpan> children = [];
-  for (var i = 0; i < matches.length; i++) {
-    final match = matches.elementAt(i);
-
-    if (match.start != lastMatchEnd) {
-      children.add(TextSpan(
-        text: source.substring(lastMatchEnd, match.start),
-//          style: TextStyle(
-//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
-      ));
-    }
-
-    children.add(TextSpan(
-      text: source.substring(match.start, match.end),
-      style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: _fontSize, color: Colors.green
-          // color: Colors.black,
-          ),
-    ));
-
-    if (i == matches.length - 1 && match.end != source.length) {
-      children.add(TextSpan(
-        text: source.substring(match.end, source.length),
-      ));
-    }
-
-    lastMatchEnd = match.end;
-  }
-  return children;
 }

@@ -196,6 +196,52 @@ class _SettingsState extends State<Settings> {
             ),
             trailing: (tempBrightnessLevel * 10).toInt().toString(),
           ),
+
+          CardSetting(
+            title: 'بازگشت به تنظیمات اولیه',
+            leading: RaisedButton(
+              elevation: 0,
+              color: Colors.green,
+              child: const Icon(
+                Icons.touch_app,
+                color: Colors.white,
+              ),
+
+              onPressed: () {
+                setState(() {
+                  tempFontArabicLevel = 23;
+                  tempFontTarjLevel = 21;
+                  tempFontTozihLevel = 25;
+                  tempTarjActive = true;
+                  tempDarkMode = false;
+                });
+                if (globals.darkMode) {
+                  dark.switchTheme();
+                  setDarkModeActive(tempDarkMode);
+                  globals.darkMode = tempDarkMode;
+                }
+                ui.terjemahan = tempTarjActive;
+                setTarjActive(tempTarjActive);
+                ui.fontSizeTozih = tempFontTozihLevel;
+                setFontTozihLevel(tempFontTozihLevel);
+                ui.fontSizetext = tempFontTarjLevel;
+                setFontTarjLevel(tempFontTarjLevel);
+                ui.fontSize = tempFontArabicLevel;
+                setFontArabicLevel(tempFontArabicLevel);
+              },
+//              child: Container(
+//                decoration: const BoxDecoration(
+//                  gradient: LinearGradient(
+//                    colors: <Color>[
+//                      Color(0xFF0D47A1),
+//                      Color(0xFF1976D2),
+//                      Color(0xFF42A5F5),
+//                    ],
+//                  ),
+//                ),
+//              ),
+            ),
+          )
         ],
       ),
     );
