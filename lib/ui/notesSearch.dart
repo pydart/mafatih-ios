@@ -1,10 +1,13 @@
 import 'package:mafatih/data/models/MixedTextInfoAll.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mafatih/data/utils/style.dart';
-
+import 'package:mafatih/data/uistate.dart';
+import 'package:provider/provider.dart';
+import 'package:mafatih/ui/detailSec4.dart';
 import 'package:mafatih/ui/detailSec.dart';
+import 'package:mafatih/ui/detailSec5.dart';
+
+import 'loading.dart';
 
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   List<MixedTextInfoAll> notes;
@@ -23,6 +26,9 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     3224,
     3216,
   ];
+
+  bool loading = false;
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     assert(context != null);
@@ -87,7 +93,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
               width: 100,
               height: 100,
               child: Container(
-                child: SvgPicture.asset("assets/zarebin.svg"),
+//                child: SvgPicture.asset("assets/zarebin.svg"),
+                child: Image.asset("assets/zarebin.png"),
 //                color: Colors.grey,
 //                height: 25,
 //                width: 25,
@@ -106,19 +113,24 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
         )),
       );
     } else {
-      filteredNotes = [];
+      loading = true;
 
-      getFilteredList(notes);
-//            }
-      if (filteredNotes.length == 0) {
-        return Container(
-          // color: Colors.white,
-          child: Center(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
+      filteredNotes = [];
+      return FutureBuilder<List<MixedTextInfoAll>>(
+          future: ServiceData().loadMixedTextInfoAll(),
+          builder: (c, snapshot) {
+            if (snapshot.hasData) {
+              getFilteredList(notes = snapshot.data);
+            }
+            if (filteredNotes.length == 0) {
+              return Container(
+                // color: Colors.white,
+                child: Center(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
 //                width: 50,
 //                height: 50,
 //                child: Icon(
@@ -126,64 +138,114 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
 //                  size: 50,
 //                  // color: Colors.black,
 //                ),
-                width: 100,
-                height: 100,
-                child: Container(
-                  child: SvgPicture.asset("assets/notfound.svg"),
+                      width: 100,
+                      height: 100,
+                      child: Container(
+//                        child: SvgPicture.asset("assets/notfound.svg"),
+                        child: Image.asset("assets/notfound.png"),
 //                color: Colors.grey,
 //                height: 25,
 //                width: 25,
-                ),
-              ),
-              Text(
-                'هیچ نتیجه ای یافت نشد!',
-                style: TextStyle(
-                  color: Theme.of(context).accentColor,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'IRANSans',
-                ),
-              )
-            ],
-          )),
-        );
-      } else {
-        return Container(
-          // color: Colors.white,
-          child: ListView.builder(
-            itemCount: filteredNotes.length == null ? 0 : filteredNotes.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(
-                  Icons.note,
-                  // color: Colors.black,
-                ),
-                title: Text(
-                  filteredNotes[index].title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                    // color: Colors.black,
-                  ),
-                ),
-
-                // subtitle: Text(
-                //   filteredNotes[index].arabic,
-                //   style: TextStyle(fontSize: 14.0, color: Colors.grey),
-                // ),
-                onTap: () {
-                  close(context, filteredNotes[index]);
-                },
+                      ),
+                    ),
+                    Text(
+                      'هیچ نتیجه ای یافت نشد!',
+                      style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'IRANSans',
+                      ),
+                    )
+                  ],
+                )),
               );
-            },
-          ),
-        );
-      }
-//          });
+            } else {
+              return Container(
+                // color: Colors.white,
+
+                child: StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  setState(() => loading = false);
+
+                  return ListView.builder(
+                    itemCount:
+                        filteredNotes.length == null ? 0 : filteredNotes.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(0.0),
+                        child: ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              selectedDoa.contains(
+                                      1000 * filteredNotes[index].bab +
+                                          filteredNotes[index].indexbab)
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.grey,
+                                    )
+                                  : Container(),
+                              RichText(
+                                text: TextSpan(
+                                  children: highlightOccurrences(
+                                      filteredNotes[index].title, query),
+                                  style: TextStyle(
+                                    fontFamily: 'IRANSans',
+                                    fontSize: 17,
+                                    color: Theme.of(context)
+                                        .accentColor, // color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: RichText(
+                            maxLines: 2,
+                            text: TextSpan(
+                              children: highlightOccurrences(
+                                  filteredNotes[index].arabic, ""),
+                              style: TextStyle(
+                                fontFamily: 'IRANSans',
+                                fontSize: 12,
+//                              color: Theme.of(context)
+//                                  .accentColor, // color: Colors.grey,
+                                color: Colors.grey[600], // color: Colors.grey,
+//
+//                                  color: Colors.grey,
+                              ),
+                            ),
+                          ),
+//                        //[1009,1010,1011,1014,1017,1028, 1029,1030,1031,1032,1033,1034,1110,1119,1122,1124,1132,3153,3222,3224,3216,]
+//                        leading: filteredNotes[index].index == 3
+//                            ? Icon(Icons.star)
+//                            : null,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailSec(
+                                    detail: filteredNotes[index].titleDetail,
+                                    index: filteredNotes[index].indexbab,
+                                    indexFasl: filteredNotes[index].bab,
+                                    query: query,
+                                    code: filteredNotes[index].bab * 1000 +
+                                        filteredNotes[index].indexbab),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                }),
+              );
+            }
+          });
     }
   }
 
   List<MixedTextInfoAll> getFilteredList(List<MixedTextInfoAll> note) {
+    loading = true;
     filteredNotes = [];
     List<MixedTextInfoAll> _filteredNotesTitle = [];
     List<MixedTextInfoAll> _filteredNotesArabic = [];
@@ -191,6 +253,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     for (int i = 0; i < note.length; i++) {
       if (titleSearchActive && note[i].title.contains(query)) //
       {
+        print(
+            "///////////////////////////////mmmmmmmmmmmmmmmmmmmmmmmmmmm     _filteredNotesTitle.add(note[i])");
         _filteredNotesTitle.add(note[i]);
       }
 
@@ -204,11 +268,14 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
 //    filteredNotes.addAll(_filteredNotesTitle);
 //    filteredNotes.addAll(_filteredNotesArabic);
     filteredNotes = _filteredNotesTitle + _filteredNotesArabic;
+    loading = false;
     return filteredNotes;
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    var ui = Provider.of<UiState>(context);
+
     if (query == '') {
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
@@ -283,7 +350,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                   width: 100,
                   height: 100,
                   child: Container(
-                    child: SvgPicture.asset("assets/zarebin.svg"),
+//                    child: SvgPicture.asset("assets/zarebin.svg"),
+                    child: Image.asset("assets/zarebin.png"),
 //                color: Colors.grey,
 //                height: 25,
 //                width: 25,
@@ -304,6 +372,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
         ]);
       });
     } else {
+      loading = true;
+
       filteredNotes = [];
       return FutureBuilder<List<MixedTextInfoAll>>(
           future: ServiceData().loadMixedTextInfoAll(),
@@ -325,75 +395,127 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
               return Container(
                 // color: Colors.white,
 
-                child: ListView.builder(
-                  itemCount:
-                      filteredNotes.length == null ? 0 : filteredNotes.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.all(0.0),
-                      child: ListTile(
-                        title: Row(
-                          children: <Widget>[
-                            selectedDoa.contains(
-                                    1000 * filteredNotes[index].bab +
-                                        filteredNotes[index].indexbab)
-                                ? Icon(
-                                    Icons.star,
-                                    color: Colors.grey,
-                                  )
-                                : Container(),
-                            RichText(
-                              text: TextSpan(
-                                children: highlightOccurrences(
-                                    filteredNotes[index].title, query),
-                                style: TextStyle(
-                                  fontFamily: 'IRANSans',
-                                  fontSize: 17,
-                                  color: Theme.of(context)
-                                      .accentColor, // color: Colors.grey,
+                child: StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  setState(() => loading = false);
+
+                  return ListView.builder(
+                    itemCount:
+                        filteredNotes.length == null ? 0 : filteredNotes.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(0.0),
+                        child: ListTile(
+                          title: Row(
+                            children: <Widget>[
+                              selectedDoa.contains(
+                                      1000 * filteredNotes[index].bab +
+                                          filteredNotes[index].indexbab)
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.grey,
+                                    )
+                                  : Container(),
+                              RichText(
+                                text: TextSpan(
+                                  children: highlightOccurrences(
+                                      filteredNotes[index].title, query),
+                                  style: TextStyle(
+                                    fontFamily: 'IRANSans',
+                                    fontSize: 17,
+                                    color: Theme.of(context)
+                                        .accentColor, // color: Colors.grey,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        subtitle: RichText(
-                          maxLines: 2,
-                          text: TextSpan(
-                            children: highlightOccurrences(
-                                filteredNotes[index].arabic, ""),
-                            style: TextStyle(
-                              fontFamily: 'IRANSans',
-                              fontSize: 12,
+                            ],
+                          ),
+                          subtitle: RichText(
+                            maxLines: 2,
+                            text: TextSpan(
+                              children: highlightOccurrences(
+                                  filteredNotes[index].arabic, ""),
+                              style: TextStyle(
+                                fontFamily: 'IRANSans',
+                                fontSize: 12,
 //                              color: Theme.of(context)
 //                                  .accentColor, // color: Colors.grey,
-                              color: Colors.grey[600], // color: Colors.grey,
+                                color: Colors.grey[600], // color: Colors.grey,
 //
 //                                  color: Colors.grey,
+                              ),
                             ),
                           ),
-                        ),
 //                        //[1009,1010,1011,1014,1017,1028, 1029,1030,1031,1032,1033,1034,1110,1119,1122,1124,1132,3153,3222,3224,3216,]
 //                        leading: filteredNotes[index].index == 3
 //                            ? Icon(Icons.star)
 //                            : null,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailSec(
-                                  detail: filteredNotes[index].titleDetail,
-                                  index: filteredNotes[index].indexbab,
-                                  indexFasl: filteredNotes[index].bab,
-                                  query: query,
-                                  code: filteredNotes[index].bab * 1000 +
-                                      filteredNotes[index].indexbab),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
+                          onTap: () {
+/*                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailSec(
+                                    detail: filteredNotes[index].titleDetail,
+                                    index: filteredNotes[index].indexbab,
+                                    indexFasl: filteredNotes[index].bab,
+                                    query: query,
+                                    code: filteredNotes[index].bab * 1000 +
+                                        filteredNotes[index].indexbab),
+                              ),
+                            );*/
+
+                            if (filteredNotes[index].bab != 4) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailSec(
+                                            detail: filteredNotes[index]
+                                                .titleDetail,
+                                            index:
+                                                filteredNotes[index].indexbab,
+                                            indexFasl: filteredNotes[index].bab,
+                                            query: query,
+                                            code: filteredNotes[index].bab *
+                                                    1000 +
+                                                filteredNotes[index].indexbab,
+                                          )));
+                            } else if (filteredNotes[index].bab == 4 &&
+                                !ui.terjemahan) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailSec5(
+                                            detail: filteredNotes[index]
+                                                .titleDetail,
+                                            index:
+                                                filteredNotes[index].indexbab,
+                                            indexFasl: 5,
+                                            code: filteredNotes[index].bab *
+                                                    1000 +
+                                                filteredNotes[index].indexbab,
+                                          )));
+                            } else if (filteredNotes[index].bab == 4 &&
+                                ui.terjemahan) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailSec4(
+                                            detail: filteredNotes[index]
+                                                .titleDetail,
+                                            index:
+                                                filteredNotes[index].indexbab,
+                                            indexFasl: filteredNotes[index].bab,
+                                            code: filteredNotes[index].bab *
+                                                    1000 +
+                                                filteredNotes[index].indexbab,
+                                          )));
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  );
+                }),
               );
             }
           });

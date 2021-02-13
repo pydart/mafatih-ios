@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/detailSec.dart';
@@ -241,8 +242,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
       double _fonttozihlevel = prefs.getDouble(globals.FontTozih_LEVEL);
 
+      String _fontarabic = prefs.getString(globals.FontArabic);
+
       setState(() {
         globals.fontArabicLevel = _fontarabiclevel;
+        globals.fontArabic = _fontarabic;
         globals.fontTarjLevel = _fonttarjlevel;
         globals.fontTozihLevel = _fonttozihlevel;
       });
@@ -250,7 +254,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       /// if not found return default value
     } else {
       setState(() {
-        globals.fontArabicLevel = 23;
+        globals.fontArabic = 'نیریزی دو';
+        globals.fontArabicLevel = 25;
         globals.fontTarjLevel = 21;
         globals.fontTozihLevel = 25;
       });
@@ -265,9 +270,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       print(e);
     }
 
-    /// get Saved preferences
-    Screen.setBrightness(globals.brightnessLevel);
-
     getBookmark();
     getLastViewedPage();
 //    Timer(Duration(seconds: 3),
@@ -276,7 +278,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 1, vsync: this);
 
-    getBrightnessLevel();
+    // getBrightnessLevel();
     Screen.setBrightness(globals.brightnessLevel);
 
     getFontsLevel();
@@ -293,10 +295,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         _brightnessLevel2 =
             _brightnessLevel > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
         globals.brightnessLevel =
-            double.parse(_brightnessLevel2.toStringAsFixed(1));
+            double.parse(_brightnessLevel2.toStringAsFixed(2));
       });
+
+      print(
+          "?????????????????????????         ${globals.brightnessLevel} ?????????????????? prefs.containsKey(globals.BRIGHTNESS_LEVEL) ?????????????");
     } else {
-      await getScreenBrightness();
+      getScreenBrightness();
     }
   }
 
@@ -311,7 +316,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevel =
-        double.parse(_brightnessLevel4.toStringAsFixed(1));
+        double.parse(_brightnessLevel4.toStringAsFixed(2));
     print(
         "?????????????????????????         ${globals.brightnessLevel} ?????????????????? Main getScreenBrightness  integer ?????????????");
 
@@ -323,7 +328,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   getFontsLevel() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      globals.fontArabicLevel = 23;
+      globals.fontArabicLevel = 25;
       globals.fontTarjLevel = 21;
       globals.fontTozihLevel = 25;
     });
@@ -417,6 +422,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ));
   }
 
+  int backPressCounter = 0;
+  int backPressTotal = 2;
+  Future<bool> onWillPop() {
+    if (backPressCounter < 1) {
+      // Fluttertoast.showToast(
+      //     msg:
+      //         "برای خروج ${backPressTotal - backPressCounter} مرتبه برگشت بزنید");
+
+      // msg:
+      // "";
+      backPressCounter++;
+      Future.delayed(Duration(seconds: 0, milliseconds: 500), () {
+        backPressCounter--;
+      });
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
+
   setLaterDialog() async {
     bool level = false;
     globals.laterDialog = level;
@@ -468,7 +493,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onBackPressed,
+      // onWillPop: _onBackPressed,
+      onWillPop: onWillPop,
+
       child: Scaffold(
         drawer: Container(
             child: Drawer(child: Drawers()),
@@ -510,12 +537,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ];
           },
           body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/bitmap.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
+            // decoration: BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage("assets/bitmap.png"),
+            //     fit: BoxFit.fill,
+            //   ),
+            // ),
             child: Scaffold(
               backgroundColor: Colors.transparent,
               body: ListView(
@@ -625,8 +652,39 @@ class Drawers extends StatelessWidget {
               color: Colors.green[500],
             ),
             ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
+                subtitle: Row(
+//                  spacing: 12, // space between two icons
+                  children: <Widget>[
+//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
+//                  new Image.asset("assets/asmaIcon.png"),
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
+
+                      child: new Image.asset(
+                        "assets/ashoura.png",
+                        height: 45,
+                        width: 45,
+                      ),
+                    ),
+
+                    Text(
+                      '  زیارت عاشورا',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
+//              trailing: Icon(Icons.keyboard_arrow_left),
+                onTap: () async {
+                  String url = "https://cafebazaar.ir/app/pydart.ashoura";
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    throw 'Could not launch $url';
+                }),
+            ListTile(
+                subtitle: Row(
                   children: <Widget>[
 //                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
 //                  new Image.asset("assets/asmaIcon.png"),
@@ -636,22 +694,150 @@ class Drawers extends StatelessWidget {
                       ), //IconThemeData
 
                       child: Container(
-                        child: new SvgPicture.asset("assets/Asma.svg"),
+                        child: new Image.asset("assets/tavasol.png"),
 //                        color: Colors.white,
-                        height: 25,
-                        width: 25,
+                        height: 45,
+                        width: 45,
                       ),
                     ),
 
                     Text(
-                      'اسما',
+                      '  دعای توسل',
                       style: AppStyle.setting,
                     ),
                   ],
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/msh.mehrdad.asma";
+                  String url = "https://cafebazaar.ir/app/pydart.tavasol";
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    throw 'Could not launch $url';
+                }),
+            ListTile(
+                subtitle: Row(
+                  children: <Widget>[
+//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
+//                  new Image.asset("assets/asmaIcon.png"),
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
+
+                      child: Container(
+                        child: new Image.asset("assets/aalyasin.png"),
+//                        color: Colors.white,
+                        height: 45,
+                        width: 45,
+                      ),
+                    ),
+
+                    Text(
+                      '  زیارت آل یاسین',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
+//              trailing: Icon(Icons.keyboard_arrow_left),
+                onTap: () async {
+                  String url = "https://cafebazaar.ir/app/pydart.aalyasin";
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    throw 'Could not launch $url';
+                }),
+            ListTile(
+                subtitle: Row(
+                  children: <Widget>[
+//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
+//                  new Image.asset("assets/asmaIcon.png"),
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
+
+                      child: Container(
+                        child: new Image.asset("assets/kasa.png"),
+//                        color: Colors.white,
+                        height: 45,
+                        width: 45,
+                      ),
+                    ),
+
+                    Text(
+                      '  حدیث کسا',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
+//              trailing: Icon(Icons.keyboard_arrow_left),
+                onTap: () async {
+                  String url = "https://cafebazaar.ir/app/pydart.kasa";
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    throw 'Could not launch $url';
+                }),
+            ListTile(
+                subtitle: Row(
+                  children: <Widget>[
+//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
+//                  new Image.asset("assets/asmaIcon.png"),
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
+
+                      child: Container(
+                        child: new Image.asset("assets/aahd.png"),
+//                        color: Colors.white,
+                        height: 45,
+                        width: 45,
+                      ),
+                    ),
+
+                    Text(
+                      '  دعای عهد',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
+//              trailing: Icon(Icons.keyboard_arrow_left),
+                onTap: () async {
+                  String url = "https://cafebazaar.ir/app/pydart.aahd";
+                  if (await canLaunch(url))
+                    await launch(url);
+                  else
+                    throw 'Could not launch $url';
+                }),
+            ListTile(
+                subtitle: Row(
+                  children: <Widget>[
+//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
+//                  new Image.asset("assets/asmaIcon.png"),
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
+
+                      child: Container(
+                        child: new Image.asset("assets/nodbe.png"),
+//                        color: Colors.white,
+                        height: 45,
+                        width: 45,
+                      ),
+                    ),
+
+                    Text(
+                      '  دعای ندبه',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
+//              trailing: Icon(Icons.keyboard_arrow_left),
+                onTap: () async {
+                  String url = "https://cafebazaar.ir/app/pydart.nodbe";
                   if (await canLaunch(url))
                     await launch(url);
                   else

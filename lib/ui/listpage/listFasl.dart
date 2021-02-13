@@ -17,78 +17,10 @@ class ListFasl extends StatefulWidget {
 class _ListFaslState extends State<ListFasl> {
   SharedPreferences prefs;
 
-  /// Navigation event handler
-  _onItemTapped(int indexTabHome) {
-    /// Go to Bookmarked page
-    if (indexTabHome == 0) {
-      setState(() {
-        globals.titleBookMarked = [];
-        globals.indexBookMarked = [];
-        globals.indexFaslBookMarked = [];
-
-        /// in case Bookmarked page is null (Bookmarked page initialized in splash screen)
-        if (globals.indexBookMarked == null) {
-          print("globals.titleBookMarked== null ????????????????????????????");
-          globals.titleBookMarked = [];
-          globals.indexBookMarked = [];
-          globals.indexFaslBookMarked = [];
-
-          // globals.titleBookMarked.add(globals.DEFAULT_BOOKMARKED_PAGE_title);
-          // globals.indexBookMarked.add(globals.DEFAULT_BOOKMARKED_PAGE_index);
-          // globals.indexFaslBookMarked.add(
-          //     globals.DEFAULT_BOOKMARKED_PAGE_indexFasl);
-        } else {
-          getBookmark();
-        }
-
-//        Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//            builder: (context) => Favorites(
-//                titlebookmark: globals.titleBookMarked,
-//                indexbookmark: globals.indexBookMarked,
-//                indexFaslbookmark: globals.indexFaslBookMarked),
-//          ),
-//        );
-      });
-      // Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(
-      //         builder: (context) => DetailSec(
-      //               detail: globals.titleBookMarked,
-      //               index: globals.indexBookMarked,
-      //               indexFasl: globals.indexFaslBookMarked,
-      //             )), //pages: globals.bookmarkedPage - 1
-      // (Route<dynamic> route) => true);
-
-      /// Continue reading
-    }
-  }
-
-  /// get bookmarkPage from sharedPreferences
-  getBookmark() async {
-    prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(globals.BOOKMARKED_PAGE_index)) {
-      final titleBookMarked =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_title);
-
-      final savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index);
-      List<int> indexBookMarked =
-          savedStrList.map((i) => int.parse(i)).toList();
-
-      final savedStrFaslList =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
-      List<int> indexFaslBookMarked =
-          savedStrFaslList.map((i) => int.parse(i)).toList();
-
-      setState(() {
-        globals.titleBookMarked = titleBookMarked;
-        globals.indexBookMarked = indexBookMarked;
-        globals.indexFaslBookMarked = indexFaslBookMarked;
-      });
-
-      /// if not found return default value
-    }
-  }
+//  @override
+//  void initState() {
+//    CheshmakPlugin.removeBannerAds;
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +30,12 @@ class _ListFaslState extends State<ListFasl> {
         return snapshot.hasData
             ? Column(
                 children: <Widget>[
-                  SizedBox(height: 80),
+                  SizedBox(height: 30),
+                  Container(
+                    height: 60,
+                    width: 250,
+                    child: Image.asset("assets/tazhibLineOverFaslList.png"),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: ListView(
@@ -112,7 +49,7 @@ class _ListFaslState extends State<ListFasl> {
                                 Card(
                                     elevation: 0.0,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(50),
                                         side: BorderSide(
                                             width: 0.5, color: Colors.green)),
                                     child: Container(
@@ -151,7 +88,7 @@ class _ListFaslState extends State<ListFasl> {
                       child: Card(
                           elevation: 0.0,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(50),
                               side:
                                   BorderSide(width: 0.5, color: Colors.green)),
                           child: Container(
@@ -184,11 +121,13 @@ class _ListFaslState extends State<ListFasl> {
                                         )
                                   ])))),
                   Container(
-                      height: 60,
-                      width: 250,
-                      child: SvgPicture.asset(
-                        "assets/tazhibLineOverFaslList.svg",
-                      )),
+                    height: 60,
+                    width: 250,
+                    // child: SvgPicture.asset(
+                    //   "assets/tazhibLineOverFaslList.svg",
+                    // ),
+                    child: Image.asset("assets/tazhibLineOverFaslList.png"),
+                  ),
                 ],
               )
 //            : PKCardListSkeleton(

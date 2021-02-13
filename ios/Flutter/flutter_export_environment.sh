@@ -1,11 +1,11 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=C:\src\flutter"
-export "FLUTTER_APPLICATION_PATH=G:\Flutter\Mafatih\Qurani2_Babs_SplitText_version6_Final_TargetSDK29"
+export "FLUTTER_APPLICATION_PATH=G:\Flutter\Mafatih\Mafatih\Qurani2_Babs_SplitText_version9_Final_TargetSDK29 - Update 25-12-2020"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build\ios"
 export "OTHER_LDFLAGS=$(inherited) -framework Flutter"
 export "FLUTTER_FRAMEWORK_DIR=C:\src\flutter\bin\cache\artifacts\engine\ios"
 export "FLUTTER_BUILD_NAME=1.0.0"
-export "FLUTTER_BUILD_NUMBER=8"
+export "FLUTTER_BUILD_NUMBER=12"

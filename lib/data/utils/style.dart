@@ -37,8 +37,8 @@ class AppStyle {
   );
 
   static final titleBab = TextStyle(
-    fontSize: 18.0,
-    fontWeight: FontWeight.w600,
+    fontSize: 20.0,
+    fontWeight: FontWeight.w500,
     fontFamily: 'IRANSans',
   );
 //      color: darkMsh ? Colors.white : Colors.black

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 
-
 class UiState with ChangeNotifier {
   static double ayahsize = globals.fontArabicLevel;
+  static String fontType = globals.fontArabic;
+
   static double textsize = globals.fontTarjLevel;
   static double fontSizeT = globals.fontTozihLevel;
 
@@ -16,6 +17,12 @@ class UiState with ChangeNotifier {
     notifyListeners();
   }
 
+  set fontFormat(newValue) {
+    fontType = newValue;
+    notifyListeners();
+  }
+
+  String get fontFormat => fontType;
   double get fontSize => ayahsize;
   double get sliderFontSize => ayahsize;
 

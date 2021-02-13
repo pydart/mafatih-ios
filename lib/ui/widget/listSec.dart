@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:provider/provider.dart';
 import '../detailSec.dart';
+import '../detailSec4.dart';
+import '../detailSec5.dart';
+
 import '../home2.dart';
 import '../notesSearch.dart';
 
@@ -120,18 +123,66 @@ class _ListSecState extends State<ListSec> {
                                                                           16),
                                                           dense: true,
                                                           onTap: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            DetailSec(
-                                                                              detail: data.title,
-                                                                              index: data.index,
-                                                                              indent: data.indent,
-                                                                              indexFasl: widget.indexFasl,
-                                                                              code: widget.indexFasl * 1000 + data.index,
-                                                                            )));
+                                                            if (widget
+                                                                    .indexFasl !=
+                                                                4) {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          DetailSec(
+                                                                            detail:
+                                                                                data.title,
+                                                                            index:
+                                                                                data.index,
+                                                                            indent:
+                                                                                data.indent,
+                                                                            indexFasl:
+                                                                                widget.indexFasl,
+                                                                            code:
+                                                                                widget.indexFasl * 1000 + data.index,
+                                                                          )));
+                                                            } else if (widget
+                                                                        .indexFasl ==
+                                                                    4 &&
+                                                                !ui.terjemahan) {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          DetailSec5(
+                                                                            detail:
+                                                                                data.title,
+                                                                            index:
+                                                                                data.index,
+                                                                            indent:
+                                                                                data.indent,
+                                                                            indexFasl:
+                                                                                5,
+                                                                            code:
+                                                                                widget.indexFasl * 1000 + data.index,
+                                                                          )));
+                                                            } else if (widget
+                                                                        .indexFasl ==
+                                                                    4 &&
+                                                                ui.terjemahan) {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          DetailSec4(
+                                                                            detail:
+                                                                                data.title,
+                                                                            index:
+                                                                                data.index,
+                                                                            indent:
+                                                                                data.indent,
+                                                                            indexFasl:
+                                                                                widget.indexFasl,
+                                                                            code:
+                                                                                widget.indexFasl * 1000 + data.index,
+                                                                          )));
+                                                            }
                                                           })
                                                     ]))),
                                       )
@@ -319,15 +370,22 @@ class _ListSecState extends State<ListSec> {
                                                         ListTile(
                                                             leading:
                                                                 // Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                                                SvgPicture
-                                                                    .asset(
-                                                              'assets/GolCard.svg',
+//                                                                SvgPicture
+//                                                                    .asset(
+//                                                              'assets/GolCard.svg',
+//                                                              color:
+//                                                                  Colors.green,
+//                                                              height: 50,
+//                                                              width: 50,
+////                                                                        fit: BoxFit
+////                                                                            .contain,
+//                                                            ),
+                                                                Image.asset(
+                                                              "assets/GolCard.png",
                                                               color:
                                                                   Colors.green,
                                                               height: 50,
                                                               width: 50,
-//                                                                        fit: BoxFit
-//                                                                            .contain,
                                                             ),
                                                             title: Text(
                                                               data.title,
@@ -337,15 +395,23 @@ class _ListSecState extends State<ListSec> {
                                                                   TextAlign
                                                                       .center,
                                                             ),
-                                                            trailing: SvgPicture
-                                                                .asset(
-                                                              'assets/GolCard.svg',
+                                                            trailing:
+
+//                                                            SvgPicture
+//                                                                .asset(
+//                                                              'assets/GolCard.svg',
+//                                                              color:
+//                                                                  Colors.green,
+//                                                              height: 50,
+//                                                              width: 50,
+//                                                            ),
+                                                                Image.asset(
+                                                              "assets/GolCard.png",
                                                               color:
                                                                   Colors.green,
                                                               height: 50,
                                                               width: 50,
                                                             ),
-
                                                             // ]),
                                                             contentPadding:
                                                                 EdgeInsets

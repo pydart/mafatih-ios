@@ -18,10 +18,16 @@ class _SettingsState extends State<Settings> {
   double tempFontArabicLevel = globals.fontArabicLevel;
   double tempFontTarjLevel = globals.fontTarjLevel;
   double tempFontTozihLevel = globals.fontTozihLevel;
-
-//  double tempFontArabicLevel = 23;
-//  double tempFontTarjLevel = 21;
-//  double tempFontTozihLevel = 25;
+  String tempFontArabic = globals.fontArabic;
+  // List FontArabicList = ['نیریزی'];
+  double briValue;
+  List FontArabicList = [
+    'نیریزی یک',
+    'نیریزی دو',
+    'عربی ساده',
+    'زر',
+    'القلم',
+  ];
 
   bool tempTarjActive = globals.tarjActive;
   bool tempTozihActive = globals.tozihActive;
@@ -38,6 +44,12 @@ class _SettingsState extends State<Settings> {
     globals.fontArabicLevel = level;
     prefs = await SharedPreferences.getInstance();
     prefs.setDouble(globals.FontArabic_LEVEL, level);
+  }
+
+  setFontArabic(String level) async {
+    globals.fontArabic = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString(globals.FontArabic, level);
   }
 
   setFontTarjLevel(double level) async {
@@ -117,19 +129,6 @@ class _SettingsState extends State<Settings> {
               },
             ),
           ),
-//          CardSetting(
-//            title: 'توضیحات',
-//            leading: Switch(
-//              value: tempTozihActive,
-//              onChanged: (newValue) {
-//                setState(() {
-//                  ui.tafsir = newValue;
-//                  tempTozihActive = newValue;
-//                  setTozihActive(newValue);
-//                });
-//              },
-//            ),
-//          ),
           CardSlider(
             title: 'سایز متن توضیحات ',
             slider: Slider(
@@ -177,26 +176,51 @@ class _SettingsState extends State<Settings> {
                 }),
             trailing: tempFontArabicLevel.toInt().toString(),
           ),
+          CardSetting(
+            title: 'تغییر فونت عربی مفاتیح',
+            leading: DropdownButton(
+                value: FontArabicList.indexOf(tempFontArabic),
+                items: [
+                  DropdownMenuItem(
+                    child: Text(FontArabicList[0]),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text(FontArabicList[1]),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(child: Text(FontArabicList[2]), value: 2),
+                  DropdownMenuItem(child: Text(FontArabicList[3]), value: 3),
+                  DropdownMenuItem(child: Text(FontArabicList[4]), value: 4)
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    tempFontArabic = FontArabicList[value];
+                    ui.fontFormat = tempFontArabic;
+                    setFontArabic(FontArabicList[value]);
+                  });
+                }),
+          ),
           CardSlider(
             title: 'نور صفحه',
             slider: Slider(
-              min: 0.1,
-              max: 1,
-              divisions: 10,
-              value: tempBrightnessLevel,
+              min: 0,
+              max: 100,
+              divisions: 101,
+              value: tempBrightnessLevel * 100,
               onChanged: (newValue) {
                 setState(() {
+                  briValue = newValue / 100;
                   tempBrightnessLevel =
-                      double.parse(newValue.toStringAsFixed(1));
+                      double.parse(briValue.toStringAsFixed(2));
                 });
                 Screen.setBrightness(tempBrightnessLevel);
 //                  ui.lightlevel = newValue;
                 setBrightnessLevel(tempBrightnessLevel);
               },
             ),
-            trailing: (tempBrightnessLevel * 10).toInt().toString(),
+            trailing: (tempBrightnessLevel * 100).toInt().toString(),
           ),
-
           CardSetting(
             title: 'بازگشت به تنظیمات اولیه',
             leading: RaisedButton(
@@ -209,11 +233,12 @@ class _SettingsState extends State<Settings> {
 
               onPressed: () {
                 setState(() {
-                  tempFontArabicLevel = 23;
+                  tempFontArabicLevel = 25;
                   tempFontTarjLevel = 21;
                   tempFontTozihLevel = 25;
                   tempTarjActive = true;
                   tempDarkMode = false;
+                  tempFontArabic = 'نیریزی دو';
                 });
                 if (globals.darkMode) {
                   dark.switchTheme();
@@ -228,6 +253,8 @@ class _SettingsState extends State<Settings> {
                 setFontTarjLevel(tempFontTarjLevel);
                 ui.fontSize = tempFontArabicLevel;
                 setFontArabicLevel(tempFontArabicLevel);
+                ui.fontFormat = tempFontArabic;
+                setFontArabic(tempFontArabic);
               },
 //              child: Container(
 //                decoration: const BoxDecoration(
@@ -241,6 +268,9 @@ class _SettingsState extends State<Settings> {
 //                ),
 //              ),
             ),
+          ),
+          SizedBox(
+            height: 50,
           )
         ],
       ),

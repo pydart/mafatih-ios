@@ -1,6 +1,6 @@
 name: mafatih
 description: Mafatih
-version: 1.0.0+8
+version: 1.0.0+13
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -34,9 +34,12 @@ dependencies:
   url_launcher: ^5.0.0
   # animated_splash: ^1.0.0
   package_info: ^0.4.1
-#  firebase_remote_config: ^0.3.1+1
+  flutter_markdown: ^0.5.1
+
+  #  firebase_remote_config: ^0.3.1+1
   dio: ^3.0.10
   http: ^0.12.2
+  flutter_spinkit: ^4.1.2+1
 
 dev_dependencies:
   flutter_test:
@@ -53,8 +56,9 @@ flutter:
     - python/Babs/1/
     - python/Babs/2/
     - python/Babs/3/
+    - python/Babs/4/
+    - python/Babs/5/
 
-    -
   fonts:
     - family: far_nazanin
       fonts:
@@ -64,7 +68,7 @@ flutter:
       fonts:
         - asset: fonts/IRANSansMobile(NoEn).ttf
 
-    - family: AdobeArabic-Regular
+    - family: عربی ساده
       fonts:
         - asset: fonts/AdobeArabic_Regular.otf
 
@@ -76,6 +80,26 @@ flutter:
       fonts:
         - asset: fonts/IRANSans.ttf
 
-    - family:  Neirizi
+    - family:  نیریزی دو
       fonts:
         - asset: fonts/arabicNeirizi.ttf
+
+    - family:  me_quran
+      fonts:
+        - asset: fonts/me_quran.ttf
+
+    - family:  قرآن طاها
+      fonts:
+        - asset: fonts/QuranTaha.ttf
+
+    - family:  نیریزی یک
+      fonts:
+        - asset: fonts/Neirizi.ttf
+
+    - family:  زر
+      fonts:
+        - asset: fonts/ZAR New.ttf
+
+    - family:  القلم
+      fonts:
+        - asset: fonts/Al Qalam New.ttf

@@ -175,6 +175,13 @@ class _DetailSecState extends State<DetailSec> {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
 
+    print(
+        "************************************************************************** widget.indexFasl " +
+            widget.indexFasl.toString());
+    print(
+        "************************************************************************** widget.indexFasl " +
+            widget.index.toString());
+
     setState(() {
       if (globals.codeBookMarked.contains(widget.code)) {
         print(
@@ -323,6 +330,9 @@ class _DetailSecState extends State<DetailSec> {
             globals.indexFaslCurrentPage = indexFaslCurrentPage;
             codeCurrentPage = indexFaslCurrentPage * 1000 + indexCurrentPage;
             globals.codeCurrentPage = codeCurrentPage;
+            print(
+                "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
+                    titleCurrentPage);
           }
 
           return snapshot.hasData
@@ -349,6 +359,8 @@ class _DetailSecState extends State<DetailSec> {
                   Expanded(
                     child: Scrollbar(
                       child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
                         controller: _controller,
 //                        itemExtent: 1000,
                         physics: AlwaysScrollableScrollPhysics(),
@@ -370,6 +382,8 @@ class _DetailSecState extends State<DetailSec> {
                                           snapshot.data.tozih[key] !=
                                               null) //ui.tafsir &&
                                         ListTile(
+                                            dense: true,
+
 //                                      title:  Text(
 //                                        '${snapshot.data.tozih[key]}',
 //                                        textAlign: TextAlign.justify,
@@ -382,34 +396,68 @@ class _DetailSecState extends State<DetailSec> {
 //                                      ),
 
                                             title: RichText(
-                                          textAlign: TextAlign.justify,
-                                          text: TextSpan(
-                                            children:
-                                                highlightOccurrencesDetailSec(
-                                                    snapshot.data.tozih[key],
-                                                    widget.query,
-                                                    globals.fontTozihLevel + 4),
-                                            style: TextStyle(
+                                              textAlign: TextAlign.justify,
+                                              text: TextSpan(
+                                                children:
+                                                    highlightOccurrencesDetailSec(
+                                                        snapshot
+                                                            .data.tozih[key],
+                                                        widget.query,
+                                                        globals.fontTozihLevel +
+                                                            4),
+                                                style: TextStyle(
 //                                            fontWeight: FontWeight.bold,
-                                                fontFamily:
-                                                    'AdobeArabic-Regular',
-                                                fontSize:
-                                                    globals.fontTozihLevel,
-                                                height: 1.5,
+                                                    fontFamily: 'عربی ساده',
+                                                    fontSize:
+                                                        globals.fontTozihLevel,
+                                                    height: 1.5,
 //                                            color:
 //                                                Theme.of(context).buttonColor),
-                                                color: snapshot.data.arabic["1"]
-                                                        .isEmpty
-                                                    ? Theme.of(context)
-                                                        .accentColor
-                                                    : Theme.of(context)
-                                                        .buttonColor),
-                                          ),
-                                        )),
+                                                    color: snapshot.data
+                                                            .arabic["1"].isEmpty
+                                                        ? Theme.of(context)
+                                                            .accentColor
+                                                        : Theme.of(context)
+                                                            .buttonColor),
+                                              ),
+                                            )),
 
                                       if (snapshot.data.arabic[key] != "" &&
-                                          snapshot.data.arabic[key] != null)
+                                          snapshot.data.arabic[key] != null &&
+                                          widget.indexFasl == 4)
                                         ListTile(
+                                          dense: true,
+                                          title: RichText(
+                                            textAlign: TextAlign.justify,
+                                            text: TextSpan(
+                                              children:
+                                                  highlightOccurrencesDetailSec(
+                                                      snapshot.data
+                                                              .arabic[key] +
+                                                          "(" +
+                                                          (key).toString() +
+                                                          ")",
+                                                      widget.query,
+                                                      globals.fontArabicLevel +
+                                                          4),
+                                              style: TextStyle(
+                                                fontFamily: globals.fontArabic,
+                                                fontSize:
+                                                    globals.fontArabicLevel,
+                                                height: 1.5,
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                      if (snapshot.data.arabic[key] != "" &&
+                                          snapshot.data.arabic[key] != null &&
+                                          widget.indexFasl != 4)
+                                        ListTile(
+                                          dense: true,
+
                                           // leading: Text(
                                           //   snapshot.data.arabic.keys.elementAt(i),
                                           //   style: AppStyle.number,
@@ -437,10 +485,15 @@ class _DetailSecState extends State<DetailSec> {
                                                       globals.fontArabicLevel +
                                                           4),
                                               style: TextStyle(
-                                                fontFamily: 'Neirizi',
+                                                fontFamily: globals.fontArabic,
                                                 fontSize:
                                                     globals.fontArabicLevel,
-                                                height: 2.5,
+                                                height: globals.fontArabic ==
+                                                            "نیریزی یک" ||
+                                                        globals.fontArabic ==
+                                                            "نیریزی دو"
+                                                    ? 2.30 // نه حرف من نه حرف اچ جی 2.30 والسلام
+                                                    : 2,
                                                 color: Theme.of(context)
                                                     .accentColor,
                                               ),
@@ -457,6 +510,8 @@ class _DetailSecState extends State<DetailSec> {
 //                                  style: AppStyle.end2subtitle,
 //                                ),
                                         ListTile(
+                                          dense: true,
+
 //                                      title: Text(
 //                                        '${snapshot.data.farsi[key]}',
 //                                        textAlign: TextAlign.justify,
@@ -478,8 +533,7 @@ class _DetailSecState extends State<DetailSec> {
                                                       globals.fontTarjLevel +
                                                           4),
                                               style: TextStyle(
-                                                fontFamily:
-                                                    'AdobeArabic-Regular',
+                                                fontFamily: 'عربی ساده',
                                                 fontSize: globals.fontTarjLevel,
                                                 height: 1.5,
                                                 color: Theme.of(context)

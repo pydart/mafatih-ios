@@ -53,8 +53,11 @@ class _SplashScreenState extends State<SplashScreen> {
         _brightnessLevel2 =
             _brightnessLevel > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
         globals.brightnessLevel =
-            double.parse(_brightnessLevel2.toStringAsFixed(1));
+            double.parse(_brightnessLevel2.toStringAsFixed(2));
       });
+
+      print(
+          "?????????????????????????         ${globals.brightnessLevel} ?????????????????? prefs.containsKey(globals.BRIGHTNESS_LEVEL) ?????????????");
     } else {
       getScreenBrightness();
     }
@@ -71,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevel =
-        double.parse(_brightnessLevel4.toStringAsFixed(1));
+        double.parse(_brightnessLevel4.toStringAsFixed(2));
     print(
         "?????????????????????????         ${globals.brightnessLevel} ?????????????????? Main getScreenBrightness  integer ?????????????");
 
@@ -83,7 +86,8 @@ class _SplashScreenState extends State<SplashScreen> {
   getFontsLevel() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      globals.fontArabicLevel = 23;
+      globals.fontArabic = 'نیریزی دو';
+      globals.fontArabicLevel = 25;
       globals.fontTarjLevel = 21;
       globals.fontTozihLevel = 25;
     });
@@ -94,6 +98,14 @@ class _SplashScreenState extends State<SplashScreen> {
         globals.fontArabicLevel = _fontArabicLevel;
       });
     }
+
+    if (prefs.containsKey(globals.FontArabic)) {
+      var _fontArabic = prefs.getString(globals.FontArabic);
+      setState(() {
+        globals.fontArabic = _fontArabic;
+      });
+    }
+
     if (prefs.containsKey(globals.FontTarj_LEVEL)) {
       var _fontTarjLevel = prefs.getDouble(globals.FontTarj_LEVEL);
       setState(() {

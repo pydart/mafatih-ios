@@ -5,6 +5,9 @@ import '../detailSec.dart';
 import '../home2.dart';
 import '../notesSearch.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:provider/provider.dart';
+import '../detailSec4.dart';
+import 'package:mafatih/data/uistate.dart';
 
 class Favorites extends StatefulWidget {
   List<String> titlebookmark = globals.titleBookMarked;
@@ -80,6 +83,8 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   Widget build(BuildContext context) {
+    var ui = Provider.of<UiState>(context);
+
     return Scaffold(
 //        appBar: AppBar(
 //          leading: IconButton(
@@ -204,32 +209,93 @@ class _FavoritesState extends State<Favorites> {
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 0.0, horizontal: 16),
 //                            dense: true,
+
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) => DetailSec(
-                                                detail:
-                                                    widget.titlebookmark[index],
-                                                index:
-                                                    widget.indexbookmark[index],
-                                                // 1,
-                                                indexFasl: widget
-                                                    .indexFaslbookmark[index],
-                                                code:
-                                                    widget.codebookmark[index],
-                                              ))).then((value) {
-                                    setState(() {
-                                      widget.titlebookmark =
-                                          globals.titleBookMarked;
-                                      widget.indexbookmark =
-                                          globals.indexBookMarked;
-                                      widget.indexFaslbookmark =
-                                          globals.indexFaslBookMarked;
-                                      widget.codebookmark =
-                                          globals.codeBookMarked;
+                                  if (widget.indexFaslbookmark[index] != 4) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailSec(
+                                                  detail: widget
+                                                      .titlebookmark[index],
+                                                  index: widget
+                                                      .indexbookmark[index],
+                                                  // 1,
+                                                  indexFasl: widget
+                                                      .indexFaslbookmark[index],
+                                                  code: widget
+                                                      .codebookmark[index],
+                                                ))).then((value) {
+                                      setState(() {
+                                        widget.titlebookmark =
+                                            globals.titleBookMarked;
+                                        widget.indexbookmark =
+                                            globals.indexBookMarked;
+                                        widget.indexFaslbookmark =
+                                            globals.indexFaslBookMarked;
+                                        widget.codebookmark =
+                                            globals.codeBookMarked;
+                                      });
                                     });
-                                  });
+                                    ;
+                                  } else if (widget.indexFaslbookmark[index] ==
+                                          4 &&
+                                      !ui.terjemahan) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailSec4(
+                                                  detail: widget
+                                                      .titlebookmark[index],
+                                                  index: widget
+                                                      .indexbookmark[index],
+                                                  // 1,
+                                                  indexFasl: widget
+                                                      .indexFaslbookmark[index],
+                                                  code: widget
+                                                      .codebookmark[index],
+                                                ))).then((value) {
+                                      setState(() {
+                                        widget.titlebookmark =
+                                            globals.titleBookMarked;
+                                        widget.indexbookmark =
+                                            globals.indexBookMarked;
+                                        widget.indexFaslbookmark =
+                                            globals.indexFaslBookMarked;
+                                        widget.codebookmark =
+                                            globals.codeBookMarked;
+                                      });
+                                    });
+                                  } else if (widget.indexFaslbookmark[index] ==
+                                          4 &&
+                                      ui.terjemahan) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailSec4(
+                                                  detail: widget
+                                                      .titlebookmark[index],
+                                                  index: widget
+                                                      .indexbookmark[index],
+                                                  // 1,
+                                                  indexFasl: widget
+                                                      .indexFaslbookmark[index],
+                                                  code: widget
+                                                      .codebookmark[index],
+                                                ))).then((value) {
+                                      setState(() {
+                                        widget.titlebookmark =
+                                            globals.titleBookMarked;
+                                        widget.indexbookmark =
+                                            globals.indexBookMarked;
+                                        widget.indexFaslbookmark =
+                                            globals.indexFaslBookMarked;
+                                        widget.codebookmark =
+                                            globals.codeBookMarked;
+                                      });
+                                    });
+                                    ;
+                                  }
                                 })))))));
   }
 }

@@ -6,6 +6,7 @@ import 'package:mafatih/data/models/dailyDoaInfo.dart';
 import 'package:mafatih/data/models/JsonMappingForSearch.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'models/DailyDoa4.dart';
 import 'models/FaslInfo.dart';
 import 'models/FaslSecInfo.dart';
 import 'models/MixedTextInfoAll.dart';
@@ -18,7 +19,9 @@ class ServiceData {
   static var infoFasl1 = 'python/Babs/infobab1.json';
   static var infoFasl2 = 'python/Babs/infobab2.json';
   static var infoFasl3 = 'python/Babs/infobab3.json';
-  var dict = {1: infoFasl1, 2: infoFasl2, 3: infoFasl3};
+  static var infoFasl4 = 'python/Babs/infobab4.json';
+
+  var dict = {1: infoFasl1, 2: infoFasl2, 3: infoFasl3, 4: infoFasl4};
   var listdoa = 'surah/doa-harian.json';
   var listasmaulhusna = 'surah/asmaul-husna.json';
   var ayatkursi = 'python/DailyDoa/dailyDoa-info.json';
@@ -76,6 +79,14 @@ class ServiceData {
     var res = json.decode(response);
     var data = res['$number'];
     return DailyDoa.fromJson(data);
+  }
+
+  Future<DailyDoa4> loadSec4(int indexFasl, int number) async {
+    final response =
+        await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
+    var res = json.decode(response);
+    var data = res['$number'];
+    return DailyDoa4.fromJson(data);
   }
 
   Future<AyathKursi> loadAyatKursi() async {

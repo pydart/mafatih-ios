@@ -50,6 +50,7 @@ const BOOKMARKED_PAGE_index = 'bookmarkedPageIndex';
 const BOOKMARKED_PAGE_indexFasl = 'bookmarkedPageIndexFasl';
 const BOOKMARKED_PAGE_Code = 'bookmarkedPageCode';
 
+const FontArabic = 'FontArabic';
 const FontArabic_LEVEL = 'FontArabic_level';
 const FontTarj_LEVEL = 'FontTarj_level';
 const FontTozih_LEVEL = 'FontTozih_level';
@@ -62,6 +63,7 @@ const LaterDialog = 'LaterDialog';
 double fontArabicLevel;
 double fontTarjLevel;
 double fontTozihLevel;
+String fontArabic;
 
 bool tarjActive;
 bool tozihActive;
