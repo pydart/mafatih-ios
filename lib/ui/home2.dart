@@ -422,22 +422,48 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ));
   }
 
-  int backPressCounter = 0;
-  int backPressTotal = 2;
-  Future<bool> onWillPop() {
-    if (backPressCounter < 1) {
-      // Fluttertoast.showToast(
-      //     msg:
-      //         "برای خروج ${backPressTotal - backPressCounter} مرتبه برگشت بزنید");
+  // int backPressCounter = 1;
+  // int backPressTotal = 2;
+  // Future<bool> onWillPop() {
+  //   if (backPressCounter < 2) {
+  //     Fluttertoast.showToast(
+  //         // "برای خروج ${backPressTotal - backPressCounter} مرتبه برگشت بزنید");
+  //         msg: "برای خروج دو مرتبه برگشت بزنید",
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.BOTTOM,
+  //         backgroundColor: Colors.green,
+  //         textColor: Colors.white,
+  //         fontSize: 18.0);
+  //
+  //     // msg:
+  //     // "";
+  //     backPressCounter++;
+  //     Future.delayed(Duration(seconds: 1, milliseconds: 0), () {
+  //       backPressCounter--;
+  //     });
+  //     return Future.value(false);
+  //   } else {
+  //     return Future.value(true);
+  //   }
+  // }
 
-      // msg:
-      // "";
-      backPressCounter++;
-      Future.delayed(Duration(seconds: 0, milliseconds: 500), () {
-        backPressCounter--;
-      });
+  DateTime currentBackPressTime;
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(
+          msg: "برای خروج دو مرتبه برگشت بزنید",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 18.0);
       return Future.value(false);
     } else {
+      Fluttertoast.cancel();
       return Future.value(true);
     }
   }
@@ -495,7 +521,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return WillPopScope(
       // onWillPop: _onBackPressed,
       onWillPop: onWillPop,
-
       child: Scaffold(
         drawer: Container(
             child: Drawer(child: Drawers()),

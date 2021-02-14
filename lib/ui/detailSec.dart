@@ -237,13 +237,11 @@ class _DetailSecState extends State<DetailSec> {
       return [TextSpan(text: source)];
     }
     final matches = query.toLowerCase().allMatches(source.toLowerCase());
-
     int lastMatchEnd = 0;
 
     final List<TextSpan> children = [];
     for (var i = 0; i < matches.length; i++) {
       final match = matches.elementAt(i);
-
       if (match.start != lastMatchEnd) {
         children.add(TextSpan(
           text: source.substring(lastMatchEnd, match.start),
@@ -251,7 +249,6 @@ class _DetailSecState extends State<DetailSec> {
 //              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
         ));
       }
-
       children.add(TextSpan(
         text: source.substring(match.start, match.end),
         style: TextStyle(
@@ -270,7 +267,6 @@ class _DetailSecState extends State<DetailSec> {
           text: source.substring(match.end, source.length),
         ));
       }
-
       lastMatchEnd = match.end;
     }
     return children;

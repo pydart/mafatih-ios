@@ -32,33 +32,34 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: [
-          Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
-        ],
-        locale:
-            Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
+      ],
+      locale: Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales,
 
-        builder: (context, child) {
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: child,
-          );
-        },
-        debugShowCheckedModeBanner: false,
-        title: 'مفاتیح الجنان',
-        theme: Provider.of<ThemeNotifier>(context).curretThemeData,
-        initialRoute: 'mafatih/',
-        routes: {
-          'home': (context) => Home(),
-          '/settings': (context) => Settings(),
-          '/Favorites': (context) => Favorites(),
-          '/ListSec': (context) => ListSec(),
+      builder: (context, child) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: child,
+        );
+      },
+      debugShowCheckedModeBanner: false,
+      title: 'مفاتیح الجنان',
+      theme: Provider.of<ThemeNotifier>(context).curretThemeData,
+      initialRoute: 'mafatih/',
+      routes: {
+        'home': (context) => Home(),
+        '/settings': (context) => Settings(),
+        '/Favorites': (context) => Favorites(),
+        '/ListSec': (context) => ListSec(),
 //          '/about': (context) => HomeAbout(),
-        },
-        home: SplashScreen());
+      },
+
+      home: SplashScreen(),
+    );
   }
 }

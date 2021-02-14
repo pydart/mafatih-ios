@@ -25,6 +25,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     3222,
     3224,
     3216,
+    2010,
   ];
 
   bool loading = false;
@@ -247,27 +248,27 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   List<MixedTextInfoAll> getFilteredList(List<MixedTextInfoAll> note) {
     loading = true;
     filteredNotes = [];
-    List<MixedTextInfoAll> _filteredNotesTitle = [];
-    List<MixedTextInfoAll> _filteredNotesArabic = [];
+    List<MixedTextInfoAll> filteredNotesTitle = [];
+    List<MixedTextInfoAll> filteredNotesArabic = [];
 
     for (int i = 0; i < note.length; i++) {
-      if (titleSearchActive && note[i].title.contains(query)) //
+      if (titleSearchActive == true && note[i].title.contains(query)) //
       {
         print(
             "///////////////////////////////mmmmmmmmmmmmmmmmmmmmmmmmmmm     _filteredNotesTitle.add(note[i])");
-        _filteredNotesTitle.add(note[i]);
+        filteredNotesTitle.add(note[i]);
       }
 
-      if (textSearchActive &&
+      if (textSearchActive == true &&
           note[i].arabic.contains(query) &&
           !note[i].title.contains(query)) //
       {
-        _filteredNotesArabic.add(note[i]);
+        filteredNotesArabic.add(note[i]);
       }
     }
 //    filteredNotes.addAll(_filteredNotesTitle);
 //    filteredNotes.addAll(_filteredNotesArabic);
-    filteredNotes = _filteredNotesTitle + _filteredNotesArabic;
+    filteredNotes = filteredNotesTitle + filteredNotesArabic;
     loading = false;
     return filteredNotes;
   }
@@ -433,8 +434,11 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                           subtitle: RichText(
                             maxLines: 2,
                             text: TextSpan(
-                              children: highlightOccurrences(
-                                  filteredNotes[index].arabic, ""),
+                              children: textSearchActive
+                                  ? highlightOccurrences(
+                                      filteredNotes[index].arabic, query)
+                                  : highlightOccurrences(
+                                      filteredNotes[index].arabic, ""),
                               style: TextStyle(
                                 fontFamily: 'IRANSans',
                                 fontSize: 12,
