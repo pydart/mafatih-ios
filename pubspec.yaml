@@ -1,6 +1,6 @@
 name: mafatih
 description: Mafatih
-version: 1.0.0+16
+version: 1.0.0+17
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_automation: ^1.1.4
-
+  admob_flutter: ^0.3.4
   flutter_localizations:
     sdk: flutter
 

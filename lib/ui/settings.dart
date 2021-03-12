@@ -31,7 +31,8 @@ class _SettingsState extends State<Settings> {
 
   bool tempTarjActive = globals.tarjActive;
   bool tempTozihActive = globals.tozihActive;
-  bool tempDarkMode = globals.darkMode;
+  // bool tempDarkMode = globals.darkMode;
+  bool themeType = globals.themeType;
 
   SharedPreferences prefs;
   setBrightnessLevel(double level) async {
@@ -70,17 +71,23 @@ class _SettingsState extends State<Settings> {
     prefs.setBool(globals.TarjActive, level);
   }
 
+  setThemeType(bool level) async {
+    globals.themeType = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(globals.ThemeType, globals.themeType);
+  }
+
   setTozihActive(bool level) async {
     globals.tozihActive = level;
     prefs = await SharedPreferences.getInstance();
     prefs.setBool(globals.TozihActive, level);
   }
 
-  setDarkModeActive(bool level) async {
-    globals.darkMode = level;
-    prefs = await SharedPreferences.getInstance();
-    prefs.setBool(globals.DarkMode, level);
-  }
+  // setDarkModeActive(bool level) async {
+  //   globals.darkMode = level;
+  //   prefs = await SharedPreferences.getInstance();
+  //   prefs.setBool(globals.DarkMode, level);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -102,15 +109,16 @@ class _SettingsState extends State<Settings> {
             leading: Switch(
               activeColor: Colors.green,
 
-              value: tempDarkMode,
+              value: themeType,
 //              value: tempDarkMode,
               onChanged: (newValue) {
                 setState(() {
-                  tempDarkMode = newValue;
+                  themeType = newValue;
 //                    ui.fontSizeTozih = newValue;
-                  setDarkModeActive(newValue);
+//                   setDarkModeActive(newValue);
                   globals.darkMode = newValue;
                   dark.switchTheme();
+                  setThemeType(newValue);
                 });
               },
             ),
@@ -237,13 +245,14 @@ class _SettingsState extends State<Settings> {
                   tempFontTarjLevel = 21;
                   tempFontTozihLevel = 25;
                   tempTarjActive = true;
-                  tempDarkMode = false;
+                  themeType = false;
                   tempFontArabic = 'نیریزی دو';
                 });
-                if (globals.darkMode) {
+                if (globals.themeType) {
                   dark.switchTheme();
-                  setDarkModeActive(tempDarkMode);
-                  globals.darkMode = tempDarkMode;
+                  // setDarkModeActive(themeType);
+                  globals.themeType = themeType;
+                  setThemeType(themeType);
                 }
                 ui.terjemahan = tempTarjActive;
                 setTarjActive(tempTarjActive);

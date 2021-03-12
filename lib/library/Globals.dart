@@ -54,6 +54,7 @@ const FontArabic = 'FontArabic';
 const FontArabic_LEVEL = 'FontArabic_level';
 const FontTarj_LEVEL = 'FontTarj_level';
 const FontTozih_LEVEL = 'FontTozih_level';
+const ThemeType = 'ThemeType';
 
 const TarjActive = 'TarjActive';
 const TozihActive = 'TozihActive';
@@ -64,6 +65,7 @@ double fontArabicLevel;
 double fontTarjLevel;
 double fontTozihLevel;
 String fontArabic;
+bool themeType;
 
 bool tarjActive;
 bool tozihActive;

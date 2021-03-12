@@ -17,6 +17,7 @@ import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'notesSearch.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -578,6 +579,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
+        ),
+        bottomNavigationBar: AdmobBanner(
+          adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+          adSize: AdmobBannerSize.BANNER,
+//          listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+//            if (event == AdmobAdEvent.clicked) {}
+//          },
         ),
       ),
     );

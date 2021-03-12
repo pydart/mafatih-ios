@@ -14,7 +14,7 @@ class AppStyle {
     Color(0xffb6f492),
   ]);
 
-  static bool darkMsh = themeNotifier.darkmode;
+  // static bool darkMsh = themeNotifier.darkmode;
 
   static final title = TextStyle(
     fontSize: 16.0,

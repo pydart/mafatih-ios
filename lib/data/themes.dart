@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/widget/favorites.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum MyTheme { light, dark }
 
 class ThemeNotifier with ChangeNotifier {
-  static bool _darkmode = false;
+  // static int mythemnum;
+
+  @override
+  void initState() {}
+  // static bool _darkmode = false;
   static List<ThemeData> themes = [
     ThemeData(
       brightness: Brightness.light,
@@ -31,13 +36,14 @@ class ThemeNotifier with ChangeNotifier {
 //  ThemeData _currentTheme =
 //      prefs.getBool(globals.DarkMode) == null ? themes[1] : themes[0];
 
-  ThemeData _currentTheme = themes[0];
+  // ThemeData _currentTheme = themes[0];
+  ThemeData _currentTheme = themes[globals.themeType == true ? 1 : 0];
 
   void switchTheme() {
-    if (globals.darkMode == null) {
-      globals.darkMode = false;
-    }
-    darkmode = globals.darkMode;
+    // if (globals.darkMode == null) {
+    //   globals.darkMode = false;
+    // }
+    // darkmode = globals.darkMode;
     currentTheme == MyTheme.light
 //    currentTheme == darkmode
         ? currentTheme = MyTheme.dark
@@ -52,14 +58,14 @@ class ThemeNotifier with ChangeNotifier {
     }
   }
 
-  set darkmode(newvValue) {
-    _darkmode = newvValue;
-    notifyListeners();
-  }
+  // set darkmode(newvValue) {
+  //   _darkmode = newvValue;
+  //   notifyListeners();
+  // }
 
   get currentTheme => _current;
   get curretThemeData => _currentTheme;
 //  get curretThemeData2 => _currentTheme2;
 
-  get darkmode => _darkmode;
+// get darkmode => _darkmode;
 }

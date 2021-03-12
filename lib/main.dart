@@ -10,10 +10,12 @@ import 'package:mafatih/ui/widget/favorites.dart';
 import 'package:mafatih/ui/widget/listSec.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => UiState()),
-      ChangeNotifierProvider(create: (_) => ThemeNotifier()),
+      ChangeNotifierProvider(create: (_) => UiState(), lazy: false),
+      ChangeNotifierProvider(create: (_) => ThemeNotifier(), lazy: false),
     ], child: MyApp()));
 
 //class MyApp extends StatelessWidget {
@@ -24,9 +26,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  getThemeType() async {
+    prefs = await SharedPreferences.getInstance();
+    // setState(() {
+    //   // globals.themeType = false;
+    // });
+    if (prefs.containsKey(globals.ThemeType)) {
+      var _themeType = prefs.getBool(globals.ThemeType);
+      setState(() {
+        globals.themeType = _themeType;
+      });
+    }
+    print(
+        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.themeType}       globals.themeType');
+  }
+
   @override
   void initState() {
     super.initState();
+    globals.themeType = globals.themeType == null ? false : globals.themeType;
+
+    // getThemeType();
   }
 
   @override
