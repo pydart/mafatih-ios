@@ -301,11 +301,17 @@ class _DetailSecState extends State<DetailSec> {
           },
         ),
         title: Center(
-          child: Text(
-            widget.detail,
-            style: AppStyle.titleupdetailsec,
-          ),
-        ),
+            // child: Text(
+            //   widget.detail,
+            //   style: AppStyle.titleupdetailsec,
+            // ),
+            child: Text(
+          widget.detail,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: AppStyle.titleupdetailsec,
+          maxLines: 2,
+        )),
         elevation: 0.0,
         actions: <Widget>[
           IconButton(
@@ -356,11 +362,11 @@ class _DetailSecState extends State<DetailSec> {
                     child: Scrollbar(
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
+                        itemCount: snapshot.data.arabic.length,
                         shrinkWrap: true,
                         controller: _controller,
 //                        itemExtent: 1000,
                         physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: snapshot.data.arabic.length,
                         itemBuilder: (BuildContext c, int i) {
                           String key = snapshot.data.arabic.keys.elementAt(i);
                           // return Padding(

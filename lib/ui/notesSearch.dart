@@ -187,6 +187,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                     )
                                   : Container(),
                               RichText(
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
                                   children: highlightOccurrences(
                                       filteredNotes[index].title, query),
@@ -202,6 +204,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                           ),
                           subtitle: RichText(
                             maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             text: TextSpan(
                               children: highlightOccurrences(
                                   filteredNotes[index].arabic, ""),
@@ -418,6 +421,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                     )
                                   : Container(),
                               RichText(
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
                                   children: highlightOccurrences(
                                       filteredNotes[index].title, query),
@@ -433,6 +438,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                           ),
                           subtitle: RichText(
                             maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             text: TextSpan(
                               children: textSearchActive
                                   ? highlightOccurrences(
@@ -544,6 +550,7 @@ List<TextSpan> highlightOccurrences(String source, String query) {
     if (match.start != lastMatchEnd) {
       children.add(TextSpan(
         text: source.substring(lastMatchEnd, match.start),
+
 //          style: TextStyle(
 //              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
       ));

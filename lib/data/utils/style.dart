@@ -32,7 +32,7 @@ class AppStyle {
   );
 
   static final titleupdetailsec = TextStyle(
-    fontSize: 24.0,
+    fontSize: 20.0,
     fontFamily: 'IRANSans',
   );
 

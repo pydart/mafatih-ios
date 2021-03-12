@@ -148,12 +148,12 @@ class _FavoritesState extends State<Favorites> {
             //   },
             // )
 
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: NotesSearch());
-              },
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.search),
+            //   onPressed: () {
+            //     showSearch(context: context, delegate: NotesSearch());
+            //   },
+            // ),
           ],
         ),
         body: Padding(

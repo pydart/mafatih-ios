@@ -319,11 +319,13 @@ class _DetailSec4State extends State<DetailSec4> {
                 },
               ),
               title: Center(
-                child: Text(
-                  widget.detail,
-                  style: AppStyle.titleupdetailsec,
-                ),
-              ),
+                  child: Text(
+                widget.detail,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: AppStyle.titleupdetailsec,
+                maxLines: 2,
+              )),
               elevation: 0.0,
               actions: <Widget>[
                 IconButton(
