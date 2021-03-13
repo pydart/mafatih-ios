@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import '../detailSec4.dart';
 import 'package:mafatih/data/uistate.dart';
 
+import '../settings.dart';
+
 class Favorites extends StatefulWidget {
   List<String> titlebookmark = globals.titleBookMarked;
   List<int> indexbookmark = globals.indexBookMarked;
@@ -86,49 +88,8 @@ class _FavoritesState extends State<Favorites> {
     var ui = Provider.of<UiState>(context);
 
     return Scaffold(
-//        appBar: AppBar(
-//          leading: IconButton(
-//            icon: Icon(
-//              Icons.keyboard_backspace,
-//            ),
-//            onPressed: () => Navigator.pop(context),
-//
-////            onPressed: () => Navigator.push(
-////                context,
-////                MaterialPageRoute(
-////                    builder: (context) =>
-////                        Home())), //Navigator.of(context).pop(),
-//          ),
-//          title: Center(
-//            child: Text(
-//              "فهرست منتخب",
-//              textAlign: TextAlign.center,
-//              style: AppStyle.titleup,
-//            ),
-//          ),
-//          elevation: 0.0,
-////          actions: <Widget>[
-//////            IconButton(
-//////              icon: Icon(Icons.search),
-//////              onPressed: () {
-//////                showSearch(context: context, delegate: NotesSearch());
-//////              },
-//////            ),
-////          ],
-//        ),
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.keyboard_backspace,
-            ),
-            onPressed: () => Navigator.pop(context),
-
-//            onPressed: () => Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                    builder: (context) =>
-//                        Home())), //Navigator.of(context).pop(),
-          ),
+          centerTitle: true,
           title: Center(
             child: Text(
               "فهرست منتخب",
@@ -137,23 +98,17 @@ class _FavoritesState extends State<Favorites> {
           ),
           elevation: 0.0,
           actions: <Widget>[
-//            Directionality(
-//              textDirection: TextDirection.rtl,
-//            ),
-            // IconButton(
-            //   icon: Icon(Icons.more_vert),
-            //   onPressed: () {
-            //     Navigator.push(context,
-            //         MaterialPageRoute(builder: (context) => Settings()));
-            //   },
-            // )
-
             // IconButton(
             //   icon: Icon(Icons.search),
             //   onPressed: () {
             //     showSearch(context: context, delegate: NotesSearch());
             //   },
             // ),
+
+            IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Settings()))),
           ],
         ),
         body: Padding(

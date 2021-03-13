@@ -50,7 +50,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/
     - assets/
     - python/Babs/
     - python/Babs/1/
