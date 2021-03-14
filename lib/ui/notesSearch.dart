@@ -51,15 +51,17 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
-      IconButton(
-        icon: Icon(
-          Icons.clear,
-          // color: Colors.black,
-        ),
-        onPressed: () {
-          query = '';
-        },
-      )
+      query != ''
+          ? IconButton(
+              icon: Icon(
+                Icons.clear,
+                // color: Colors.black,
+              ),
+              onPressed: () {
+                query = '';
+              },
+            )
+          : Container()
     ];
   }
 
@@ -420,17 +422,20 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                       color: Colors.grey,
                                     )
                                   : Container(),
-                              RichText(
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                  children: highlightOccurrences(
-                                      filteredNotes[index].title, query),
-                                  style: TextStyle(
-                                    fontFamily: 'IRANSans',
-                                    fontSize: 17,
-                                    color: Theme.of(context)
-                                        .accentColor, // color: Colors.grey,
+                              Expanded(
+                                child: RichText(
+                                  maxLines: 2,
+                                  textAlign: TextAlign.right,
+                                  // overflow: TextOverflow.ellipsis,
+                                  text: TextSpan(
+                                    children: highlightOccurrences(
+                                        filteredNotes[index].title, query),
+                                    style: TextStyle(
+                                      fontFamily: 'IRANSans',
+                                      fontSize: 17,
+                                      color: Theme.of(context)
+                                          .accentColor, // color: Colors.grey,
+                                    ),
                                   ),
                                 ),
                               ),

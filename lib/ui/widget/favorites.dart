@@ -90,11 +90,9 @@ class _FavoritesState extends State<Favorites> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Center(
-            child: Text(
-              "فهرست منتخب",
-              style: AppStyle.titleup,
-            ),
+          title: Text(
+            "فهرست منتخب",
+            style: AppStyle.titleup,
           ),
           elevation: 0.0,
           actions: <Widget>[
@@ -105,10 +103,10 @@ class _FavoritesState extends State<Favorites> {
             //   },
             // ),
 
-            IconButton(
-                icon: Icon(Icons.settings),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Settings()))),
+            // IconButton(
+            //     icon: Icon(Icons.settings),
+            //     onPressed: () => Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => Settings()))),
           ],
         ),
         body: Padding(
