@@ -1,0 +1,180 @@
+[33mcommit 096294a557f30fcd6d9c03df7aa0d49731921aec[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sun Mar 14 03:46:20 2021 +0100
+
+     version 1.0.0+17
+
+[33mcommit d8923bfdb462949ac1240c99ab7d6efcb85874b7[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sat Mar 13 09:44:06 2021 +0100
+
+    changed favorites search icon
+
+[33mcommit 5347d906d2cc2b7ebfc2768af2120108c010ebbe[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Fri Mar 12 22:07:00 2021 +0100
+
+    flexible title text
+
+[33mcommit f27792f4d36e9dd3caa38218d06a946a9887b48c[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Fri Mar 12 20:39:26 2021 +0100
+
+    shabaan editted
+
+[33mcommit 35501de98a019396bca333f4b898565028594732[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sun Feb 14 16:31:17 2021 +0100
+
+    version 1012 with cheshmak and error
+
+[33mcommit d3d18b0607b877247a2a2ab1eeb7d950fdeb1efc[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sun Feb 14 15:36:26 2021 +0100
+
+    publishing version: 1.0.0+16
+
+[33mcommit 6d870aea90c110cf55b5bc487dd24d4d779d7752[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sat Feb 13 22:36:34 2021 +0100
+
+    publishing version: 1.0.0+13
+
+[33mcommit fe47cfe0812a55d10f969aa60602ab299a72f4c6[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sun Aug 16 00:45:35 2020 +0200
+
+    publishing version 8
+
+[33mcommit 3f3962684919d3eb76f3f61f18e1e362f9ffe95c[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Thu Jul 23 00:04:06 2020 +0200
+
+    New update Final 22-07-2020 version: 1.0.0+6
+
+[33mcommit a263d7e329628f085db3c77ae160ac33d353e2e7[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Wed Jul 22 17:39:02 2020 +0200
+
+    New update 22-07-2020 version: 1.0.0+6
+
+[33mcommit a9e8e1759fcc94856e431458fb28b674d66c67d5[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Tue Jun 30 14:53:19 2020 +0200
+
+    only remained darkmode and back
+
+[33mcommit bd545d5f0e64b9c1b43722f1eca8d9de83258f9d[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sat Jun 27 11:18:20 2020 +0200
+
+    Some Bugs Fixed for All the features work and remember after closure except the start up darkmode Only Darkmode remained
+
+[33mcommit 6a8bdfcb2888afa0edc9138bc79696ea987118a9[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Sat Jun 27 08:55:08 2020 +0200
+
+    All the features work and remember after closure except the start up darkmode
+
+[33mcommit 58fe73c93ca2e018a4887f0be11b3549688b8aba[m
+Author: Msh <mesh1368@gmail.com>
+Date:   Thu Jun 25 15:38:01 2020 +0200
+
+    All added working well
+
+[33mcommit f441aef55b4f78a133ae05b1db8245ee11d0ef1d[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Sat Apr 25 09:34:51 2020 +0700
+
+    update depedency, and fixing permission
+
+[33mcommit f502fc4af964c04d7a9f16fc58f7b3a4f4ac84b5[m
+Merge: f34251c e96e650
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Sat Apr 25 08:25:00 2020 +0700
+
+    Merge branch 'master' of https://github.com/hifiaz/Qurani
+
+[33mcommit f34251cab67258d90946b7e4f31a685396d5c0a0[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Sat Apr 25 08:24:37 2020 +0700
+
+    permission
+
+[33mcommit e96e650eaf16fd33f164c0cc0a03df1ca343cfe4[m
+Author: fiaz <luth_fiaz@yahoo.co.id>
+Date:   Tue Mar 17 19:38:06 2020 +0700
+
+    Create FUNDING.yml
+
+[33mcommit a68d761e1f8668d869f3a37ae4cf9223f89e86ad[m
+Author: fiaz <luth_fiaz@yahoo.co.id>
+Date:   Tue Mar 17 00:52:08 2020 +0700
+
+    Update README.md
+
+[33mcommit 50d7f9c960a27c451ec49f72a6ea985640c1620c[m
+Author: fiaz <luth_fiaz@yahoo.co.id>
+Date:   Tue Mar 17 00:51:05 2020 +0700
+
+    Update README.md
+
+[33mcommit edd18271dabb852b2fe362341cabd44f712b44dc[m
+Author: fiaz <luth_fiaz@yahoo.co.id>
+Date:   Tue Mar 17 00:50:38 2020 +0700
+
+    Update README.md
+
+[33mcommit 0eb9c1180a88687df57f525c643eb35350c91532[m
+Author: fiaz <luth_fiaz@yahoo.co.id>
+Date:   Tue Mar 17 00:49:53 2020 +0700
+
+    Update README.md
+
+[33mcommit 7fd7320ef316fb5398436db4462360cafed328a6[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Tue Oct 1 22:59:54 2019 +0700
+
+    compass
+
+[33mcommit 59d189ab83ccf67079bf63a2d266f88b868097ba[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Sat Sep 21 00:59:10 2019 +0700
+
+    dark theme, ayat kursi
+
+[33mcommit 2b788c096a2689d39e40a8067ffa6a3687892ab3[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Sat Sep 14 17:11:49 2019 +0700
+
+    new layout of alqurani
+
+[33mcommit 2d3368942ba78d5a647bd82fc78ba1338068d084[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Fri May 10 05:25:46 2019 +0700
+
+    update for smooting scroll, line hight text
+
+[33mcommit 9dcff89b0beebe9f9207407e3c8545231f71b660[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Wed May 8 22:58:45 2019 +0700
+
+    add asmaul husna
+
+[33mcommit 57ea62358ce56fa412f9ad9b2dad3fbbbe0ff8ed[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Wed May 8 06:08:16 2019 +0700
+
+    update lisence, readme, list of du'a
+
+[33mcommit 66e6ae9f1c153055091cb91fee1967119df5cc60[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Tue May 7 05:14:39 2019 +0700
+
+    update icon, tafsir, menu doa harian
+
+[33mcommit b9c43eaf4f0d17da4fa7fce110bf053af0b14229[m
+Author: hifiaz <fiazhari@gmail.com>
+Date:   Sun May 5 21:49:15 2019 +0700
+
+    First Upload

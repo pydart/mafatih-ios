@@ -519,31 +519,35 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      // onWillPop: _onBackPressed,
-      onWillPop: onWillPop,
-      child: Scaffold(
-        drawer: Container(
-            child: Drawer(child: Drawers()),
+    return Scrollbar(
+      child: WillPopScope(
+        // onWillPop: _onBackPressed,
+        onWillPop: onWillPop,
+        child: Scaffold(
+          drawer: Container(
+              child: Drawer(child: Drawers()),
 //        width: 700.0 / MediaQuery.of(context).devicePixelRatio,
-            width: 200),
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                pinned: true,
-                title:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Image.asset(
-                    'assets/font_mafatih.png',
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.white
-                        : Colors.green,
-                    height: 150,
-                    width: 152,
-                  ),
-                ]),
-                actions: <Widget>[
+              width: 200),
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  pinned: true,
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/font_mafatih.png',
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.white
+                                  : Colors.green,
+                          height: 150,
+                          width: 152,
+                        ),
+                      ]),
+                  actions: <Widget>[
 //                  IconButton(
 //                    icon: Icon(Icons.search),
 //                    onPressed: () {
@@ -552,40 +556,41 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 //                    },
 //                  ),
 
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      showSearch(context: context, delegate: NotesSearch());
-                    },
-                  ),
-                ],
-              )
-            ];
-          },
-          body: Container(
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage("assets/bitmap.png"),
-            //     fit: BoxFit.fill,
-            //   ),
-            // ),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: ListView(
-                // controller: _tabController,
-                children: <Widget>[
-                  ListFasl(),
-                ],
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        showSearch(context: context, delegate: NotesSearch());
+                      },
+                    ),
+                  ],
+                )
+              ];
+            },
+            body: Container(
+              // decoration: BoxDecoration(
+              //   image: DecorationImage(
+              //     image: AssetImage("assets/bitmap.png"),
+              //     fit: BoxFit.fill,
+              //   ),
+              // ),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: ListView(
+                  // controller: _tabController,
+                  children: <Widget>[
+                    ListFasl(),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        bottomNavigationBar: AdmobBanner(
-          adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-          adSize: AdmobBannerSize.BANNER,
-          // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          //   if (event == AdmobAdEvent.clicked) {}
-          // },
+          bottomNavigationBar: AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+            adSize: AdmobBannerSize.BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
         ),
       ),
     );
