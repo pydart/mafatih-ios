@@ -16,6 +16,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   provider: ^4.0.5
   pk_skeleton: ^0.0.2
+#  google_mobile_ads: ^0.12.1
+
   # package_info: ^0.4.0+17
   #  flutter_compass: ^0.4.1
 #  permission_handler: ^5.0.0+hotfix.4
