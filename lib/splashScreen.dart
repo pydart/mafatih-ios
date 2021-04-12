@@ -26,16 +26,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
     /// get Saved preferences
 //    getBookmark();
-    getBrightnessLevel();
 //    getLastViewedPage();
     Timer(Duration(milliseconds: 0),
         () => Navigator.pushReplacementNamed(context, 'home'));
 
 //    //   setState(() {
-    Screen.setBrightness(globals.brightnessLevel);
 ////   });
     getFontsLevel();
     getOtherSettings();
+    getBrightnessLevel();
+    Screen.setBrightness(globals.brightnessLevel);
   }
 
   @override
@@ -46,7 +46,8 @@ class _SplashScreenState extends State<SplashScreen> {
   /// Get saved Brightness or the default value if Brightness level is not defined
   getBrightnessLevel() async {
     prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(globals.BRIGHTNESS_LEVEL)) {
+    if (prefs.containsKey(globals.BRIGHTNESS_LEVEL) &&
+        globals.brightnessActive) {
       double _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
       double _brightnessLevel2;
       setState(() {
@@ -132,7 +133,15 @@ class _SplashScreenState extends State<SplashScreen> {
       globals.tarjActive = true;
       globals.tozihActive = false;
       globals.darkMode = false;
+      globals.brightnessActive = false;
     });
+
+    if (prefs.containsKey(globals.BrightnessActive)) {
+      var _BrightnessActive = prefs.getBool(globals.BrightnessActive);
+      setState(() {
+        globals.brightnessActive = _BrightnessActive;
+      });
+    }
 
     if (prefs.containsKey(globals.TozihActive)) {
       var _tozihActive = prefs.getBool(globals.TozihActive);

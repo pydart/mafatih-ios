@@ -279,17 +279,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 1, vsync: this);
 
-    // getBrightnessLevel();
-    Screen.setBrightness(globals.brightnessLevel);
-
     getFontsLevel();
     getOtherSettings();
+    getBrightnessLevel();
+    Screen.setBrightness(globals.brightnessLevel);
   }
 
   /// Get saved Brightness or the default value if Brightness level is not defined
   getBrightnessLevel() async {
     prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(globals.BRIGHTNESS_LEVEL)) {
+    if (prefs.containsKey(globals.BRIGHTNESS_LEVEL) &&
+        globals.brightnessActive) {
       double _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
       double _brightnessLevel2;
       setState(() {
@@ -366,7 +366,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       globals.tarjActive = true;
       globals.tozihActive = false;
       globals.darkMode = false;
+      globals.brightnessActive = false;
     });
+
+    if (prefs.containsKey(globals.BrightnessActive)) {
+      var _BrightnessActive = prefs.getBool(globals.BrightnessActive);
+      setState(() {
+        globals.brightnessActive = _BrightnessActive;
+      });
+    }
 
     if (prefs.containsKey(globals.TozihActive)) {
       var _tozihActive = prefs.getBool(globals.TozihActive);
@@ -524,30 +532,30 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         // onWillPop: _onBackPressed,
         onWillPop: onWillPop,
         child: Scaffold(
-          drawer: Container(
-              child: Drawer(child: Drawers()),
+            drawer: Container(
+                child: Drawer(child: Drawers()),
 //        width: 700.0 / MediaQuery.of(context).devicePixelRatio,
-              width: 200),
-          body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  pinned: true,
-                  title: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/font_mafatih.png',
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? Colors.white
-                                  : Colors.green,
-                          height: 150,
-                          width: 152,
-                        ),
-                      ]),
-                  actions: <Widget>[
+                width: 200),
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    pinned: true,
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/font_mafatih.png',
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.white
+                                    : Colors.green,
+                            height: 150,
+                            width: 152,
+                          ),
+                        ]),
+                    actions: <Widget>[
 //                  IconButton(
 //                    icon: Icon(Icons.search),
 //                    onPressed: () {
@@ -556,42 +564,50 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 //                    },
 //                  ),
 
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        showSearch(context: context, delegate: NotesSearch());
-                      },
-                    ),
-                  ],
-                )
-              ];
-            },
-            body: Container(
-              // decoration: BoxDecoration(
-              //   image: DecorationImage(
-              //     image: AssetImage("assets/bitmap.png"),
-              //     fit: BoxFit.fill,
-              //   ),
-              // ),
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: ListView(
-                  // controller: _tabController,
-                  children: <Widget>[
-                    ListFasl(),
-                  ],
+                      IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          showSearch(context: context, delegate: NotesSearch());
+                        },
+                      ),
+                    ],
+                  )
+                ];
+              },
+              body: Container(
+                // decoration: BoxDecoration(
+                //   image: DecorationImage(
+                //     image: AssetImage("assets/bitmap.png"),
+                //     fit: BoxFit.fill,
+                //   ),
+                // ),
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: ListView(
+                    // controller: _tabController,
+                    children: <Widget>[
+                      ListFasl(),
+                      // Text(
+                      //   'برای حمایت از ما روی تبلیغ ذیل کلیک فرماییدِ',
+                      //   textAlign: TextAlign.center,
+                      //   style: TextStyle(
+                      //     fontFamily: 'عربی ساده',
+                      //     fontSize: 12,
+                      //     height: 1.5,
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          bottomNavigationBar: AdmobBanner(
-            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-            adSize: AdmobBannerSize.BANNER,
-            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-            //   if (event == AdmobAdEvent.clicked) {}
-            // },
-          ),
-        ),
+            bottomNavigationBar: AdmobBanner(
+              adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+              adSize: AdmobBannerSize.LARGE_BANNER,
+              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //   if (event == AdmobAdEvent.clicked) {}
+              // },
+            )),
       ),
     );
 //      ),

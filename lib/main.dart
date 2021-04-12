@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
 //          '/about': (context) => HomeAbout(),
       },
 
-      home: Home(),
+      home: SplashScreen(),
     );
   }
 }

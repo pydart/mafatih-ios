@@ -8,6 +8,8 @@ import 'package:mafatih/library/Globals.dart' as globals;
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'home2.dart';
+
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();
@@ -33,12 +35,19 @@ class _SettingsState extends State<Settings> {
   bool tempTozihActive = globals.tozihActive;
   // bool tempDarkMode = globals.darkMode;
   bool themeType = globals.themeType;
+  bool brightnessActive = globals.brightnessActive;
 
   SharedPreferences prefs;
   setBrightnessLevel(double level) async {
     globals.brightnessLevel = level;
     prefs = await SharedPreferences.getInstance();
     prefs.setDouble(globals.BRIGHTNESS_LEVEL, level);
+  }
+
+  setBrightnessActive(bool level) async {
+    globals.brightnessActive = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(globals.BrightnessActive, level);
   }
 
   setFontArabicLevel(double level) async {
@@ -88,6 +97,17 @@ class _SettingsState extends State<Settings> {
   //   prefs = await SharedPreferences.getInstance();
   //   prefs.setBool(globals.DarkMode, level);
   // }
+
+  void getScreenBrightness() async {
+    double _brightnessLevel3;
+    double _brightnessLevel4;
+    _brightnessLevel3 = await Screen.brightness;
+    _brightnessLevel4 =
+        _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
+    globals.brightnessLevel =
+        double.parse(_brightnessLevel4.toStringAsFixed(2));
+    Screen.setBrightness(globals.brightnessLevel);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,26 +229,47 @@ class _SettingsState extends State<Settings> {
                   });
                 }),
           ),
-          CardSlider(
-            title: 'نور صفحه',
-            slider: Slider(
-              min: 0,
-              max: 100,
-              divisions: 101,
-              value: tempBrightnessLevel * 100,
+          CardSetting(
+            title: 'فعالسازی تنظیم نور صفحه',
+            leading: Switch(
+              activeColor: Colors.green,
+
+              value: brightnessActive,
+//              value: tempDarkMode,
               onChanged: (newValue) {
                 setState(() {
-                  briValue = newValue / 100;
-                  tempBrightnessLevel =
-                      double.parse(briValue.toStringAsFixed(2));
+                  brightnessActive = newValue;
+                  globals.brightnessActive = newValue;
+                  setBrightnessActive(newValue);
+                  brightnessActive
+                      ? Screen.setBrightness(tempBrightnessLevel)
+                      : getScreenBrightness();
                 });
-                Screen.setBrightness(tempBrightnessLevel);
-//                  ui.lightlevel = newValue;
-                setBrightnessLevel(tempBrightnessLevel);
               },
             ),
-            trailing: (tempBrightnessLevel * 100).toInt().toString(),
           ),
+          brightnessActive
+              ? CardSlider(
+                  title: 'نور صفحه',
+                  slider: Slider(
+                    min: 0,
+                    max: 100,
+                    divisions: 101,
+                    value: tempBrightnessLevel * 100,
+                    onChanged: (newValue) {
+                      setState(() {
+                        briValue = newValue / 100;
+                        tempBrightnessLevel =
+                            double.parse(briValue.toStringAsFixed(2));
+                      });
+                      Screen.setBrightness(tempBrightnessLevel);
+//                  ui.lightlevel = newValue;
+                      setBrightnessLevel(tempBrightnessLevel);
+                    },
+                  ),
+                  trailing: (tempBrightnessLevel * 100).toInt().toString(),
+                )
+              : Container(),
           CardSetting(
             title: 'بازگشت به تنظیمات اولیه',
             leading: RaisedButton(
@@ -246,6 +287,7 @@ class _SettingsState extends State<Settings> {
                   tempFontTozihLevel = 25;
                   tempTarjActive = true;
                   themeType = false;
+                  brightnessActive = false;
                   tempFontArabic = 'نیریزی دو';
                 });
                 if (globals.themeType) {

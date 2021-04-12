@@ -12,6 +12,7 @@ int lastViewedPage;
 
 /// Default Screen Brightness level [Default value = 0.5] (medium)
 double brightnessLevel;
+bool brightnessActive;
 
 String titleCurrentPage;
 int indexCurrentPage;
@@ -43,6 +44,7 @@ const LAST_VIEWED_PAGE_index = 'lastViewedPageIndex';
 const LAST_VIEWED_PAGE_indexFasl = 'lastViewedPageIndexFasl';
 
 const BRIGHTNESS_LEVEL = 'brightness_level';
+const BrightnessActive = 'BrightnessActive';
 
 const BOOKMARKED_PAGE = 'bookmarkedPage';
 const BOOKMARKED_PAGE_title = 'bookmarkedPageTitle';
