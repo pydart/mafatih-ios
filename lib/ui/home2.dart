@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screen/flutter_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/themes.dart';
@@ -11,7 +12,6 @@ import 'home_about.dart';
 import 'listpage/listFasl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-import 'package:screen/screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
@@ -281,8 +281,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     getFontsLevel();
     getOtherSettings();
+    getScreenBrightness();
     getBrightnessLevel();
-    Screen.setBrightness(globals.brightnessLevel);
+    // Screen.setBrightness(globals.brightnessActive == true
+    //     ? globals.brightnessLevel
+    //     : globals.brightnessLevelDefault);
   }
 
   /// Get saved Brightness or the default value if Brightness level is not defined
@@ -299,10 +302,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             double.parse(_brightnessLevel2.toStringAsFixed(2));
       });
 
-      print(
-          "?????????????????????????         ${globals.brightnessLevel} ?????????????????? prefs.containsKey(globals.BRIGHTNESS_LEVEL) ?????????????");
+      FlutterScreen.setBrightness(globals.brightnessLevel);
     } else {
-      getScreenBrightness();
+      // getScreenBrightness();
     }
   }
 
@@ -312,23 +314,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     double _brightnessLevel4;
 
     print(globals.brightnessLevel);
-    _brightnessLevel3 = await Screen.brightness;
+    _brightnessLevel3 = await FlutterScreen.brightness;
 
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
-    globals.brightnessLevel =
+    globals.brightnessLevelDefault =
         double.parse(_brightnessLevel4.toStringAsFixed(2));
-    print(
-        "?????????????????????????         ${globals.brightnessLevel} ?????????????????? Main getScreenBrightness  integer ?????????????");
-
-    print(
-        "?????????????????????????         ${_brightnessLevel3} ?????????????????? Main Screen.brightness ?????????????");
+    // globals.brightnessLevelDefault = globals.brightnessLevel;
   }
 
   /// Get saved Brightness or the default value if Brightness level is not defined
   getFontsLevel() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
+      globals.fontArabic = 'نیریزی دو';
       globals.fontArabicLevel = 25;
       globals.fontTarjLevel = 21;
       globals.fontTozihLevel = 25;
@@ -340,6 +339,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.fontArabicLevel = _fontArabicLevel;
       });
     }
+
+    if (prefs.containsKey(globals.FontArabic)) {
+      var _fontArabic = prefs.getString(globals.FontArabic);
+      setState(() {
+        globals.fontArabic = _fontArabic;
+      });
+    }
+
     if (prefs.containsKey(globals.FontTarj_LEVEL)) {
       var _fontTarjLevel = prefs.getDouble(globals.FontTarj_LEVEL);
       setState(() {
@@ -603,7 +610,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ),
             bottomNavigationBar: AdmobBanner(
               adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-              adSize: AdmobBannerSize.LARGE_BANNER,
+              adSize: AdmobBannerSize.BANNER,
               // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
               //   if (event == AdmobAdEvent.clicked) {}
               // },

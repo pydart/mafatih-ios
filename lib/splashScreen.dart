@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screen/flutter_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/themes.dart';
-import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -34,8 +34,8 @@ class _SplashScreenState extends State<SplashScreen> {
 ////   });
     getFontsLevel();
     getOtherSettings();
+    getScreenBrightness();
     getBrightnessLevel();
-    Screen.setBrightness(globals.brightnessLevel);
   }
 
   @override
@@ -57,10 +57,9 @@ class _SplashScreenState extends State<SplashScreen> {
             double.parse(_brightnessLevel2.toStringAsFixed(2));
       });
 
-      print(
-          "?????????????????????????         ${globals.brightnessLevel} ?????????????????? prefs.containsKey(globals.BRIGHTNESS_LEVEL) ?????????????");
+      FlutterScreen.setBrightness(globals.brightnessLevel);
     } else {
-      getScreenBrightness();
+      // getScreenBrightness();
     }
   }
 
@@ -70,17 +69,13 @@ class _SplashScreenState extends State<SplashScreen> {
     double _brightnessLevel4;
 
     print(globals.brightnessLevel);
-    _brightnessLevel3 = await Screen.brightness;
+    _brightnessLevel3 = await FlutterScreen.brightness;
 
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
-    globals.brightnessLevel =
+    globals.brightnessLevelDefault =
         double.parse(_brightnessLevel4.toStringAsFixed(2));
-    print(
-        "?????????????????????????         ${globals.brightnessLevel} ?????????????????? Main getScreenBrightness  integer ?????????????");
-
-    print(
-        "?????????????????????????         ${_brightnessLevel3} ?????????????????? Main Screen.brightness ?????????????");
+    // globals.brightnessLevelDefault = globals.brightnessLevel;
   }
 
   /// Get saved Brightness or the default value if Brightness level is not defined

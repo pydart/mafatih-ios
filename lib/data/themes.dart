@@ -13,6 +13,8 @@ class ThemeNotifier with ChangeNotifier {
   // static bool _darkmode = false;
   static List<ThemeData> themes = [
     ThemeData(
+      // textTheme: TextTheme(headline6: TextStyle(color: Colors.white)),
+      // cursorColor: Colors.grey[900],
       brightness: Brightness.light,
       buttonColor: Color.fromRGBO(155, 15, 15, 1),
       primarySwatch: Colors.green,
@@ -23,6 +25,8 @@ class ThemeNotifier with ChangeNotifier {
 
 //        scaffoldBackgroundColor: Colors.transparent),
     ThemeData(
+      // textTheme: TextTheme(headline6: TextStyle(color: Colors.white)),
+      // cursorColor: Colors.green,
       brightness: Brightness.dark,
       buttonColor: Colors.green,
       primarySwatch: Colors.green,

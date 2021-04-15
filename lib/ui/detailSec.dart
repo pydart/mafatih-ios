@@ -1,3 +1,4 @@
+import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/themes.dart';
@@ -8,7 +9,7 @@ import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa.dart';
-import 'package:screen/screen.dart';
+// import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 
@@ -209,7 +210,7 @@ class _DetailSecState extends State<DetailSec> {
     }
 
     /// Prevent screen from going into sleep mode:
-    Screen.keepOn(true);
+    FlutterScreen.keepOn(true);
 
     super.initState();
   }

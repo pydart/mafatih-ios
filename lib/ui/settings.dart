@@ -1,4 +1,5 @@
-import 'package:screen/screen.dart';
+import 'package:flutter_screen/flutter_screen.dart';
+// import 'package:screen/screen.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/ui/widget/cardsetting.dart';
@@ -16,7 +17,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  double tempBrightnessLevel = globals.brightnessLevel;
+  double tempBrightnessLevel = globals.brightnessLevel == null
+      ? globals.brightnessLevelDefault
+      : globals.brightnessLevel;
   double tempFontArabicLevel = globals.fontArabicLevel;
   double tempFontTarjLevel = globals.fontTarjLevel;
   double tempFontTozihLevel = globals.fontTozihLevel;
@@ -101,12 +104,12 @@ class _SettingsState extends State<Settings> {
   void getScreenBrightness() async {
     double _brightnessLevel3;
     double _brightnessLevel4;
-    _brightnessLevel3 = await Screen.brightness;
+    _brightnessLevel3 = await FlutterScreen.brightness;
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevel =
         double.parse(_brightnessLevel4.toStringAsFixed(2));
-    Screen.setBrightness(globals.brightnessLevel);
+    FlutterScreen.setBrightness(globals.brightnessLevel);
   }
 
   @override
@@ -242,8 +245,10 @@ class _SettingsState extends State<Settings> {
                   globals.brightnessActive = newValue;
                   setBrightnessActive(newValue);
                   brightnessActive
-                      ? Screen.setBrightness(tempBrightnessLevel)
-                      : getScreenBrightness();
+                      ? FlutterScreen.setBrightness(tempBrightnessLevel)
+                      : FlutterScreen.resetBrightness();
+
+                  // : Screen.setBrightness(globals.brightnessLevelDefault);
                 });
               },
             ),
@@ -262,7 +267,7 @@ class _SettingsState extends State<Settings> {
                         tempBrightnessLevel =
                             double.parse(briValue.toStringAsFixed(2));
                       });
-                      Screen.setBrightness(tempBrightnessLevel);
+                      FlutterScreen.setBrightness(tempBrightnessLevel);
 //                  ui.lightlevel = newValue;
                       setBrightnessLevel(tempBrightnessLevel);
                     },
@@ -282,6 +287,7 @@ class _SettingsState extends State<Settings> {
 
               onPressed: () {
                 setState(() {
+                  FlutterScreen.resetBrightness();
                   tempFontArabicLevel = 25;
                   tempFontTarjLevel = 21;
                   tempFontTozihLevel = 25;

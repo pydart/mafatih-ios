@@ -1,6 +1,7 @@
 import 'package:mafatih/data/models/MixedTextInfoAll.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:flutter/material.dart';
+import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/ui/detailSec4.dart';
@@ -10,6 +11,15 @@ import 'package:mafatih/ui/detailSec5.dart';
 import 'loading.dart';
 
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
+  @override
+  String get searchFieldLabel => "جستجو";
+
+  @override
+  TextStyle get searchFieldStyle => TextStyle(
+        color: Colors.white,
+        fontSize: 18.0,
+      );
+
   List<MixedTextInfoAll> notes;
   List<MixedTextInfoAll> filteredNotes = [];
   bool titleSearchActive = true;
@@ -26,6 +36,15 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     3224,
     3216,
     2010,
+    2081,
+    2090,
+    2089,
+    2071,
+    2072,
+    2070,
+    1115,
+    1117,
+    1118,
   ];
 
   bool loading = false;
@@ -34,16 +53,16 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   ThemeData appBarTheme(BuildContext context) {
     assert(context != null);
     final ThemeData theme = Theme.of(context).copyWith(
-        // hintColor: Colors.black,
-        // primaryColor: Colors.white,
+        hintColor: Colors.green,
+        primaryColor: Colors.white54,
         textTheme: TextTheme(
-      title: TextStyle(
-        // color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontFamily: 'IRANSans',
-        fontSize: 20,
-      ),
-    ));
+          title: TextStyle(
+            color: Colors.green,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'IRANSans',
+            fontSize: 20,
+          ),
+        ));
     assert(theme != null);
     return theme;
   }
@@ -55,7 +74,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
           ? IconButton(
               icon: Icon(
                 Icons.clear,
-                // color: Colors.black,
+                color: Colors.green,
               ),
               onPressed: () {
                 query = '';
@@ -70,7 +89,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     return IconButton(
       icon: Icon(
         Icons.arrow_back,
-        // color: Colors.black,
+        color: Colors.green,
       ),
 
       onPressed: () => Navigator.pop(context),
@@ -307,6 +326,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                           fontWeight: FontWeight.bold,
                           fontFamily: 'IRANSans',
                           fontSize: 18,
+                          color: Colors.green,
                         )),
                     Checkbox(
                       activeColor: Colors.green,
@@ -327,6 +347,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                           fontWeight: FontWeight.bold,
                           fontFamily: 'IRANSans',
                           fontSize: 18,
+                          color: Colors.green,
                         )),
                     Checkbox(
                       value: textSearchActive,

@@ -10,10 +10,11 @@ import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa4.dart';
-import 'package:screen/screen.dart';
+// import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec44.dart';
+import 'package:flutter_screen/flutter_screen.dart';
 
 import 'notesSearch.dart';
 
@@ -223,7 +224,7 @@ class _DetailSec5State extends State<DetailSec5> {
     }
 
     /// Prevent screen from going into sleep mode:
-    Screen.keepOn(true);
+    FlutterScreen.keepOn(true);
 
     super.initState();
   }
