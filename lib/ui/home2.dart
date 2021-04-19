@@ -31,8 +31,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   int indexTabHome = 0;
   final APP_STORE_URL =
       'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftwareUpdate?id=YOUR-APP-ID&mt=8';
-  final PLAY_STORE_URL = 'https://cafebazaar.ir/app/pydart.mafatih';
-  String postUrl = 'https://mafatih.herokuapp.com/buildnumber';
+  final PLAY_STORE_URL =
+      'https://play.google.com/store/apps/details?id=pydart.mafatih';
+  String postUrl = 'https://videoir.com/mafatih.php';
   String newVersionBuildNumber;
   double currentBuildNumber;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -738,7 +739,8 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.ashoura";
+                  String url =
+                      "https://play.google.com/store/apps/details?id=pydart.ashoura";
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -770,7 +772,8 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.tavasol";
+                  String url =
+                      "https://play.google.com/store/apps/details?id=pydart.tavasol";
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -834,7 +837,8 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.kasa";
+                  String url =
+                      "https://play.google.com/store/apps/details?id=pydart.kasa";
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -866,7 +870,8 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.aahd";
+                  String url =
+                      "https://play.google.com/store/apps/details?id=pydart.aahd";
                   if (await canLaunch(url))
                     await launch(url);
                   else

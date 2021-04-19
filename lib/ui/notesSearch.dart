@@ -45,6 +45,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     1115,
     1117,
     1118,
+    6010
   ];
 
   bool loading = false;

@@ -9,6 +9,8 @@ import 'package:mafatih/ui/widget/listSec.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 
+import '../home2.dart';
+
 class ListFasl extends StatefulWidget {
   @override
   _ListFaslState createState() => _ListFaslState();
@@ -31,11 +33,11 @@ class _ListFaslState extends State<ListFasl> {
             ? Column(
                 children: <Widget>[
                   SizedBox(height: 30),
-                  Container(
-                    height: 60,
-                    width: 250,
-                    child: Image.asset("assets/tazhibLineOverFaslList.png"),
-                  ),
+                  // Container(
+                  //   height: 30,
+                  //   width: 250,
+                  //   child: Image.asset("assets/tazhibLineOverFaslList.png"),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: ListView(

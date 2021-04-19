@@ -180,7 +180,7 @@ class _DetailSecState extends State<DetailSec> {
         "************************************************************************** widget.indexFasl " +
             widget.indexFasl.toString());
     print(
-        "************************************************************************** widget.indexFasl " +
+        "************************************************************************** widget.index " +
             widget.index.toString());
 
     setState(() {
@@ -276,6 +276,7 @@ class _DetailSecState extends State<DetailSec> {
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
+
     return
 //      WillPopScope(
 //      onWillPop: _onBackPressed,
@@ -302,6 +303,7 @@ class _DetailSecState extends State<DetailSec> {
           },
         ),
         title: Center(
+
             // child: Text(
             //   widget.detail,
             //   style: AppStyle.titleupdetailsec,
@@ -325,6 +327,9 @@ class _DetailSecState extends State<DetailSec> {
         future: ServiceData().loadSec(widget.indexFasl, widget.index),
         builder: (c, snapshot) {
           if (snapshot.hasData) {
+            print("*********************************************** " +
+                widget.indexFasl.toString());
+
             titleCurrentPage = snapshot.data.title;
             globals.titleCurrentPage = titleCurrentPage;
             indexCurrentPage = snapshot.data.number;

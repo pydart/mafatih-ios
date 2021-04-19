@@ -20,8 +20,15 @@ class ServiceData {
   static var infoFasl2 = 'python/Babs/infobab2.json';
   static var infoFasl3 = 'python/Babs/infobab3.json';
   static var infoFasl4 = 'python/Babs/infobab4.json';
+  static var infoFasl6 = 'python/Babs/infobab6.json';
 
-  var dict = {1: infoFasl1, 2: infoFasl2, 3: infoFasl3, 4: infoFasl4};
+  var dict = {
+    1: infoFasl1,
+    2: infoFasl2,
+    3: infoFasl3,
+    4: infoFasl4,
+    6: infoFasl6
+  };
   var listdoa = 'surah/doa-harian.json';
   var listasmaulhusna = 'surah/asmaul-husna.json';
   var ayatkursi = 'python/DailyDoa/dailyDoa-info.json';
