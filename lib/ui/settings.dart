@@ -312,6 +312,8 @@ class _SettingsState extends State<Settings> {
                 setFontArabicLevel(tempFontArabicLevel);
                 ui.fontFormat = tempFontArabic;
                 setFontArabic(tempFontArabic);
+                globals.brightnessActive = false;
+                setBrightnessActive(false);
               },
 //              child: Container(
 //                decoration: const BoxDecoration(

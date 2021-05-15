@@ -68,17 +68,32 @@ getBookmark() async {
   }
 }
 
+/// set bookmarkPage in sharedPreferences
+void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
+    List<int> _code) async {
+  prefs = await SharedPreferences.getInstance();
+//    if (_index[0] != null && !_index[0].isNaN) {
+  await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
+
+  List<String> _strindex = _index.map((i) => i.toString()).toList();
+  await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
+
+  List<String> _strindexFasl = _indexFasl.map((i) => i.toString()).toList();
+  await prefs.setStringList(globals.BOOKMARKED_PAGE_indexFasl, _strindexFasl);
+
+  List<String> _strcode = _code.map((i) => i.toString()).toList();
+  await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
+}
+
 class _FavoritesState extends State<Favorites> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      getBookmark();
-      widget.titlebookmark = globals.titleBookMarked;
-      widget.indexbookmark = globals.indexBookMarked;
-      widget.indexFaslbookmark = globals.indexFaslBookMarked;
-      widget.codebookmark = globals.codeBookMarked;
-    });
+    getBookmark();
+    widget.titlebookmark = globals.titleBookMarked;
+    widget.indexbookmark = globals.indexBookMarked;
+    widget.indexFaslbookmark = globals.indexFaslBookMarked;
+    widget.codebookmark = globals.codeBookMarked;
 
 //    Favorites();
   }
@@ -103,43 +118,49 @@ class _FavoritesState extends State<Favorites> {
             //   },
             // ),
 
-            // IconButton(
-            //     icon: Icon(Icons.settings),
-            //     onPressed: () => Navigator.push(context,
-            //         MaterialPageRoute(builder: (context) => Settings()))),
+            IconButton(
+                icon: Icon(Icons.clear_all),
+                onPressed: () {
+                  setState(() {
+                    globals.titleBookMarked = [];
+                    globals.indexBookMarked = [];
+                    globals.indexFaslBookMarked = [];
+                    globals.codeBookMarked = [];
+                    widget.titlebookmark = globals.titleBookMarked;
+                    widget.indexbookmark = globals.indexBookMarked;
+                    widget.indexFaslbookmark = globals.indexFaslBookMarked;
+                    widget.codebookmark = globals.codeBookMarked;
+                  });
+                  setBookmark(globals.titleBookMarked, globals.indexBookMarked,
+                      globals.indexFaslBookMarked, globals.codeBookMarked);
+                }),
           ],
         ),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: new ListView(
 
-                // child: new ListView.builder(
-                // itemBuilder: (BuildContext context, int index) {
-
-                //   physics: ScrollPhysics(),
-                // shrinkWrap: true,
-                // children:[
-                //       Padding(
-                //           padding: const EdgeInsets.symmetric(
-                //               horizontal: 8.0),
-                //           child: Column(children: [
-                //             Container(
-                //               child:
-                // return   widget.titlebookmark[index]!= null ?
-
-                // new Card(
-                //     elevation: 0.0,
-                //     shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(5),
-                //         side: BorderSide(width: 0.5, color: Colors.green)),
-                //     child: Container(
-                //         padding: EdgeInsets.all(1),
-                //         child: Column(
-                //             crossAxisAlignment: CrossAxisAlignment.center,
+                // Text(
+                //   "پاک کردن همه",
+                //   style: AppStyle.titleup,
+                // ),
+                // IconButton(
+                //   icon: Icon(Icons.clear_all),
+                //   onPressed: () {
+                //     setState(() {
+                //       globals.titleBookMarked = [];
+                //       globals.indexBookMarked = [];
+                //       globals.indexFaslBookMarked = [];
+                //       globals.codeBookMarked = [];
+                //     });
+                //     setBookmark(globals.titleBookMarked, globals.indexBookMarked,
+                //         globals.indexFaslBookMarked, globals.codeBookMarked);
+                //   },
+                // ),
 
                 children: new List.generate(
                     // widget.numCard,
-                    widget.titlebookmark.length,
+                    widget.codebookmark.length,
                     (index) => Card(
                         elevation: 0.0,
                         shape: RoundedRectangleBorder(
@@ -172,10 +193,13 @@ class _FavoritesState extends State<Favorites> {
                                                   detail: widget
                                                       .titlebookmark[index],
                                                   index: widget
-                                                      .indexbookmark[index],
+                                                          .codebookmark[index] %
+                                                      1000,
                                                   // 1,
-                                                  indexFasl: widget
-                                                      .indexFaslbookmark[index],
+                                                  indexFasl:
+                                                      widget.codebookmark[
+                                                              index] ~/
+                                                          1000,
                                                   code: widget
                                                       .codebookmark[index],
                                                 ))).then((value) {

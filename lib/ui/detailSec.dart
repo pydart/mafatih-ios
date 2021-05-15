@@ -104,7 +104,8 @@ class _DetailSecState extends State<DetailSec> {
                 globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
                 globals.codeBookMarked.add(globals.codeCurrentPage);
                 isBookmarked = true;
-
+                print(
+                    "${globals.codeCurrentPage} -----------------------------------------------globals.codeCurrentPage------------------------------------------------");
                 print(
                     "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               });
@@ -339,8 +340,7 @@ class _DetailSecState extends State<DetailSec> {
             codeCurrentPage = indexFaslCurrentPage * 1000 + indexCurrentPage;
             globals.codeCurrentPage = codeCurrentPage;
             print(
-                "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
-                    titleCurrentPage);
+                "codeCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   $codeCurrentPage");
           }
 
           return snapshot.hasData
