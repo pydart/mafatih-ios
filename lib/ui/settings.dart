@@ -2,12 +2,16 @@ import 'package:flutter_screen/flutter_screen.dart';
 // import 'package:screen/screen.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
+import 'package:mafatih/theming/theme/custom_theme_mode.dart';
+import 'package:mafatih/theming/theme/locale_keys.g.dart';
+import 'package:mafatih/theming/theme/select_button.dart';
 import 'package:mafatih/ui/widget/cardsetting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart' show Provider;
+import 'package:easy_localization/easy_localization.dart';
 
 import 'home2.dart';
 
@@ -112,10 +116,58 @@ class _SettingsState extends State<Settings> {
     FlutterScreen.setBrightness(globals.brightnessLevel);
   }
 
+  void selectLightMode() => Provider.of<CustomThemeMode>(context, listen: false)
+      .setThemeMode(ThemeMode.light);
+  void selectDarkMode() =>
+      Provider.of<CustomThemeMode>(context, listen: false).setThemeMode(ThemeMode.dark);
+  void selectSystemThemeMode() => Provider.of<CustomThemeMode>(context, listen: false)
+      .setThemeMode(ThemeMode.system);
+
+  Widget get _buildThemeButton {
+    ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
+    Map<String, bool> theme = {
+      LocaleKeys.lightMode.tr(): currentTheme == ThemeMode.light ? true : false,
+      LocaleKeys.darkMode.tr(): currentTheme == ThemeMode.dark ? true : false,
+      LocaleKeys.systemMode.tr():
+          currentTheme == ThemeMode.system ? true : false
+    };
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Container(
+            height: MediaQuery.of(context).size.height * .082,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: theme.length,
+              itemBuilder: (BuildContext context, int index) {
+                return SelectButton(
+                  title: theme.keys.toList()[index],
+                  onOff: theme.values.toList()[index],
+                  onPressed: () => setState(() {
+                    theme.forEach((key, value) {
+                      theme[key] =
+                          key == theme.keys.toList()[index] ? true : false;
+                      (theme.values.toList()[0] == true)
+                          ? selectLightMode()
+                          : (theme.values.toList()[1] == true)
+                              ? selectDarkMode()
+                              : selectSystemThemeMode();
+                    });
+                  }),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
-    var dark = Provider.of<ThemeNotifier>(context);
+    // var dark = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -127,25 +179,26 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: <Widget>[
-          CardSetting(
-            title: 'تم تاریک',
-            leading: Switch(
-              activeColor: Colors.green,
-
-              value: themeType,
-//              value: tempDarkMode,
-              onChanged: (newValue) {
-                setState(() {
-                  themeType = newValue;
-//                    ui.fontSizeTozih = newValue;
-//                   setDarkModeActive(newValue);
-                  globals.darkMode = newValue;
-                  dark.switchTheme();
-                  setThemeType(newValue);
-                });
-              },
-            ),
-          ),
+//           CardSetting(
+//             title: 'تم تاریک',
+//             leading: Switch(
+//               activeColor: Colors.green,
+//
+//               value: themeType,
+// //              value: tempDarkMode,
+//               onChanged: (newValue) {
+//                 setState(() {
+//                   themeType = newValue;
+// //                    ui.fontSizeTozih = newValue;
+// //                   setDarkModeActive(newValue);
+//                   globals.darkMode = newValue;
+//                   // dark.switchTheme();
+//                   setThemeType(newValue);
+//                 });
+//               },
+//             ),
+//           ),
+          _buildThemeButton,
           CardSetting(
             title: 'ترجمه',
             leading: Switch(
@@ -297,7 +350,7 @@ class _SettingsState extends State<Settings> {
                   tempFontArabic = 'نیریزی دو';
                 });
                 if (globals.themeType) {
-                  dark.switchTheme();
+                  // dark.switchTheme();
                   // setDarkModeActive(themeType);
                   globals.themeType = themeType;
                   setThemeType(themeType);

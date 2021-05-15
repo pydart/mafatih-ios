@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UiState with ChangeNotifier {
   static double ayahsize = globals.fontArabicLevel;
@@ -63,4 +64,5 @@ class UiState with ChangeNotifier {
   }
 
   bool get tafsir => makna;
+
 }

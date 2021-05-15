@@ -50,7 +50,7 @@ class _DetailSec5State extends State<DetailSec5> {
   int indexCurrentPage;
   int indexFaslCurrentPage;
   int codeCurrentPage;
-  var themeNotifier = ThemeNotifier();
+  // var themeNotifier = ThemeNotifier();
 
   ScrollController _controller;
   final itemSize = globals.fontTozihLevel * 1.7;

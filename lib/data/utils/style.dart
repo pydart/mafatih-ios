@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/themes.dart';
 
-var themeNotifier = ThemeNotifier();
+// var themeNotifier = ThemeNotifier();
 
 class AppStyle {
   static double ayahsize = 26.0;
