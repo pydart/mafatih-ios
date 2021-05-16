@@ -12,12 +12,13 @@ import 'package:flutter/material.dart'
         VisualDensity;
 
 final themeDarkData = ThemeData(
-  visualDensity: VisualDensity.adaptivePlatformDensity,
+  // visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.dark,
   buttonColor: Colors.green,
   primarySwatch: Colors.green,
-  canvasColor: Colors.black87,
+  canvasColor: Colors.black,
   accentColor: Colors.white70,
+
   // primaryColor: AppColors.colorDarkPrimary,
   // accentColor: AppColors.colorDarkSecondary,
   // backgroundColor: AppColors.colorDarkSecondary,

@@ -392,8 +392,8 @@ class _DetailSec4State extends State<DetailSec4> {
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
-                                                          fontFamily:
-                                                              'عربی ساده',
+                                                          fontFamily: AppStyle
+                                                              .textQuranfontFamily,
 
 //                                          fontSize: ui.fontSizeTozih,
                                                           fontSize: 1.2 *
@@ -429,8 +429,8 @@ class _DetailSec4State extends State<DetailSec4> {
                                                                   '﴾')
                                                               .toString()),
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                'عربی ساده',
+                                                            fontFamily: AppStyle
+                                                                .textQuranfontFamily,
                                                             fontSize: 1.2 *
                                                                 globals
                                                                     .fontArabicLevel,

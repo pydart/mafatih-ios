@@ -496,16 +496,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title:
-                  Text("نسخه جدیدی از برنامه برای به روزرسانی موجود می باشد.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'IRANSans',
-                        fontSize: 16,
-                      )),
+              title: Text("نسخه جدیدی از برنامه برای بروزرسانی موجود می باشد.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'IRANSans',
+                    fontSize: 16,
+                  )),
               actions: <Widget>[
                 FlatButton(
-                  child: Text("به روزرسانی",
+                  child: Text("بروزرسانی",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: 'IRANSans',
@@ -609,13 +608,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          // bottomNavigationBar: AdmobBanner(
-          //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-          //   adSize: AdmobBannerSize.BANNER,
-          //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          //   //   if (event == AdmobAdEvent.clicked) {}
-          //   // },
-          // ),
+          bottomNavigationBar: AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+            adSize: AdmobBannerSize.BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../detailSec.dart';
+import '../detailSec5.dart';
 import '../home2.dart';
 import '../notesSearch.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
@@ -252,7 +253,7 @@ class _FavoritesState extends State<Favorites> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => DetailSec4(
+                                          builder: (context) => DetailSec5(
                                                 detail:
                                                     globals.mapBookMarked[index]
                                                         ['titleBookMarked'],

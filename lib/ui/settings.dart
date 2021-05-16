@@ -195,6 +195,7 @@ class _SettingsState extends State<Settings> {
           icon: Icon(Icons.keyboard_backspace),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        centerTitle: true,
         title: Text('تنظیمات'),
         elevation: 0.0,
       ),
