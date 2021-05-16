@@ -358,7 +358,7 @@ class _DetailSec44State extends State<DetailSec44> {
                                                             TextAlign.center,
                                                         style: TextStyle(
                                                           fontFamily:
-                                                              'عربی ساده',
+                                                              'usmanTaha',
 
 //                                          fontSize: ui.fontSizeTozih,
                                                           fontSize: 1.2 *
@@ -395,7 +395,7 @@ class _DetailSec44State extends State<DetailSec44> {
                                                               .toString()),
                                                           style: TextStyle(
                                                             fontFamily:
-                                                                'عربی ساده',
+                                                                'usmanTaha',
                                                             fontSize: 1.2 *
                                                                 globals
                                                                     .fontArabicLevel,

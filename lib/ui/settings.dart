@@ -38,6 +38,12 @@ class _SettingsState extends State<Settings> {
     'القلم',
   ];
 
+  List ThemeList = [
+    'اندروید',
+    'روشن',
+    'تاریک',
+  ];
+
   bool tempTarjActive = globals.tarjActive;
   bool tempTozihActive = globals.tozihActive;
   // bool tempDarkMode = globals.darkMode;
@@ -118,10 +124,11 @@ class _SettingsState extends State<Settings> {
 
   void selectLightMode() => Provider.of<CustomThemeMode>(context, listen: false)
       .setThemeMode(ThemeMode.light);
-  void selectDarkMode() =>
-      Provider.of<CustomThemeMode>(context, listen: false).setThemeMode(ThemeMode.dark);
-  void selectSystemThemeMode() => Provider.of<CustomThemeMode>(context, listen: false)
-      .setThemeMode(ThemeMode.system);
+  void selectDarkMode() => Provider.of<CustomThemeMode>(context, listen: false)
+      .setThemeMode(ThemeMode.dark);
+  void selectSystemThemeMode() =>
+      Provider.of<CustomThemeMode>(context, listen: false)
+          .setThemeMode(ThemeMode.system);
 
   Widget get _buildThemeButton {
     ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
@@ -166,6 +173,13 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
+    Map<String, bool> theme = {
+      LocaleKeys.lightMode.tr(): currentTheme == ThemeMode.light ? true : false,
+      LocaleKeys.darkMode.tr(): currentTheme == ThemeMode.dark ? true : false,
+      LocaleKeys.systemMode.tr():
+          currentTheme == ThemeMode.system ? true : false
+    };
     var ui = Provider.of<UiState>(context);
     // var dark = Provider.of<ThemeNotifier>(context);
     return Scaffold(
@@ -179,26 +193,52 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: <Widget>[
-//           CardSetting(
-//             title: 'تم تاریک',
-//             leading: Switch(
-//               activeColor: Colors.green,
-//
-//               value: themeType,
-// //              value: tempDarkMode,
-//               onChanged: (newValue) {
-//                 setState(() {
+          CardSetting(
+            title: 'تم تاریک',
+            leading: Switch(
+              activeColor: Colors.green,
+
+              value: currentTheme == ThemeMode.dark ? true : false,
+//              value: tempDarkMode,
+              onChanged: (newValue) {
+                setState(() {
 //                   themeType = newValue;
 // //                    ui.fontSizeTozih = newValue;
 // //                   setDarkModeActive(newValue);
 //                   globals.darkMode = newValue;
-//                   // dark.switchTheme();
-//                   setThemeType(newValue);
-//                 });
-//               },
-//             ),
-//           ),
-          _buildThemeButton,
+                  // dark.switchTheme();
+                  // setThemeType(newValue);
+                  selectDarkMode();
+                });
+              },
+            ),
+          ),
+          // _buildThemeButton,
+          CardSetting(
+            title: 'تغییر تم',
+            leading: DropdownButton(
+                value: FontArabicList.indexOf(tempFontArabic),
+                items: [
+                  DropdownMenuItem(
+                    child: Text(FontArabicList[0]),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text(FontArabicList[1]),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(child: Text(FontArabicList[2]), value: 2),
+                  DropdownMenuItem(child: Text(FontArabicList[3]), value: 3),
+                  DropdownMenuItem(child: Text(FontArabicList[4]), value: 4)
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    tempFontArabic = FontArabicList[value];
+                    ui.fontFormat = tempFontArabic;
+                    setFontArabic(FontArabicList[value]);
+                  });
+                }),
+          ),
           CardSetting(
             title: 'ترجمه',
             leading: Switch(
@@ -367,6 +407,7 @@ class _SettingsState extends State<Settings> {
                 setFontArabic(tempFontArabic);
                 globals.brightnessActive = false;
                 setBrightnessActive(false);
+                selectSystemThemeMode();
               },
 //              child: Container(
 //                decoration: const BoxDecoration(

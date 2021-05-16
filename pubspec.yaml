@@ -108,3 +108,7 @@ flutter:
     - family:  القلم
       fonts:
         - asset: fonts/Al Qalam New.ttf
+
+    - family:  usman
+      fonts:
+        - asset: fonts/usmanTaha.ttf

@@ -41,30 +41,44 @@ getBookmark() async {
     globals.indexBookMarked = [];
     globals.indexFaslBookMarked = [];
     globals.codeBookMarked = [];
-  } else {
-    if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
-      final titleBookMarked =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_title);
+  } else if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
+    final titleBookMarked = prefs.getStringList(globals.BOOKMARKED_PAGE_title);
 
-      final savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index);
-      List<int> indexBookMarked =
-          savedStrList.map((i) => int.parse(i)).toList();
+    final savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index);
+    List<int> indexBookMarked = savedStrList.map((i) => int.parse(i)).toList();
 
-      final savedStrFaslList =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
-      List<int> indexFaslBookMarked =
-          savedStrFaslList.map((i) => int.parse(i)).toList();
+    final savedStrFaslList =
+        prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
+    List<int> indexFaslBookMarked =
+        savedStrFaslList.map((i) => int.parse(i)).toList();
 
-      List<String> savedStrCodeList =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_Code);
-      List<int> codeBookMarked =
-          savedStrCodeList.map((i) => int.parse(i)).toList();
+    List<String> savedStrCodeList =
+        prefs.getStringList(globals.BOOKMARKED_PAGE_Code);
+    List<int> codeBookMarked =
+        savedStrCodeList.map((i) => int.parse(i)).toList();
 
-      globals.titleBookMarked = titleBookMarked;
-      globals.indexBookMarked = indexBookMarked;
-      globals.indexFaslBookMarked = indexFaslBookMarked;
-      globals.codeBookMarked = codeBookMarked;
-    }
+    globals.titleBookMarked = titleBookMarked;
+    globals.indexBookMarked = indexBookMarked;
+    globals.indexFaslBookMarked = indexFaslBookMarked;
+    globals.codeBookMarked = codeBookMarked;
+  }
+
+  if (globals.indexBookMarked == null) {
+    List mapBookMarked = [
+      for (int i = 0; i < globals.codeBookMarked.length; i++)
+        {
+          'index': i,
+          'titleBookMarked': globals.titleBookMarked[i],
+          'indexBookMarked': globals.indexBookMarked[i],
+          'indexFaslBookMarked': globals.indexFaslBookMarked[i],
+          'codeBookMarked': globals.codeBookMarked[i],
+        }
+    ];
+    globals.mapBookMarked = mapBookMarked;
+    print(
+        '-----------------------------------------------mapBookMarked----------------------------------------$mapBookMarked');
+  } else if (prefs.containsKey(globals.BOOKMARKED_MAP)) {
+    // await prefs.setmap(globals.BOOKMARKED_PAGE_title, _title);
   }
 }
 
@@ -94,7 +108,17 @@ class _FavoritesState extends State<Favorites> {
     widget.indexbookmark = globals.indexBookMarked;
     widget.indexFaslbookmark = globals.indexFaslBookMarked;
     widget.codebookmark = globals.codeBookMarked;
-
+    List mapBookMarked = [
+      for (int i = 0; i < globals.codeBookMarked.length; i++)
+        {
+          'index': i,
+          'titleBookMarked': globals.titleBookMarked[i],
+          'indexBookMarked': globals.indexBookMarked[i],
+          'indexFaslBookMarked': globals.indexFaslBookMarked[i],
+          'codeBookMarked': globals.codeBookMarked[i],
+        }
+    ];
+    globals.mapBookMarked = mapBookMarked;
 //    Favorites();
   }
 
@@ -118,161 +142,240 @@ class _FavoritesState extends State<Favorites> {
             //   },
             // ),
 
-            IconButton(
-                icon: Icon(Icons.clear_all),
-                onPressed: () {
-                  setState(() {
-                    globals.titleBookMarked = [];
-                    globals.indexBookMarked = [];
-                    globals.indexFaslBookMarked = [];
-                    globals.codeBookMarked = [];
-                    widget.titlebookmark = globals.titleBookMarked;
-                    widget.indexbookmark = globals.indexBookMarked;
-                    widget.indexFaslbookmark = globals.indexFaslBookMarked;
-                    widget.codebookmark = globals.codeBookMarked;
-                  });
-                  setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-                      globals.indexFaslBookMarked, globals.codeBookMarked);
-                }),
+            // IconButton(
+            //     icon: Icon(Icons.delete_forever),
+            //     onPressed: () {
+            //       setState(() {
+            //         globals.titleBookMarked = [];
+            //         globals.indexBookMarked = [];
+            //         globals.indexFaslBookMarked = [];
+            //         globals.codeBookMarked = [];
+            //         widget.titlebookmark = globals.titleBookMarked;
+            //         widget.indexbookmark = globals.indexBookMarked;
+            //         widget.indexFaslbookmark = globals.indexFaslBookMarked;
+            //         widget.codebookmark = globals.codeBookMarked;
+            //       });
+            //       setBookmark(globals.titleBookMarked, globals.indexBookMarked,
+            //           globals.indexFaslBookMarked, globals.codeBookMarked);
+            //     }),
           ],
         ),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: new ListView(
-
-                // Text(
-                //   "پاک کردن همه",
-                //   style: AppStyle.titleup,
-                // ),
-                // IconButton(
-                //   icon: Icon(Icons.clear_all),
-                //   onPressed: () {
-                //     setState(() {
-                //       globals.titleBookMarked = [];
-                //       globals.indexBookMarked = [];
-                //       globals.indexFaslBookMarked = [];
-                //       globals.codeBookMarked = [];
-                //     });
-                //     setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-                //         globals.indexFaslBookMarked, globals.codeBookMarked);
-                //   },
-                // ),
-
-                children: new List.generate(
-                    // widget.numCard,
-                    widget.codebookmark.length,
-                    (index) => Card(
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            side: BorderSide(width: 0.5, color: Colors.green)),
-                        child: Container(
-                            padding: EdgeInsets.all(1),
-                            // child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.center,
-                            child: new ListTile(
-                                // children: <Widget>[
-                                // ListTile(
-                                title: Center(
-                                  child: Text(
-                                    widget.titlebookmark[index],
-                                    style: AppStyle.title,
-                                    textAlign: TextAlign.center,
-                                  ),
+            child: new ReorderableListView(
+              children: new List.generate(
+                  // widget.numCard,
+                  globals.mapBookMarked.length,
+                  (index) => Card(
+                      key: ValueKey(globals.mapBookMarked[index]),
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          side: BorderSide(width: 0.5, color: Colors.green)),
+                      child: Container(
+                          padding: EdgeInsets.all(1),
+                          // child: Column(
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          child: new ListTile(
+                              // children: <Widget>[
+                              // ListTile(
+                              title: Center(
+                                child: Text(
+                                  globals.mapBookMarked[index]
+                                      ['titleBookMarked'],
+                                  style: AppStyle.title,
+                                  textAlign: TextAlign.center,
                                 ),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 0.0, horizontal: 16),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 0.0, horizontal: 16),
 //                            dense: true,
 
-                                onTap: () {
-                                  if (widget.indexFaslbookmark[index] != 4) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => DetailSec(
-                                                  detail: widget
-                                                      .titlebookmark[index],
-                                                  index: widget
-                                                          .codebookmark[index] %
-                                                      1000,
-                                                  // 1,
-                                                  indexFasl:
-                                                      widget.codebookmark[
-                                                              index] ~/
-                                                          1000,
-                                                  code: widget
-                                                      .codebookmark[index],
-                                                ))).then((value) {
-                                      setState(() {
-                                        widget.titlebookmark =
-                                            globals.titleBookMarked;
-                                        widget.indexbookmark =
-                                            globals.indexBookMarked;
-                                        widget.indexFaslbookmark =
-                                            globals.indexFaslBookMarked;
-                                        widget.codebookmark =
-                                            globals.codeBookMarked;
-                                      });
+                              onTap: () {
+                                if (globals.mapBookMarked[index]
+                                        ['indexFaslBookMarked'] !=
+                                    4) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailSec(
+                                                detail:
+                                                    globals.mapBookMarked[index]
+                                                        ['titleBookMarked'],
+                                                index:
+                                                    globals.mapBookMarked[index]
+                                                            ['codeBookMarked'] %
+                                                        1000,
+                                                // 1,
+                                                indexFasl:
+                                                    globals.mapBookMarked[index]
+                                                            [
+                                                            'codeBookMarked'] ~/
+                                                        1000,
+                                                code:
+                                                    globals.mapBookMarked[index]
+                                                        ['codeBookMarked'],
+                                              ))).then((value) {
+                                    setState(() {
+                                      widget.titlebookmark =
+                                          globals.titleBookMarked;
+                                      widget.indexbookmark =
+                                          globals.indexBookMarked;
+                                      widget.indexFaslbookmark =
+                                          globals.indexFaslBookMarked;
+                                      widget.codebookmark =
+                                          globals.codeBookMarked;
+                                      List mapBookMarked = [
+                                        for (int i = 0;
+                                            i < globals.codeBookMarked.length;
+                                            i++)
+                                          {
+                                            'index': i,
+                                            'titleBookMarked':
+                                                globals.titleBookMarked[i],
+                                            'indexBookMarked':
+                                                globals.indexBookMarked[i],
+                                            'indexFaslBookMarked':
+                                                globals.indexFaslBookMarked[i],
+                                            'codeBookMarked':
+                                                globals.codeBookMarked[i],
+                                          }
+                                      ];
+                                      globals.mapBookMarked = mapBookMarked;
                                     });
-                                    ;
-                                  } else if (widget.indexFaslbookmark[index] ==
-                                          4 &&
-                                      !ui.terjemahan) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => DetailSec4(
-                                                  detail: widget
-                                                      .titlebookmark[index],
-                                                  index: widget
-                                                      .indexbookmark[index],
-                                                  // 1,
-                                                  indexFasl: widget
-                                                      .indexFaslbookmark[index],
-                                                  code: widget
-                                                      .codebookmark[index],
-                                                ))).then((value) {
-                                      setState(() {
-                                        widget.titlebookmark =
-                                            globals.titleBookMarked;
-                                        widget.indexbookmark =
-                                            globals.indexBookMarked;
-                                        widget.indexFaslbookmark =
-                                            globals.indexFaslBookMarked;
-                                        widget.codebookmark =
-                                            globals.codeBookMarked;
-                                      });
+                                  });
+                                  ;
+                                } else if (globals.mapBookMarked[index]
+                                            ['indexFaslBookMarked'] ==
+                                        4 &&
+                                    !ui.terjemahan) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailSec4(
+                                                detail:
+                                                    globals.mapBookMarked[index]
+                                                        ['titleBookMarked'],
+                                                index:
+                                                    globals.mapBookMarked[index]
+                                                        ['indexBookMarked'],
+                                                // 1,
+                                                indexFasl:
+                                                    globals.mapBookMarked[index]
+                                                        ['indexFaslBookMarked'],
+                                                code:
+                                                    globals.mapBookMarked[index]
+                                                        ['codeBookMarked'],
+                                              ))).then((value) {
+                                    setState(() {
+                                      widget.titlebookmark =
+                                          globals.titleBookMarked;
+                                      widget.indexbookmark =
+                                          globals.indexBookMarked;
+                                      widget.indexFaslbookmark =
+                                          globals.indexFaslBookMarked;
+                                      widget.codebookmark =
+                                          globals.codeBookMarked;
+                                      List mapBookMarked = [
+                                        for (int i = 0;
+                                            i < globals.codeBookMarked.length;
+                                            i++)
+                                          {
+                                            'index': i,
+                                            'titleBookMarked':
+                                                globals.titleBookMarked[i],
+                                            'indexBookMarked':
+                                                globals.indexBookMarked[i],
+                                            'indexFaslBookMarked':
+                                                globals.indexFaslBookMarked[i],
+                                            'codeBookMarked':
+                                                globals.codeBookMarked[i],
+                                          }
+                                      ];
+                                      globals.mapBookMarked = mapBookMarked;
                                     });
-                                  } else if (widget.indexFaslbookmark[index] ==
-                                          4 &&
-                                      ui.terjemahan) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => DetailSec4(
-                                                  detail: widget
-                                                      .titlebookmark[index],
-                                                  index: widget
-                                                      .indexbookmark[index],
-                                                  // 1,
-                                                  indexFasl: widget
-                                                      .indexFaslbookmark[index],
-                                                  code: widget
-                                                      .codebookmark[index],
-                                                ))).then((value) {
-                                      setState(() {
-                                        widget.titlebookmark =
-                                            globals.titleBookMarked;
-                                        widget.indexbookmark =
-                                            globals.indexBookMarked;
-                                        widget.indexFaslbookmark =
-                                            globals.indexFaslBookMarked;
-                                        widget.codebookmark =
-                                            globals.codeBookMarked;
-                                      });
+                                  });
+                                } else if (globals.mapBookMarked[index]
+                                            ['indexFaslBookMarked'] ==
+                                        4 &&
+                                    ui.terjemahan) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailSec4(
+                                                detail:
+                                                    globals.mapBookMarked[index]
+                                                        ['titleBookMarked'],
+                                                index:
+                                                    globals.mapBookMarked[index]
+                                                        ['indexBookMarked'],
+                                                // 1,
+                                                indexFasl:
+                                                    globals.mapBookMarked[index]
+                                                        ['indexFaslBookMarked'],
+                                                code:
+                                                    globals.mapBookMarked[index]
+                                                        ['codeBookMarked'],
+                                              ))).then((value) {
+                                    setState(() {
+                                      widget.titlebookmark =
+                                          globals.titleBookMarked;
+                                      widget.indexbookmark =
+                                          globals.indexBookMarked;
+                                      widget.indexFaslbookmark =
+                                          globals.indexFaslBookMarked;
+                                      widget.codebookmark =
+                                          globals.codeBookMarked;
+                                      List mapBookMarked = [
+                                        for (int i = 0;
+                                            i < globals.codeBookMarked.length;
+                                            i++)
+                                          {
+                                            'index': i,
+                                            'titleBookMarked':
+                                                globals.titleBookMarked[i],
+                                            'indexBookMarked':
+                                                globals.indexBookMarked[i],
+                                            'indexFaslBookMarked':
+                                                globals.indexFaslBookMarked[i],
+                                            'codeBookMarked':
+                                                globals.codeBookMarked[i],
+                                          }
+                                      ];
+                                      globals.mapBookMarked = mapBookMarked;
                                     });
-                                    ;
-                                  }
-                                })))))));
+                                  });
+                                  ;
+                                }
+                              })))),
+              onReorder: reorderData,
+            )));
+  }
+
+  void reorderData(int oldindex, int newindex) {
+    setState(() {
+      if (newindex > oldindex) {
+        newindex -= 1;
+      }
+      final items = globals.mapBookMarked.removeAt(oldindex);
+      globals.mapBookMarked.insert(newindex, items);
+      print(
+          '-----------------------------------------------mapBookMarked----------------------------------------${globals.mapBookMarked}');
+      globals.titleBookMarked = [];
+      globals.indexBookMarked = [];
+      globals.indexFaslBookMarked = [];
+      globals.codeBookMarked = [];
+
+      for (int i = 0; i < globals.mapBookMarked.length; i++) {
+        globals.titleBookMarked
+            .insert(i, globals.mapBookMarked[i]['titleBookMarked']);
+        globals.indexBookMarked
+            .insert(i, globals.mapBookMarked[i]['indexBookMarked']);
+        globals.indexFaslBookMarked
+            .insert(i, globals.mapBookMarked[i]['indexFaslBookMarked']);
+        globals.codeBookMarked
+            .insert(i, globals.mapBookMarked[i]['codeBookMarked']);
+      }
+    });
   }
 }
