@@ -376,6 +376,9 @@ class _FavoritesState extends State<Favorites> {
         globals.codeBookMarked
             .insert(i, globals.mapBookMarked[i]['codeBookMarked']);
       }
+
+      setBookmark(globals.titleBookMarked, globals.indexBookMarked,
+          globals.indexFaslBookMarked, globals.codeBookMarked);
     });
   }
 }

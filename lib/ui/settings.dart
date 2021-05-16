@@ -39,7 +39,7 @@ class _SettingsState extends State<Settings> {
   ];
 
   List ThemeList = [
-    'اندروید',
+    'اتوماتیک',
     'روشن',
     'تاریک',
   ];
@@ -174,12 +174,19 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
-    Map<String, bool> theme = {
+    Map<String, bool> themeMap = {
       LocaleKeys.lightMode.tr(): currentTheme == ThemeMode.light ? true : false,
       LocaleKeys.darkMode.tr(): currentTheme == ThemeMode.dark ? true : false,
       LocaleKeys.systemMode.tr():
           currentTheme == ThemeMode.system ? true : false
     };
+
+    List theme = [
+      currentTheme == ThemeMode.system ? true : false,
+      currentTheme == ThemeMode.light ? true : false,
+      currentTheme == ThemeMode.dark ? true : false,
+    ];
+
     var ui = Provider.of<UiState>(context);
     // var dark = Provider.of<ThemeNotifier>(context);
     return Scaffold(
@@ -193,49 +200,74 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: <Widget>[
-          CardSetting(
-            title: 'تم تاریک',
-            leading: Switch(
-              activeColor: Colors.green,
-
-              value: currentTheme == ThemeMode.dark ? true : false,
-//              value: tempDarkMode,
-              onChanged: (newValue) {
-                setState(() {
-//                   themeType = newValue;
-// //                    ui.fontSizeTozih = newValue;
-// //                   setDarkModeActive(newValue);
-//                   globals.darkMode = newValue;
-                  // dark.switchTheme();
-                  // setThemeType(newValue);
-                  selectDarkMode();
-                });
-              },
-            ),
-          ),
+//           CardSetting(
+//             title: 'تم تاریک',
+//             leading: Switch(
+//               activeColor: Colors.green,
+//
+//               value: currentTheme == ThemeMode.dark ? true : false,
+// //              value: tempDarkMode,
+//               onChanged: (newValue) {
+//                 setState(() {
+// //                   themeType = newValue;
+// // //                    ui.fontSizeTozih = newValue;
+// // //                   setDarkModeActive(newValue);
+// //                   globals.darkMode = newValue;
+//                   // dark.switchTheme();
+//                   // setThemeType(newValue);
+//                   currentTheme == ThemeMode.dark
+//                       ? selectLightMode()
+//                       : selectDarkMode();
+//                 });
+//               },
+//             ),
+//           ),
           // _buildThemeButton,
           CardSetting(
-            title: 'تغییر تم',
+            title: 'تم',
             leading: DropdownButton(
-                value: FontArabicList.indexOf(tempFontArabic),
+                value: theme.indexWhere((value) => value == true),
                 items: [
                   DropdownMenuItem(
-                    child: Text(FontArabicList[0]),
+                    child: Text(
+                      ThemeList[0],
+                      style: TextStyle(
+                        color: theme.indexWhere((value) => value == true) == 0
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
                     value: 0,
                   ),
                   DropdownMenuItem(
-                    child: Text(FontArabicList[1]),
+                    child: Text(
+                      ThemeList[1],
+                      style: TextStyle(
+                        color: theme.indexWhere((value) => value == true) == 1
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
                     value: 1,
                   ),
-                  DropdownMenuItem(child: Text(FontArabicList[2]), value: 2),
-                  DropdownMenuItem(child: Text(FontArabicList[3]), value: 3),
-                  DropdownMenuItem(child: Text(FontArabicList[4]), value: 4)
+                  DropdownMenuItem(
+                      child: Text(
+                        ThemeList[2],
+                        style: TextStyle(
+                          color: theme.indexWhere((value) => value == true) == 2
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 2),
                 ],
                 onChanged: (value) {
                   setState(() {
-                    tempFontArabic = FontArabicList[value];
-                    ui.fontFormat = tempFontArabic;
-                    setFontArabic(FontArabicList[value]);
+                    value == 0
+                        ? selectSystemThemeMode()
+                        : value == 1
+                            ? selectLightMode()
+                            : selectDarkMode();
                   });
                 }),
           ),
@@ -306,16 +338,57 @@ class _SettingsState extends State<Settings> {
                 value: FontArabicList.indexOf(tempFontArabic),
                 items: [
                   DropdownMenuItem(
-                    child: Text(FontArabicList[0]),
+                    child: Text(
+                      FontArabicList[0],
+                      style: TextStyle(
+                        color: tempFontArabic == FontArabicList[0]
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
                     value: 0,
                   ),
                   DropdownMenuItem(
-                    child: Text(FontArabicList[1]),
+                    child: Text(
+                      FontArabicList[1],
+                      style: TextStyle(
+                        color: tempFontArabic == FontArabicList[1]
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
                     value: 1,
                   ),
-                  DropdownMenuItem(child: Text(FontArabicList[2]), value: 2),
-                  DropdownMenuItem(child: Text(FontArabicList[3]), value: 3),
-                  DropdownMenuItem(child: Text(FontArabicList[4]), value: 4)
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[2],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[2]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 2),
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[3],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[3]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 3),
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[4],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[4]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 4)
                 ],
                 onChanged: (value) {
                   setState(() {
