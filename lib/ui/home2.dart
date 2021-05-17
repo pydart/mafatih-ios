@@ -29,10 +29,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   /// Used for Bottom Navigation
   int indexTabHome = 0;
-  final APP_STORE_URL =
-      'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftwareUpdate?id=YOUR-APP-ID&mt=8';
-  final PLAY_STORE_URL =
-      'https://play.google.com/store/apps/details?id=pydart.mafatih';
+
+  // final PLAY_STORE_URL =
+  //     'https://play.google.com/store/apps/details?id=pydart.mafatih';
+
+  final PLAY_STORE_URL = 'https://cafebazaar.ir/app/pydart.mafatih';
+
   String postUrl = 'https://videoir.com/mafatih.php';
   String newVersionBuildNumber;
   double currentBuildNumber;
@@ -630,6 +632,26 @@ class Drawers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Google Play
+    // String urlAshoura =
+    //     "https://play.google.com/store/apps/details?id=pydart.ashoura";
+    // String urlTavasol =
+    //     "https://play.google.com/store/apps/details?id=pydart.tavasol";
+    // String urlAlyasin = "https://cafebazaar.ir/app/pydart.aalyasin";
+    // String urlKasa =
+    //     "https://play.google.com/store/apps/details?id=pydart.kasa";
+    // String urlAahd =
+    //     "https://play.google.com/store/apps/details?id=pydart.aahd";
+    // String urlNodbe = "https://cafebazaar.ir/app/pydart.nodbe";
+
+    //Bazar
+    String urlAshoura = "https://cafebazaar.ir/app/pydart.ashoura";
+    String urlTavasol = "https://cafebazaar.ir/app/pydart.tavasol";
+    String urlAlyasin = "https://cafebazaar.ir/app/pydart.aalyasin";
+    String urlKasa = "https://cafebazaar.ir/app/pydart.kasa";
+    String urlAahd = "https://cafebazaar.ir/app/pydart.aahd";
+    String urlNodbe = "https://cafebazaar.ir/app/pydart.nodbe";
+
     return Scaffold(
       body: Container(
         color: Colors.transparent,
@@ -739,8 +761,7 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url =
-                      "https://play.google.com/store/apps/details?id=pydart.ashoura";
+                  String url = urlAshoura;
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -772,8 +793,7 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url =
-                      "https://play.google.com/store/apps/details?id=pydart.tavasol";
+                  String url = urlTavasol;
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -805,7 +825,7 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.aalyasin";
+                  String url = urlAlyasin;
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -837,8 +857,7 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url =
-                      "https://play.google.com/store/apps/details?id=pydart.kasa";
+                  String url = urlKasa;
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -870,8 +889,7 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url =
-                      "https://play.google.com/store/apps/details?id=pydart.aahd";
+                  String url = urlAahd;
                   if (await canLaunch(url))
                     await launch(url);
                   else
@@ -903,7 +921,7 @@ class Drawers extends StatelessWidget {
                 ),
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.nodbe";
+                  String url = urlNodbe;
                   if (await canLaunch(url))
                     await launch(url);
                   else
