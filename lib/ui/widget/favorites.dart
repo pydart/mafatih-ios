@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -180,12 +181,30 @@ class _FavoritesState extends State<Favorites> {
                           child: new ListTile(
                               // children: <Widget>[
                               // ListTile(
-                              title: Center(
-                                child: Text(
-                                  globals.mapBookMarked[index]
-                                      ['titleBookMarked'],
-                                  style: AppStyle.title,
-                                  textAlign: TextAlign.center,
+
+                              // leading: Icon(
+                              //   Icons.height,
+                              //   color: Colors.grey.withOpacity(0.5),
+                              // ),
+                              title: IntrinsicHeight(
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      child: Text(
+                                        globals.mapBookMarked[index]
+                                            ['titleBookMarked'],
+                                        style: AppStyle.title,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      child: Icon(
+                                        Icons.height,
+                                        color: Colors.grey.withOpacity(0.5),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               contentPadding: EdgeInsets.symmetric(
@@ -245,7 +264,6 @@ class _FavoritesState extends State<Favorites> {
                                       globals.mapBookMarked = mapBookMarked;
                                     });
                                   });
-                                  ;
                                 } else if (globals.mapBookMarked[index]
                                             ['indexFaslBookMarked'] ==
                                         4 &&
@@ -350,7 +368,14 @@ class _FavoritesState extends State<Favorites> {
                                 }
                               })))),
               onReorder: reorderData,
-            )));
+            )),
+        bottomNavigationBar: AdmobBanner(
+          adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+          adSize: AdmobBannerSize.BANNER,
+          // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          //   if (event == AdmobAdEvent.clicked) {}
+          // },
+        ));
   }
 
   void reorderData(int oldindex, int newindex) {

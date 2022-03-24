@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 // import 'package:screen/screen.dart';
 import 'package:mafatih/data/themes.dart';
@@ -496,9 +497,16 @@ class _SettingsState extends State<Settings> {
 //              ),
             ),
           ),
-          SizedBox(
-            height: 50,
-          )
+          // SizedBox(
+          //   height: 50,
+          // )
+          AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+            adSize: AdmobBannerSize.BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
         ],
       ),
     );

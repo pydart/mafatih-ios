@@ -1,6 +1,6 @@
 name: mafatih
 description: Mafatih
-version: 1.0.0+22
+version: 1.0.0+24
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -63,6 +63,7 @@ flutter:
     - python/Babs/4/
     - python/Babs/5/
     - python/Babs/6/
+    - python/Babs/7/
     - assets/lang/
   fonts:
     - family: far_nazanin

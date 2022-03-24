@@ -930,6 +930,13 @@ class Drawers extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: AdmobBanner(
+        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        adSize: AdmobBannerSize.BANNER,
+        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //   if (event == AdmobAdEvent.clicked) {}
+        // },
+      ),
     );
   }
 }

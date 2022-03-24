@@ -26,7 +26,8 @@ NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(EasyLocalization(
     supportedLocales: [
       AppConstants.TR_LOCALE,

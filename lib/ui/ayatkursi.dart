@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/models/ayatkursi.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
@@ -54,7 +55,14 @@ class _AyatKursiState extends State<AyatKursi> {
                   ],
                 ),
               ),
-            )
+            ),
+            AdmobBanner(
+              adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+              adSize: AdmobBannerSize.BANNER,
+              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //   if (event == AdmobAdEvent.clicked) {}
+              // },
+            ),
           ],
         ),
       ),

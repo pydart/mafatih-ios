@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
@@ -174,6 +175,8 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void initState() {
+    print(
+        "************************************************************************** detail sec ");
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
 
@@ -562,6 +565,13 @@ class _DetailSecState extends State<DetailSec> {
               : Center(child: CircularProgressIndicator());
         },
       ),
+      // bottomNavigationBar: AdmobBanner(
+      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+      //   adSize: AdmobBannerSize.BANNER,
+      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+      //   //   if (event == AdmobAdEvent.clicked) {}
+      //   // },
+      // ),
     );
   }
 }
