@@ -226,7 +226,7 @@ class _SettingsState extends State<Settings> {
 //           ),
           // _buildThemeButton,
           CardSetting(
-            title: 'تم',
+            title: 'پوسته برنامه',
             leading: DropdownButton(
                 value: theme.indexWhere((value) => value == true),
                 items: [

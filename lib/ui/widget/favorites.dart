@@ -279,9 +279,11 @@ class _FavoritesState extends State<Favorites> {
                                                     globals.mapBookMarked[index]
                                                         ['indexBookMarked'],
                                                 // 1,
-                                                indexFasl:
-                                                    globals.mapBookMarked[index]
-                                                        ['indexFaslBookMarked'],
+                                                indexFasl: globals
+                                                                .mapBookMarked[
+                                                            index][
+                                                        'indexFaslBookMarked'] +
+                                                    1,
                                                 code:
                                                     globals.mapBookMarked[index]
                                                         ['codeBookMarked'],

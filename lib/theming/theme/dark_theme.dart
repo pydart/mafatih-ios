@@ -22,7 +22,7 @@ final themeDarkData = ThemeData(
   // primaryColor: AppColors.colorDarkPrimary,
   // accentColor: AppColors.colorDarkSecondary,
   // backgroundColor: AppColors.colorDarkSecondary,
-  // splashColor: AppColors.colorDarkThird,
+  splashColor: Colors.green,
   // highlightColor: AppColors.colorDarkThird,
   // cardColor: AppColors.colorDarkPrimary,
   // dividerColor: AppColors.colorDarkThird,

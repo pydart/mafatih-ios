@@ -4,19 +4,11 @@
     <item android:drawable="@android:color/white" />
 
 
-    <!-- You can insert your own image assets here -->
-<!--    <item>-->
-<!--        <bitmap-->
-<!--            android:gravity="center"-->
-<!--            android:src="@drawable/startup" />-->
-<!--    </item>-->
-
-<!--        &lt;!&ndash;<item android:drawable="@android:color/white" />&ndash;&gt;-->
-
-<!--&lt;!&ndash;            />&ndash;&gt;-->
-<!--&lt;!&ndash;        android:src="@mipmap/launch_image" />&ndash;&gt;-->
-
-<!--    </item>-->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/launch_image" />
+    </item>
 </layer-list>
     <!--            android:width="100dp"-->
     <!--            android:height="100dp"-->

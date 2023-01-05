@@ -25,7 +25,7 @@ final themeLightData = ThemeData(
   // accentColor: AppColors.colorLightSecondary,
   // backgroundColor: AppColors.colorLightSecondary,
   // primaryColorDark: AppColors.colorDarkPrimary,
-  // splashColor: AppColors.colorLightSecondary,
+  splashColor: Colors.white,
   // highlightColor: AppColors.colorLightSecondary,
   // cardColor: AppColors.colorLightCardColors,
   // dividerColor: AppColors.colorLightPrimary,
