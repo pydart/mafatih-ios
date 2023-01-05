@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/themes.dart';
 
-var themeNotifier = ThemeNotifier();
+// var themeNotifier = ThemeNotifier();
 
 class AppStyle {
   static double ayahsize = 26.0;
@@ -20,6 +20,8 @@ class AppStyle {
     fontSize: 16.0,
     fontFamily: 'IRANSans',
   );
+
+  static final textQuranfontFamily = 'عربی ساده';
 
   static final titleFasl = TextStyle(
     fontSize: 16.0,
@@ -52,9 +54,15 @@ class AppStyle {
       height: 1.2); //color: Hexcolor('#212121'),
 
   static final about = TextStyle(
-      fontSize: 20.0,
-      fontFamily: 'far_nazanin',
-      height: 1.2); //color: Hexcolor('#212121'),
+      fontSize: 16.0,
+      fontFamily: 'IRANSans',
+      height: 1.5); //color: Hexcolor('#212121'),
+
+  static final contactus = TextStyle(
+      fontSize: 16.0,
+      fontFamily: 'IRANSans',
+      height: 1.5,
+      color: Colors.grey); //color: Hexcolor('#212121'),
 
   static final end2subtitle = TextStyle(
       fontSize: 18.0,
@@ -73,7 +81,7 @@ class AppStyle {
   static final setting = TextStyle(fontSize: 16.0, fontFamily: 'IRANSans');
 //      color: Hexcolor('#212121')
   static final settingRelated =
-      TextStyle(fontSize: 18.0, fontFamily: 'IRANSans', color: Colors.green);
+      TextStyle(fontSize: 14.0, fontFamily: 'IRANSans', color: Colors.green);
 
   static final detailsurahTitle = TextStyle(
       fontSize: 20.0,

@@ -29,6 +29,7 @@ List<String> titleBookMarked;
 List<int> indexBookMarked;
 List<int> indexFaslBookMarked;
 List<int> codeBookMarked;
+List<dynamic> mapBookMarked;
 
 /// -------------- @Defaults values
 /// if bookmarkedPage not defined
@@ -53,6 +54,7 @@ const BOOKMARKED_PAGE_title = 'bookmarkedPageTitle';
 const BOOKMARKED_PAGE_index = 'bookmarkedPageIndex';
 const BOOKMARKED_PAGE_indexFasl = 'bookmarkedPageIndexFasl';
 const BOOKMARKED_PAGE_Code = 'bookmarkedPageCode';
+const BOOKMARKED_MAP = 'bookmarkedMap';
 
 const FontArabic = 'FontArabic';
 const FontArabic_LEVEL = 'FontArabic_level';

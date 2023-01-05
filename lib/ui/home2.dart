@@ -1,3 +1,4 @@
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +9,7 @@ import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import '../constants.dart';
 import 'home_about.dart';
 import 'listpage/listFasl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,33 +31,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   /// Used for Bottom Navigation
   int indexTabHome = 0;
-  final APP_STORE_URL =
-      'https://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftwareUpdate?id=YOUR-APP-ID&mt=8';
-  final PLAY_STORE_URL = 'https://cafebazaar.ir/app/pydart.mafatih';
-  String postUrl = 'https://mafatih.herokuapp.com/buildnumber';
   String newVersionBuildNumber;
   double currentBuildNumber;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _getBuildNumber() async {
     try {
-//      Response response = await Dio().get(postUrl);
-      http.Response response = await http.get(postUrl).whenComplete(() {
-        print(
-            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Complete");
-      });
-      print(
-          ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>response");
+      http.Response response =
+          await http.get(Constants.newVersionUrl).whenComplete(() {});
       if (response.statusCode == 200) {
-        print(
-            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>response.statusCode == 200");
         var Results = response.body;
         newVersionBuildNumber = Results;
-        print(
-            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> newVersionBuildNumber >>>>>>>> $newVersionBuildNumber");
-//        setState(() {
-//          newVersionBuildNumber = Results;
-//        });
       } else {
         throw Exception('Failed to load');
       }
@@ -65,43 +51,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   versionCheck(context) async {
-    print(
-        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           currentVersion');
-    //Get Current installed version of app
     final PackageInfo info = await PackageInfo.fromPlatform();
-//    double currentVersion =
-//        double.parse(info.version.trim().replaceAll(".", ""));
-//    currentBuildNumber =
-//        double.parse(info.buildNumber.trim().replaceAll(".", ""));
     currentBuildNumber = double.parse(info.buildNumber);
-    print(
-        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   $currentBuildNumber         currentVersion');
     await _getBuildNumber();
-    print(
-        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% newVersionBuildNumber          ${double.parse(newVersionBuildNumber)} ');
-    print(
-        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% currentBuildNumber          $currentBuildNumber ');
     setState(() {
       currentBuildNumber = currentBuildNumber > 1000
           ? currentBuildNumber - 1000
           : currentBuildNumber;
     });
     try {
-//      //Get Latest version info from firebase config
-//      final RemoteConfig remoteConfig = await RemoteConfig.instance;
-//      // Using default duration to force fetching from remote server.
-//      await remoteConfig.fetch(expiration: const Duration(seconds: 0));
-//      await remoteConfig.activateFetched();
-//      remoteConfig.getString('force_update_current_version');
-//      double newVersion = double.parse(remoteConfig
-//          .getString('force_update_current_version')
-//          .trim()
-//          .replaceAll(".", ""));
-
       if (double.parse(newVersionBuildNumber) > currentBuildNumber) {
-        print(
-            '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           ${prefs.containsKey(globals.LaterDialog)}');
-//        _showVersionDialog(context);
         if (!prefs.containsKey(globals.LaterDialog)) {
           await _upgrader();
         }
@@ -109,13 +68,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     } catch (e) {
       print("Exception Caught: $e");
     }
-//    on FetchThrottledException catch (exception) {
-//      // Fetch throttled.
-//      print(exception);
-//    } catch (exception) {
-//      print('Unable to fetch remote config. Cached or default values will be '
-//          'used');
-//    }
   }
 
 //  MyGlobals myGlobals = MyGlobals();
@@ -495,22 +447,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title:
-                  Text("نسخه جدیدی از برنامه برای به روزرسانی موجود می باشد.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'IRANSans',
-                        fontSize: 16,
-                      )),
+              title: Text("نسخه جدیدی از برنامه برای بروزرسانی موجود می باشد.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'IRANSans',
+                    fontSize: 16,
+                  )),
               actions: <Widget>[
                 FlatButton(
-                  child: Text("به روزرسانی",
+                  child: Text("بروزرسانی",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Colors.green,
                         fontFamily: 'IRANSans',
                         fontSize: 16,
                       )),
-                  onPressed: () => _launchURL(PLAY_STORE_URL),
+                  onPressed: () => _launchURL(Constants.PLAY_STORE_URL),
 //                  onPressed: () => Navigator.pop(context, true),
                 ),
                 FlatButton(
@@ -539,30 +491,30 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         // onWillPop: _onBackPressed,
         onWillPop: onWillPop,
         child: Scaffold(
-            drawer: Container(
-                child: Drawer(child: Drawers()),
+          drawer: Container(
+              child: Drawer(child: Drawers()),
 //        width: 700.0 / MediaQuery.of(context).devicePixelRatio,
-                width: 200),
-            body: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    pinned: true,
-                    title: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/font_mafatih.png',
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? Colors.white
-                                    : Colors.green,
-                            height: 150,
-                            width: 152,
-                          ),
-                        ]),
-                    actions: <Widget>[
+              width: 200),
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  pinned: true,
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/font_mafatih.png',
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.white
+                                  : Colors.green,
+                          height: 150,
+                          width: 152,
+                        ),
+                      ]),
+                  actions: <Widget>[
 //                  IconButton(
 //                    icon: Icon(Icons.search),
 //                    onPressed: () {
@@ -571,50 +523,51 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 //                    },
 //                  ),
 
-                      IconButton(
-                        icon: Icon(Icons.search),
-                        onPressed: () {
-                          showSearch(context: context, delegate: NotesSearch());
-                        },
-                      ),
-                    ],
-                  )
-                ];
-              },
-              body: Container(
-                // decoration: BoxDecoration(
-                //   image: DecorationImage(
-                //     image: AssetImage("assets/bitmap.png"),
-                //     fit: BoxFit.fill,
-                //   ),
-                // ),
-                child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  body: ListView(
-                    // controller: _tabController,
-                    children: <Widget>[
-                      ListFasl(),
-                      // Text(
-                      //   'برای حمایت از ما روی تبلیغ ذیل کلیک فرماییدِ',
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //     fontFamily: 'عربی ساده',
-                      //     fontSize: 12,
-                      //     height: 1.5,
-                      //   ),
-                      // ),
-                    ],
-                  ),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        showSearch(context: context, delegate: NotesSearch());
+                      },
+                    ),
+                  ],
+                )
+              ];
+            },
+            body: Container(
+              // decoration: BoxDecoration(
+              //   image: DecorationImage(
+              //     image: AssetImage("assets/bitmap.png"),
+              //     fit: BoxFit.fill,
+              //   ),
+              // ),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: ListView(
+                  // controller: _tabController,
+                  children: <Widget>[
+                    ListFasl(),
+                    // Text(
+                    //   'برای حمایت از ما روی تبلیغ ذیل کلیک فرماییدِ',
+                    //   textAlign: TextAlign.center,
+                    //   style: TextStyle(
+                    //     fontFamily: 'عربی ساده',
+                    //     fontSize: 12,
+                    //     height: 1.5,
+                    //   ),
+                    // ),
+                  ],
                 ),
               ),
             ),
-            bottomNavigationBar: AdmobBanner(
-              adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-              adSize: AdmobBannerSize.BANNER,
-              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-              //   if (event == AdmobAdEvent.clicked) {}
-              // },
-            )),
+          ),
+          bottomNavigationBar: AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+            adSize: AdmobBannerSize.BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
+        ),
       ),
     );
 //      ),
@@ -629,6 +582,8 @@ class Drawers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isInstalled;
+
     return Scaffold(
       body: Container(
         color: Colors.transparent,
@@ -705,111 +660,152 @@ class Drawers extends StatelessWidget {
 //              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () => Navigator.popAndPushNamed(context, '/settings')),
             Text(
-              '  مرتبط ها',
+              '   دیگر برنامه ها',
               style: AppStyle.settingRelated,
             ),
             Container(
               height: 1,
-              color: Colors.green[500],
+              color: Color(0xf6c40c0c),
             ),
             ListTile(
-                subtitle: Row(
-//                  spacing: 12, // space between two icons
+                leading: Wrap(
+                  spacing: 12, // space between two icons
                   children: <Widget>[
-//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-//                  new Image.asset("assets/asmaIcon.png"),
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: new Image.asset(
-                        "assets/ashoura.png",
-                        height: 45,
-                        width: 45,
-                      ),
-                    ),
-
-                    Text(
-                      '  زیارت عاشورا',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-//              trailing: Icon(Icons.keyboard_arrow_left),
-                onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.ashoura";
-                  if (await canLaunch(url))
-                    await launch(url);
-                  else
-                    throw 'Could not launch $url';
-                }),
-            ListTile(
-                subtitle: Row(
-                  children: <Widget>[
-//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-//                  new Image.asset("assets/asmaIcon.png"),
                     new IconTheme(
                       data: new IconThemeData(
                         color: null,
                       ), //IconThemeData
 
                       child: Container(
-                        child: new Image.asset("assets/tavasol.png"),
-//                        color: Colors.white,
-                        height: 45,
-                        width: 45,
+                        child: new Image.asset("assets/ashoura.png"),
+                        height: 25,
+                        width: 25,
                       ),
                     ),
-
                     Text(
-                      '  دعای توسل',
+                      'زیارت عاشورا',
                       style: AppStyle.setting,
                     ),
                   ],
                 ),
-//              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.tavasol";
-                  if (await canLaunch(url))
-                    await launch(url);
-                  else
-                    throw 'Could not launch $url';
+                  isInstalled =
+                      await DeviceApps.isAppInstalled('pydart.ashoura');
+                  if (isInstalled) {
+                    DeviceApps.openApp('pydart.ashoura');
+                  } else {
+                    String url = Constants.storeUrlAshoura;
+                    if (await canLaunch(url))
+                      await launch(url);
+                    else
+                      throw 'Could not launch $url';
+                  }
                 }),
             ListTile(
-                subtitle: Row(
+                leading: Wrap(
+                  spacing: 12, // space between two icons
                   children: <Widget>[
-//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-//                  new Image.asset("assets/asmaIcon.png"),
                     new IconTheme(
                       data: new IconThemeData(
                         color: null,
                       ), //IconThemeData
 
                       child: Container(
-                        child: new Image.asset("assets/aalyasin.png"),
-//                        color: Colors.white,
-                        height: 45,
-                        width: 45,
+                        child: new Image.asset("assets/komeil.png"),
+                        height: 25,
+                        width: 25,
                       ),
                     ),
-
                     Text(
-                      '  زیارت آل یاسین',
+                      'دعای کمیل',
                       style: AppStyle.setting,
                     ),
                   ],
                 ),
-//              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.aalyasin";
-                  if (await canLaunch(url))
-                    await launch(url);
-                  else
-                    throw 'Could not launch $url';
+                  isInstalled =
+                      await DeviceApps.isAppInstalled('pydart.komeil');
+                  if (isInstalled) {
+                    DeviceApps.openApp('pydart.komeil');
+                  } else {
+                    String url = Constants.storeUrlKomeil;
+                    if (await canLaunch(url))
+                      await launch(url);
+                    else
+                      throw 'Could not launch $url';
+                  }
                 }),
             ListTile(
-                subtitle: Row(
+                leading: Wrap(
+                  spacing: 12, // space between two icons
+                  children: <Widget>[
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
+
+                      child: Container(
+                        child: new Image.asset("assets/aahd.png"),
+//                        color: Colors.white,
+                        height: 25,
+                        width: 25,
+                      ),
+                    ),
+                    Text(
+                      'دعای عهد',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
+                onTap: () async {
+                  isInstalled = await DeviceApps.isAppInstalled('pydart.aahd');
+                  if (isInstalled) {
+                    DeviceApps.openApp('pydart.aahd');
+                  } else {
+                    String url = Constants.storeUrlAahd;
+                    if (await canLaunch(url))
+                      await launch(url);
+                    else
+                      throw 'Could not launch $url';
+                  }
+                }),
+            ListTile(
+                leading: Wrap(
+                  spacing: 12, // space between two icons
+                  children: <Widget>[
+                    new IconTheme(
+                      data: new IconThemeData(
+                        color: null,
+                      ), //IconThemeData
+
+                      child: Container(
+                        child: new Image.asset("assets/nodbe.png"),
+//                        color: Colors.white,
+                        height: 25,
+                        width: 25,
+                      ),
+                    ),
+                    Text(
+                      'دعای ندبه',
+                      style: AppStyle.setting,
+                    ),
+                  ],
+                ),
+                onTap: () async {
+                  isInstalled = await DeviceApps.isAppInstalled('pydart.nodbe');
+                  if (isInstalled) {
+                    DeviceApps.openApp('pydart.nodbe');
+                  } else {
+                    String url = Constants.storeUrlNodbe;
+                    if (await canLaunch(url))
+                      await launch(url);
+                    else
+                      throw 'Could not launch $url';
+                  }
+                }),
+            ListTile(
+                leading: Wrap(
+                  spacing: 12, // space between two icons
                   children: <Widget>[
 //                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
 //                  new Image.asset("assets/asmaIcon.png"),
@@ -821,91 +817,38 @@ class Drawers extends StatelessWidget {
                       child: Container(
                         child: new Image.asset("assets/kasa.png"),
 //                        color: Colors.white,
-                        height: 45,
-                        width: 45,
+                        height: 25,
+                        width: 25,
                       ),
                     ),
 
                     Text(
-                      '  حدیث کسا',
+                      'حدیث کسا',
                       style: AppStyle.setting,
                     ),
                   ],
                 ),
-//              trailing: Icon(Icons.keyboard_arrow_left),
                 onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.kasa";
-                  if (await canLaunch(url))
-                    await launch(url);
-                  else
-                    throw 'Could not launch $url';
-                }),
-            ListTile(
-                subtitle: Row(
-                  children: <Widget>[
-//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-//                  new Image.asset("assets/asmaIcon.png"),
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/aahd.png"),
-//                        color: Colors.white,
-                        height: 45,
-                        width: 45,
-                      ),
-                    ),
-
-                    Text(
-                      '  دعای عهد',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-//              trailing: Icon(Icons.keyboard_arrow_left),
-                onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.aahd";
-                  if (await canLaunch(url))
-                    await launch(url);
-                  else
-                    throw 'Could not launch $url';
-                }),
-            ListTile(
-                subtitle: Row(
-                  children: <Widget>[
-//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-//                  new Image.asset("assets/asmaIcon.png"),
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/nodbe.png"),
-//                        color: Colors.white,
-                        height: 45,
-                        width: 45,
-                      ),
-                    ),
-
-                    Text(
-                      '  دعای ندبه',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-//              trailing: Icon(Icons.keyboard_arrow_left),
-                onTap: () async {
-                  String url = "https://cafebazaar.ir/app/pydart.nodbe";
-                  if (await canLaunch(url))
-                    await launch(url);
-                  else
-                    throw 'Could not launch $url';
+                  isInstalled = await DeviceApps.isAppInstalled('pydart.kasa');
+                  if (isInstalled) {
+                    DeviceApps.openApp('pydart.kasa');
+                  } else {
+                    String url = Constants.storeUrlKasa;
+                    if (await canLaunch(url))
+                      await launch(url);
+                    else
+                      throw 'Could not launch $url';
+                  }
                 }),
           ],
         ),
+      ),
+      bottomNavigationBar: AdmobBanner(
+        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        adSize: AdmobBannerSize.BANNER,
+        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //   if (event == AdmobAdEvent.clicked) {}
+        // },
       ),
     );
   }

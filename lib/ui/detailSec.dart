@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
@@ -47,7 +48,7 @@ class _DetailSecState extends State<DetailSec> {
   int indexCurrentPage;
   int indexFaslCurrentPage;
   int codeCurrentPage;
-  var themeNotifier = ThemeNotifier();
+  // var themeNotifier = ThemeNotifier();
 
   ScrollController _controller;
   final itemSize = globals.fontTozihLevel * 1.7;
@@ -104,7 +105,8 @@ class _DetailSecState extends State<DetailSec> {
                 globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
                 globals.codeBookMarked.add(globals.codeCurrentPage);
                 isBookmarked = true;
-
+                print(
+                    "${globals.codeCurrentPage} -----------------------------------------------globals.codeCurrentPage------------------------------------------------");
                 print(
                     "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               });
@@ -173,6 +175,8 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void initState() {
+    print(
+        "************************************************************************** detail sec ");
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
 
@@ -180,7 +184,7 @@ class _DetailSecState extends State<DetailSec> {
         "************************************************************************** widget.indexFasl " +
             widget.indexFasl.toString());
     print(
-        "************************************************************************** widget.indexFasl " +
+        "************************************************************************** widget.index " +
             widget.index.toString());
 
     setState(() {
@@ -276,6 +280,7 @@ class _DetailSecState extends State<DetailSec> {
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
+
     return
 //      WillPopScope(
 //      onWillPop: _onBackPressed,
@@ -302,6 +307,7 @@ class _DetailSecState extends State<DetailSec> {
           },
         ),
         title: Center(
+
             // child: Text(
             //   widget.detail,
             //   style: AppStyle.titleupdetailsec,
@@ -325,6 +331,9 @@ class _DetailSecState extends State<DetailSec> {
         future: ServiceData().loadSec(widget.indexFasl, widget.index),
         builder: (c, snapshot) {
           if (snapshot.hasData) {
+            print("*********************************************** " +
+                widget.indexFasl.toString());
+
             titleCurrentPage = snapshot.data.title;
             globals.titleCurrentPage = titleCurrentPage;
             indexCurrentPage = snapshot.data.number;
@@ -334,8 +343,7 @@ class _DetailSecState extends State<DetailSec> {
             codeCurrentPage = indexFaslCurrentPage * 1000 + indexCurrentPage;
             globals.codeCurrentPage = codeCurrentPage;
             print(
-                "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
-                    titleCurrentPage);
+                "codeCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   $codeCurrentPage");
           }
 
           return snapshot.hasData
@@ -557,6 +565,13 @@ class _DetailSecState extends State<DetailSec> {
               : Center(child: CircularProgressIndicator());
         },
       ),
+      // bottomNavigationBar: AdmobBanner(
+      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+      //   adSize: AdmobBannerSize.BANNER,
+      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+      //   //   if (event == AdmobAdEvent.clicked) {}
+      //   // },
+      // ),
     );
   }
 }

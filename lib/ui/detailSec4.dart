@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
@@ -50,7 +51,7 @@ class _DetailSec4State extends State<DetailSec4> {
   int indexCurrentPage;
   int indexFaslCurrentPage;
   int codeCurrentPage;
-  var themeNotifier = ThemeNotifier();
+  // var themeNotifier = ThemeNotifier();
 
   ScrollController _controller;
   final itemSize = globals.fontTozihLevel * 1.7;
@@ -300,200 +301,192 @@ class _DetailSec4State extends State<DetailSec4> {
 //      onWillPop: () async => true,
 
         Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(
-                  Icons.bookmark,
-                  color: iconBookmarkcolor,
-                ),
-                onPressed: () {
-                  String smsSaved = "با موفقیت به منتخب ها افزوده شد";
-                  String smsRemoved = "با موفقیت از منتخب ها حذف شد";
-                  Fluttertoast.showToast(
-                      msg: isBookmarked ? smsRemoved : smsSaved,
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.green,
-                      textColor: Colors.white,
-                      fontSize: 18.0);
-                  _onItemTapped(2);
-                },
-              ),
-              title: Center(
-                  child: Text(
-                widget.detail,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: AppStyle.titleupdetailsec,
-                maxLines: 2,
-              )),
-              elevation: 0.0,
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Settings()))),
-              ],
-            ),
-            body: (ui.terjemahan == true)
-                ? FutureBuilder<DailyDoa4>(
-                    future:
-                        ServiceData().loadSec4(widget.indexFasl, widget.index),
-                    builder: (c, snapshot) {
-                      if (snapshot.hasData) {
-                        titleCurrentPage = snapshot.data.title;
-                        globals.titleCurrentPage = titleCurrentPage;
-                        indexCurrentPage = snapshot.data.number;
-                        globals.indexCurrentPage = indexCurrentPage;
-                        indexFaslCurrentPage = snapshot.data.bab;
-                        globals.indexFaslCurrentPage = indexFaslCurrentPage;
-                        codeCurrentPage =
-                            indexFaslCurrentPage * 1000 + indexCurrentPage;
-                        globals.codeCurrentPage = codeCurrentPage;
-                        print(
-                            "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
-                                titleCurrentPage);
-                      }
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.bookmark,
+            color: iconBookmarkcolor,
+          ),
+          onPressed: () {
+            String smsSaved = "با موفقیت به منتخب ها افزوده شد";
+            String smsRemoved = "با موفقیت از منتخب ها حذف شد";
+            Fluttertoast.showToast(
+                msg: isBookmarked ? smsRemoved : smsSaved,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 18.0);
+            _onItemTapped(2);
+          },
+        ),
+        title: Center(
+            child: Text(
+          widget.detail,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          style: AppStyle.titleupdetailsec,
+          maxLines: 2,
+        )),
+        elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Settings()))),
+        ],
+      ),
+      body: (ui.terjemahan == true)
+          ? FutureBuilder<DailyDoa4>(
+              future: ServiceData().loadSec4(widget.indexFasl, widget.index),
+              builder: (c, snapshot) {
+                if (snapshot.hasData) {
+                  titleCurrentPage = snapshot.data.title;
+                  globals.titleCurrentPage = titleCurrentPage;
+                  indexCurrentPage = snapshot.data.number;
+                  globals.indexCurrentPage = indexCurrentPage;
+                  indexFaslCurrentPage = snapshot.data.bab;
+                  globals.indexFaslCurrentPage = indexFaslCurrentPage;
+                  codeCurrentPage =
+                      indexFaslCurrentPage * 1000 + indexCurrentPage;
+                  globals.codeCurrentPage = codeCurrentPage;
+                  print(
+                      "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
+                          titleCurrentPage);
+                }
 
-                      return snapshot.hasData
-                          ? Column(children: <Widget>[
-                              Expanded(
-                                child: Scrollbar(
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    controller: _controller,
-                                    // itemExtent: 10000,
-                                    physics: AlwaysScrollableScrollPhysics(),
-                                    itemCount: snapshot.data.arabic.length,
-                                    itemBuilder: (BuildContext c, int i) {
-                                      String key = snapshot.data.arabic.keys
-                                          .elementAt(i);
-                                      // return Padding(
-                                      //   padding: const EdgeInsets.symmetric(
-                                      //       horizontal: 15.0, vertical: 5.0),
-                                      return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                return snapshot.hasData
+                    ? Column(children: <Widget>[
+                        Expanded(
+                          child: Scrollbar(
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              controller: _controller,
+                              // itemExtent: 10000,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: snapshot.data.arabic.length,
+                              itemBuilder: (BuildContext c, int i) {
+                                String key =
+                                    snapshot.data.arabic.keys.elementAt(i);
+                                // return Padding(
+                                //   padding: const EdgeInsets.symmetric(
+                                //       horizontal: 15.0, vertical: 5.0),
+                                return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5.0),
+                                        child: Column(
                                           children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 5.0),
-                                              child: Column(
-                                                children: <Widget>[
-                                                  if (int.parse(key) -
-                                                          snapshot.data.delay ==
-                                                      1)
-                                                    ListTile(
-                                                      dense: true,
-                                                      title: Text(
-                                                        'بِسْمِ اللَّـهِ الرَّ حْمَـٰنِ الرَّ حِيمِ',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'عربی ساده',
+                                            if (int.parse(key) -
+                                                    snapshot.data.delay ==
+                                                1)
+                                              ListTile(
+                                                dense: true,
+                                                title: Text(
+                                                  'بِسْمِ اللَّـهِ الرَّ حْمَـٰنِ الرَّ حِيمِ',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: AppStyle
+                                                        .textQuranfontFamily,
 
 //                                          fontSize: ui.fontSizeTozih,
-                                                          fontSize: 1.2 *
-                                                              globals
-                                                                  .fontArabicLevel,
-                                                          height: 1,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  if (snapshot.data
-                                                              .arabic[key] !=
-                                                          "" &&
-                                                      snapshot.data
-                                                              .arabic[key] !=
-                                                          null &&
-                                                      widget.indexFasl >= 4)
-                                                    ListTile(
-                                                      dense: true,
-                                                      title: RichText(
-                                                        textAlign:
-                                                            TextAlign.right,
-                                                        text: TextSpan(
-                                                          text: replaceFarsiNumber((snapshot
-                                                                          .data
-                                                                          .arabic[
-                                                                      key] +
-                                                                  '﴿' +
-                                                                  (int.parse(key) -
-                                                                          snapshot
-                                                                              .data
-                                                                              .delay)
-                                                                      .toString() +
-                                                                  '﴾')
-                                                              .toString()),
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'عربی ساده',
-                                                            fontSize: 1.2 *
-                                                                globals
-                                                                    .fontArabicLevel,
-                                                            height: 1.5,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .accentColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  if (snapshot.data
-                                                              .farsi[key] !=
-                                                          null &&
-                                                      snapshot.data
-                                                              .farsi[key] !=
-                                                          "")
-//
-                                                    ListTile(
-                                                      dense: true,
-                                                      title: RichText(
-                                                        textAlign:
-                                                            TextAlign.justify,
-                                                        text: TextSpan(
-                                                          children:
-                                                              highlightOccurrencesDetailSec(
-                                                                  snapshot.data
-                                                                          .farsi[
-                                                                      key],
-                                                                  widget.query,
-                                                                  globals.fontTarjLevel +
-                                                                      4),
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                'عربی ساده',
-                                                            fontSize: globals
-                                                                .fontTarjLevel,
-                                                            height: 1.5,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .accentColor,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                ],
+                                                    fontSize: 1.2 *
+                                                        globals.fontArabicLevel,
+                                                    height: 1,
+                                                  ),
+                                                ),
                                               ),
-                                            )
-                                          ]);
-                                    },
-                                  ),
-                                ),
-                              )
-                            ])
-                          : Center(child: CircularProgressIndicator());
-                    },
-                  )
-                : DetailSec55(
-                    detail: widget.detail,
-                    index: widget.index,
-                    indent: widget.indent,
-                    indexFasl: 5,
-                    code: widget.indexFasl * 1000 + widget.index,
-                  ));
+                                            if (snapshot.data.arabic[key] !=
+                                                    "" &&
+                                                snapshot.data.arabic[key] !=
+                                                    null &&
+                                                widget.indexFasl >= 4)
+                                              ListTile(
+                                                dense: true,
+                                                title: RichText(
+                                                  textAlign: TextAlign.right,
+                                                  text: TextSpan(
+                                                    text: replaceFarsiNumber((snapshot
+                                                                .data
+                                                                .arabic[key] +
+                                                            '﴿' +
+                                                            (int.parse(key) -
+                                                                    snapshot
+                                                                        .data
+                                                                        .delay)
+                                                                .toString() +
+                                                            '﴾')
+                                                        .toString()),
+                                                    style: TextStyle(
+                                                      fontFamily: AppStyle
+                                                          .textQuranfontFamily,
+                                                      fontSize: 1.2 *
+                                                          globals
+                                                              .fontArabicLevel,
+                                                      height: 1.5,
+                                                      color: Theme.of(context)
+                                                          .accentColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            if (snapshot.data.farsi[key] !=
+                                                    null &&
+                                                snapshot.data.farsi[key] != "")
+//
+                                              ListTile(
+                                                dense: true,
+                                                title: RichText(
+                                                  textAlign: TextAlign.justify,
+                                                  text: TextSpan(
+                                                    children:
+                                                        highlightOccurrencesDetailSec(
+                                                            snapshot.data
+                                                                .farsi[key],
+                                                            widget.query,
+                                                            globals.fontTarjLevel +
+                                                                4),
+                                                    style: TextStyle(
+                                                      fontFamily: 'عربی ساده',
+                                                      fontSize:
+                                                          globals.fontTarjLevel,
+                                                      height: 1.5,
+                                                      color: Theme.of(context)
+                                                          .accentColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      )
+                                    ]);
+                              },
+                            ),
+                          ),
+                        )
+                      ])
+                    : Center(child: CircularProgressIndicator());
+              },
+            )
+          : DetailSec55(
+              detail: widget.detail,
+              index: widget.index,
+              indent: widget.indent,
+              indexFasl: 5,
+              code: widget.indexFasl * 1000 + widget.index,
+            ),
+      // bottomNavigationBar: AdmobBanner(
+      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+      //   adSize: AdmobBannerSize.BANNER,
+      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+      //   //   if (event == AdmobAdEvent.clicked) {}
+      //   // },
+      // ),
+    );
   }
 }

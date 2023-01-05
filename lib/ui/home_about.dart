@@ -2,6 +2,7 @@ import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mafatih/data/utils/style.dart';
 import 'package:provider/provider.dart';
 
 import 'ayatkursi.dart';
@@ -42,7 +43,7 @@ class _HomeAboutState extends State<HomeAbout>
 //              onPressed: () =>
 //                  Navigator.of(context).popUntil((route) => route.isFirst),
             ),
-            title: Text('درباره برنامه'),
+            title: Text('درباره برنامه', style: AppStyle.detailsurahTitle),
             elevation: 0.0,
           )
         ];

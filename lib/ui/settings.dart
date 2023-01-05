@@ -1,13 +1,18 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 // import 'package:screen/screen.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
+import 'package:mafatih/theming/theme/custom_theme_mode.dart';
+import 'package:mafatih/theming/theme/locale_keys.g.dart';
+import 'package:mafatih/theming/theme/select_button.dart';
 import 'package:mafatih/ui/widget/cardsetting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart' show Provider;
+import 'package:easy_localization/easy_localization.dart';
 
 import 'home2.dart';
 
@@ -32,6 +37,12 @@ class _SettingsState extends State<Settings> {
     'عربی ساده',
     'زر',
     'القلم',
+  ];
+
+  List ThemeList = [
+    'اتوماتیک',
+    'روشن',
+    'تاریک',
   ];
 
   bool tempTarjActive = globals.tarjActive;
@@ -112,39 +123,155 @@ class _SettingsState extends State<Settings> {
     FlutterScreen.setBrightness(globals.brightnessLevel);
   }
 
+  void selectLightMode() => Provider.of<CustomThemeMode>(context, listen: false)
+      .setThemeMode(ThemeMode.light);
+  void selectDarkMode() => Provider.of<CustomThemeMode>(context, listen: false)
+      .setThemeMode(ThemeMode.dark);
+  void selectSystemThemeMode() =>
+      Provider.of<CustomThemeMode>(context, listen: false)
+          .setThemeMode(ThemeMode.system);
+
+  Widget get _buildThemeButton {
+    ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
+    Map<String, bool> theme = {
+      LocaleKeys.lightMode.tr(): currentTheme == ThemeMode.light ? true : false,
+      LocaleKeys.darkMode.tr(): currentTheme == ThemeMode.dark ? true : false,
+      LocaleKeys.systemMode.tr():
+          currentTheme == ThemeMode.system ? true : false
+    };
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Container(
+            height: MediaQuery.of(context).size.height * .082,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: theme.length,
+              itemBuilder: (BuildContext context, int index) {
+                return SelectButton(
+                  title: theme.keys.toList()[index],
+                  onOff: theme.values.toList()[index],
+                  onPressed: () => setState(() {
+                    theme.forEach((key, value) {
+                      theme[key] =
+                          key == theme.keys.toList()[index] ? true : false;
+                      (theme.values.toList()[0] == true)
+                          ? selectLightMode()
+                          : (theme.values.toList()[1] == true)
+                              ? selectDarkMode()
+                              : selectSystemThemeMode();
+                    });
+                  }),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
+    Map<String, bool> themeMap = {
+      LocaleKeys.lightMode.tr(): currentTheme == ThemeMode.light ? true : false,
+      LocaleKeys.darkMode.tr(): currentTheme == ThemeMode.dark ? true : false,
+      LocaleKeys.systemMode.tr():
+          currentTheme == ThemeMode.system ? true : false
+    };
+
+    List theme = [
+      currentTheme == ThemeMode.system ? true : false,
+      currentTheme == ThemeMode.light ? true : false,
+      currentTheme == ThemeMode.dark ? true : false,
+    ];
+
     var ui = Provider.of<UiState>(context);
-    var dark = Provider.of<ThemeNotifier>(context);
+    // var dark = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.keyboard_backspace),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        centerTitle: true,
         title: Text('تنظیمات'),
         elevation: 0.0,
       ),
       body: ListView(
         children: <Widget>[
+//           CardSetting(
+//             title: 'تم تاریک',
+//             leading: Switch(
+//               activeColor: Colors.green,
+//
+//               value: currentTheme == ThemeMode.dark ? true : false,
+// //              value: tempDarkMode,
+//               onChanged: (newValue) {
+//                 setState(() {
+// //                   themeType = newValue;
+// // //                    ui.fontSizeTozih = newValue;
+// // //                   setDarkModeActive(newValue);
+// //                   globals.darkMode = newValue;
+//                   // dark.switchTheme();
+//                   // setThemeType(newValue);
+//                   currentTheme == ThemeMode.dark
+//                       ? selectLightMode()
+//                       : selectDarkMode();
+//                 });
+//               },
+//             ),
+//           ),
+          // _buildThemeButton,
           CardSetting(
-            title: 'تم تاریک',
-            leading: Switch(
-              activeColor: Colors.green,
-
-              value: themeType,
-//              value: tempDarkMode,
-              onChanged: (newValue) {
-                setState(() {
-                  themeType = newValue;
-//                    ui.fontSizeTozih = newValue;
-//                   setDarkModeActive(newValue);
-                  globals.darkMode = newValue;
-                  dark.switchTheme();
-                  setThemeType(newValue);
-                });
-              },
-            ),
+            title: 'پوسته برنامه',
+            leading: DropdownButton(
+                value: theme.indexWhere((value) => value == true),
+                items: [
+                  DropdownMenuItem(
+                    child: Text(
+                      ThemeList[0],
+                      style: TextStyle(
+                        color: theme.indexWhere((value) => value == true) == 0
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
+                    value: 0,
+                  ),
+                  DropdownMenuItem(
+                    child: Text(
+                      ThemeList[1],
+                      style: TextStyle(
+                        color: theme.indexWhere((value) => value == true) == 1
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                      child: Text(
+                        ThemeList[2],
+                        style: TextStyle(
+                          color: theme.indexWhere((value) => value == true) == 2
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 2),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    value == 0
+                        ? selectSystemThemeMode()
+                        : value == 1
+                            ? selectLightMode()
+                            : selectDarkMode();
+                  });
+                }),
           ),
           CardSetting(
             title: 'ترجمه',
@@ -213,16 +340,57 @@ class _SettingsState extends State<Settings> {
                 value: FontArabicList.indexOf(tempFontArabic),
                 items: [
                   DropdownMenuItem(
-                    child: Text(FontArabicList[0]),
+                    child: Text(
+                      FontArabicList[0],
+                      style: TextStyle(
+                        color: tempFontArabic == FontArabicList[0]
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
                     value: 0,
                   ),
                   DropdownMenuItem(
-                    child: Text(FontArabicList[1]),
+                    child: Text(
+                      FontArabicList[1],
+                      style: TextStyle(
+                        color: tempFontArabic == FontArabicList[1]
+                            ? Colors.green
+                            : null,
+                      ),
+                    ),
                     value: 1,
                   ),
-                  DropdownMenuItem(child: Text(FontArabicList[2]), value: 2),
-                  DropdownMenuItem(child: Text(FontArabicList[3]), value: 3),
-                  DropdownMenuItem(child: Text(FontArabicList[4]), value: 4)
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[2],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[2]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 2),
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[3],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[3]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 3),
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[4],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[4]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 4)
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -297,7 +465,7 @@ class _SettingsState extends State<Settings> {
                   tempFontArabic = 'نیریزی دو';
                 });
                 if (globals.themeType) {
-                  dark.switchTheme();
+                  // dark.switchTheme();
                   // setDarkModeActive(themeType);
                   globals.themeType = themeType;
                   setThemeType(themeType);
@@ -312,6 +480,9 @@ class _SettingsState extends State<Settings> {
                 setFontArabicLevel(tempFontArabicLevel);
                 ui.fontFormat = tempFontArabic;
                 setFontArabic(tempFontArabic);
+                globals.brightnessActive = false;
+                setBrightnessActive(false);
+                selectSystemThemeMode();
               },
 //              child: Container(
 //                decoration: const BoxDecoration(
@@ -326,9 +497,16 @@ class _SettingsState extends State<Settings> {
 //              ),
             ),
           ),
-          SizedBox(
-            height: 50,
-          )
+          // SizedBox(
+          //   height: 50,
+          // )
+          AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+            adSize: AdmobBannerSize.BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
         ],
       ),
     );

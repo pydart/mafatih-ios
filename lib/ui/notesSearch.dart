@@ -1,14 +1,12 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/models/MixedTextInfoAll.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:flutter/material.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/ui/detailSec4.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:mafatih/ui/detailSec5.dart';
-
-import 'loading.dart';
 
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   @override
@@ -18,13 +16,19 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   TextStyle get searchFieldStyle => TextStyle(
         color: Colors.white,
         fontSize: 18.0,
+        decoration: TextDecoration.none,
       );
 
   List<MixedTextInfoAll> notes;
   List<MixedTextInfoAll> filteredNotes = [];
+  List<MixedTextInfoAll> filteredNotesTitle = [];
+  List<MixedTextInfoAll> filteredNotesArabic = [];
+
   bool titleSearchActive = true;
   bool textSearchActive = false;
   List<int> selectedDoa = [
+    3082,
+    2229,
     1110,
     1119,
     1122,
@@ -45,6 +49,10 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     1115,
     1117,
     1118,
+    6010,
+    7056,
+    7057,
+    3028,
   ];
 
   bool loading = false;
@@ -53,11 +61,11 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   ThemeData appBarTheme(BuildContext context) {
     assert(context != null);
     final ThemeData theme = Theme.of(context).copyWith(
-        hintColor: Colors.green,
+        hintColor: Theme.of(context).accentColor,
         primaryColor: Colors.white54,
         textTheme: TextTheme(
-          title: TextStyle(
-            color: Colors.green,
+          headline6: TextStyle(
+            color: Theme.of(context).accentColor,
             fontWeight: FontWeight.bold,
             fontFamily: 'IRANSans',
             fontSize: 20,
@@ -74,7 +82,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
           ? IconButton(
               icon: Icon(
                 Icons.clear,
-                color: Colors.green,
+                color: Theme.of(context).splashColor,
               ),
               onPressed: () {
                 query = '';
@@ -89,7 +97,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     return IconButton(
       icon: Icon(
         Icons.arrow_back,
-        color: Colors.green,
+        color: Theme.of(context).splashColor,
       ),
 
       onPressed: () => Navigator.pop(context),
@@ -130,7 +138,14 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                 fontWeight: FontWeight.w900,
                 fontFamily: 'IRANSans',
               ),
-            )
+            ),
+            AdmobBanner(
+              adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+              adSize: AdmobBannerSize.FULL_BANNER,
+              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //   if (event == AdmobAdEvent.clicked) {}
+              // },
+            ),
           ],
         )),
       );
@@ -178,7 +193,14 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                         fontWeight: FontWeight.w900,
                         fontFamily: 'IRANSans',
                       ),
-                    )
+                    ),
+                    AdmobBanner(
+                      adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+                      adSize: AdmobBannerSize.FULL_BANNER,
+                      // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                      //   if (event == AdmobAdEvent.clicked) {}
+                      // },
+                    ),
                   ],
                 )),
               );
@@ -190,77 +212,211 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     builder: (BuildContext context, StateSetter setState) {
                   setState(() => loading = false);
 
-                  return ListView.builder(
-                    itemCount:
-                        filteredNotes.length == null ? 0 : filteredNotes.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.all(0.0),
-                        child: ListTile(
-                          title: Row(
-                            children: <Widget>[
-                              selectedDoa.contains(
-                                      1000 * filteredNotes[index].bab +
-                                          filteredNotes[index].indexbab)
-                                  ? Icon(
-                                      Icons.star,
-                                      color: Colors.grey,
-                                    )
-                                  : Container(),
-                              RichText(
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                  children: highlightOccurrences(
-                                      filteredNotes[index].title, query),
-                                  style: TextStyle(
-                                    fontFamily: 'IRANSans',
-                                    fontSize: 17,
-                                    color: Theme.of(context)
-                                        .accentColor, // color: Colors.grey,
-                                  ),
+                  return Column(
+                    children: [
+                      ListView.builder(
+                        itemCount: filteredNotes.length == null
+                            ? 0
+                            : filteredNotesTitle.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: EdgeInsets.all(0.0),
+                            child: Column(
+                              children: [
+                                textSearchActive
+                                    ? ListTile(
+                                        title: Row(
+                                          children: <Widget>[
+                                            selectedDoa.contains(1000 *
+                                                        filteredNotesTitle[
+                                                                index]
+                                                            .bab +
+                                                    filteredNotesTitle[index]
+                                                        .indexbab)
+                                                ? Icon(
+                                                    Icons.star,
+                                                    color: Colors.green,
+                                                  )
+                                                : Container(),
+                                            RichText(
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              text: TextSpan(
+                                                children: highlightOccurrences(
+                                                    filteredNotesTitle[index]
+                                                        .title,
+                                                    query),
+                                                style: TextStyle(
+                                                  fontFamily: 'IRANSans',
+                                                  fontSize: 17,
+                                                  color: Theme.of(context)
+                                                      .accentColor, // color: Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+//                                         subtitle: RichText(
+//                                           maxLines: 2,
+//                                           overflow: TextOverflow.ellipsis,
+//                                           text: TextSpan(
+//                                             children: highlightOccurrences(
+//                                                 filteredNotesTitle[index]
+//                                                     .arabic,
+//                                                 ""),
+//                                             style: TextStyle(
+//                                               fontFamily: 'IRANSans',
+//                                               fontSize: 12,
+// //                              color: Theme.of(context)
+// //                                  .accentColor, // color: Colors.grey,
+//                                               color: Colors.grey[
+//                                                   600], // color: Colors.grey,
+// //
+// //                                  color: Colors.grey,
+//                                             ),
+//                                           ),
+//                                         ),
+
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailSec(
+                                                  detail:
+                                                      filteredNotesTitle[index]
+                                                          .titleDetail,
+                                                  index:
+                                                      filteredNotesTitle[index]
+                                                          .indexbab,
+                                                  indexFasl:
+                                                      filteredNotesTitle[index]
+                                                          .bab,
+                                                  query: query,
+                                                  code: filteredNotesTitle[
+                                                                  index]
+                                                              .bab *
+                                                          1000 +
+                                                      filteredNotesTitle[index]
+                                                          .indexbab),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : Container(),
+                                AdmobBanner(
+                                  adUnitId:
+                                      'ca-app-pub-5524959616213219/7557264464',
+                                  adSize: AdmobBannerSize.BANNER,
+                                  // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                                  //   if (event == AdmobAdEvent.clicked) {}
+                                  // },
                                 ),
-                              ),
-                            ],
-                          ),
-                          subtitle: RichText(
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            text: TextSpan(
-                              children: highlightOccurrences(
-                                  filteredNotes[index].arabic, ""),
-                              style: TextStyle(
-                                fontFamily: 'IRANSans',
-                                fontSize: 12,
-//                              color: Theme.of(context)
-//                                  .accentColor, // color: Colors.grey,
-                                color: Colors.grey[600], // color: Colors.grey,
-//
-//                                  color: Colors.grey,
-                              ),
+                              ],
                             ),
-                          ),
-//                        //[1009,1010,1011,1014,1017,1028, 1029,1030,1031,1032,1033,1034,1110,1119,1122,1124,1132,3153,3222,3224,3216,]
-//                        leading: filteredNotes[index].index == 3
-//                            ? Icon(Icons.star)
-//                            : null,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailSec(
-                                    detail: filteredNotes[index].titleDetail,
-                                    index: filteredNotes[index].indexbab,
-                                    indexFasl: filteredNotes[index].bab,
-                                    query: query,
-                                    code: filteredNotes[index].bab * 1000 +
-                                        filteredNotes[index].indexbab),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
+                          );
+                        },
+                      ),
+                      textSearchActive
+                          ? ListView.builder(
+                              itemCount: filteredNotesArabic.length == null
+                                  ? 0
+                                  : filteredNotesArabic.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        title: Row(
+                                          children: <Widget>[
+                                            selectedDoa.contains(1000 *
+                                                        filteredNotesArabic[
+                                                                index]
+                                                            .bab +
+                                                    filteredNotesArabic[index]
+                                                        .indexbab)
+                                                ? Icon(
+                                                    Icons.star,
+                                                    color: Colors.green,
+                                                  )
+                                                : Container(),
+                                            Icon(Icons.text_snippet_outlined,
+                                                color: Colors.grey),
+                                            RichText(
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              text: TextSpan(
+                                                children: highlightOccurrences(
+                                                    filteredNotesArabic[index]
+                                                        .title,
+                                                    query),
+                                                style: TextStyle(
+                                                  fontFamily: 'IRANSans',
+                                                  fontSize: 17,
+                                                  color: Theme.of(context)
+                                                      .accentColor, // color: Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+//                                         subtitle: RichText(
+//                                           maxLines: 2,
+//                                           overflow: TextOverflow.ellipsis,
+//                                           text: TextSpan(
+//                                             children: highlightOccurrences(
+//                                                 filteredNotesArabic[index]
+//                                                     .arabic,
+//                                                 query),
+//                                             style: TextStyle(
+//                                               fontFamily: 'IRANSans',
+//                                               fontSize: 12,
+//                                               color: Colors.grey[
+//                                                   600], // color: Colors.grey,
+// //
+//                                             ),
+//                                           ),
+//                                         ),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailSec(
+                                                  detail:
+                                                      filteredNotesArabic[index]
+                                                          .titleDetail,
+                                                  index:
+                                                      filteredNotesArabic[index]
+                                                          .indexbab,
+                                                  indexFasl:
+                                                      filteredNotesArabic[index]
+                                                          .bab,
+                                                  query: query,
+                                                  code: filteredNotesArabic[
+                                                                  index]
+                                                              .bab *
+                                                          1000 +
+                                                      filteredNotesArabic[index]
+                                                          .indexbab),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      AdmobBanner(
+                                        adUnitId:
+                                            'ca-app-pub-5524959616213219/7557264464',
+                                        adSize: AdmobBannerSize.BANNER,
+                                        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                                        //   if (event == AdmobAdEvent.clicked) {}
+                                        // },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : Container(),
+                    ],
                   );
                 }),
               );
@@ -272,8 +428,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   List<MixedTextInfoAll> getFilteredList(List<MixedTextInfoAll> note) {
     loading = true;
     filteredNotes = [];
-    List<MixedTextInfoAll> filteredNotesTitle = [];
-    List<MixedTextInfoAll> filteredNotesArabic = [];
+    filteredNotesTitle = [];
+    filteredNotesArabic = [];
 
     for (int i = 0; i < note.length; i++) {
       if (titleSearchActive == true && note[i].title.contains(query)) //
@@ -283,9 +439,10 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
         filteredNotesTitle.add(note[i]);
       }
 
-      if (textSearchActive == true &&
-          note[i].arabic.contains(query) &&
-          !note[i].title.contains(query)) //
+      if (textSearchActive == true && note[i].arabic.contains(query)
+          // &&
+          // !note[i].title.contains(query)
+          ) //
       {
         filteredNotesArabic.add(note[i]);
       }
@@ -315,52 +472,52 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
 //        );
 //      });
         return Column(children: <Widget>[
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Row(
-//                mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("فهرست",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'IRANSans',
-                          fontSize: 18,
-                          color: Colors.green,
-                        )),
-                    Checkbox(
-                      activeColor: Colors.green,
-                      value: titleSearchActive,
-                      onChanged: (bool value) {
-                        setState(() {
-                          titleSearchActive = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                Row(
-//                mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("متن",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'IRANSans',
-                          fontSize: 18,
-                          color: Colors.green,
-                        )),
-                    Checkbox(
-                      value: textSearchActive,
-                      activeColor: Colors.green,
-                      onChanged: (bool value) {
-                        setState(() {
-                          textSearchActive = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ]),
+//           Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceAround,
+//               children: <Widget>[
+//                 Row(
+// //                mainAxisAlignment: MainAxisAlignment.center,
+//                   children: <Widget>[
+//                     Text("فهرست",
+//                         style: TextStyle(
+//                           fontWeight: FontWeight.bold,
+//                           fontFamily: 'IRANSans',
+//                           fontSize: 18,
+//                           color: Colors.green,
+//                         )),
+//                     Checkbox(
+//                       activeColor: Colors.green,
+//                       value: titleSearchActive,
+//                       onChanged: (bool value) {
+//                         setState(() {
+//                           titleSearchActive = value;
+//                         });
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//                 Row(
+// //                mainAxisAlignment: MainAxisAlignment.center,
+//                   children: <Widget>[
+//                     Text("متن",
+//                         style: TextStyle(
+//                           fontWeight: FontWeight.bold,
+//                           fontFamily: 'IRANSans',
+//                           fontSize: 18,
+//                           color: Colors.green,
+//                         )),
+//                     Checkbox(
+//                       value: textSearchActive,
+//                       activeColor: Colors.green,
+//                       onChanged: (bool value) {
+//                         setState(() {
+//                           textSearchActive = value;
+//                         });
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ]),
           Container(
             height: 1,
             color: Colors.green,
@@ -374,8 +531,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  width: 100,
-                  height: 100,
+                  width: 50,
+                  height: 50,
                   child: Container(
 //                    child: SvgPicture.asset("assets/zarebin.svg"),
                     child: Image.asset("assets/zarebin.png"),
@@ -392,7 +549,14 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     fontWeight: FontWeight.w900,
                     fontFamily: 'IRANSans',
                   ),
-                )
+                ),
+                AdmobBanner(
+                  adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+                  adSize: AdmobBannerSize.MEDIUM_RECTANGLE,
+                  // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                  //   if (event == AdmobAdEvent.clicked) {}
+                  // },
+                ),
               ],
             )),
           ),
@@ -440,7 +604,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                           filteredNotes[index].indexbab)
                                   ? Icon(
                                       Icons.star,
-                                      color: Colors.grey,
+                                      color: Colors.green,
                                     )
                                   : Container(),
                               Expanded(
@@ -462,30 +626,26 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                               ),
                             ],
                           ),
-                          subtitle: RichText(
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            text: TextSpan(
-                              children: textSearchActive
-                                  ? highlightOccurrences(
-                                      filteredNotes[index].arabic, query)
-                                  : highlightOccurrences(
-                                      filteredNotes[index].arabic, ""),
-                              style: TextStyle(
-                                fontFamily: 'IRANSans',
-                                fontSize: 12,
-//                              color: Theme.of(context)
-//                                  .accentColor, // color: Colors.grey,
-                                color: Colors.grey[600], // color: Colors.grey,
-//
-//                                  color: Colors.grey,
-                              ),
-                            ),
-                          ),
-//                        //[1009,1010,1011,1014,1017,1028, 1029,1030,1031,1032,1033,1034,1110,1119,1122,1124,1132,3153,3222,3224,3216,]
-//                        leading: filteredNotes[index].index == 3
-//                            ? Icon(Icons.star)
-//                            : null,
+//                           subtitle: RichText(
+//                             maxLines: 2,
+//                             overflow: TextOverflow.ellipsis,
+//                             text: TextSpan(
+//                               children: textSearchActive
+//                                   ? highlightOccurrences(
+//                                       filteredNotes[index].arabic, query)
+//                                   : highlightOccurrences(
+//                                       filteredNotes[index].arabic, ""),
+//                               style: TextStyle(
+//                                 fontFamily: 'IRANSans',
+//                                 fontSize: 12,
+// //                              color: Theme.of(context)
+// //                                  .accentColor, // color: Colors.grey,
+//                                 color: Colors.grey[600], // color: Colors.grey,
+// //
+// //                                  color: Colors.grey,
+//                               ),
+//                             ),
+//                           ),
                           onTap: () {
 /*                            Navigator.push(
                               context,
