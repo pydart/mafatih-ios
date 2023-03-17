@@ -1,6 +1,6 @@
 name: mafatih
 description: Mafatih
-version: 1.0.0+25
+version: 1.0.0+29
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
