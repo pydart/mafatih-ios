@@ -3,22 +3,31 @@ library mafatih.globals;
 import 'package:just_audio/just_audio.dart';
 
 
-Map<int, List<String>> haveAudio ={1110:['محسن فرهمند', 'میثم مطیعی', 'مهدی سماواتی']} ;
+Map<int, List<String>> haveAudio ={1110:['محسن فرهمند', 'میثم مطیعی'], 3153:['علی فانی', 'محسن فرهمند', 'میثم مطیعی', 'شهید قاسم سلیمانی']} ;
 // List haveAudio = [1110];
 
 int _nextMediaId = 0;
 String appNameEn="tavasol";
 
 // Define the playlist
-final playlist = {1110:ConcatenatingAudioSource(
-useLazyPreparation: true,
-shuffleOrder: DefaultShuffleOrder(),
+final playlist = {
+  1110:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
 children: [
-  AudioSource.uri(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3')),
-  AudioSource.uri(Uri.parse('https://cdn.pixabay.com/download/audio/2021/10/25/audio_47edc456e3.mp3?filename=simple-piano-melody-9834.mp3')),
-  AudioSource.uri(Uri.parse('https://cdn.pixabay.com/download/audio/2023/03/16/audio_df7d9198c3.mp3?filename=floating-abstract-142819.mp3')),
-],
-)};
+  AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/komeil/1-farahmand.mp3')),
+  AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/komeil/2-motiie.mp3')),
+]),
+  3153:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
+      children: [
+        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3')),
+        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/2-farahmand.mp3')),
+        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/3-motiie.mp3')),
+        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/4-soleimani.mp3')),
+      ]),
+
+
+
+
+};
 
 
 

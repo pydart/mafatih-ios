@@ -752,6 +752,7 @@ class ControlButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     String tempsound = globals.sound;
     var ui = Provider.of<UiState>(context);
+    int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
 
     return
       Row(
@@ -823,49 +824,49 @@ class ControlButtons extends StatelessWidget {
               ui.soundFormat = tempsound;
               setSound(tempsound);
               player?.stop();
-              _init(1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage);
+              _init(_jsonCode);
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              PopupMenuItem<String>(
+              haveAudio[_jsonCode].length>0? PopupMenuItem<String>(
                 value: '0',
-                child: Text(haveAudio[1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage][0]),
+                child: Text(haveAudio[_jsonCode][0]),
                 textStyle:TextStyle(
                   color: tempsound == '0'
-                      ? Theme.of(context).splashColor
+                      ? Colors.red
                       : Theme.of(context).accentColor,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              // PopupMenuItem<String>(
-              //   value: '1',
-              //   child: Text(soundList[1]),
-              //   textStyle:TextStyle(
-              //     color: tempsound == '1'
-              //         ? Theme.of(context).splashColor
-              //         : Theme.of(context).accentColor,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // PopupMenuItem<String>(
-              //   value: '2',
-              //   child: Text(soundList[2]),
-              //   textStyle:TextStyle(
-              //     color: tempsound == '2'
-              //         ? Theme.of(context).splashColor
-              //         : Theme.of(context).accentColor,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-//           PopupMenuItem<String>(
-//             value: '3',
-//             child: Text(soundList[3]),
-//             textStyle:TextStyle(
-//               color: tempsound == '3'
-//                   ? Theme.of(context).splashColor
-//                   : Theme.of(context).accentColor,
-//               fontWeight: FontWeight.bold,
-//              ),
-//            ),
+              ):null,
+              haveAudio[_jsonCode].length>1?PopupMenuItem<String>(
+                value: '1',
+                child: Text(haveAudio[_jsonCode][1]),
+                textStyle:TextStyle(
+                  color: tempsound == '1'
+                      ? Colors.red
+                      : Theme.of(context).accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ):null,
+              haveAudio[_jsonCode].length>2?PopupMenuItem<String>(
+                value: '2',
+                child: Text(haveAudio[_jsonCode][2]),
+                textStyle:TextStyle(
+                  color: tempsound == '2'
+                      ? Colors.red
+                      : Theme.of(context).accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ):null,
+              haveAudio[_jsonCode].length>3?PopupMenuItem<String>(
+            value: '3',
+            child: Text(haveAudio[_jsonCode][3]),
+            textStyle:TextStyle(
+              color: tempsound == '3'
+                  ? Colors.red
+                  : Theme.of(context).accentColor,
+              fontWeight: FontWeight.bold,
+             ),
+           ):null,
             ],
           ),
         ],
