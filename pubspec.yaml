@@ -44,6 +44,11 @@ dependencies:
   flutter_screen: ^0.0.2
   flutter_local_notifications: ^1.5.0+1
   device_apps: ^2.1.1
+  cached_network_image: ^2.5.1
+  week_of_year: ^2.0.0
+  just_audio: ^0.6.15+1
+#  just_audio_background: 0.0.1-beta.0+1
+  audio_session: ^0.0.11
 
 
 dev_dependencies:

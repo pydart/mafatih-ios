@@ -1,5 +1,27 @@
 library mafatih.globals;
 
+import 'package:just_audio/just_audio.dart';
+
+
+Map<int, List<String>> haveAudio ={1110:['محسن فرهمند', 'میثم مطیعی', 'مهدی سماواتی']} ;
+// List haveAudio = [1110];
+
+int _nextMediaId = 0;
+String appNameEn="tavasol";
+
+// Define the playlist
+final playlist = {1110:ConcatenatingAudioSource(
+useLazyPreparation: true,
+shuffleOrder: DefaultShuffleOrder(),
+children: [
+  AudioSource.uri(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3')),
+  AudioSource.uri(Uri.parse('https://cdn.pixabay.com/download/audio/2021/10/25/audio_47edc456e3.mp3?filename=simple-piano-melody-9834.mp3')),
+  AudioSource.uri(Uri.parse('https://cdn.pixabay.com/download/audio/2023/03/16/audio_df7d9198c3.mp3?filename=floating-abstract-142819.mp3')),
+],
+)};
+
+
+
 /// -------------- @Global values
 /// changes when onChanged Callback
 int currentPage;
@@ -16,6 +38,7 @@ double brightnessLevel;
 double brightnessLevelDefault;
 
 bool brightnessActive;
+String sound="0";
 
 String titleCurrentPage;
 int indexCurrentPage;
@@ -72,6 +95,8 @@ const TarjActive = 'TarjActive';
 const TozihActive = 'TozihActive';
 const DarkMode = 'DarkMode';
 const LaterDialog = 'LaterDialog';
+const TarjKhati = 'TarjKhati';
+const Sound = 'Sound';
 
 double fontArabicLevel;
 double fontTarjLevel;
@@ -83,3 +108,4 @@ bool tarjActive;
 bool tozihActive;
 bool darkMode;
 bool laterDialog;
+bool tarjKhati;

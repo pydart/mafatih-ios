@@ -45,6 +45,7 @@ class _SettingsState extends State<Settings> {
     'تاریک',
   ];
 
+  bool tempTarjKhati = globals.tarjKhati;
   bool tempTarjActive = globals.tarjActive;
   bool tempTozihActive = globals.tozihActive;
   // bool tempDarkMode = globals.darkMode;
@@ -92,6 +93,12 @@ class _SettingsState extends State<Settings> {
     globals.tarjActive = level;
     prefs = await SharedPreferences.getInstance();
     prefs.setBool(globals.TarjActive, level);
+  }
+
+  setTarjKhati(bool level) async {
+    globals.tarjKhati = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool(globals.TarjKhati, level);
   }
 
   setThemeType(bool level) async {
@@ -273,20 +280,59 @@ class _SettingsState extends State<Settings> {
                   });
                 }),
           ),
+          // CardSetting(
+          //   title: 'ترجمه',
+          //   leading: Switch(
+          //     activeColor: Colors.green,
+          //     value: tempTarjActive,
+          //     onChanged: (newValue) {
+          //       setState(() {
+          //         ui.terjemahan = newValue;
+          //         tempTarjActive = newValue;
+          //         setTarjActive(newValue);
+          //       });
+          //     },
+          //   ),
+          // ),
+
           CardSetting(
             title: 'ترجمه',
             leading: Switch(
-              activeColor: Colors.green,
+              activeColor: Color(0xf6c40c0c),
               value: tempTarjActive,
               onChanged: (newValue) {
                 setState(() {
                   ui.terjemahan = newValue;
                   tempTarjActive = newValue;
                   setTarjActive(newValue);
+
+                  tempTarjKhati = (newValue & globals.tarjKhati) ? true : false;
+                  print("***********************************************************************" + tempTarjKhati.toString());
+                  //
+                  ui.tarjKhatiSet = globals.tarjKhati;
+                  globals.tarjKhati = tempTarjKhati;
+                  setTarjKhati(globals.tarjKhati);
                 });
               },
             ),
           ),
+          tempTarjActive
+              ? CardSetting(
+            title: 'ترجمه خطی',
+            leading: Switch(
+              activeColor: Color(0xf6c40c0c),
+              value: tempTarjKhati,
+              onChanged: (newValue) {
+                setState(() {
+                  tempTarjKhati = newValue;
+                  globals.tarjKhati = tempTarjKhati;
+                  ui.tarjKhatiSet = tempTarjKhati;
+                  setTarjKhati(globals.tarjKhati);
+                });
+              },
+            ),
+          )
+              : Container(),
           CardSlider(
             title: 'سایز متن توضیحات ',
             slider: Slider(

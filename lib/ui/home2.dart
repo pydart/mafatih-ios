@@ -8,9 +8,11 @@ import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/library/Globals.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
+import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
+import 'drawer.dart';
 import 'home_about.dart';
 import 'listpage/listFasl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +37,58 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   String newVersionBuildNumber;
   double currentBuildNumber;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  String gif1Url="";
+  String gif2Url="";
+  String gif3Url="";
+
+  _getGif1Url() async {
+    try {
+      http.Response response =
+      await http.get(Uri.parse('https://videoir.com/apps_versions/gif1url.php')).whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        gif1Url = Results;
+        print("/////////////////////////////////////******************************************************** gif1url   $gif1Url");
+      } else {
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+  }
+
+  _getGif2Url() async {
+    try {
+      http.Response response =
+      await http.get(Uri.parse('https://videoir.com/apps_versions/gif2url.php')).whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        gif2Url = Results;
+        print("///////////////////////////////////// gif2Url   $gif2Url");
+      } else {
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+  }
+
+  _getGif3Url() async {
+    try {
+      http.Response response =
+      await http.get(Uri.parse('https://videoir.com/apps_versions/gif3url.php')).whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        gif3Url = Results;
+        print("/////////////////////////////////////******************************************************** gif3Url   $gif3Url");
+      } else {
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+  }
 
   _getBuildNumber() async {
     try {
@@ -323,6 +377,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     prefs = await SharedPreferences.getInstance();
     setState(() {
+      globals.tarjKhati = false;
       globals.tarjActive = true;
       globals.tozihActive = false;
       globals.darkMode = false;
@@ -346,6 +401,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       var _tarjActive = prefs.getBool(globals.TarjActive);
       setState(() {
         globals.tarjActive = _tarjActive;
+      });
+    }
+    if (prefs.containsKey(globals.TarjKhati)) {
+      var _tarjKhati = prefs.getBool(globals.TarjKhati);
+      setState(() {
+        globals.tarjKhati = _tarjKhati;
+        // ui.tarjKhatiSet=_tarjKhati;
       });
     }
     if (prefs.containsKey(globals.DarkMode)) {
@@ -518,7 +580,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         onWillPop: onWillPop,
         child: Scaffold(
           drawer: Container(
-              child: Drawer(child: Drawers()),
+              child: Drawer(child: Drawers(
+                  gif1Url: gif1Url,
+                  gif2Url: gif2Url,
+                  gif3Url: gif3Url,
+                  newVersionBuildNumber: newVersionBuildNumber,
+                  currentBuildNumber: currentBuildNumber),),
 //        width: 700.0 / MediaQuery.of(context).devicePixelRatio,
               width: 200),
           body: NestedScrollView(
@@ -601,281 +668,3 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 }
 
-class Drawers extends StatelessWidget {
-  const Drawers({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    bool isInstalled;
-
-    return Scaffold(
-      body: Container(
-        color: Colors.transparent,
-        child: ListView(
-//      padding: EdgeInsets.only(left: 80),
-          shrinkWrap: true,
-
-          children: <Widget>[
-            Container(
-              height: 130,
-//            color: Colors.green[500],
-              child: DrawerHeader(
-                margin: EdgeInsets.only(bottom: 0.0),
-                padding: EdgeInsets.only(right: 0, bottom: 0.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      height: 130,
-                      width: double.infinity,
-
-//                      child: SvgPicture.asset(
-//                        "assets/MafatihDrawer.svg",
-////                      fit: BoxFit.cover,
-////                      semanticsLabel: 'Feed button',
-////                      placeholderBuilder: (context) => Icon(Icons.error),
-//                      ),
-                      child: Image.asset("assets/MafatihDrawer.png"),
-
-//                    ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: 1,
-              color: Colors.green[500],
-            ),
-            ListTile(
-              leading: Wrap(
-                spacing: 12, // space between two icons
-                children: <Widget>[
-                  Icon(Icons.info), // icon-1
-                  Text(
-                    'درباره برنامه',
-                    style: AppStyle.setting,
-                  ),
-                ],
-              ),
-//            trailing: Icon(Icons.keyboard_arrow_left),
-              onTap: () => Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => new HomeAbout()),
-              ),
-//            onTap: () => Navigator.popAndPushNamed(context, '/ayatkursi'),
-            ),
-            ListTile(
-//              title: Text(
-//                'تنظیمات',
-////                textAlign: TextAlign.right,
-//              ),
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    Icon(Icons.settings), // icon-1
-                    Text(
-                      'تنظیمات',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-//              trailing: Icon(Icons.keyboard_arrow_left),
-                onTap: () => Navigator.popAndPushNamed(context, '/settings')),
-            Text(
-              '   دیگر برنامه ها',
-              style: AppStyle.settingRelated,
-            ),
-            Container(
-              height: 1,
-              color: Color(0xf6c40c0c),
-            ),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/ashoura.png"),
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'زیارت عاشورا',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled =
-                      await DeviceApps.isAppInstalled('pydart.ashoura');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.ashoura');
-                  } else {
-                    String url = Constants.storeUrlAshoura;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/komeil.png"),
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'دعای کمیل',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled =
-                      await DeviceApps.isAppInstalled('pydart.komeil');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.komeil');
-                  } else {
-                    String url = Constants.storeUrlKomeil;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/aahd.png"),
-//                        color: Colors.white,
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'دعای عهد',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled = await DeviceApps.isAppInstalled('pydart.aahd');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.aahd');
-                  } else {
-                    String url = Constants.storeUrlAahd;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/nodbe.png"),
-//                        color: Colors.white,
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'دعای ندبه',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled = await DeviceApps.isAppInstalled('pydart.nodbe');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.nodbe');
-                  } else {
-                    String url = Constants.storeUrlNodbe;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-//                  new Image.asset("assets/asmaIcon.png"),
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/kasa.png"),
-//                        color: Colors.white,
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-
-                    Text(
-                      'حدیث کسا',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled = await DeviceApps.isAppInstalled('pydart.kasa');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.kasa');
-                  } else {
-                    String url = Constants.storeUrlKasa;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-          ],
-        ),
-      ),
-      bottomNavigationBar: AdmobBanner(
-        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        adSize: AdmobBannerSize.BANNER,
-        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //   if (event == AdmobAdEvent.clicked) {}
-        // },
-      ),
-    );
-  }
-}

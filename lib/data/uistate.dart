@@ -67,12 +67,28 @@ class UiState with ChangeNotifier {
 
 
   static bool edameFarazGet = globals.edameFaraz;
-
   set edameFarazSet(newValue) {
     edameFarazGet = newValue;
     notifyListeners();
   }
-
   bool get edameFarazSet => edameFarazGet;
+
+  static bool tarjKhatiGet = globals.tarjKhati;
+  set tarjKhatiSet(newValue) {
+    tarjKhatiGet = newValue;
+    notifyListeners();
+  }
+  bool get tarjKhatiSet => tarjKhatiGet;
+
+  static String soundType = globals.sound;
+  set soundFormat(newValue) {
+    soundType = newValue;
+    String filePath = "assets/sounds/ashoura/$soundType.mp3";
+    // final assetsAudioPlayer = AssetsAudioPlayer();
+    // assetsAudioPlayer.open(Audio(filePath),
+    //     autoStart: false, respectSilentMode: false, showNotification: false);
+    notifyListeners();
+  }
+
 
 }

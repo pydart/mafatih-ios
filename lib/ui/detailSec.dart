@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mafatih/audio/common.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
+import 'package:mafatih/library/Globals.dart';
 import 'package:mafatih/ui/home2.dart';
 import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +20,9 @@ import 'package:mafatih/data/models/DailyDoa.dart';
 // import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:just_audio/just_audio.dart';
+import 'package:http/http.dart' as http;
+import 'package:rxdart/rxdart.dart';
 
 import 'notesSearch.dart';
 
@@ -57,7 +64,12 @@ class _DetailSecState extends State<DetailSec> {
   final itemSize = globals.fontTozihLevel * 1.7;
   final queryOffset = 100;
 
-
+  var client = http.Client();
+  String filePath = "assets/sounds/${globals.sound}.mp3";
+  bool isPlaying = false;
+  num curIndex = 0;
+  AudioPlayer _player;
+  String tempsound = globals.sound;
 
   // _moveUp() {
   //   //_controller.jumpTo(_controller.offset - itemSize);
@@ -73,6 +85,8 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void dispose() {
+    _player.stop();     _player.setLoopMode(LoopMode.off);
+    _player.dispose();
     print("************************************************************************dispos detailsec");
     _scrollController.dispose();
     super.dispose();
@@ -202,16 +216,13 @@ class _DetailSecState extends State<DetailSec> {
   void initState() {
 
 
-
+    _audioFiles();
+    _player = AudioPlayer();
 
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-          (globals.lastScrolledPixel),
-          duration: const Duration(milliseconds: 2000),
-          curve: Curves.fastOutSlowIn);
-    });
+    _init(1000 *widget.indexFasl + widget.index);
+
     print(
         "************************************************************************** detail sec ");
     // _controller = ScrollController();
@@ -320,6 +331,56 @@ class _DetailSecState extends State<DetailSec> {
 
   }
 
+  List<int> khatiedDoa = [
+  1110,3153];
+
+  Stream<PositionData> get _positionDataStream =>
+      Rx.combineLatest3<Duration, Duration, Duration, PositionData>(
+          _player.positionStream,
+          _player.bufferedPositionStream,
+          _player.durationStream,
+              (position, bufferedPosition, duration) => PositionData(
+              position, bufferedPosition, duration ?? Duration.zero));
+
+  Future<void> _init(jsonCode) async {
+    print("////////////////////////////////////.........................// _init   ${globals.sound}");
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.speech());
+    // Listen to errors during playback.
+    _player.playbackEventStream.listen((event) {},
+        onError: (Object e, StackTrace stackTrace) {
+          print('A stream error occurred: $e');
+        });
+    try {
+      print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
+      await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
+      setState(() {
+        _player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
+      });
+    } catch (e, stackTrace) {
+      // Catch load errors: 404, invalid url ...
+      print("Error loading playlist: $e");
+      print(stackTrace);
+    }
+  }
+
+  List file = [];
+  Future _audioFiles() async {
+    // >> To get paths you need these 2 lines
+    final manifestContent =
+    await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+
+    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+    // >> To get paths you need these 2 lines
+    final imagePaths = manifestMap.keys
+        .where((String key) => key.contains('assets/sounds/'))
+    // .where((String key) => key.contains('.mp3'))
+        .toList();
+
+    setState(() {
+      file = imagePaths;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -351,6 +412,34 @@ class _DetailSecState extends State<DetailSec> {
             _onItemTapped(2);
           },
         ),
+        bottom:
+        haveAudio.keys.toList().contains(1000 *widget.indexFasl + widget.index) ?
+
+        PreferredSize(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // SizedBox(height: 10,),
+                ControlButtons(_player),
+                StreamBuilder<PositionData>(
+                  stream: _positionDataStream,
+                  builder: (context, snapshot) {
+                    final positionData = snapshot.data;
+                    return SeekBar(
+                      duration: positionData?.duration ?? Duration.zero,
+                      position: positionData?.position ?? Duration.zero,
+                      bufferedPosition:
+                      positionData?.bufferedPosition ?? Duration.zero,
+                      onChangeEnd: (newPosition) {
+                        _player.seek(newPosition);
+                      },
+                    );
+                  },
+                ),
+              ]),
+          preferredSize: Size(0.0, 100.0),
+        ):null,
         title: Center(
 
             // child: Text(
@@ -373,14 +462,10 @@ class _DetailSecState extends State<DetailSec> {
         ],
       ),
       body: FutureBuilder<DailyDoa>(
-        future: ServiceData().loadSec(widget.indexFasl, widget.index),
+        future: ServiceData().loadSec(widget.indexFasl, globals.tarjKhati==true && khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
         builder: (c, snapshot) {
           if (snapshot.hasData) {
-
             getOtherSettings();
-            print("*********************************************** " +
-                widget.indexFasl.toString());
-
             titleCurrentPage = snapshot.data.title;
             globals.titleCurrentPage = titleCurrentPage;
             indexCurrentPage = snapshot.data.number;
@@ -389,8 +474,6 @@ class _DetailSecState extends State<DetailSec> {
             globals.indexFaslCurrentPage = indexFaslCurrentPage;
             codeCurrentPage = indexFaslCurrentPage * 1000 + indexCurrentPage;
             globals.codeCurrentPage = codeCurrentPage;
-            print(
-                "codeCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   $codeCurrentPage");
           }
 
           globals.edameFaraz==true?globals.edameFaraz=false:globals.edameFaraz=false;
@@ -631,5 +714,161 @@ class _DetailSecState extends State<DetailSec> {
       //   // },
       // ),
     );
+  }
+}
+class ControlButtons extends StatelessWidget {
+  final AudioPlayer player;
+
+  const ControlButtons(this.player, {Key key}) : super(key: key);
+  Future<void> _init(jsonCode) async {
+    print("////////////////////////////////////.........................// _init   ${globals.sound}");
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.speech());
+    // Listen to errors during playback.
+    player.playbackEventStream.listen((event) {},
+        onError: (Object e, StackTrace stackTrace) {
+          print('A stream error occurred: $e');
+        });
+    try {
+      print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
+      await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
+      await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
+
+      // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
+      // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
+
+    } catch (e, stackTrace) {
+      // Catch load errors: 404, invalid url ...
+      print("Error loading playlist: $e");
+      print(stackTrace);
+    }
+  }
+  setSound(String level) async {
+    globals.sound = level;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(globals.Sound, level);
+  }
+  @override
+  Widget build(BuildContext context) {
+    String tempsound = globals.sound;
+    var ui = Provider.of<UiState>(context);
+
+    return
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          StreamBuilder<double>(
+            stream: player.speedStream,
+            builder: (context, snapshot) => IconButton(
+              icon: Text("${snapshot.data?.toStringAsFixed(1)}x",
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () {
+                showSliderDialog(
+                  context: context,
+                  title: "تنظیم سرعت",
+                  divisions: 20,
+                  min: 0.1,
+                  max: 1.9,
+                  stream: player.speedStream,
+                  onChanged: player.setSpeed, value: player.speed,
+                );
+              },
+            ),
+          ),
+          StreamBuilder<PlayerState>(
+            stream: player.playerStateStream,
+            builder: (context, snapshot) {
+              final playerState = snapshot.data;
+              final processingState = playerState?.processingState;
+              final playing = playerState?.playing;
+              if (processingState == ProcessingState.loading ||
+                  processingState == ProcessingState.buffering) {
+                return Container(
+                  margin: const EdgeInsets.all(0.0),
+                  width: 30.0,
+                  height: 30.0,
+                  child: const CircularProgressIndicator(),
+                );
+              } else if (playing != true) {
+                return IconButton(
+                  icon: const Icon(Icons.play_arrow),
+                  iconSize: 30.0,
+                  onPressed: player.play,
+                );
+              } else if (processingState != ProcessingState.completed) {
+                return IconButton(
+                  icon: const Icon(Icons.pause),
+                  iconSize: 30.0,
+                  onPressed: player.pause,
+                );
+              } else {
+                return IconButton(
+                  icon: const Icon(Icons.replay),
+                  iconSize: 30.0,
+                  onPressed: () => player.seek(Duration.zero,
+                      index: player.effectiveIndices.first),
+                );
+              }
+            },
+          ),
+          PopupMenuButton<String>(
+            icon: Icon(Icons.playlist_play_outlined),
+
+            onSelected: (value) {
+              // int intIndexofValue=soundList.indexOf(value);
+              tempsound = value;
+              print('///////////////////////////              /////////////////   $tempsound');
+              print('///////////////////////////              /////////////////value   $value');
+
+              ui.soundFormat = tempsound;
+              setSound(tempsound);
+              player?.stop();
+              _init(1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage);
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              PopupMenuItem<String>(
+                value: '0',
+                child: Text(haveAudio[1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage][0]),
+                textStyle:TextStyle(
+                  color: tempsound == '0'
+                      ? Theme.of(context).splashColor
+                      : Theme.of(context).accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              // PopupMenuItem<String>(
+              //   value: '1',
+              //   child: Text(soundList[1]),
+              //   textStyle:TextStyle(
+              //     color: tempsound == '1'
+              //         ? Theme.of(context).splashColor
+              //         : Theme.of(context).accentColor,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              // PopupMenuItem<String>(
+              //   value: '2',
+              //   child: Text(soundList[2]),
+              //   textStyle:TextStyle(
+              //     color: tempsound == '2'
+              //         ? Theme.of(context).splashColor
+              //         : Theme.of(context).accentColor,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+//           PopupMenuItem<String>(
+//             value: '3',
+//             child: Text(soundList[3]),
+//             textStyle:TextStyle(
+//               color: tempsound == '3'
+//                   ? Theme.of(context).splashColor
+//                   : Theme.of(context).accentColor,
+//               fontWeight: FontWeight.bold,
+//              ),
+//            ),
+            ],
+          ),
+        ],
+      );
   }
 }

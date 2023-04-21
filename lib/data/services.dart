@@ -82,7 +82,7 @@ class ServiceData {
     return DailyDoa.fromJson(data);
   }
 
-  Future<DailyDoa> loadSec(int indexFasl, int number) async {
+  Future<DailyDoa> loadSec(int indexFasl, String number) async {
     final response =
         await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
     var res = json.decode(response);
