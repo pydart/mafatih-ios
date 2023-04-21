@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/themes.dart';
@@ -56,13 +58,6 @@ class _DetailSec5State extends State<DetailSec5> {
   ScrollController _controller;
   final itemSize = globals.fontTozihLevel * 1.7;
   final queryOffset = 100;
-  double _scrollPosition;
-
-  _scrollListener() {
-    setState(() {
-      _scrollPosition = _controller.position.pixels;
-    });
-  }
 
   _moveUp() {
     //_controller.jumpTo(_controller.offset - itemSize);
@@ -185,6 +180,30 @@ class _DetailSec5State extends State<DetailSec5> {
 
   /// Init Page Controller
   PageController pageController;
+  double _scrollPosition;
+  ScrollController _scrollController;
+  setLastScolledPixel(double level) async {
+    globals.lastScrolledPixel = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setDouble(globals.LAST_SCROLLED_PIXEL, level);
+    print('globals.lastScrolledPixel');
+    print(globals.lastScrolledPixel);
+  }
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+      setLastScolledPixel(_scrollPosition);
+    });
+  }
+  getLastScolledPixel() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
+      double _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
+      setState(() {
+        globals.lastScrolledPixel = _lastScrolledPixel;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -291,10 +310,21 @@ class _DetailSec5State extends State<DetailSec5> {
     }
     return children;
   }
+  void _scrollToPixel() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(globals.lastScrolledPixel,
+          duration: Duration(milliseconds: 100), curve: Curves.fastOutSlowIn);
+    } else {
+      Timer(Duration(milliseconds: 400), () => _scrollToPixel());
+    }
 
+  }
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
+    ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
+
+
     return
 //      WillPopScope(
 //      onWillPop: _onBackPressed,
@@ -357,12 +387,43 @@ class _DetailSec5State extends State<DetailSec5> {
 
                 return snapshot.hasData
                     ? Column(children: <Widget>[
-                        Expanded(
+                  globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                          child: const Text('ادامه فراز',                                            style: TextStyle(
+//                                            fontWeight: FontWeight.bold,
+                              fontFamily: 'IRANSans',
+                              fontSize: 14,
+                              height: 1.7,
+//                                            color:
+//                                                Theme.of(context).buttonColor),
+                              color: Color(0xf6c40c0c)),
+                          ),
+                          onPressed: () async {
+                            getLastScolledPixel();
+                            SchedulerBinding.instance?.addPostFrameCallback((_) {
+                              _scrollController.animateTo(
+                                  (globals.lastScrolledPixel),
+                                  duration: const Duration(milliseconds: 2000),
+                                  curve: Curves.fastOutSlowIn);
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).brightness == Brightness.light
+                                ? Colors.grey[400]
+                                : Colors.grey[500],
+
+                          )),
+
+
+                    ],
+                  ):SizedBox(),                        Expanded(
                           child: Scrollbar(
                             child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              controller: _controller,
+                              controller: _scrollController,
 //                        itemExtent: 1000,
                               physics: AlwaysScrollableScrollPhysics(),
                               itemCount: snapshot.data.arabic.length,

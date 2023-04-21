@@ -6,6 +6,7 @@ int currentPage;
 
 /// contains bookmarkedPage
 // int bookmarkedPage;
+double lastScrolledPixel;
 
 /// refer to last viewed page (stored in sharedPreferences)
 int lastViewedPage;
@@ -24,6 +25,8 @@ int codeCurrentPage;
 String titlelastViewedPage;
 int indexlastViewedPage;
 int indexFasllastViewedPage;
+String indentlastViewedPage;
+bool edameFaraz;
 
 List<String> titleBookMarked;
 List<int> indexBookMarked;
@@ -45,6 +48,9 @@ const DEFAULT_BRIGHTNESS_LEVEL = 0.5;
 const LAST_VIEWED_PAGE_title = 'lastViewedPageTitle';
 const LAST_VIEWED_PAGE_index = 'lastViewedPageIndex';
 const LAST_VIEWED_PAGE_indexFasl = 'lastViewedPageIndexFasl';
+const LAST_SCROLLED_PIXEL = 'lastScrolledPixel';
+const LAST_VIEWED_PAGE_indent = 'lastViewedPageIndent';
+
 
 const BRIGHTNESS_LEVEL = 'brightness_level';
 const BrightnessActive = 'BrightnessActive';

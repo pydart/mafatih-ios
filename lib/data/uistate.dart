@@ -65,4 +65,14 @@ class UiState with ChangeNotifier {
 
   bool get tafsir => makna;
 
+
+  static bool edameFarazGet = globals.edameFaraz;
+
+  set edameFarazSet(newValue) {
+    edameFarazGet = newValue;
+    notifyListeners();
+  }
+
+  bool get edameFarazSet => edameFarazGet;
+
 }

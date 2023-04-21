@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/utils/style.dart';
+import 'package:mafatih/library/Globals.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
@@ -361,6 +362,31 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 //    Provider.of<ThemeNotifier>(context).curretThemeData2;
     print(
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.tozihActive}          globals.tozihActive');
+
+
+    if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
+      var _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
+      setState(() {
+        globals.lastScrolledPixel = _lastScrolledPixel;
+      });
+    }
+
+
+    if (prefs.containsKey(globals.LAST_VIEWED_PAGE_title)) {
+
+      setState(() {
+        globals.titlelastViewedPage =
+            prefs.getString(globals.LAST_VIEWED_PAGE_title);
+        globals.indexlastViewedPage =
+            prefs.getInt(globals.LAST_VIEWED_PAGE_index);
+        globals.indexFasllastViewedPage =
+            prefs.getInt(globals.LAST_VIEWED_PAGE_indexFasl);
+        globals.indentlastViewedPage =
+            prefs.getString(globals.LAST_VIEWED_PAGE_indent);
+
+      });
+
+    }
   }
 
   @override

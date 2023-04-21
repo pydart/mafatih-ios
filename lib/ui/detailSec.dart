@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
@@ -53,25 +56,20 @@ class _DetailSecState extends State<DetailSec> {
   ScrollController _controller;
   final itemSize = globals.fontTozihLevel * 1.7;
   final queryOffset = 100;
-  double _scrollPosition;
 
-  _scrollListener() {
-    setState(() {
-      _scrollPosition = _controller.position.pixels;
-    });
-  }
 
-  _moveUp() {
-    //_controller.jumpTo(_controller.offset - itemSize);
-    _controller.animateTo(_scrollPosition - 100,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
 
-  _moveDown() {
-    //_controller.jumpTo(_controller.offset + itemSize);
-    _controller.animateTo(_scrollPosition,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
+  // _moveUp() {
+  //   //_controller.jumpTo(_controller.offset - itemSize);
+  //   _controller.animateTo(_scrollPosition - 100,
+  //       curve: Curves.linear, duration: Duration(milliseconds: 500));
+  // }
+  //
+  // _moveDown() {
+  //   //_controller.jumpTo(_controller.offset + itemSize);
+  //   _controller.animateTo(_scrollPosition,
+  //       curve: Curves.linear, duration: Duration(milliseconds: 500));
+  // }
 
   @override
   void dispose() {
@@ -149,20 +147,15 @@ class _DetailSecState extends State<DetailSec> {
 
   /// set lastViewedPage in sharedPreferences
   void setLastViewedPage(String _titleCurrentPage, int _indexCurrentPage,
-      int _indexFaslCurrentPage) async {
+      int _indexFaslCurrentPage, String _indentCurrentPage) async {
     prefs = await SharedPreferences.getInstance();
     if (_indexCurrentPage != null && !_indexCurrentPage.isNaN) {
       prefs.setString(globals.LAST_VIEWED_PAGE_title, _titleCurrentPage);
-      globals.titlelastViewedPage =
-          prefs.getString(globals.LAST_VIEWED_PAGE_title);
-
       prefs.setInt(globals.LAST_VIEWED_PAGE_index, _indexCurrentPage);
-      globals.indexlastViewedPage =
-          prefs.getInt(globals.LAST_VIEWED_PAGE_index);
-
       prefs.setInt(globals.LAST_VIEWED_PAGE_indexFasl, _indexFaslCurrentPage);
-      globals.indexFasllastViewedPage =
-          prefs.getInt(globals.LAST_VIEWED_PAGE_indexFasl);
+      prefs.setString(globals.LAST_VIEWED_PAGE_indent, _indentCurrentPage);
+
+
     }
   }
 
@@ -173,12 +166,39 @@ class _DetailSecState extends State<DetailSec> {
   /// Init Page Controller
   PageController pageController;
 
+  double _scrollPosition;
+  ScrollController _scrollController;
+  setLastScolledPixel(double level) async {
+    globals.lastScrolledPixel = level;
+    prefs = await SharedPreferences.getInstance();
+    prefs.setDouble(globals.LAST_SCROLLED_PIXEL, level);
+    print('globals.lastScrolledPixel');
+    print(globals.lastScrolledPixel);
+  }
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+      setLastScolledPixel(_scrollPosition??0);
+    });
+  }
   @override
   void initState() {
+
+
+
+
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+          (globals.lastScrolledPixel),
+          duration: const Duration(milliseconds: 2000),
+          curve: Curves.fastOutSlowIn);
+    });
     print(
         "************************************************************************** detail sec ");
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);
+    // _controller = ScrollController();
+    // _controller.addListener(_scrollListener);
 
     print(
         "************************************************************************** widget.indexFasl " +
@@ -203,7 +223,7 @@ class _DetailSecState extends State<DetailSec> {
     });
 
     /// Update lastViewedPage
-    setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
+    setLastViewedPage(widget.detail, widget.index, widget.indexFasl, widget.indent);
 
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
@@ -219,20 +239,6 @@ class _DetailSecState extends State<DetailSec> {
     super.initState();
   }
 
-//  _scrollListener() {
-//    if (_controller.offset >= _controller.position.maxScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the bottom");
-//      });
-//    }
-//    if (_controller.offset <= _controller.position.minScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the top");
-//      });
-//    }
-//  }
 
   List<TextSpan> highlightOccurrencesDetailSec(
       String source, String query, double _fontSize) {
@@ -277,9 +283,31 @@ class _DetailSecState extends State<DetailSec> {
     return children;
   }
 
+  getLastScolledPixel() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
+      double _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
+      setState(() {
+        globals.lastScrolledPixel = _lastScrolledPixel;
+      });
+    }
+  }
+
+  void _scrollToPixel() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(globals.lastScrolledPixel,
+          duration: Duration(milliseconds: 100), curve: Curves.fastOutSlowIn);
+    } else {
+      Timer(Duration(milliseconds: 400), () => _scrollToPixel());
+    }
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
+    ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
 
     return
 //      WillPopScope(
@@ -346,34 +374,45 @@ class _DetailSecState extends State<DetailSec> {
                 "codeCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   $codeCurrentPage");
           }
 
+          globals.edameFaraz==true?globals.edameFaraz=false:globals.edameFaraz=false;
           return snapshot.hasData
               ? Column(children: <Widget>[
-//                  Container(
-//                    height: 50.0,
-//                    color: Colors.green,
-//                    child: Center(
-//                      child: Row(
-//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                        children: <Widget>[
-//                          RaisedButton(
-//                            child: Text("up"),
-//                            onPressed: _moveUp,
-//                          ),
-//                          RaisedButton(
-//                            child: Text("down"),
-//                            onPressed: _moveDown,
-//                          )
-//                        ],
-//                      ),
-//                    ),
-//                  ),
+            globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 && globals.indexlastViewedPage==widget.index ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                    child: const Text('ادامه فراز',                                            style: TextStyle(
+//                                            fontWeight: FontWeight.bold,
+                        fontFamily: 'IRANSans',
+                        fontSize: 14,
+                        height: 1.7,
+//                                            color:
+//                                                Theme.of(context).buttonColor),
+                        color: Color(0xf6c40c0c)),
+                    ),
+                    onPressed: () async {
+                      getLastScolledPixel();
+                      SchedulerBinding.instance?.addPostFrameCallback((_) {
+                        _scrollToPixel();
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).brightness == Brightness.light
+                          ? Colors.grey[400]
+                          : Colors.grey[500],
+
+                    )),
+
+
+              ],
+            ):SizedBox(),
                   Expanded(
                     child: Scrollbar(
                       child: ListView.builder(
+                        controller: _scrollController,
                         scrollDirection: Axis.vertical,
                         itemCount: snapshot.data.arabic.length,
                         shrinkWrap: true,
-                        controller: _controller,
 //                        itemExtent: 1000,
                         physics: AlwaysScrollableScrollPhysics(),
                         itemBuilder: (BuildContext c, int i) {
