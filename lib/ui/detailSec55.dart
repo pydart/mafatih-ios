@@ -206,8 +206,8 @@ class _DetailSec55State extends State<DetailSec55> {
   }
   @override
   void initState() {
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
 
     print(
         "************************************************************************** widget.indexFasl " +
@@ -350,38 +350,38 @@ class _DetailSec55State extends State<DetailSec55> {
 
                 return snapshot.hasData
                     ? Column(children: <Widget>[
-                  globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                          child: const Text('ادامه فراز',                                            style: TextStyle(
-//                                            fontWeight: FontWeight.bold,
-                              fontFamily: 'IRANSans',
-                              fontSize: 14,
-                              height: 1.7,
-//                                            color:
-//                                                Theme.of(context).buttonColor),
-                              color: Color(0xf6c40c0c)),
-                          ),
-                          onPressed: () async {
-                            getLastScolledPixel();
-                            SchedulerBinding.instance?.addPostFrameCallback((_) {
-                              _scrollController.animateTo(
-                                  (globals.lastScrolledPixel),
-                                  duration: const Duration(milliseconds: 2000),
-                                  curve: Curves.fastOutSlowIn);
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).brightness == Brightness.light
-                                ? Colors.grey[400]
-                                : Colors.grey[500],
-
-                          )),
-
-
-                    ],
-                  ):SizedBox(),
+//                   globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 ? Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                     children: [
+//                       ElevatedButton(
+//                           child: const Text('ادامه فراز',                                            style: TextStyle(
+// //                                            fontWeight: FontWeight.bold,
+//                               fontFamily: 'IRANSans',
+//                               fontSize: 14,
+//                               height: 1.7,
+// //                                            color:
+// //                                                Theme.of(context).buttonColor),
+//                               color: Color(0xf6c40c0c)),
+//                           ),
+//                           onPressed: () async {
+//                             getLastScolledPixel();
+//                             SchedulerBinding.instance?.addPostFrameCallback((_) {
+//                               _scrollController.animateTo(
+//                                   (globals.lastScrolledPixel),
+//                                   duration: const Duration(milliseconds: 2000),
+//                                   curve: Curves.fastOutSlowIn);
+//                             });
+//                           },
+//                           style: ElevatedButton.styleFrom(
+//                             primary: Theme.of(context).brightness == Brightness.light
+//                                 ? Colors.grey[400]
+//                                 : Colors.grey[500],
+//
+//                           )),
+//
+//
+//                     ],
+//                   ):SizedBox(),
                   Expanded(
                           child: Scrollbar(
                             child: ListView.builder(

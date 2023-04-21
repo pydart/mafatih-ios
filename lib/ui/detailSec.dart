@@ -73,10 +73,27 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    print("************************************************************************dispos detailsec");
+    _scrollController.dispose();
     super.dispose();
   }
 
+  getOtherSettings() async {
+    SharedPreferences prefs;
+
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      globals.titlelastViewedPage =
+          prefs.getString(globals.LAST_VIEWED_PAGE_title);
+      globals.indexlastViewedPage =
+          prefs.getInt(globals.LAST_VIEWED_PAGE_index);
+      globals.indexFasllastViewedPage =
+          prefs.getInt(globals.LAST_VIEWED_PAGE_indexFasl);
+      globals.indentlastViewedPage =
+          prefs.getString(globals.LAST_VIEWED_PAGE_indent);
+
+    });
+  }
   /// Navigation event handler
   _onItemTapped(int indexTab) {
     setState(() {
@@ -359,6 +376,8 @@ class _DetailSecState extends State<DetailSec> {
         future: ServiceData().loadSec(widget.indexFasl, widget.index),
         builder: (c, snapshot) {
           if (snapshot.hasData) {
+
+            getOtherSettings();
             print("*********************************************** " +
                 widget.indexFasl.toString());
 
@@ -377,35 +396,35 @@ class _DetailSecState extends State<DetailSec> {
           globals.edameFaraz==true?globals.edameFaraz=false:globals.edameFaraz=false;
           return snapshot.hasData
               ? Column(children: <Widget>[
-            globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 && globals.indexlastViewedPage==widget.index ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                    child: const Text('ادامه فراز',                                            style: TextStyle(
-//                                            fontWeight: FontWeight.bold,
-                        fontFamily: 'IRANSans',
-                        fontSize: 14,
-                        height: 1.7,
-//                                            color:
-//                                                Theme.of(context).buttonColor),
-                        color: Color(0xf6c40c0c)),
-                    ),
-                    onPressed: () async {
-                      getLastScolledPixel();
-                      SchedulerBinding.instance?.addPostFrameCallback((_) {
-                        _scrollToPixel();
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).brightness == Brightness.light
-                          ? Colors.grey[400]
-                          : Colors.grey[500],
-
-                    )),
-
-
-              ],
-            ):SizedBox(),
+//             globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 && globals.indexlastViewedPage==widget.index ? Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceAround,
+//               children: [
+//                 ElevatedButton(
+//                     child: const Text('ادامه فراز',                                            style: TextStyle(
+// //                                            fontWeight: FontWeight.bold,
+//                         fontFamily: 'IRANSans',
+//                         fontSize: 14,
+//                         height: 1.7,
+// //                                            color:
+// //                                                Theme.of(context).buttonColor),
+//                         color: Color(0xf6c40c0c)),
+//                     ),
+//                     onPressed: () async {
+//                       getLastScolledPixel();
+//                       SchedulerBinding.instance?.addPostFrameCallback((_) {
+//                         _scrollToPixel();
+//                       });
+//                     },
+//                     style: ElevatedButton.styleFrom(
+//                       primary: Theme.of(context).brightness == Brightness.light
+//                           ? Colors.grey[400]
+//                           : Colors.grey[500],
+//
+//                     )),
+//
+//
+//               ],
+//             ):SizedBox(),
                   Expanded(
                     child: Scrollbar(
                       child: ListView.builder(
