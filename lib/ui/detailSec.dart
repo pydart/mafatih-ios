@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,6 +17,7 @@ import 'package:mafatih/library/Globals.dart';
 import 'package:mafatih/ui/home2.dart';
 import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa.dart';
 // import 'package:screen/screen.dart';
@@ -216,7 +219,7 @@ class _DetailSecState extends State<DetailSec> {
   void initState() {
 
 
-    _audioFiles();
+    // _audioFiles();
     _player = AudioPlayer();
 
     _scrollController = ScrollController();
@@ -342,6 +345,31 @@ class _DetailSecState extends State<DetailSec> {
               (position, bufferedPosition, duration) => PositionData(
               position, bufferedPosition, duration ?? Duration.zero));
 
+  // Future<void> _init(jsonCode) async {
+  //   print("////////////////////////////////////.........................// _init   ${globals.sound}");
+  //   final session = await AudioSession.instance;
+  //   await session.configure(const AudioSessionConfiguration.speech());
+  //   // Listen to errors during playback.
+  //   _player.playbackEventStream.listen((event) {},
+  //       onError: (Object e, StackTrace stackTrace) {
+  //         print('A stream error occurred: $e');
+  //       });
+  //   try {
+  //     print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
+  //     await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
+  //     setState(() {
+  //       _player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
+  //     });
+  //   } catch (e, stackTrace) {
+  //     // Catch load errors: 404, invalid url ...
+  //     print("Error loading playlist: $e");
+  //     print(stackTrace);
+  //   }
+  // }
+
+  final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
+  var dio = Dio();
+
   Future<void> _init(jsonCode) async {
     print("////////////////////////////////////.........................// _init   ${globals.sound}");
     final session = await AudioSession.instance;
@@ -351,16 +379,60 @@ class _DetailSecState extends State<DetailSec> {
         onError: (Object e, StackTrace stackTrace) {
           print('A stream error occurred: $e');
         });
+    // var directory = await getApplicationDocumentsDirectory();
+    // String fullPath = directory.path + "/1-fani.mp3";
+    // print('*************************************************************************   full path ${fullPath}');
+    // download2(dio, audioUrl, "/assets/sounds/1-fani.mp3");
+
     try {
       print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
       await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      setState(() {
-        _player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
-      });
+      final audioSource = LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'));
+      List<dynamic> listaudioSource = [LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/03/24/audio_7981bb957c.mp3?filename=sisters-voices-103432.mp3')), LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'))];
+
+      await _player.setAudioSource(listaudioSource[(int.parse(globals.sound))]);
+      // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
+
+      // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
+      // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
+
     } catch (e, stackTrace) {
       // Catch load errors: 404, invalid url ...
       print("Error loading playlist: $e");
       print(stackTrace);
+    }
+  }
+  setSound(String level) async {
+    globals.sound = level;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(globals.Sound, level);
+  }
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      print((received / total * 100).toStringAsFixed(0) + "%");
+    }
+  }
+  Future download2(Dio dio, String url, String savePath) async {
+    try {
+      Response response = await dio.get(
+        url,
+        onReceiveProgress: showDownloadProgress,
+        //Received data with List<int>
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      print(response.headers);
+      File file = File(savePath);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -719,7 +791,11 @@ class _DetailSecState extends State<DetailSec> {
 class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
-  const ControlButtons(this.player, {Key key}) : super(key: key);
+  ControlButtons(this.player, {Key key}) : super(key: key);
+
+  final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
+  var dio = Dio();
+
   Future<void> _init(jsonCode) async {
     print("////////////////////////////////////.........................// _init   ${globals.sound}");
     final session = await AudioSession.instance;
@@ -729,10 +805,17 @@ class ControlButtons extends StatelessWidget {
         onError: (Object e, StackTrace stackTrace) {
           print('A stream error occurred: $e');
         });
+    // var directory = await getApplicationDocumentsDirectory();
+    // String fullPath = directory.path + "/1-fani.mp3";
+    // print('*************************************************************************   full path ${fullPath}');
+    // download2(dio, audioUrl, "/assets/sounds/1-fani.mp3");
+
     try {
       print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
       await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
+      final audioSource = LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'));
+      await player.setAudioSource(audioSource);
+      // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
 
       // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
       // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
@@ -748,11 +831,42 @@ class ControlButtons extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(globals.Sound, level);
   }
+  void showDownloadProgress(received, total) {
+    if (total != -1) {
+      print((received / total * 100).toStringAsFixed(0) + "%");
+    }
+  }
+  Future download2(Dio dio, String url, String savePath) async {
+    try {
+      Response response = await dio.get(
+        url,
+        onReceiveProgress: showDownloadProgress,
+        //Received data with List<int>
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+      );
+      print(response.headers);
+      File file = File(savePath);
+      var raf = file.openSync(mode: FileMode.write);
+      // response.data is List<int> type
+      raf.writeFromSync(response.data);
+      await raf.close();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String tempsound = globals.sound;
     var ui = Provider.of<UiState>(context);
     int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
+    final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
+    var dio = Dio();
 
     return
       Row(
@@ -794,7 +908,18 @@ class ControlButtons extends StatelessWidget {
                 return IconButton(
                   icon: const Icon(Icons.play_arrow),
                   iconSize: 30.0,
-                  onPressed: player.play,
+                  onPressed:
+                  //     () async {
+                  //   var directory = await getApplicationDocumentsDirectory();
+                  //   String fullPath = directory.path + "/1-fani.mp3";
+                  //   print('*************************************************************************   full path ${fullPath}');
+                  //   download2(dio, audioUrl, "/assets/sounds/1-fani.mp3");
+                  //   player.play;
+                  // },
+                    player.play,
+
+
+
                 );
               } else if (processingState != ProcessingState.completed) {
                 return IconButton(

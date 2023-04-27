@@ -1,5 +1,6 @@
 library mafatih.globals;
 
+import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 
@@ -13,8 +14,9 @@ String appNameEn="tavasol";
 final playlist = {
   1110:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
 children: [
-  AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/komeil/1-farahmand.mp3')),
-  AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/komeil/2-motiie.mp3')),
+LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3')),
+  AudioSource.uri(Uri.parse("asset:///assets/sounds/1-fani.mp3")),
+  AudioSource.uri(Uri.parse("asset:///assets/sounds/0.mp3")),
 ]),
   3153:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
       children: [
@@ -23,12 +25,16 @@ children: [
         AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/3-motiie.mp3')),
         AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/4-soleimani.mp3')),
       ]),
-
-
-
-
 };
 
+
+// final audioSource = LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'));
+
+// final playlist = ConcatenatingAudioSource(children: [
+//   AudioSource.uri(
+//     Uri.parse("asset:///assets/sounds/0.mp3"),
+//   ),
+// ]);
 
 
 /// -------------- @Global values
