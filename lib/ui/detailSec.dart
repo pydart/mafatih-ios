@@ -6,6 +6,7 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/audio/common.dart';
@@ -85,6 +86,10 @@ class _DetailSecState extends State<DetailSec> {
   //   _controller.animateTo(_scrollPosition,
   //       curve: Curves.linear, duration: Duration(milliseconds: 500));
   // }
+
+
+
+
 
   @override
   void dispose() {
@@ -371,6 +376,17 @@ class _DetailSecState extends State<DetailSec> {
   var dio = Dio();
 
   Future<void> _init(jsonCode) async {
+    // final metadata = await MetadataRetriever.fromFile(File("assets/sounds/1-fani.mp3"));
+    // String trackName = metadata.trackName;
+    // List<String> trackArtistNames = metadata.trackArtistNames;
+    // String albumName = metadata.albumName;
+    // String albumArtistName = metadata.albumArtistName;
+    // int trackNumber = metadata.trackNumber;
+    // String authorName = metadata.authorName;
+    // String writerName = metadata.writerName;
+    // print("////////////////////////////////////.........................// authorName   ${authorName}");
+
+
     print("////////////////////////////////////.........................// _init   ${globals.sound}");
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.speech());
@@ -387,10 +403,12 @@ class _DetailSecState extends State<DetailSec> {
     try {
       print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
       await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/${jsonCode.toString()}.mp3'));
-      List<dynamic> listaudioSource = [LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/03/24/audio_7981bb957c.mp3?filename=sisters-voices-103432.mp3')), LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'))];
+      // final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/${jsonCode.toString()}.mp3'));
+      // List<dynamic> listaudioSource = [LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/03/24/audio_7981bb957c.mp3?filename=sisters-voices-103432.mp3')), LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'))];
+      final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/$jsonCode.mp3'));
 
-      await _player.setAudioSource(listaudioSource[(int.parse(globals.sound))]);
+      await _player.setAudioSource(audioSource);
+      // await _player.setAudioSource(listaudioSource[(int.parse(globals.sound))]);
       // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
 
       // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
@@ -793,11 +811,12 @@ class ControlButtons extends StatelessWidget {
 
   ControlButtons(this.player, {Key key}) : super(key: key);
 
-  final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
+  final audioUrl = "https://www.videoir.com/apps_versions/audios/1110.mp3";
   var dio = Dio();
 
   Future<void> _init(jsonCode) async {
     print("////////////////////////////////////.........................// _init   ${globals.sound}");
+
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.speech());
     // Listen to errors during playback.
@@ -805,20 +824,38 @@ class ControlButtons extends StatelessWidget {
         onError: (Object e, StackTrace stackTrace) {
           print('A stream error occurred: $e');
         });
-    // var directory = await getApplicationDocumentsDirectory();
-    // String fullPath = directory.path + "/1-fani.mp3";
-    // print('*************************************************************************   full path ${fullPath}');
-    // download2(dio, audioUrl, "/assets/sounds/1-fani.mp3");
+    var directory = await getApplicationDocumentsDirectory();
+    String fullPath = directory.path + "/$jsonCode.mp3";
+    print('*************************************************************************   full path ${fullPath}');
+    // download2(dio, audioUrl, fullPath);
+
 
     try {
-      print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
+      print("////////////////////////////////////.........................// setAudioSource   $jsonCode");
       await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      final audioSource = LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'));
+      final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/$jsonCode.mp3'));
       await player.setAudioSource(audioSource);
       // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
 
       // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
       // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
+      final metadata = await MetadataRetriever.fromFile(File(fullPath));
+      // final metadata = await MetadataRetriever.fromFile(File("/data/user/0/pydart.mafatih/cache/just_audio_cache/remote/25284d47b822c37a59fb26a72f8f919f908cd2fc37f0e813b180bf8d93299b92.mp3"));
+      String trackName = metadata.trackName;
+      List<String> trackArtistNames = metadata.trackArtistNames;
+      String albumName = metadata.albumName;
+      String albumArtistName = metadata.albumArtistName;
+      int trackNumber = metadata.trackNumber;
+      int year = metadata.year;
+      String authorName = metadata.authorName;
+      String writerName = metadata.writerName;
+      print("////////////////////////////////////.........................// trackName   ${trackName}");
+      print("////////////////////////////////////.........................// trackArtistNames   ${trackArtistNames}");
+      print("////////////////////////////////////.........................// albumName   ${albumName}");
+      print("////////////////////////////////////.........................// albumArtistName   ${albumArtistName}");
+      print("////////////////////////////////////.........................// authorName   ${year}");
+
+
 
     } catch (e, stackTrace) {
       // Catch load errors: 404, invalid url ...
@@ -865,6 +902,8 @@ class ControlButtons extends StatelessWidget {
     String tempsound = globals.sound;
     var ui = Provider.of<UiState>(context);
     int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
+    // int _jsonCode=1110;
+
     final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
     var dio = Dio();
 

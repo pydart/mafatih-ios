@@ -52,7 +52,7 @@ dependencies:
   audio_service: ^0.16.2+1
   path_provider: ^1.6.28
   encrypt: ^4.1.0
-
+  flutter_media_metadata: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:
