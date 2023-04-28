@@ -28,6 +28,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
+import '../constants.dart';
 import 'notesSearch.dart';
 
 class DetailSec extends StatefulWidget {
@@ -69,11 +70,11 @@ class _DetailSecState extends State<DetailSec> {
   final queryOffset = 100;
 
   var client = http.Client();
-  String filePath = "assets/sounds/${globals.sound}.mp3";
+  // String filePath = "assets/sounds/${globals.sound}.mp3";
   bool isPlaying = false;
   num curIndex = 0;
   AudioPlayer _player;
-  String tempsound = globals.sound;
+  // String tempsound = globals.sound;
 
   // _moveUp() {
   //   //_controller.jumpTo(_controller.offset - itemSize);
@@ -220,8 +221,73 @@ class _DetailSecState extends State<DetailSec> {
       setLastScolledPixel(_scrollPosition??0);
     });
   }
+  setAudioExist(String jsonCode) async {
+    (globals.jsonCodesHavingAudio).add(jsonCode);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
+  }
+  // Future<bool> checkUrlExist(String jsonCode) async {
+  //   print("**********************************************checkUrlExist**************************** '${Constants.audiosListUrl}/${widget.code}.mp3' ");
+  //
+  //   final response = await http.get(Uri.parse('${Constants.audiosListUrl}/${widget.code}.mp3'));
+  //   print("**********************************************http.get**************************** '${Constants.audiosListUrl}/${widget.code}.mp3' ");
+  //   if (response.statusCode == 200) {
+  //     setState(() {
+  //       print("************************************************************************** response.statusCode == 200 ");
+  //
+  //       globals.audioExist = true;
+  //       return true;
+  //     });
+  //     setAudioExist(jsonCode.toString());
+  //   } else {
+  //     setState(() {
+  //       globals.audioExist = false;
+  //     });
+  //     return false;
+  //
+  //   }
+  //   return false;
+  //
+  // }
+
+  checkUrlExist(String jsonCode) async {
+    print("************************************************************************** checkUrlExist   ${Constants.audiosListUrl +'/${widget.code}.txt'}");
+
+    try {
+      http.Response response =
+      await http.get(Constants.audiosListUrl +'/${widget.code}.txt').whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        print("************************************************************************** response.statusCode == 200 ");
+        setState(() {
+          globals.audioExist = true;
+        });
+        setAudioExist(jsonCode.toString());
+
+      } else {
+        setState(() {
+          globals.audioExist = false;
+        });
+        print("************************************************************************** Failed to load ");
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+  }
   @override
   void initState() {
+    print("********************************************** widget.code  **************************** ${widget.code} ");
+
+    if (globals.jsonCodesHavingAudio.contains(widget.code)) {
+      print("************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");
+      globals.audioExist=true;
+    } else {
+      globals.audioExist=false;
+
+      // checkUrlExist(widget.code.toString());
+    }
+
 
 
     // _audioFiles();
@@ -229,7 +295,7 @@ class _DetailSecState extends State<DetailSec> {
 
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-    _init(1000 *widget.indexFasl + widget.index);
+    globals.audioExist==true? _init(widget.code) : null;
 
     print(
         "************************************************************************** detail sec ");
@@ -372,8 +438,8 @@ class _DetailSecState extends State<DetailSec> {
   //   }
   // }
 
-  final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
-  var dio = Dio();
+  // final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
+  // var dio = Dio();
 
   Future<void> _init(jsonCode) async {
     // final metadata = await MetadataRetriever.fromFile(File("assets/sounds/1-fani.mp3"));
@@ -387,7 +453,7 @@ class _DetailSecState extends State<DetailSec> {
     // print("////////////////////////////////////.........................// authorName   ${authorName}");
 
 
-    print("////////////////////////////////////.........................// _init   ${globals.sound}");
+    print("////////////////////////////////////.........................// _init   ${globals.audioExist}");
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.speech());
     // Listen to errors during playback.
@@ -401,11 +467,11 @@ class _DetailSecState extends State<DetailSec> {
     // download2(dio, audioUrl, "/assets/sounds/1-fani.mp3");
 
     try {
-      print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
+      print("////////////////////////////////////.........................// setAudioSource   ${globals.audioExist}");
       await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
       // final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/${jsonCode.toString()}.mp3'));
       // List<dynamic> listaudioSource = [LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/03/24/audio_7981bb957c.mp3?filename=sisters-voices-103432.mp3')), LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'))];
-      final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/$jsonCode.mp3'));
+      final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
 
       await _player.setAudioSource(audioSource);
       // await _player.setAudioSource(listaudioSource[(int.parse(globals.sound))]);
@@ -420,11 +486,63 @@ class _DetailSecState extends State<DetailSec> {
       print(stackTrace);
     }
   }
-  setSound(String level) async {
-    globals.sound = level;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(globals.Sound, level);
-  }
+
+
+  // Future<void> _init(jsonCode) async {
+  //   print("////////////////////////////////////.........................// _init Playing controls  ${globals.sound}");
+  //
+  //   // final session = await AudioSession.instance;
+  //   // await session.configure(const AudioSessionConfiguration.speech());
+  //   // // Listen to errors during playback.
+  //   // player.playbackEventStream.listen((event) {},
+  //   //     onError: (Object e, StackTrace stackTrace) {
+  //   //       print('A stream error occurred: $e');
+  //   //     });
+  //   // var directory = await getApplicationDocumentsDirectory();
+  //   // String fullPath = directory.path + "/$jsonCode.mp3";
+  //   // print('*************************************************************************   full path ${fullPath}');
+  //   // // download2(dio, audioUrl, fullPath);
+  //
+  //
+  //   try {
+  //     print("////////////////////////////////////.........................// setAudioSource   ${Constants.audiosListUrl}$jsonCode.mp3'");
+  //     await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
+  //     final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}$jsonCode.mp3'));
+  //     await player.setAudioSource(audioSource);
+  //     // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
+  //
+  //     // // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
+  //     // // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
+  //     // final metadata = await MetadataRetriever.fromFile(File(fullPath));
+  //     // // final metadata = await MetadataRetriever.fromFile(File("/data/user/0/pydart.mafatih/cache/just_audio_cache/remote/25284d47b822c37a59fb26a72f8f919f908cd2fc37f0e813b180bf8d93299b92.mp3"));
+  //     // String trackName = metadata.trackName;
+  //     // List<String> trackArtistNames = metadata.trackArtistNames;
+  //     // String albumName = metadata.albumName;
+  //     // String albumArtistName = metadata.albumArtistName;
+  //     // int trackNumber = metadata.trackNumber;
+  //     // int year = metadata.year;
+  //     // String authorName = metadata.authorName;
+  //     // String writerName = metadata.writerName;
+  //     // print("////////////////////////////////////.........................// trackName   ${trackName}");
+  //     // print("////////////////////////////////////.........................// trackArtistNames   ${trackArtistNames}");
+  //     // print("////////////////////////////////////.........................// albumName   ${albumName}");
+  //     // print("////////////////////////////////////.........................// albumArtistName   ${albumArtistName}");
+  //     // print("////////////////////////////////////.........................// authorName   ${year}");
+  //     //
+  //
+  //
+  //   } catch (e, stackTrace) {
+  //     // Catch load errors: 404, invalid url ...
+  //     print("Error loading playlist: $e");
+  //     print(stackTrace);
+  //   }
+  // }
+
+  // setSound(String level) async {
+  //   globals.sound = level;
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString(globals.Sound, level);
+  // }
   void showDownloadProgress(received, total) {
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + "%");
@@ -503,8 +621,8 @@ class _DetailSecState extends State<DetailSec> {
           },
         ),
         bottom:
-        haveAudio.keys.toList().contains(1000 *widget.indexFasl + widget.index) ?
-
+        // haveAudio.keys.toList().contains(1000 *widget.indexFasl + widget.index) ?
+globals.audioExist?
         PreferredSize(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -811,63 +929,28 @@ class ControlButtons extends StatelessWidget {
 
   ControlButtons(this.player, {Key key}) : super(key: key);
 
-  final audioUrl = "https://www.videoir.com/apps_versions/audios/1110.mp3";
-  var dio = Dio();
+  // @override
+  // void initState() {
+  //   int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
+  //   _init(_jsonCode);
+  // }
 
-  Future<void> _init(jsonCode) async {
-    print("////////////////////////////////////.........................// _init   ${globals.sound}");
-
-    final session = await AudioSession.instance;
-    await session.configure(const AudioSessionConfiguration.speech());
-    // Listen to errors during playback.
-    player.playbackEventStream.listen((event) {},
-        onError: (Object e, StackTrace stackTrace) {
-          print('A stream error occurred: $e');
-        });
-    var directory = await getApplicationDocumentsDirectory();
-    String fullPath = directory.path + "/$jsonCode.mp3";
-    print('*************************************************************************   full path ${fullPath}');
-    // download2(dio, audioUrl, fullPath);
+  // getAudioExist(bool level) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final List<String> globals.jsonCodes = prefs.getStringList('JsonCodesHavingAudio');
+  //
+  // }
 
 
-    try {
-      print("////////////////////////////////////.........................// setAudioSource   $jsonCode");
-      await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/$jsonCode.mp3'));
-      await player.setAudioSource(audioSource);
-      // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
-
-      // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
-      // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
-      final metadata = await MetadataRetriever.fromFile(File(fullPath));
-      // final metadata = await MetadataRetriever.fromFile(File("/data/user/0/pydart.mafatih/cache/just_audio_cache/remote/25284d47b822c37a59fb26a72f8f919f908cd2fc37f0e813b180bf8d93299b92.mp3"));
-      String trackName = metadata.trackName;
-      List<String> trackArtistNames = metadata.trackArtistNames;
-      String albumName = metadata.albumName;
-      String albumArtistName = metadata.albumArtistName;
-      int trackNumber = metadata.trackNumber;
-      int year = metadata.year;
-      String authorName = metadata.authorName;
-      String writerName = metadata.writerName;
-      print("////////////////////////////////////.........................// trackName   ${trackName}");
-      print("////////////////////////////////////.........................// trackArtistNames   ${trackArtistNames}");
-      print("////////////////////////////////////.........................// albumName   ${albumName}");
-      print("////////////////////////////////////.........................// albumArtistName   ${albumArtistName}");
-      print("////////////////////////////////////.........................// authorName   ${year}");
+  // final audioUrl = "https://www.videoir.com/apps_versions/audios/1110.mp3";
+  // var dio = Dio();
 
 
-
-    } catch (e, stackTrace) {
-      // Catch load errors: 404, invalid url ...
-      print("Error loading playlist: $e");
-      print(stackTrace);
-    }
-  }
-  setSound(String level) async {
-    globals.sound = level;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(globals.Sound, level);
-  }
+  // setSound(String level) async {
+  //   globals.sound = level;
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString(globals.Sound, level);
+  // }
   void showDownloadProgress(received, total) {
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + "%");
@@ -899,13 +982,13 @@ class ControlButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String tempsound = globals.sound;
+    // String tempsound = globals.sound;
     var ui = Provider.of<UiState>(context);
     int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
     // int _jsonCode=1110;
 
-    final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
-    var dio = Dio();
+    // final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
+    // var dio = Dio();
 
     return
       Row(
@@ -935,19 +1018,22 @@ class ControlButtons extends StatelessWidget {
               final playerState = snapshot.data;
               final processingState = playerState?.processingState;
               final playing = playerState?.playing;
-              if (processingState == ProcessingState.loading ||
-                  processingState == ProcessingState.buffering) {
-                return Container(
-                  margin: const EdgeInsets.all(0.0),
-                  width: 30.0,
-                  height: 30.0,
-                  child: const CircularProgressIndicator(),
-                );
-              } else if (playing != true) {
+
+               if (processingState == ProcessingState.loading ||
+                   processingState == ProcessingState.buffering) {
+              return Container(
+              margin: const EdgeInsets.all(0.0),
+              width: 30.0,
+              height: 30.0,
+              child: const CircularProgressIndicator(),
+              );
+              }
+              else if (playing != true  ) {
                 return IconButton(
                   icon: const Icon(Icons.play_arrow),
                   iconSize: 30.0,
-                  onPressed:
+                  onPressed:                     player.play,
+
                   //     () async {
                   //   var directory = await getApplicationDocumentsDirectory();
                   //   String fullPath = directory.path + "/1-fani.mp3";
@@ -955,12 +1041,11 @@ class ControlButtons extends StatelessWidget {
                   //   download2(dio, audioUrl, "/assets/sounds/1-fani.mp3");
                   //   player.play;
                   // },
-                    player.play,
-
-
 
                 );
-              } else if (processingState != ProcessingState.completed) {
+              }
+
+              else if (processingState != ProcessingState.completed) {
                 return IconButton(
                   icon: const Icon(Icons.pause),
                   iconSize: 30.0,
@@ -976,63 +1061,63 @@ class ControlButtons extends StatelessWidget {
               }
             },
           ),
-          PopupMenuButton<String>(
-            icon: Icon(Icons.playlist_play_outlined),
-
-            onSelected: (value) {
-              // int intIndexofValue=soundList.indexOf(value);
-              tempsound = value;
-              print('///////////////////////////              /////////////////   $tempsound');
-              print('///////////////////////////              /////////////////value   $value');
-
-              ui.soundFormat = tempsound;
-              setSound(tempsound);
-              player?.stop();
-              _init(_jsonCode);
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              haveAudio[_jsonCode].length>0? PopupMenuItem<String>(
-                value: '0',
-                child: Text(haveAudio[_jsonCode][0]),
-                textStyle:TextStyle(
-                  color: tempsound == '0'
-                      ? Colors.red
-                      : Theme.of(context).accentColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ):null,
-              haveAudio[_jsonCode].length>1?PopupMenuItem<String>(
-                value: '1',
-                child: Text(haveAudio[_jsonCode][1]),
-                textStyle:TextStyle(
-                  color: tempsound == '1'
-                      ? Colors.red
-                      : Theme.of(context).accentColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ):null,
-              haveAudio[_jsonCode].length>2?PopupMenuItem<String>(
-                value: '2',
-                child: Text(haveAudio[_jsonCode][2]),
-                textStyle:TextStyle(
-                  color: tempsound == '2'
-                      ? Colors.red
-                      : Theme.of(context).accentColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ):null,
-              haveAudio[_jsonCode].length>3?PopupMenuItem<String>(
-            value: '3',
-            child: Text(haveAudio[_jsonCode][3]),
-            textStyle:TextStyle(
-              color: tempsound == '3'
-                  ? Colors.red
-                  : Theme.of(context).accentColor,
-              fontWeight: FontWeight.bold,
-             ),
-           ):null,
-            ],
-          ),
+          // PopupMenuButton<String>(
+          //   icon: Icon(Icons.playlist_play_outlined),
+          //
+          //   onSelected: (value) {
+          //     // int intIndexofValue=soundList.indexOf(value);
+          //     tempsound = value;
+          //     print('///////////////////////////              /////////////////   $tempsound');
+          //     print('///////////////////////////              /////////////////value   $value');
+          //
+          //     ui.soundFormat = tempsound;
+          //     setSound(tempsound);
+          //     player?.stop();
+          //     _init(_jsonCode);
+          //   },
+          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+          //     haveAudio[_jsonCode].length>0? PopupMenuItem<String>(
+          //       value: '0',
+          //       child: Text(haveAudio[_jsonCode][0]),
+          //       textStyle:TextStyle(
+          //         color: tempsound == '0'
+          //             ? Colors.red
+          //             : Theme.of(context).accentColor,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ):null,
+          //     haveAudio[_jsonCode].length>1?PopupMenuItem<String>(
+          //       value: '1',
+          //       child: Text(haveAudio[_jsonCode][1]),
+          //       textStyle:TextStyle(
+          //         color: tempsound == '1'
+          //             ? Colors.red
+          //             : Theme.of(context).accentColor,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ):null,
+          //     haveAudio[_jsonCode].length>2?PopupMenuItem<String>(
+          //       value: '2',
+          //       child: Text(haveAudio[_jsonCode][2]),
+          //       textStyle:TextStyle(
+          //         color: tempsound == '2'
+          //             ? Colors.red
+          //             : Theme.of(context).accentColor,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ):null,
+          //     haveAudio[_jsonCode].length>3?PopupMenuItem<String>(
+          //   value: '3',
+          //   child: Text(haveAudio[_jsonCode][3]),
+          //   textStyle:TextStyle(
+          //     color: tempsound == '3'
+          //         ? Colors.red
+          //         : Theme.of(context).accentColor,
+          //     fontWeight: FontWeight.bold,
+          //    ),
+          //  ):null,
+          //   ],
+          // ),
         ],
       );
   }

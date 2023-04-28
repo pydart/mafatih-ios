@@ -3,8 +3,8 @@ library mafatih.globals;
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
-
-Map<int, List<String>> haveAudio ={1110:['محسن فرهمند', 'میثم مطیعی'], 3153:['علی فانی', 'محسن فرهمند', 'میثم مطیعی', 'شهید قاسم سلیمانی']} ;
+bool audioExist=false;
+// Map<int, List<String>> haveAudio ={1110:['محسن فرهمند', 'میثم مطیعی'], 3153:['علی فانی', 'محسن فرهمند', 'میثم مطیعی', 'شهید قاسم سلیمانی']} ;
 // Map<int, List<String>> haveAudio ={} ;
 // List haveAudio = [1110];
 
@@ -13,21 +13,21 @@ String appNameEn="tavasol";
 
 
 // Define the playlist
-final playlist = {
-  1110:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
-children: [
-LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/1-fani.mp3')),
-  AudioSource.uri(Uri.parse("asset:///assets/sounds/1-fani.mp3")),
-  AudioSource.uri(Uri.parse("asset:///assets/sounds/0.mp3")),
-]),
-  3153:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
-      children: [
-        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3')),
-        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/2-farahmand.mp3')),
-        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/3-motiie.mp3')),
-        AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/4-soleimani.mp3')),
-      ]),
-};
+// final playlist = {
+//   1110:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
+// children: [
+// LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/1-fani.mp3')),
+//   AudioSource.uri(Uri.parse("asset:///assets/sounds/1-fani.mp3")),
+//   AudioSource.uri(Uri.parse("asset:///assets/sounds/0.mp3")),
+// ]),
+//   3153:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
+//       children: [
+//         AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3')),
+//         AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/2-farahmand.mp3')),
+//         AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/3-motiie.mp3')),
+//         AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/4-soleimani.mp3')),
+//       ]),
+// };
 
 
 // final audioSource = LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'));
@@ -55,7 +55,7 @@ double brightnessLevel;
 double brightnessLevelDefault;
 
 bool brightnessActive;
-String sound="0";
+// String sound;
 
 String titleCurrentPage;
 int indexCurrentPage;
@@ -73,6 +73,7 @@ List<int> indexBookMarked;
 List<int> indexFaslBookMarked;
 List<int> codeBookMarked;
 List<dynamic> mapBookMarked;
+List<String> jsonCodesHavingAudio=[];
 
 /// -------------- @Defaults values
 /// if bookmarkedPage not defined
@@ -114,6 +115,8 @@ const DarkMode = 'DarkMode';
 const LaterDialog = 'LaterDialog';
 const TarjKhati = 'TarjKhati';
 const Sound = 'Sound';
+const AudioExist = 'AudioExist';
+const JsonCodesHavingAudio = 'JsonCodesHavingAudio';
 
 double fontArabicLevel;
 double fontTarjLevel;

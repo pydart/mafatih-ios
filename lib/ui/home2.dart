@@ -99,7 +99,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     try {
       http.Response response =
-      await http.get(Constants.audiosListUrl).whenComplete(() {});
+      await http.get(Constants.audiosListUrl+'/audiosList.php').whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         print("**********************************************************************************_getAudioList    $Results");
@@ -294,7 +294,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    _getAudioList();
+    // _getAudioList();
     try {
       versionCheck(context);
     } catch (e) {
@@ -316,6 +316,46 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     // Screen.setBrightness(globals.brightnessActive == true
     //     ? globals.brightnessLevel
     //     : globals.brightnessLevelDefault);
+
+    print("************************************************************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
+
+    if (globals.jsonCodesHavingAudio!=[]) {
+      print("************************************************************************** jsonCodesHavingAudio.Does Not contain ");
+      checkUrlExist();
+    } else {
+      print("*************************************************************globals.jsonCodesHavingAudio   ${globals.jsonCodesHavingAudio} ");
+
+
+    }
+
+
+  }
+
+  setAudioExist(String jsonCode) async {
+    (globals.jsonCodesHavingAudio).add(jsonCode);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
+
+    print("************************************************************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
+
+  }
+  checkUrlExist() async {
+    print("************************************************************************** checkUrlExist ");
+
+    try {
+      http.Response response =
+      await http.get(Constants.audiosListUrl +'/audiosList.php').whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        print("************************************************************************** response.statusCode == 200  $Results");
+        setAudioExist(Results);
+      } else {
+        print("************************************************************************** Failed to load ");
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
   }
 
   /// Get saved Brightness or the default value if Brightness level is not defined
@@ -400,6 +440,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     prefs = await SharedPreferences.getInstance();
     setState(() {
+      globals.audioExist=false;
       globals.tarjKhati = false;
       globals.tarjActive = true;
       globals.tozihActive = false;
@@ -437,6 +478,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       _darkMode = prefs.getBool(globals.DarkMode);
       setState(() {
         globals.darkMode = false;
+      });
+    }
+
+    if (prefs.containsKey(globals.JsonCodesHavingAudio)) {
+      var _jsonCodesHavingAudio = prefs.getStringList(globals.JsonCodesHavingAudio);
+      setState(() {
+        globals.jsonCodesHavingAudio = _jsonCodesHavingAudio;
       });
     }
 

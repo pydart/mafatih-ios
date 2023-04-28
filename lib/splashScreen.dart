@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _getAudioList();
+    // _getAudioList();
     /// get Saved preferences
 //    getBookmark();
 //    getLastViewedPage();
@@ -40,22 +40,22 @@ class _SplashScreenState extends State<SplashScreen> {
     getScreenBrightness();
     getBrightnessLevel();
   }
-  _getAudioList() async {
-    print("******************************************_getAudioList  STARTED****************************************");
-
-    try {
-      http.Response response =
-      await http.get(Constants.audiosListUrl).whenComplete(() {});
-      if (response.statusCode == 200) {
-        var Results = response.body;
-        print("**********************************************************************************_getAudioList    $Results");
-      } else {
-        throw Exception('Failed to load');
-      }
-    } catch (e) {
-      print("Exception Caught: $e");
-    }
-  }
+  // _getAudioList() async {
+  //   print("******************************************_getAudioList  STARTED****************************************");
+  //
+  //   try {
+  //     http.Response response =
+  //     await http.get(Constants.audiosListUrl).whenComplete(() {});
+  //     if (response.statusCode == 200) {
+  //       var Results = response.body;
+  //       print("**********************************************************************************_getAudioList    $Results");
+  //     } else {
+  //       throw Exception('Failed to load');
+  //     }
+  //   } catch (e) {
+  //     print("Exception Caught: $e");
+  //   }
+  // }
   @override
   void dispose() {
     super.dispose();

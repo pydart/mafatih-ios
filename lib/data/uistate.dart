@@ -80,15 +80,15 @@ class UiState with ChangeNotifier {
   }
   bool get tarjKhatiSet => tarjKhatiGet;
 
-  static String soundType = globals.sound;
-  set soundFormat(newValue) {
-    soundType = newValue;
-    String filePath = "assets/sounds/ashoura/$soundType.mp3";
-    // final assetsAudioPlayer = AssetsAudioPlayer();
-    // assetsAudioPlayer.open(Audio(filePath),
-    //     autoStart: false, respectSilentMode: false, showNotification: false);
-    notifyListeners();
-  }
+  // static String soundType = globals.sound;
+  // set soundFormat(newValue) {
+  //   soundType = newValue;
+  //   String filePath = "assets/sounds/ashoura/$soundType.mp3";
+  //   // final assetsAudioPlayer = AssetsAudioPlayer();
+  //   // assetsAudioPlayer.open(Audio(filePath),
+  //   //     autoStart: false, respectSilentMode: false, showNotification: false);
+  //   notifyListeners();
+  // }
 
 
 }
