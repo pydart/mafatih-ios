@@ -9,6 +9,9 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import 'constants.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -23,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
+    _getAudioList();
     /// get Saved preferences
 //    getBookmark();
 //    getLastViewedPage();
@@ -37,7 +40,22 @@ class _SplashScreenState extends State<SplashScreen> {
     getScreenBrightness();
     getBrightnessLevel();
   }
+  _getAudioList() async {
+    print("******************************************_getAudioList  STARTED****************************************");
 
+    try {
+      http.Response response =
+      await http.get(Constants.audiosListUrl).whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        print("**********************************************************************************_getAudioList    $Results");
+      } else {
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+  }
   @override
   void dispose() {
     super.dispose();

@@ -93,6 +93,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
+
+  _getAudioList() async {
+    print("******************************************_getAudioList  STARTED****************************************");
+
+    try {
+      http.Response response =
+      await http.get(Constants.audiosListUrl).whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        print("**********************************************************************************_getAudioList    $Results");
+      } else {
+        throw Exception('------------------------------------------------------------------------------------------------------Failed to load');
+      }
+    } catch (e) {
+      print("----------------------------------------------------------------------------------------------------------------Exception Caught: $e");
+    }
+  }
+
+
   _getBuildNumber() async {
     try {
       http.Response response =
@@ -275,6 +294,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    _getAudioList();
     try {
       versionCheck(context);
     } catch (e) {

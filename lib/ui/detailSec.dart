@@ -335,7 +335,7 @@ class _DetailSecState extends State<DetailSec> {
   }
 
   List<int> khatiedDoa = [
-  1110,3153];
+  1110,3153, 1122, 3216, 3224, 1119];
 
   Stream<PositionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration, PositionData>(
@@ -387,7 +387,7 @@ class _DetailSecState extends State<DetailSec> {
     try {
       print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
       await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      final audioSource = LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'));
+      final audioSource = LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/${jsonCode.toString()}.mp3'));
       List<dynamic> listaudioSource = [LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/03/24/audio_7981bb957c.mp3?filename=sisters-voices-103432.mp3')), LockCachingAudioSource(Uri.parse('https://sampleswap.org/mp3/artist/4646/vibesbuilderyahoode_Minute-Quantity--160.mp3'))];
 
       await _player.setAudioSource(listaudioSource[(int.parse(globals.sound))]);

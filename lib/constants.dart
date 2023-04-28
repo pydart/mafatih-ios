@@ -1,6 +1,8 @@
 class Constants {
   // static final newVersionUrl = 'https://videoir.com/apps_versions/mafatih.php';
   static final newVersionUrl = 'https://videoir.com/mafatih.php';
+  static final audiosListUrl = 'https://www.videoir.com/apps_versions/audios/';
+
   // flutter build appbundle --obfuscate --split-debug-info=/mafatih
   static final adUnitId = 'ca-app-pub-5524959616213219/4375762078';
 
