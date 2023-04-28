@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screen/flutter_screen.dart';
@@ -318,25 +320,32 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     //     : globals.brightnessLevelDefault);
 
     print("************************************************************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
+    // if (prefs.containsKey(globals.JsonCodesHavingAudio)) {
+    //   var _jsonCodesHavingAudio = prefs.getStringList(globals.JsonCodesHavingAudio);
+    //   setState(() {
+    //     globals.jsonCodesHavingAudio = _jsonCodesHavingAudio;
+    //   });
+    // }
+    // if (globals.jsonCodesHavingAudio!=[]) {
+    //   print("************************************************************************** jsonCodesHavingAudio.Does Not contain ");
+    //   checkUrlExist();
+    // } else {
+    //   print("*************************************************************globals.jsonCodesHavingAudio   ${globals.jsonCodesHavingAudio} ");
+    //
+    //
+    // }
 
-    if (globals.jsonCodesHavingAudio!=[]) {
-      print("************************************************************************** jsonCodesHavingAudio.Does Not contain ");
-      checkUrlExist();
-    } else {
-      print("*************************************************************globals.jsonCodesHavingAudio   ${globals.jsonCodesHavingAudio} ");
-
-
-    }
-
+    checkUrlExist();
 
   }
 
-  setAudioExist(String jsonCode) async {
-    (globals.jsonCodesHavingAudio).add(jsonCode);
+  setAudioExist(List<String> jsonCode) async {
+    // (globals.jsonCodesHavingAudio).add(jsonCode);
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    globals.jsonCodesHavingAudio=jsonCode;
     await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
 
-    print("************************************************************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
+    print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
 
   }
   checkUrlExist() async {
@@ -348,7 +357,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       if (response.statusCode == 200) {
         var Results = response.body;
         print("************************************************************************** response.statusCode == 200  $Results");
-        setAudioExist(Results);
+        setAudioExist(json.decode(Results).cast<String>().toList());
       } else {
         print("************************************************************************** Failed to load ");
         throw Exception('Failed to load');

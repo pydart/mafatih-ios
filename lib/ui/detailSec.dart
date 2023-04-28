@@ -221,11 +221,11 @@ class _DetailSecState extends State<DetailSec> {
       setLastScolledPixel(_scrollPosition??0);
     });
   }
-  setAudioExist(String jsonCode) async {
-    (globals.jsonCodesHavingAudio).add(jsonCode);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
-  }
+  // setAudioExist(String jsonCode) async {
+  //   (globals.jsonCodesHavingAudio).add(jsonCode);
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
+  // }
   // Future<bool> checkUrlExist(String jsonCode) async {
   //   print("**********************************************checkUrlExist**************************** '${Constants.audiosListUrl}/${widget.code}.mp3' ");
   //
@@ -250,31 +250,31 @@ class _DetailSecState extends State<DetailSec> {
   //
   // }
 
-  checkUrlExist(String jsonCode) async {
-    print("************************************************************************** checkUrlExist   ${Constants.audiosListUrl +'/${widget.code}.txt'}");
-
-    try {
-      http.Response response =
-      await http.get(Constants.audiosListUrl +'/${widget.code}.txt').whenComplete(() {});
-      if (response.statusCode == 200) {
-        var Results = response.body;
-        print("************************************************************************** response.statusCode == 200 ");
-        setState(() {
-          globals.audioExist = true;
-        });
-        setAudioExist(jsonCode.toString());
-
-      } else {
-        setState(() {
-          globals.audioExist = false;
-        });
-        print("************************************************************************** Failed to load ");
-        throw Exception('Failed to load');
-      }
-    } catch (e) {
-      print("Exception Caught: $e");
-    }
-  }
+  // checkUrlExist(String jsonCode) async {
+  //   print("************************************************************************** checkUrlExist   ${Constants.audiosListUrl +'/${widget.code}.txt'}");
+  //
+  //   try {
+  //     http.Response response =
+  //     await http.get(Constants.audiosListUrl +'/${widget.code}.txt').whenComplete(() {});
+  //     if (response.statusCode == 200) {
+  //       var Results = response.body;
+  //       print("************************************************************************** response.statusCode == 200 ");
+  //       setState(() {
+  //         globals.audioExist = true;
+  //       });
+  //       setAudioExist(jsonCode.toString());
+  //
+  //     } else {
+  //       setState(() {
+  //         globals.audioExist = false;
+  //       });
+  //       print("************************************************************************** Failed to load ");
+  //       throw Exception('Failed to load');
+  //     }
+  //   } catch (e) {
+  //     print("Exception Caught: $e");
+  //   }
+  // }
   @override
   void initState() {
     print("********************************************** widget.code  **************************** ${widget.code} ");
@@ -488,55 +488,7 @@ class _DetailSecState extends State<DetailSec> {
   }
 
 
-  // Future<void> _init(jsonCode) async {
-  //   print("////////////////////////////////////.........................// _init Playing controls  ${globals.sound}");
-  //
-  //   // final session = await AudioSession.instance;
-  //   // await session.configure(const AudioSessionConfiguration.speech());
-  //   // // Listen to errors during playback.
-  //   // player.playbackEventStream.listen((event) {},
-  //   //     onError: (Object e, StackTrace stackTrace) {
-  //   //       print('A stream error occurred: $e');
-  //   //     });
-  //   // var directory = await getApplicationDocumentsDirectory();
-  //   // String fullPath = directory.path + "/$jsonCode.mp3";
-  //   // print('*************************************************************************   full path ${fullPath}');
-  //   // // download2(dio, audioUrl, fullPath);
-  //
-  //
-  //   try {
-  //     print("////////////////////////////////////.........................// setAudioSource   ${Constants.audiosListUrl}$jsonCode.mp3'");
-  //     await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-  //     final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}$jsonCode.mp3'));
-  //     await player.setAudioSource(audioSource);
-  //     // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
-  //
-  //     // // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
-  //     // // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
-  //     // final metadata = await MetadataRetriever.fromFile(File(fullPath));
-  //     // // final metadata = await MetadataRetriever.fromFile(File("/data/user/0/pydart.mafatih/cache/just_audio_cache/remote/25284d47b822c37a59fb26a72f8f919f908cd2fc37f0e813b180bf8d93299b92.mp3"));
-  //     // String trackName = metadata.trackName;
-  //     // List<String> trackArtistNames = metadata.trackArtistNames;
-  //     // String albumName = metadata.albumName;
-  //     // String albumArtistName = metadata.albumArtistName;
-  //     // int trackNumber = metadata.trackNumber;
-  //     // int year = metadata.year;
-  //     // String authorName = metadata.authorName;
-  //     // String writerName = metadata.writerName;
-  //     // print("////////////////////////////////////.........................// trackName   ${trackName}");
-  //     // print("////////////////////////////////////.........................// trackArtistNames   ${trackArtistNames}");
-  //     // print("////////////////////////////////////.........................// albumName   ${albumName}");
-  //     // print("////////////////////////////////////.........................// albumArtistName   ${albumArtistName}");
-  //     // print("////////////////////////////////////.........................// authorName   ${year}");
-  //     //
-  //
-  //
-  //   } catch (e, stackTrace) {
-  //     // Catch load errors: 404, invalid url ...
-  //     print("Error loading playlist: $e");
-  //     print(stackTrace);
-  //   }
-  // }
+
 
   // setSound(String level) async {
   //   globals.sound = level;
@@ -621,8 +573,8 @@ class _DetailSecState extends State<DetailSec> {
           },
         ),
         bottom:
-        // haveAudio.keys.toList().contains(1000 *widget.indexFasl + widget.index) ?
-globals.audioExist?
+        globals.jsonCodesHavingAudio.contains((1000 *widget.indexFasl + widget.index).toString()) ?
+// globals.audioExist?
         PreferredSize(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -929,18 +881,66 @@ class ControlButtons extends StatelessWidget {
 
   ControlButtons(this.player, {Key key}) : super(key: key);
 
-  // @override
-  // void initState() {
-  //   int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
-  //   _init(_jsonCode);
-  // }
+  @override
+  void initState() {
+    int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
+    _init(_jsonCode);
+  }
 
   // getAudioExist(bool level) async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   final List<String> globals.jsonCodes = prefs.getStringList('JsonCodesHavingAudio');
   //
   // }
+  Future<void> _init(jsonCode) async {
+    print("////////////////////////////////////.........................// _init Playing controls  ${globals.sound}");
 
+    // final session = await AudioSession.instance;
+    // await session.configure(const AudioSessionConfiguration.speech());
+    // // Listen to errors during playback.
+    // player.playbackEventStream.listen((event) {},
+    //     onError: (Object e, StackTrace stackTrace) {
+    //       print('A stream error occurred: $e');
+    //     });
+    // var directory = await getApplicationDocumentsDirectory();
+    // String fullPath = directory.path + "/$jsonCode.mp3";
+    // print('*************************************************************************   full path ${fullPath}');
+    // // download2(dio, audioUrl, fullPath);
+
+
+    try {
+      print("////////////////////////////////////.........................// setAudioSource   ${Constants.audiosListUrl}$jsonCode.mp3'");
+      await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
+      final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}$jsonCode.mp3'));
+      await player.setAudioSource(audioSource);
+      // await player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
+
+      // // final audioSource = LockCachingAudioSource(Uri.parse('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=electronic-rock-king-around-here-15045.mp3'));
+      // // await player.setAudioSource(audioSource, initialPosition: Duration.zero);
+      // final metadata = await MetadataRetriever.fromFile(File(fullPath));
+      // // final metadata = await MetadataRetriever.fromFile(File("/data/user/0/pydart.mafatih/cache/just_audio_cache/remote/25284d47b822c37a59fb26a72f8f919f908cd2fc37f0e813b180bf8d93299b92.mp3"));
+      // String trackName = metadata.trackName;
+      // List<String> trackArtistNames = metadata.trackArtistNames;
+      // String albumName = metadata.albumName;
+      // String albumArtistName = metadata.albumArtistName;
+      // int trackNumber = metadata.trackNumber;
+      // int year = metadata.year;
+      // String authorName = metadata.authorName;
+      // String writerName = metadata.writerName;
+      // print("////////////////////////////////////.........................// trackName   ${trackName}");
+      // print("////////////////////////////////////.........................// trackArtistNames   ${trackArtistNames}");
+      // print("////////////////////////////////////.........................// albumName   ${albumName}");
+      // print("////////////////////////////////////.........................// albumArtistName   ${albumArtistName}");
+      // print("////////////////////////////////////.........................// authorName   ${year}");
+      //
+
+
+    } catch (e, stackTrace) {
+      // Catch load errors: 404, invalid url ...
+      print("Error loading playlist: $e");
+      print(stackTrace);
+    }
+  }
 
   // final audioUrl = "https://www.videoir.com/apps_versions/audios/1110.mp3";
   // var dio = Dio();
