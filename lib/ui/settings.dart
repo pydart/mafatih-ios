@@ -318,7 +318,7 @@ class _SettingsState extends State<Settings> {
           ),
           tempTarjActive
               ? CardSetting(
-            title: 'ترجمه خطی',
+            title: ' ترجمه خطی(تعدادی محدود)',
             leading: Switch(
               activeColor: Color(0xf6c40c0c),
               value: tempTarjKhati,

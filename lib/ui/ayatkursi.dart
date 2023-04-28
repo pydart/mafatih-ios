@@ -110,187 +110,187 @@ class _AyatKursiState extends State<AyatKursi> {
                 ),
               ),
             ),
-            Text(
-              '   دیگر برنامه ها',
-              style: AppStyle.settingRelated,
-            ),
-            Container(
-              height: 1,
-              color: Color(0xf6c40c0c),
-            ),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/ashoura.png"),
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'زیارت عاشورا',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled =
-                  await DeviceApps.isAppInstalled('pydart.ashoura');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.ashoura');
-                  } else {
-                    String url = Constants.storeUrlAshoura;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/komeil.png"),
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'دعای کمیل',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled =
-                  await DeviceApps.isAppInstalled('pydart.komeil');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.komeil');
-                  } else {
-                    String url = Constants.storeUrlKomeil;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/aahd.png"),
-//                        color: Colors.white,
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'دعای عهد',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled = await DeviceApps.isAppInstalled('pydart.aahd');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.aahd');
-                  } else {
-                    String url = Constants.storeUrlAahd;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/nodbe.png"),
-//                        color: Colors.white,
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-                    Text(
-                      'دعای ندبه',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled = await DeviceApps.isAppInstalled('pydart.nodbe');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.nodbe');
-                  } else {
-                    String url = Constants.storeUrlNodbe;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
-            ListTile(
-                leading: Wrap(
-                  spacing: 12, // space between two icons
-                  children: <Widget>[
-//                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-//                  new Image.asset("assets/asmaIcon.png"),
-                    new IconTheme(
-                      data: new IconThemeData(
-                        color: null,
-                      ), //IconThemeData
-
-                      child: Container(
-                        child: new Image.asset("assets/kasa.png"),
-//                        color: Colors.white,
-                        height: 25,
-                        width: 25,
-                      ),
-                    ),
-
-                    Text(
-                      'حدیث کسا',
-                      style: AppStyle.setting,
-                    ),
-                  ],
-                ),
-                onTap: () async {
-                  isInstalled = await DeviceApps.isAppInstalled('pydart.kasa');
-                  if (isInstalled) {
-                    DeviceApps.openApp('pydart.kasa');
-                  } else {
-                    String url = Constants.storeUrlKasa;
-                    if (await canLaunch(url))
-                      await launch(url);
-                    else
-                      throw 'Could not launch $url';
-                  }
-                }),
+//             Text(
+//               '   دیگر برنامه ها',
+//               style: AppStyle.settingRelated,
+//             ),
+//             Container(
+//               height: 1,
+//               color: Color(0xf6c40c0c),
+//             ),
+//             ListTile(
+//                 leading: Wrap(
+//                   spacing: 12, // space between two icons
+//                   children: <Widget>[
+//                     new IconTheme(
+//                       data: new IconThemeData(
+//                         color: null,
+//                       ), //IconThemeData
+//
+//                       child: Container(
+//                         child: new Image.asset("assets/ashoura.png"),
+//                         height: 25,
+//                         width: 25,
+//                       ),
+//                     ),
+//                     Text(
+//                       'زیارت عاشورا',
+//                       style: AppStyle.setting,
+//                     ),
+//                   ],
+//                 ),
+//                 onTap: () async {
+//                   isInstalled =
+//                   await DeviceApps.isAppInstalled('pydart.ashoura');
+//                   if (isInstalled) {
+//                     DeviceApps.openApp('pydart.ashoura');
+//                   } else {
+//                     String url = Constants.storeUrlAshoura;
+//                     if (await canLaunch(url))
+//                       await launch(url);
+//                     else
+//                       throw 'Could not launch $url';
+//                   }
+//                 }),
+//             ListTile(
+//                 leading: Wrap(
+//                   spacing: 12, // space between two icons
+//                   children: <Widget>[
+//                     new IconTheme(
+//                       data: new IconThemeData(
+//                         color: null,
+//                       ), //IconThemeData
+//
+//                       child: Container(
+//                         child: new Image.asset("assets/komeil.png"),
+//                         height: 25,
+//                         width: 25,
+//                       ),
+//                     ),
+//                     Text(
+//                       'دعای کمیل',
+//                       style: AppStyle.setting,
+//                     ),
+//                   ],
+//                 ),
+//                 onTap: () async {
+//                   isInstalled =
+//                   await DeviceApps.isAppInstalled('pydart.komeil');
+//                   if (isInstalled) {
+//                     DeviceApps.openApp('pydart.komeil');
+//                   } else {
+//                     String url = Constants.storeUrlKomeil;
+//                     if (await canLaunch(url))
+//                       await launch(url);
+//                     else
+//                       throw 'Could not launch $url';
+//                   }
+//                 }),
+//             ListTile(
+//                 leading: Wrap(
+//                   spacing: 12, // space between two icons
+//                   children: <Widget>[
+//                     new IconTheme(
+//                       data: new IconThemeData(
+//                         color: null,
+//                       ), //IconThemeData
+//
+//                       child: Container(
+//                         child: new Image.asset("assets/aahd.png"),
+// //                        color: Colors.white,
+//                         height: 25,
+//                         width: 25,
+//                       ),
+//                     ),
+//                     Text(
+//                       'دعای عهد',
+//                       style: AppStyle.setting,
+//                     ),
+//                   ],
+//                 ),
+//                 onTap: () async {
+//                   isInstalled = await DeviceApps.isAppInstalled('pydart.aahd');
+//                   if (isInstalled) {
+//                     DeviceApps.openApp('pydart.aahd');
+//                   } else {
+//                     String url = Constants.storeUrlAahd;
+//                     if (await canLaunch(url))
+//                       await launch(url);
+//                     else
+//                       throw 'Could not launch $url';
+//                   }
+//                 }),
+//             ListTile(
+//                 leading: Wrap(
+//                   spacing: 12, // space between two icons
+//                   children: <Widget>[
+//                     new IconTheme(
+//                       data: new IconThemeData(
+//                         color: null,
+//                       ), //IconThemeData
+//
+//                       child: Container(
+//                         child: new Image.asset("assets/nodbe.png"),
+// //                        color: Colors.white,
+//                         height: 25,
+//                         width: 25,
+//                       ),
+//                     ),
+//                     Text(
+//                       'دعای ندبه',
+//                       style: AppStyle.setting,
+//                     ),
+//                   ],
+//                 ),
+//                 onTap: () async {
+//                   isInstalled = await DeviceApps.isAppInstalled('pydart.nodbe');
+//                   if (isInstalled) {
+//                     DeviceApps.openApp('pydart.nodbe');
+//                   } else {
+//                     String url = Constants.storeUrlNodbe;
+//                     if (await canLaunch(url))
+//                       await launch(url);
+//                     else
+//                       throw 'Could not launch $url';
+//                   }
+//                 }),
+//             ListTile(
+//                 leading: Wrap(
+//                   spacing: 12, // space between two icons
+//                   children: <Widget>[
+// //                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
+// //                  new Image.asset("assets/asmaIcon.png"),
+//                     new IconTheme(
+//                       data: new IconThemeData(
+//                         color: null,
+//                       ), //IconThemeData
+//
+//                       child: Container(
+//                         child: new Image.asset("assets/kasa.png"),
+// //                        color: Colors.white,
+//                         height: 25,
+//                         width: 25,
+//                       ),
+//                     ),
+//
+//                     Text(
+//                       'حدیث کسا',
+//                       style: AppStyle.setting,
+//                     ),
+//                   ],
+//                 ),
+//                 onTap: () async {
+//                   isInstalled = await DeviceApps.isAppInstalled('pydart.kasa');
+//                   if (isInstalled) {
+//                     DeviceApps.openApp('pydart.kasa');
+//                   } else {
+//                     String url = Constants.storeUrlKasa;
+//                     if (await canLaunch(url))
+//                       await launch(url);
+//                     else
+//                       throw 'Could not launch $url';
+//                   }
+//                 }),
             AdmobBanner(
               adUnitId: 'ca-app-pub-5524959616213219/7557264464',
               adSize: AdmobBannerSize.BANNER,

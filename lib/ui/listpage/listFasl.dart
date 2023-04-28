@@ -76,73 +76,23 @@ class _ListFaslState extends State<ListFasl> {
         globals.indexFasllastViewedPage != null ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ElevatedButton(
-                  child: const Text('نمایش آخرین صفحه',                                            style: TextStyle(
-//                                            fontWeight: FontWeight.bold,
-                      fontFamily: 'IRANSans',
-                      fontSize: 14,
-                      height: 1.7,
-//                                            color:
-//                                                Theme.of(context).buttonColor),
-                      color: Color(0xf6c40c0c)),
-                  ),
-                  onPressed: () async {
-                    globals.edameFaraz=true;
-                    ui.edameFarazSet = true;
-                    {
-                      if (globals.indexFasllastViewedPage !=
-                          4) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                    DetailSec(
-                                      detail: globals.titlelastViewedPage,
-                                      index: globals.indexlastViewedPage,
-                                      indent: globals.indentlastViewedPage,
-                                      indexFasl: globals.indexFasllastViewedPage,
-                                      code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
-                                    )));
-                      } else if (globals.indexFasllastViewedPage ==
-                          4 &&
-                          !ui.terjemahan) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                    DetailSec5(
-                                      detail: globals.titlelastViewedPage,
-                                      index: globals.indexlastViewedPage,
-                                      indent: globals.indentlastViewedPage,
-                                      indexFasl: 5,
-                                      code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
-                                    )));
-                      } else if (globals.indexFasllastViewedPage ==
-                          4 &&
-                          ui.terjemahan) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                    DetailSec4(
-                                      detail: globals.titlelastViewedPage,
-                                      index: globals.indexlastViewedPage,
-                                      indent: globals.indentlastViewedPage,
-                                      indexFasl: globals.indexFasllastViewedPage,
-                                      code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
-                                    )));
-                      }
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey[400]
-                        : Colors.grey[500],
 
-                  )),
+//               ElevatedButton(
+//                   child: const Text('نمایش آخرین صفحه',                                            style: TextStyle(
+// //                                            fontWeight: FontWeight.bold,
+//                       fontFamily: 'IRANSans',
+//                       fontSize: 14,
+//                       height: 1.7,
+// //                                            color:
+// //                                                Theme.of(context).buttonColor),
+//                       color: Color(0xf6c40c0c)),
+//                   ),
+//                   style: ElevatedButton.styleFrom(
+//                     primary: Theme.of(context).brightness == Brightness.light
+//                         ? Colors.grey[400]
+//                         : Colors.grey[500],
+//
+//                   )),
 
 
             ],

@@ -12,6 +12,9 @@ import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
+import '../data/uistate.dart';
+import 'detailSec4.dart';
+import 'detailSec5.dart';
 import 'drawer.dart';
 import 'home_about.dart';
 import 'listpage/listFasl.dart';
@@ -574,6 +577,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var ui = Provider.of<UiState>(context);
+
     return Scrollbar(
       child: WillPopScope(
         // onWillPop: _onBackPressed,
@@ -638,6 +643,87 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 body: ListView(
                   // controller: _tabController,
                   children: <Widget>[
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 120.0, vertical: 0),
+                      child: Card(
+                          semanticContainer: true,
+                          margin: EdgeInsets.fromLTRB(0,0,0,0),
+
+                          color: Colors.lightGreen[50],
+                          elevation: 0.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              side: BorderSide(
+                                  width: 0.5, color: Colors.green)),
+                          child: Container(
+                            child: ListTile(
+                              title: Center(
+                                child: Text('نمایش آخرین صفحه',                                            style: TextStyle(
+                                           fontWeight: FontWeight.bold,
+                      fontFamily: 'IRANSans',
+                      fontSize: 14,
+                      height: 1.7,
+//                                            color:
+//                                                Theme.of(context).buttonColor),
+//                       color: Color(0xf6c40c0c)
+
+                                ),
+                  ),
+                              ),
+                              onTap: () async {
+                                globals.edameFaraz=true;
+                                ui.edameFarazSet = true;
+                                {
+                                  if (globals.indexFasllastViewedPage !=
+                                      4) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder:
+                                                (context) =>
+                                                DetailSec(
+                                                  detail: globals.titlelastViewedPage,
+                                                  index: globals.indexlastViewedPage,
+                                                  indent: globals.indentlastViewedPage,
+                                                  indexFasl: globals.indexFasllastViewedPage,
+                                                  code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
+                                                )));
+                                  } else if (globals.indexFasllastViewedPage ==
+                                      4 &&
+                                      !ui.terjemahan) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder:
+                                                (context) =>
+                                                DetailSec5(
+                                                  detail: globals.titlelastViewedPage,
+                                                  index: globals.indexlastViewedPage,
+                                                  indent: globals.indentlastViewedPage,
+                                                  indexFasl: 5,
+                                                  code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
+                                                )));
+                                  } else if (globals.indexFasllastViewedPage ==
+                                      4 &&
+                                      ui.terjemahan) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder:
+                                                (context) =>
+                                                DetailSec4(
+                                                  detail: globals.titlelastViewedPage,
+                                                  index: globals.indexlastViewedPage,
+                                                  indent: globals.indentlastViewedPage,
+                                                  indexFasl: globals.indexFasllastViewedPage,
+                                                  code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
+                                                )));
+                                  }
+                                }
+                              },
+                            ),)),
+                    ),
                     ListFasl(),
                     // Text(
                     //   'برای حمایت از ما روی تبلیغ ذیل کلیک فرماییدِ',

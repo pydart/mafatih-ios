@@ -10,6 +10,8 @@ import 'models/DailyDoa4.dart';
 import 'models/FaslInfo.dart';
 import 'models/FaslSecInfo.dart';
 import 'models/MixedTextInfoAll.dart';
+import 'package:flutter/services.dart';
+import '../AES Encryption/AES.dart';
 
 class ServiceData {
   var infosurah = 'surah/surah-info.json';
@@ -22,6 +24,7 @@ class ServiceData {
   static var infoFasl4 = 'python/Babs/infobab4.json';
   static var infoFasl6 = 'python/Babs/infobab6.json';
   static var infoFasl7 = 'python/Babs/infobab7.json';
+  AESEncryption encryption = new AESEncryption();
 
   var dict = {
     1: infoFasl1,
@@ -83,19 +86,51 @@ class ServiceData {
   }
 
   Future<DailyDoa> loadSec(int indexFasl, String number) async {
-    final response =
-        await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
-    var res = json.decode(response);
-    var data = res['$number'];
+    // final response =
+    //     await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
+    // var res = json.decode(response);
+    // var data = res['$number'];
+    // return DailyDoa.fromJson(data);
+    final jsonEncrypted =
+    await rootBundle.loadString('python/Babs/$indexFasl/$number.txt');
+    // var res = json.decode(response);
+    // print("*************************************************************************** jsonEncrypted");
+    // print(jsonEncrypted);
+
+    var decrypted = encryption.decryptMsg(encryption.getCode(jsonEncrypted));
+    // print("****************************************************************************** decrypted");
+    // print(decrypted);
+    final decryptedDecoded = await json.decode(decrypted);
+
+    var data = decryptedDecoded["$number"];
+    // print("data");
+    // print(data);
     return DailyDoa.fromJson(data);
+
   }
 
   Future<DailyDoa4> loadSec4(int indexFasl, int number) async {
-    final response =
-        await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
-    var res = json.decode(response);
-    var data = res['$number'];
+    // final response =
+    //     await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
+    // var res = json.decode(response);
+    // var data = res['$number'];
+    // return DailyDoa4.fromJson(data);
+    final jsonEncrypted =
+    await rootBundle.loadString('python/Babs/$indexFasl/$number.txt');
+    // var res = json.decode(response);
+    // print("*************************************************************************** jsonEncrypted");
+    // print(jsonEncrypted);
+
+    var decrypted = encryption.decryptMsg(encryption.getCode(jsonEncrypted));
+    // print("****************************************************************************** decrypted");
+    // print(decrypted);
+    final decryptedDecoded = await json.decode(decrypted);
+
+    var data = decryptedDecoded["$number"];
+    // print("data");
+    // print(data);
     return DailyDoa4.fromJson(data);
+
   }
 
   Future<AyathKursi> loadAyatKursi() async {
