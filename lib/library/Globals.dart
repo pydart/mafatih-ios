@@ -11,11 +11,12 @@ Map<int, List<String>> haveAudio ={1110:['محسن فرهمند', 'میثم مط
 int _nextMediaId = 0;
 String appNameEn="tavasol";
 
+
 // Define the playlist
 final playlist = {
   1110:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
 children: [
-LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3')),
+LockCachingAudioSource(Uri.parse('https://www.videoir.com/apps_versions/audios/1-fani.mp3')),
   AudioSource.uri(Uri.parse("asset:///assets/sounds/1-fani.mp3")),
   AudioSource.uri(Uri.parse("asset:///assets/sounds/0.mp3")),
 ]),
