@@ -65,6 +65,7 @@ flutter:
   assets:
     - assets/
     - python/Babs/
+    - python/Babs/infobabs/
     - python/Babs/1/
     - python/Babs/2/
     - python/Babs/3/
