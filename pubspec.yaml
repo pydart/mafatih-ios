@@ -53,6 +53,9 @@ dependencies:
   path_provider: ^1.6.28
   encrypt: ^4.1.0
   flutter_media_metadata: ^1.0.0+1
+#  audioplayers: ^0.17.4
+  audioplayer: 0.8.1
+
 
 dev_dependencies:
   flutter_test:

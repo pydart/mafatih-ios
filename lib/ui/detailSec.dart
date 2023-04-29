@@ -4,11 +4,12 @@ import 'dart:io';
 
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
-import 'package:dio/dio.dart';
+// import 'package:dio/dio.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart';
 import 'package:mafatih/audio/common.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/themes.dart';
@@ -275,9 +276,13 @@ class _DetailSecState extends State<DetailSec> {
   //     print("Exception Caught: $e");
   //   }
   // }
+
+
+
   @override
   void initState() {
     print("********************************************** widget.code  **************************** ${widget.code} ");
+    final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
 
     if (globals.jsonCodesHavingAudio.contains(widget.code)) {
       print("************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");
@@ -455,8 +460,36 @@ class _DetailSecState extends State<DetailSec> {
     try {
       print("////////////////////////////////////.........................// setAudioSource   ${globals.audioExist}");
       await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
-      await _player.setAudioSource(audioSource);
+
+      // Good workig well
+      // final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
+      // await _player.setAudioSource(audioSource);
+      ////////////////////////////////////////////////////////////////
+
+
+      final duration = await _player.setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
+      // _player.play();
+
+
+
+
+
+
+
+
+      // var directory = await getApplicationDocumentsDirectory();
+      // String savePath = directory.path + "/1110.mp3";
+      // print("///////////////////////////////////////////// ${Uri.parse(globals.cacheAudio)}");
+
+
+
+
+      // await _player.setAudioSource(AudioSource.uri(Uri.parse("file:///${globals.cacheAudio}")));
+      // _player.setAudioSource(playlist[0], initialPosition: Duration.zero);
+
+      // await _player.setAudioSource(AudioSource.uri(Uri.f(savePath)));
+      // final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
+      // await _player.setAudioSource(AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/1110.mp3')));
     } catch (e, stackTrace) {
       // Catch load errors: 404, invalid url ...
       print("Error loading playlist: $e");
@@ -466,57 +499,166 @@ class _DetailSecState extends State<DetailSec> {
 
 
 
-  void showDownloadProgress(received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + "%");
-    }
-  }
-  Future download2(Dio dio, String url, String savePath) async {
-    try {
-      Response response = await dio.get(
-        url,
-        onReceiveProgress: showDownloadProgress,
-        //Received data with List<int>
-        options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            validateStatus: (status) {
-              return status < 500;
-            }),
-      );
-      print(response.headers);
-      File file = File(savePath);
-      var raf = file.openSync(mode: FileMode.write);
-      // response.data is List<int> type
-      raf.writeFromSync(response.data);
-      await raf.close();
-    } catch (e) {
-      print(e);
-    }
-  }
+  // void showDownloadProgress(received, total) {
+  //   if (total != -1) {
+  //     print((received / total * 100).toStringAsFixed(0) + "%");
+  //   }
+  // }
+  // Future download2(Dio dio, String url, String savePath) async {
+  //   try {
+  //     Response response = await dio.get(
+  //       url,
+  //       onReceiveProgress: showDownloadProgress,
+  //       //Received data with List<int>
+  //       options: Options(
+  //           responseType: ResponseType.bytes,
+  //           followRedirects: false,
+  //           validateStatus: (status) {
+  //             return status < 500;
+  //           }),
+  //     );
+  //     print(response.headers);
+  //     File file = File(savePath);
+  //     var raf = file.openSync(mode: FileMode.write);
+  //     // response.data is List<int> type
+  //     raf.writeFromSync(response.data);
+  //     await raf.close();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
-  List file = [];
-  Future _audioFiles() async {
-    // >> To get paths you need these 2 lines
-    final manifestContent =
-    await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+  // List file = [];
+  // Future _audioFiles() async {
+  //   // >> To get paths you need these 2 lines
+  //   final manifestContent =
+  //   await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+  //
+  //   final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+  //   // >> To get paths you need these 2 lines
+  //   final imagePaths = manifestMap.keys
+  //       .where((String key) => key.contains('assets/sounds/'))
+  //   // .where((String key) => key.contains('.mp3'))
+  //       .toList();
+  //
+  //   setState(() {
+  //     file = imagePaths;
+  //   });
+  // }
 
-    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
-    // >> To get paths you need these 2 lines
-    final imagePaths = manifestMap.keys
-        .where((String key) => key.contains('assets/sounds/'))
-    // .where((String key) => key.contains('.mp3'))
-        .toList();
+  double progress = null;
 
+  String status = "Not Downloaded";
+
+  /// random download file for demonstration purposes
+  /// replace with any file you want to download
+  // final url = 'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_1000MG.mp3';
+  // final url = 'https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_1920_18MG.mp4';
+
+  void _downloadButtonPressed() async {
+    /// when download first called it takes a bit of time to communicate with server.
+    /// While that is happening, make circle just spin eternally
+    setState(() { progress = null; });
+    String audioUrl = 'https://www.videoir.com/apps_versions/audios/${widget.code}.mp3';
+    final request = Request('GET', Uri.parse(audioUrl));
+    /// calling Client().send() instead of get(url) method.
+    /// Reason: send() gives you a stream, and you’re going to listen to the
+    /// stream of bytes as it downloads the file from the server
+    final StreamedResponse response = await Client().send(request);
+
+    /// response coming from the server contains a header called Content-Length,
+    /// which includes the total size of the file in bytes
+    final contentLength = response.contentLength;
+    // sometimes the server doesn't return this value or sometimes the header gets stripped away.
+    // If that’s the case then contentLength will be null.
+    // That makes it more difficult to show your users the download progress.
+    // There are a couple of options:
+    //   - If you have control of the server, you can set the x-decompressed-content-length header
+    //     with the file size before you send it. That header seems to stay put.
+    //     On the client side you could retrieve the content length like this:
+    //       final contentLength = double.parse(response.headers['x-decompressed-content-length']);
+    //   - Another option is to just show the cumulative number of bytes that are being downloaded.
+    //     Since the final total is not known, the user still won’t know how long they have to wait,
+    //     but at least it will be more informative than an eternal spinning circle.
+
+    /// Now that we have response from server, stop the spinning indicator & set it to 0
     setState(() {
-      file = imagePaths;
+      progress = 0.000001;
+      status = "دانلود شروع شد";
     });
+
+    /// Initialize variable to save the download in.
+    /// Array stores the file in memory before you save to storage.
+    /// Since the length of this array is the number of bytes that have been
+    /// downloaded, use this to track the progress of the download.
+    List<int> bytes = [];
+
+    /// place to store the file
+    final file = await _getFile('${widget.code}.mp3');
+
+    response.stream.listen(
+          (List<int> newBytes) {
+        // update progress
+        bytes.addAll(newBytes);
+        final downloadedLength = bytes.length;
+        setState(() {
+          progress = downloadedLength.toDouble() / (contentLength ?? 1);
+          status = "  پیشرفت ${((progress ?? 0)*100).toStringAsFixed(2)}% ";
+        });
+        print("progress: $progress");
+      },
+      onDone: () async {
+        // save file
+        setState(() {
+          progress = 1;
+          status = "دانلود تکمیل شد";
+        });
+        await file.writeAsBytes(bytes);
+        final duration = await _player.setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
+
+        /// file has been downloaded
+        /// show success to user
+        debugPrint("Download finished");
+      },
+      onError: (e) {
+        /// if user loses internet connection while downloading the file, causes an error.
+        /// You can decide what to do about that in onError.
+        /// Setting cancelOnError to true will cause the StreamSubscription to get canceled.
+        debugPrint(e);
+      },
+      cancelOnError: true,
+    );
+
+    /// using Flutter package "dio":
+    //      Dio dio = Dio();
+    //      dio.download(urlOfFileToDownload, '$dir/$filename',
+    //         onReceiveProgress(received,total) {
+    //         setState(() {
+    //           int percentage = ((received / total) * 100).floor();
+    //         });
+    //      });
+
+
   }
+
+  /// Finds an appropriate place on the user’s device to put the file.
+  /// In this case we are choosing to use the temp directory.
+  /// You could also chose the documents directory or somewhere else.
+  /// This method is using the path_provider package to get that location.
+  Future<File> _getFile(String filename) async {
+    final dir = await getTemporaryDirectory();
+    // final dir = await getApplicationDocumentsDirectory();
+    return File("${dir.path}/$filename");
+  }
+
 
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
+    bool audioIsSaved=File("data/user/0/pydart.mafatih/cache/${widget.code}.mp3").existsSync();
+// print("//////////////////////////////////////////////////// audioIsSaved   $audioIsSaved");
+//     print("//////////////////////////////////////////////////// progress   $progress");
 
     return
 //      WillPopScope(
@@ -551,9 +693,21 @@ class _DetailSecState extends State<DetailSec> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // SizedBox(height: 10,),
-                ControlButtons(_player),
-                StreamBuilder<PositionData>(
+               if ((progress==null && audioIsSaved!=true)|| (progress==0 && audioIsSaved!=null) ) IconButton(
+          icon: const Icon(Icons.play_arrow),
+          iconSize: 50.0,
+          onPressed:
+          progress==null ? _downloadButtonPressed : null,
+
+        ),
+                if (progress!=null && progress!=0 && progress<1) CircularProgressIndicator(
+                  value: progress,
+                ),
+                if (progress!=null && progress!=0 && progress<1) SizedBox(height: 20,),
+                if (progress!=null && progress!=0 && progress<1) Text(status),
+                SizedBox(height: 10,),
+                if (audioIsSaved==true || (progress!=null && progress==1))ControlButtons(_player),
+                if (audioIsSaved==true || (progress!=null && progress==1))StreamBuilder<PositionData>(
                   stream: _positionDataStream,
                   builder: (context, snapshot) {
                     final positionData = snapshot.data;
@@ -851,12 +1005,19 @@ class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
   ControlButtons(this.player, {Key key}) : super(key: key);
+  // int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
+  final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1110.mp3";
+  // var dio = Dio();
 
-  @override
-  void initState() {
-    int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
-    _init(_jsonCode);
-  }
+  // @override
+  // void initState() {
+  //   int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
+  //   _init(_jsonCode);
+  //   print("////////////////////////////////////.........................download2 ");
+  //
+  //   download2(dio, audioUrl);
+  //
+  // }
 
   Future<void> _init(jsonCode) async {
     print("////////////////////////////////////.........................// _init Playing controls ");
@@ -872,42 +1033,52 @@ class ControlButtons extends StatelessWidget {
     }
   }
 
-  void showDownloadProgress(received, total) {
-    if (total != -1) {
-      print((received / total * 100).toStringAsFixed(0) + "%");
-    }
-  }
-  Future download2(Dio dio, String url, String savePath) async {
-    try {
-      Response response = await dio.get(
-        url,
-        onReceiveProgress: showDownloadProgress,
-        //Received data with List<int>
-        options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            validateStatus: (status) {
-              return status < 500;
-            }),
-      );
-      print(response.headers);
-      File file = File(savePath);
-      var raf = file.openSync(mode: FileMode.write);
-      // response.data is List<int> type
-      raf.writeFromSync(response.data);
-      await raf.close();
-    } catch (e) {
-      print(e);
-    }
-  }
+  // void showDownloadProgress(received, total) {
+  //   if (total != -1) {
+  //     print((received / total * 100).toStringAsFixed(0) + "%");
+  //   }
+  // }
+  // Future download2(Dio dio, String url) async {
+  //
+  //     var directory = await getTemporaryDirectory();
+  //     String savePath = directory.path + "/just_audio_cache/assets/sounds/1117.mp3";
+  //     print('*************************************************************************   full path ${savePath}');
+  //
+  //
+  //   try {
+  //     Response response = await dio.get(
+  //       url,
+  //       onReceiveProgress: showDownloadProgress,
+  //       //Received data with List<int>
+  //       options: Options(
+  //           responseType: ResponseType.bytes,
+  //           followRedirects: false,
+  //           validateStatus: (status) {
+  //             return status < 500;
+  //           }),
+  //     );
+  //     print(response.headers);
+  //     File file = File(savePath);
+  //     var raf = file.openSync(mode: FileMode.write);
+  //     // response.data is List<int> type
+  //     raf.writeFromSync(response.data);
+  //     await raf.close();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // Future playAudio() async {
+  //   final file = new File('${(await getTemporaryDirectory()).path}/1110.mp3');
+  //   final result = await audioPlayer.play(file.path, isLocal: true);
+  // }
+
 
   @override
   Widget build(BuildContext context) {
     // String tempsound = globals.sound;
     var ui = Provider.of<UiState>(context);
-    // int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
-    // final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
-    // var dio = Dio();
+
 
     return
       Row(
@@ -919,21 +1090,24 @@ class ControlButtons extends StatelessWidget {
               icon: Text("${snapshot.data?.toStringAsFixed(1)}x",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () {
-                showSliderDialog(
-                  context: context,
-                  title: "تنظیم سرعت",
-                  divisions: 20,
-                  min: 0.1,
-                  max: 1.9,
-                  stream: player.speedStream,
-                  onChanged: player.setSpeed, value: player.speed,
-                );
+                // download2(dio, audioUrl);
+
+                // showSliderDialog(
+                //   context: context,
+                //   title: "تنظیم سرعت",
+                //   divisions: 20,
+                //   min: 0.1,
+                //   max: 1.9,
+                //   stream: player.speedStream,
+                //   onChanged: player.setSpeed, value: player.speed,
+                // );
               },
             ),
           ),
           StreamBuilder<PlayerState>(
             stream: player.playerStateStream,
             builder: (context, snapshot) {
+              // print("*******************************************                  ${LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/1110.mp3'))}"  );
               final playerState = snapshot.data;
               final processingState = playerState?.processingState;
               final playing = playerState?.playing;
@@ -951,15 +1125,8 @@ class ControlButtons extends StatelessWidget {
                 return IconButton(
                   icon: const Icon(Icons.play_arrow),
                   iconSize: 30.0,
-                  onPressed:                     player.play,
-
-                  //     () async {
-                  //   var directory = await getApplicationDocumentsDirectory();
-                  //   String fullPath = directory.path + "/1-fani.mp3";
-                  //   print('*************************************************************************   full path ${fullPath}');
-                  //   download2(dio, audioUrl, "/assets/sounds/1-fani.mp3");
-                  //   player.play;
-                  // },
+                  onPressed:
+                  player.play,
 
                 );
               }

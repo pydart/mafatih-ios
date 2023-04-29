@@ -11,7 +11,23 @@ bool audioExist=false;
 int _nextMediaId = 0;
 String appNameEn="tavasol";
 
+// String filePath="data/user/0/pydart.mafatih/cache/just_audio_cache/assets/assets/sounds/1117.mp3";
+String filePath="data/user/0/pydart.mafatih/app_flutter/1112.mp3";
+String cacheAudio="/data/data/pydart.mafatih/cache";
+String audioUrl = 'https://www.videoir.com/apps_versions/audios/1112.mp3';
 
+
+
+final playlist = ConcatenatingAudioSource(children: [
+  AudioSource.uri(
+    Uri.parse("file:///$filePath"),
+    tag: MediaItem(
+        id: '${_nextMediaId++}',
+    ),
+  ),
+]);
+
+// data/user/0/pydart.mafatih/app_flutter/1110.mp3
 // Define the playlist
 // final playlist = {
 //   1110:ConcatenatingAudioSource( useLazyPreparation: true, shuffleOrder: DefaultShuffleOrder(),
