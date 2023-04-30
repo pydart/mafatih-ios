@@ -1,12 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screen/flutter_screen.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/home2.dart';
@@ -14,12 +9,9 @@ import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa4.dart';
-// import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec44.dart';
-
-import 'notesSearch.dart';
 
 class DetailSec55 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
@@ -38,17 +30,10 @@ class DetailSec55 extends StatefulWidget {
 }
 
 class _DetailSec55State extends State<DetailSec55> {
-  /// Used for Bottom Navigation
   int _selectedIndex = 0;
-//  Home indexTabHomeDetailSec = Home();
-//  indexTabHomeDetailSec.indexTabHome=0;
-  /// Declare SharedPreferences
   SharedPreferences prefs;
   bool isBookmarked;
   static Color iconBookmarkcolor;
-
-  Widget _bookmarkWidget = Container();
-
   String titleCurrentPage;
   int indexCurrentPage;
   int indexFaslCurrentPage;
@@ -59,30 +44,16 @@ class _DetailSec55State extends State<DetailSec55> {
   final itemSize = globals.fontTozihLevel * 1.7;
   final queryOffset = 100;
 
-  _moveUp() {
-    //_controller.jumpTo(_controller.offset - itemSize);
-    _controller.animateTo(_scrollPosition - 100,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
-
-  _moveDown() {
-    //_controller.jumpTo(_controller.offset + itemSize);
-    _controller.animateTo(_scrollPosition,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
-  /// Navigation event handler
   _onItemTapped(int indexTab) {
     setState(() {
       _selectedIndex = indexTab;
 
-      /// Go to Bookmarked page
       if (indexTab == 2) {
         isBookmarked
             ? setState(() {
@@ -138,11 +109,9 @@ class _DetailSec55State extends State<DetailSec55> {
     return input;
   }
 
-  /// set bookmarkPage in sharedPreferences
   void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
       List<int> _code) async {
     prefs = await SharedPreferences.getInstance();
-//    if (_index[0] != null && !_index[0].isNaN) {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
 
     List<String> _strindex = _index.map((i) => i.toString()).toList();
@@ -155,7 +124,6 @@ class _DetailSec55State extends State<DetailSec55> {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
   }
 
-  /// set lastViewedPage in sharedPreferences
   void setLastViewedPage(String _titleCurrentPage, int _indexCurrentPage,
       int _indexFaslCurrentPage) async {
     prefs = await SharedPreferences.getInstance();
@@ -178,7 +146,6 @@ class _DetailSec55State extends State<DetailSec55> {
     await page.close();
   }
 
-  /// Init Page Controller
   PageController pageController;
   double _scrollPosition;
   ScrollController _scrollController;
@@ -231,9 +198,7 @@ class _DetailSec55State extends State<DetailSec55> {
       }
     });
 
-    /// Update lastViewedPage
     setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
-
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
       print("globals.titleBookMarked== null ????????????????????????????");
@@ -241,27 +206,9 @@ class _DetailSec55State extends State<DetailSec55> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-
-    /// Prevent screen from going into sleep mode:
     FlutterScreen.keepOn(true);
-
     super.initState();
   }
-
-//  _scrollListener() {
-//    if (_controller.offset >= _controller.position.maxScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the bottom");
-//      });
-//    }
-//    if (_controller.offset <= _controller.position.minScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the top");
-//      });
-//    }
-//  }
 
   List<TextSpan> highlightOccurrencesDetailSec(
       String source, String query, double _fontSize) {
@@ -281,8 +228,6 @@ class _DetailSec55State extends State<DetailSec55> {
       if (match.start != lastMatchEnd) {
         children.add(TextSpan(
           text: source.substring(lastMatchEnd, match.start),
-//          style: TextStyle(
-//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
         ));
       }
 
@@ -292,14 +237,10 @@ class _DetailSec55State extends State<DetailSec55> {
             fontWeight: FontWeight.bold,
             fontSize: _fontSize,
             color: Colors.green
-            // color: Colors.black,
             ),
       ));
 
       if (i == matches.length - 1 && match.end != source.length) {
-//        _scrollPosition = _controller.offset;
-//        print(
-//            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _scrollPosition $_scrollPosition");
         children.add(TextSpan(
           text: source.substring(match.end, source.length),
         ));
@@ -322,12 +263,7 @@ class _DetailSec55State extends State<DetailSec55> {
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
-
     return
-//      WillPopScope(
-//      onWillPop: _onBackPressed,
-//      onWillPop: () async => true,
-
         Scaffold(
       body: (ui.terjemahan == false)
           ? FutureBuilder<DailyDoa4>(
@@ -350,53 +286,17 @@ class _DetailSec55State extends State<DetailSec55> {
 
                 return snapshot.hasData
                     ? Column(children: <Widget>[
-//                   globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 ? Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                     children: [
-//                       ElevatedButton(
-//                           child: const Text('ادامه فراز',                                            style: TextStyle(
-// //                                            fontWeight: FontWeight.bold,
-//                               fontFamily: 'IRANSans',
-//                               fontSize: 14,
-//                               height: 1.7,
-// //                                            color:
-// //                                                Theme.of(context).buttonColor),
-//                               color: Color(0xf6c40c0c)),
-//                           ),
-//                           onPressed: () async {
-//                             getLastScolledPixel();
-//                             SchedulerBinding.instance?.addPostFrameCallback((_) {
-//                               _scrollController.animateTo(
-//                                   (globals.lastScrolledPixel),
-//                                   duration: const Duration(milliseconds: 2000),
-//                                   curve: Curves.fastOutSlowIn);
-//                             });
-//                           },
-//                           style: ElevatedButton.styleFrom(
-//                             primary: Theme.of(context).brightness == Brightness.light
-//                                 ? Colors.grey[400]
-//                                 : Colors.grey[500],
-//
-//                           )),
-//
-//
-//                     ],
-//                   ):SizedBox(),
                   Expanded(
                           child: Scrollbar(
                             child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               controller: _scrollController,
-//                        itemExtent: 1000,
                               physics: AlwaysScrollableScrollPhysics(),
                               itemCount: snapshot.data.arabic.length,
                               itemBuilder: (BuildContext c, int i) {
                                 String key =
                                     snapshot.data.arabic.keys.elementAt(i);
-                                // return Padding(
-                                //   padding: const EdgeInsets.symmetric(
-                                //       horizontal: 15.0, vertical: 5.0),
                                 return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -417,8 +317,6 @@ class _DetailSec55State extends State<DetailSec55> {
                                                   style: TextStyle(
                                                     fontFamily: AppStyle
                                                         .textQuranfontFamily,
-
-//                                          fontSize: ui.fontSizeTozih,
                                                     fontSize: 1.2 *
                                                         globals.fontArabicLevel,
                                                     height: 1.5,
@@ -471,13 +369,13 @@ class _DetailSec55State extends State<DetailSec55> {
               indexFasl: 5,
               code: widget.indexFasl * 1000 + widget.index,
             ),
-      // bottomNavigationBar: AdmobBanner(
-      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-      //   adSize: AdmobBannerSize.BANNER,
-      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-      //   //   if (event == AdmobAdEvent.clicked) {}
-      //   // },
-      // ),
+      bottomNavigationBar: AdmobBanner(
+        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        adSize: AdmobBannerSize.BANNER,
+        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //   if (event == AdmobAdEvent.clicked) {}
+        // },
+      ),
     );
   }
 }

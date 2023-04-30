@@ -1,11 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/home2.dart';
@@ -13,13 +9,10 @@ import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa4.dart';
-// import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec44.dart';
 import 'package:flutter_screen/flutter_screen.dart';
-
-import 'notesSearch.dart';
 
 class DetailSec5 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
@@ -38,51 +31,26 @@ class DetailSec5 extends StatefulWidget {
 }
 
 class _DetailSec5State extends State<DetailSec5> {
-  /// Used for Bottom Navigation
   int _selectedIndex = 0;
-//  Home indexTabHomeDetailSec = Home();
-//  indexTabHomeDetailSec.indexTabHome=0;
-  /// Declare SharedPreferences
   SharedPreferences prefs;
   bool isBookmarked;
   static Color iconBookmarkcolor;
-
-  Widget _bookmarkWidget = Container();
-
   String titleCurrentPage;
   int indexCurrentPage;
   int indexFaslCurrentPage;
   int codeCurrentPage;
-  // var themeNotifier = ThemeNotifier();
-
   ScrollController _controller;
   final itemSize = globals.fontTozihLevel * 1.7;
   final queryOffset = 100;
-
-  _moveUp() {
-    //_controller.jumpTo(_controller.offset - itemSize);
-    _controller.animateTo(_scrollPosition - 100,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
-
-  _moveDown() {
-    //_controller.jumpTo(_controller.offset + itemSize);
-    _controller.animateTo(_scrollPosition,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
-  /// Navigation event handler
   _onItemTapped(int indexTab) {
     setState(() {
       _selectedIndex = indexTab;
-
-      /// Go to Bookmarked page
       if (indexTab == 2) {
         isBookmarked
             ? setState(() {
@@ -107,7 +75,6 @@ class _DetailSec5State extends State<DetailSec5> {
                 print(
                     "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               });
-
         if (globals.indexBookMarked != null) {
           setBookmark(globals.titleBookMarked, globals.indexBookMarked,
               globals.indexFaslBookMarked, globals.codeBookMarked);
@@ -126,15 +93,12 @@ class _DetailSec5State extends State<DetailSec5> {
     return new PageController(
         initialPage: widget.detail, viewportFraction: 1.1, keepPage: true);
   }
-
   String replaceFarsiNumber(String input) {
     const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     const farsi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-
     for (int i = 0; i < english.length; i++) {
       input = input.replaceAll(english[i], farsi[i]);
     }
-
     return input;
   }
 
@@ -142,7 +106,6 @@ class _DetailSec5State extends State<DetailSec5> {
   void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
       List<int> _code) async {
     prefs = await SharedPreferences.getInstance();
-//    if (_index[0] != null && !_index[0].isNaN) {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
 
     List<String> _strindex = _index.map((i) => i.toString()).toList();
@@ -155,7 +118,6 @@ class _DetailSec5State extends State<DetailSec5> {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
   }
 
-  /// set lastViewedPage in sharedPreferences
   void setLastViewedPage(String _titleCurrentPage, int _indexCurrentPage,
       int _indexFaslCurrentPage) async {
     prefs = await SharedPreferences.getInstance();
@@ -178,7 +140,6 @@ class _DetailSec5State extends State<DetailSec5> {
     await page.close();
   }
 
-  /// Init Page Controller
   PageController pageController;
   double _scrollPosition;
   ScrollController _scrollController;
@@ -209,7 +170,6 @@ class _DetailSec5State extends State<DetailSec5> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
-
     print(
         "************************************************************************** widget.indexFasl " +
             widget.indexFasl.toString());
@@ -226,15 +186,11 @@ class _DetailSec5State extends State<DetailSec5> {
       } else {
         print(
             "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked does NOT contain (${widget.detail})");
-
         isBookmarked = false;
         iconBookmarkcolor = Colors.white;
       }
     });
-
-    /// Update lastViewedPage
     setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
-
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
       print("globals.titleBookMarked== null ????????????????????????????");
@@ -243,26 +199,9 @@ class _DetailSec5State extends State<DetailSec5> {
       globals.indexFaslBookMarked = [];
     }
 
-    /// Prevent screen from going into sleep mode:
     FlutterScreen.keepOn(true);
-
     super.initState();
   }
-
-//  _scrollListener() {
-//    if (_controller.offset >= _controller.position.maxScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the bottom");
-//      });
-//    }
-//    if (_controller.offset <= _controller.position.minScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the top");
-//      });
-//    }
-//  }
 
   List<TextSpan> highlightOccurrencesDetailSec(
       String source, String query, double _fontSize) {
@@ -272,18 +211,13 @@ class _DetailSec5State extends State<DetailSec5> {
       return [TextSpan(text: source)];
     }
     final matches = query.toLowerCase().allMatches(source.toLowerCase());
-
     int lastMatchEnd = 0;
-
     final List<TextSpan> children = [];
     for (var i = 0; i < matches.length; i++) {
       final match = matches.elementAt(i);
-
       if (match.start != lastMatchEnd) {
         children.add(TextSpan(
           text: source.substring(lastMatchEnd, match.start),
-//          style: TextStyle(
-//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
         ));
       }
 
@@ -293,19 +227,13 @@ class _DetailSec5State extends State<DetailSec5> {
             fontWeight: FontWeight.bold,
             fontSize: _fontSize,
             color: Colors.green
-            // color: Colors.black,
             ),
       ));
-
       if (i == matches.length - 1 && match.end != source.length) {
-//        _scrollPosition = _controller.offset;
-//        print(
-//            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _scrollPosition $_scrollPosition");
         children.add(TextSpan(
           text: source.substring(match.end, source.length),
         ));
       }
-
       lastMatchEnd = match.end;
     }
     return children;
@@ -317,19 +245,13 @@ class _DetailSec5State extends State<DetailSec5> {
     } else {
       Timer(Duration(milliseconds: 400), () => _scrollToPixel());
     }
-
   }
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
 
-
     return
-//      WillPopScope(
-//      onWillPop: _onBackPressed,
-//      onWillPop: () async => true,
-
         Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -387,39 +309,6 @@ class _DetailSec5State extends State<DetailSec5> {
 
                 return snapshot.hasData
                     ? Column(children: <Widget>[
-//                   globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 ? Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                     children: [
-//                       ElevatedButton(
-//                           child: const Text('ادامه فراز',                                            style: TextStyle(
-// //                                            fontWeight: FontWeight.bold,
-//                               fontFamily: 'IRANSans',
-//                               fontSize: 14,
-//                               height: 1.7,
-// //                                            color:
-// //                                                Theme.of(context).buttonColor),
-//                               color: Color(0xf6c40c0c)),
-//                           ),
-//                           onPressed: () async {
-//                             getLastScolledPixel();
-//                             SchedulerBinding.instance?.addPostFrameCallback((_) {
-//                               _scrollController.animateTo(
-//                                   (globals.lastScrolledPixel),
-//                                   duration: const Duration(milliseconds: 2000),
-//                                   curve: Curves.fastOutSlowIn);
-//                             });
-//                           },
-//                           style: ElevatedButton.styleFrom(
-//                             primary: Theme.of(context).brightness == Brightness.light
-//                                 ? Colors.grey[400]
-//                                 : Colors.grey[500],
-//
-//                           )),
-//
-//
-//                     ],
-//                   ):SizedBox(),
-
                   Expanded(
                           child: Scrollbar(
                             child: ListView.builder(
@@ -432,9 +321,6 @@ class _DetailSec5State extends State<DetailSec5> {
                               itemBuilder: (BuildContext c, int i) {
                                 String key =
                                     snapshot.data.arabic.keys.elementAt(i);
-                                // return Padding(
-                                //   padding: const EdgeInsets.symmetric(
-                                //       horizontal: 15.0, vertical: 5.0),
                                 return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -455,8 +341,6 @@ class _DetailSec5State extends State<DetailSec5> {
                                                   style: TextStyle(
                                                     fontFamily: AppStyle
                                                         .textQuranfontFamily,
-
-//                                          fontSize: ui.fontSizeTozih,
                                                     fontSize: 1.2 *
                                                         globals.fontArabicLevel,
                                                     height: 1.5,
@@ -509,13 +393,13 @@ class _DetailSec5State extends State<DetailSec5> {
               indexFasl: 4,
               code: widget.indexFasl * 1000 + widget.index,
             ),
-      // bottomNavigationBar: AdmobBanner(
-      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-      //   adSize: AdmobBannerSize.BANNER,
-      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-      //   //   if (event == AdmobAdEvent.clicked) {}
-      //   // },
-      // ),
+      bottomNavigationBar: AdmobBanner(
+        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        adSize: AdmobBannerSize.BANNER,
+        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //   if (event == AdmobAdEvent.clicked) {}
+        // },
+      ),
     );
   }
 }

@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:week_of_year/date_week_extensions.dart';
-
 import 'home_about.dart';
-
 
 class Drawers extends StatelessWidget {
   String gif1Url;
@@ -72,7 +70,6 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
                   ),
                 ],
               ),
-//            trailing: Icon(Icons.keyboard_arrow_left),
               onTap: () => Navigator.push(
                 context,
                 new MaterialPageRoute(builder: (context) => new HomeAbout()),
@@ -125,8 +122,6 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
               child: CachedNetworkImage(
                 imageUrl: urlgif1,
                 cacheKey: urlgif1 + DateTime.now().weekOfYear.toString(),
-                // progressIndicatorBuilder: (context, url, downloadProgress) =>
-                //     CircularProgressIndicator(value: downloadProgress.progress, backgroundColor: Theme.of(context).canvasColor),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
@@ -136,8 +131,6 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
               child: CachedNetworkImage(
                 imageUrl: urlgif2,
                 cacheKey: urlgif2+DateTime.now().weekOfYear.toString(),
-                // progressIndicatorBuilder: (context, url, downloadProgress) =>
-                //     CircularProgressIndicator(value: downloadProgress.progress),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
@@ -147,8 +140,6 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
               child: CachedNetworkImage(
                 imageUrl: urlgif3,
                 cacheKey: urlgif3+DateTime.now().weekOfYear.toString(),
-                // progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    // CircularProgressIndicator(value: downloadProgress.progress),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),

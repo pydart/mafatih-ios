@@ -1,36 +1,26 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
-// import 'package:dio/dio.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:mafatih/audio/common.dart';
 import 'package:mafatih/data/services.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
-import 'package:mafatih/library/Globals.dart';
 import 'package:mafatih/ui/home2.dart';
 import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa.dart';
-// import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:just_audio/just_audio.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
-
 import '../constants.dart';
-import 'notesSearch.dart';
 
 class DetailSec extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
@@ -49,49 +39,23 @@ class DetailSec extends StatefulWidget {
 }
 
 class _DetailSecState extends State<DetailSec> {
-  /// Used for Bottom Navigation
   int _selectedIndex = 0;
-//  Home indexTabHomeDetailSec = Home();
-//  indexTabHomeDetailSec.indexTabHome=0;
-  /// Declare SharedPreferences
+
   SharedPreferences prefs;
   bool isBookmarked;
   static Color iconBookmarkcolor;
-
   Widget _bookmarkWidget = Container();
-
   String titleCurrentPage;
   int indexCurrentPage;
   int indexFaslCurrentPage;
   int codeCurrentPage;
-  // var themeNotifier = ThemeNotifier();
-
-  ScrollController _controller;
   final itemSize = globals.fontTozihLevel * 1.7;
   final queryOffset = 100;
 
   var client = http.Client();
-  // String filePath = "assets/sounds/${globals.sound}.mp3";
   bool isPlaying = false;
   num curIndex = 0;
   AudioPlayer _player;
-  // String tempsound = globals.sound;
-
-  // _moveUp() {
-  //   //_controller.jumpTo(_controller.offset - itemSize);
-  //   _controller.animateTo(_scrollPosition - 100,
-  //       curve: Curves.linear, duration: Duration(milliseconds: 500));
-  // }
-  //
-  // _moveDown() {
-  //   //_controller.jumpTo(_controller.offset + itemSize);
-  //   _controller.animateTo(_scrollPosition,
-  //       curve: Curves.linear, duration: Duration(milliseconds: 500));
-  // }
-
-
-
-
 
   @override
   void dispose() {
@@ -104,7 +68,6 @@ class _DetailSecState extends State<DetailSec> {
 
   getOtherSettings() async {
     SharedPreferences prefs;
-
     prefs = await SharedPreferences.getInstance();
     setState(() {
       globals.titlelastViewedPage =
@@ -115,15 +78,11 @@ class _DetailSecState extends State<DetailSec> {
           prefs.getInt(globals.LAST_VIEWED_PAGE_indexFasl);
       globals.indentlastViewedPage =
           prefs.getString(globals.LAST_VIEWED_PAGE_indent);
-
     });
   }
-  /// Navigation event handler
   _onItemTapped(int indexTab) {
     setState(() {
       _selectedIndex = indexTab;
-
-      /// Go to Bookmarked page
       if (indexTab == 2) {
         isBookmarked
             ? setState(() {
@@ -164,11 +123,6 @@ class _DetailSecState extends State<DetailSec> {
     });
   }
 
-  PageController _pageControllerBuilder() {
-    return new PageController(
-        initialPage: widget.detail, viewportFraction: 1.1, keepPage: true);
-  }
-
   /// set bookmarkPage in sharedPreferences
   void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
       List<int> _code) async {
@@ -195,8 +149,6 @@ class _DetailSecState extends State<DetailSec> {
       prefs.setInt(globals.LAST_VIEWED_PAGE_index, _indexCurrentPage);
       prefs.setInt(globals.LAST_VIEWED_PAGE_indexFasl, _indexFaslCurrentPage);
       prefs.setString(globals.LAST_VIEWED_PAGE_indent, _indentCurrentPage);
-
-
     }
   }
 
@@ -204,9 +156,7 @@ class _DetailSecState extends State<DetailSec> {
     await page.close();
   }
 
-  /// Init Page Controller
   PageController pageController;
-
   double _scrollPosition;
   ScrollController _scrollController;
   setLastScolledPixel(double level) async {
@@ -222,99 +172,34 @@ class _DetailSecState extends State<DetailSec> {
       setLastScolledPixel(_scrollPosition??0);
     });
   }
-  // setAudioExist(String jsonCode) async {
-  //   (globals.jsonCodesHavingAudio).add(jsonCode);
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
-  // }
-  // Future<bool> checkUrlExist(String jsonCode) async {
-  //   print("**********************************************checkUrlExist**************************** '${Constants.audiosListUrl}/${widget.code}.mp3' ");
-  //
-  //   final response = await http.get(Uri.parse('${Constants.audiosListUrl}/${widget.code}.mp3'));
-  //   print("**********************************************http.get**************************** '${Constants.audiosListUrl}/${widget.code}.mp3' ");
-  //   if (response.statusCode == 200) {
-  //     setState(() {
-  //       print("************************************************************************** response.statusCode == 200 ");
-  //
-  //       globals.audioExist = true;
-  //       return true;
-  //     });
-  //     setAudioExist(jsonCode.toString());
-  //   } else {
-  //     setState(() {
-  //       globals.audioExist = false;
-  //     });
-  //     return false;
-  //
-  //   }
-  //   return false;
-  //
-  // }
-
-  // checkUrlExist(String jsonCode) async {
-  //   print("************************************************************************** checkUrlExist   ${Constants.audiosListUrl +'/${widget.code}.txt'}");
-  //
-  //   try {
-  //     http.Response response =
-  //     await http.get(Constants.audiosListUrl +'/${widget.code}.txt').whenComplete(() {});
-  //     if (response.statusCode == 200) {
-  //       var Results = response.body;
-  //       print("************************************************************************** response.statusCode == 200 ");
-  //       setState(() {
-  //         globals.audioExist = true;
-  //       });
-  //       setAudioExist(jsonCode.toString());
-  //
-  //     } else {
-  //       setState(() {
-  //         globals.audioExist = false;
-  //       });
-  //       print("************************************************************************** Failed to load ");
-  //       throw Exception('Failed to load');
-  //     }
-  //   } catch (e) {
-  //     print("Exception Caught: $e");
-  //   }
-  // }
-
-
 
   @override
   void initState() {
 
     print("********************************************** widget.code  **************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
-
     if (globals.jsonCodesHavingAudio.contains(widget.code)) {
       print("************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");
       globals.audioExist=true;
     } else {
       globals.audioExist=false;
-
-      // checkUrlExist(widget.code.toString());
     }
 
 
 
-    // _audioFiles();
     _player = AudioPlayer();
-
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     _init(widget.code);
 
     print(
         "************************************************************************** detail sec ");
-    // _controller = ScrollController();
-    // _controller.addListener(_scrollListener);
-
     print(
         "************************************************************************** widget.indexFasl " +
             widget.indexFasl.toString());
     print(
         "************************************************************************** widget.index " +
             widget.index.toString());
-
     setState(() {
       if (globals.codeBookMarked.contains(widget.code)) {
         print(
@@ -324,15 +209,12 @@ class _DetailSecState extends State<DetailSec> {
       } else {
         print(
             "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked does NOT contain (${widget.detail})");
-
         isBookmarked = false;
         iconBookmarkcolor = Colors.white;
       }
     });
 
-    /// Update lastViewedPage
     setLastViewedPage(widget.detail, widget.index, widget.indexFasl, widget.indent);
-
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
       print("globals.titleBookMarked== null ????????????????????????????");
@@ -340,13 +222,9 @@ class _DetailSecState extends State<DetailSec> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-
-    /// Prevent screen from going into sleep mode:
     FlutterScreen.keepOn(true);
-
     super.initState();
   }
-
 
   List<TextSpan> highlightOccurrencesDetailSec(
       String source, String query, double _fontSize) {
@@ -364,8 +242,6 @@ class _DetailSecState extends State<DetailSec> {
       if (match.start != lastMatchEnd) {
         children.add(TextSpan(
           text: source.substring(lastMatchEnd, match.start),
-//          style: TextStyle(
-//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
         ));
       }
       children.add(TextSpan(
@@ -374,14 +250,10 @@ class _DetailSecState extends State<DetailSec> {
             fontWeight: FontWeight.bold,
             fontSize: _fontSize,
             color: Colors.green
-            // color: Colors.black,
             ),
       ));
 
       if (i == matches.length - 1 && match.end != source.length) {
-//        _scrollPosition = _controller.offset;
-//        print(
-//            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _scrollPosition $_scrollPosition");
         children.add(TextSpan(
           text: source.substring(match.end, source.length),
         ));
@@ -422,33 +294,8 @@ class _DetailSecState extends State<DetailSec> {
               (position, bufferedPosition, duration) => PositionData(
               position, bufferedPosition, duration ?? Duration.zero));
 
-  // Future<void> _init(jsonCode) async {
-  //   print("////////////////////////////////////.........................// _init   ${globals.sound}");
-  //   final session = await AudioSession.instance;
-  //   await session.configure(const AudioSessionConfiguration.speech());
-  //   // Listen to errors during playback.
-  //   _player.playbackEventStream.listen((event) {},
-  //       onError: (Object e, StackTrace stackTrace) {
-  //         print('A stream error occurred: $e');
-  //       });
-  //   try {
-  //     print("////////////////////////////////////.........................// setAudioSource   ${globals.sound}");
-  //     await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-  //     setState(() {
-  //       _player.setAudioSource(playlist[jsonCode][(int.parse(globals.sound))], initialPosition: Duration.zero);
-  //     });
-  //   } catch (e, stackTrace) {
-  //     // Catch load errors: 404, invalid url ...
-  //     print("Error loading playlist: $e");
-  //     print(stackTrace);
-  //   }
-  // }
-
-  // final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1-fani.mp3";
-  // var dio = Dio();
 
   Future<void> _init(jsonCode) async {
-
     print("////////////////////////////////////.........................// _init   ${globals.audioExist}");
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.speech());
@@ -462,35 +309,6 @@ class _DetailSecState extends State<DetailSec> {
       print("////////////////////////////////////.........................// setAudioSource   ${globals.audioExist}");
       await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
 
-      // Good workig well
-      // final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
-      // await _player.setAudioSource(audioSource);
-      ////////////////////////////////////////////////////////////////
-
-
-      final duration = await _player.setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
-      // _player.play();
-
-
-
-
-
-
-
-
-      // var directory = await getApplicationDocumentsDirectory();
-      // String savePath = directory.path + "/1110.mp3";
-      // print("///////////////////////////////////////////// ${Uri.parse(globals.cacheAudio)}");
-
-
-
-
-      // await _player.setAudioSource(AudioSource.uri(Uri.parse("file:///${globals.cacheAudio}")));
-      // _player.setAudioSource(playlist[0], initialPosition: Duration.zero);
-
-      // await _player.setAudioSource(AudioSource.uri(Uri.f(savePath)));
-      // final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
-      // await _player.setAudioSource(AudioSource.uri(Uri.parse('https://www.videoir.com/apps_versions/audios/1110.mp3')));
     } catch (e, stackTrace) {
       // Catch load errors: 404, invalid url ...
       print("Error loading playlist: $e");
@@ -498,64 +316,8 @@ class _DetailSecState extends State<DetailSec> {
     }
   }
 
-
-
-  // void showDownloadProgress(received, total) {
-  //   if (total != -1) {
-  //     print((received / total * 100).toStringAsFixed(0) + "%");
-  //   }
-  // }
-  // Future download2(Dio dio, String url, String savePath) async {
-  //   try {
-  //     Response response = await dio.get(
-  //       url,
-  //       onReceiveProgress: showDownloadProgress,
-  //       //Received data with List<int>
-  //       options: Options(
-  //           responseType: ResponseType.bytes,
-  //           followRedirects: false,
-  //           validateStatus: (status) {
-  //             return status < 500;
-  //           }),
-  //     );
-  //     print(response.headers);
-  //     File file = File(savePath);
-  //     var raf = file.openSync(mode: FileMode.write);
-  //     // response.data is List<int> type
-  //     raf.writeFromSync(response.data);
-  //     await raf.close();
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // List file = [];
-  // Future _audioFiles() async {
-  //   // >> To get paths you need these 2 lines
-  //   final manifestContent =
-  //   await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
-  //
-  //   final Map<String, dynamic> manifestMap = json.decode(manifestContent);
-  //   // >> To get paths you need these 2 lines
-  //   final imagePaths = manifestMap.keys
-  //       .where((String key) => key.contains('assets/sounds/'))
-  //   // .where((String key) => key.contains('.mp3'))
-  //       .toList();
-  //
-  //   setState(() {
-  //     file = imagePaths;
-  //   });
-  // }
-
-
-
-
-
-
   double progress = null;
-
   String status = "Not Downloaded";
-
   Future<bool> hasNetwork() async {
     try {
       final result = await InternetAddress.lookup('example.com');
@@ -570,37 +332,14 @@ class _DetailSecState extends State<DetailSec> {
     bool isOnline = await hasNetwork();
 
     if(isOnline==true) {
-
-      /// when download first called it takes a bit of time to communicate with server.
-      /// While that is happening, make circle just spin eternally
       setState(() {
         progress = null;
       });
       String audioUrl = 'https://www.videoir.com/apps_versions/audios/${widget
           .code}.mp3';
       final request = Request('GET', Uri.parse(audioUrl));
-
-      /// calling Client().send() instead of get(url) method.
-      /// Reason: send() gives you a stream, and you’re going to listen to the
-      /// stream of bytes as it downloads the file from the server
       final StreamedResponse response = await Client().send(request);
-
-      /// response coming from the server contains a header called Content-Length,
-      /// which includes the total size of the file in bytes
       final contentLength = response.contentLength;
-      // sometimes the server doesn't return this value or sometimes the header gets stripped away.
-      // If that’s the case then contentLength will be null.
-      // That makes it more difficult to show your users the download progress.
-      // There are a couple of options:
-      //   - If you have control of the server, you can set the x-decompressed-content-length header
-      //     with the file size before you send it. That header seems to stay put.
-      //     On the client side you could retrieve the content length like this:
-      //       final contentLength = double.parse(response.headers['x-decompressed-content-length']);
-      //   - Another option is to just show the cumulative number of bytes that are being downloaded.
-      //     Since the final total is not known, the user still won’t know how long they have to wait,
-      //     but at least it will be more informative than an eternal spinning circle.
-
-      /// Now that we have response from server, stop the spinning indicator & set it to 0
       setState(() {
         progress = 0.000001;
         status = "دانلود شروع شد";
@@ -612,16 +351,8 @@ class _DetailSecState extends State<DetailSec> {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 18.0);
-
-      /// Initialize variable to save the download in.
-      /// Array stores the file in memory before you save to storage.
-      /// Since the length of this array is the number of bytes that have been
-      /// downloaded, use this to track the progress of the download.
       List<int> bytes = [];
-
-      /// place to store the file
       final file = await _getFile('${widget.code}.mp3');
-
       response.stream.listen(
             (List<int> newBytes) {
           // update progress
@@ -650,15 +381,10 @@ class _DetailSecState extends State<DetailSec> {
           final duration = await _player.setFilePath(
               '${globals.cacheAudio}/${widget.code}.mp3');
 
-          /// file has been downloaded
-          /// show success to user
           debugPrint("Download finished");
         },
         onError: (e) {
-          /// if user loses internet connection while downloading the file, causes an error.
-          /// You can decide what to do about that in onError.
-          /// Setting cancelOnError to true will cause the StreamSubscription to get canceled.
-          print(
+         print(
               "/////////////////////////////////////////////////////////////////////////////// error $e");
           Fluttertoast.showToast(
               msg: "لطفا از اتصال دستگاه خود به اینترنت مطمئن شوید.",
@@ -673,14 +399,6 @@ class _DetailSecState extends State<DetailSec> {
         cancelOnError: true,
       );
 
-      /// using Flutter package "dio":
-      //      Dio dio = Dio();
-      //      dio.download(urlOfFileToDownload, '$dir/$filename',
-      //         onReceiveProgress(received,total) {
-      //         setState(() {
-      //           int percentage = ((received / total) * 100).floor();
-      //         });
-      //      });
     }else if (isOnline==false){      Fluttertoast.showToast(
         msg: "برای دانلود فایل صوتی لطفا به اینترنت متصل شوید",
         toastLength: Toast.LENGTH_SHORT,
@@ -691,10 +409,6 @@ class _DetailSecState extends State<DetailSec> {
 
   }
 
-  /// Finds an appropriate place on the user’s device to put the file.
-  /// In this case we are choosing to use the temp directory.
-  /// You could also chose the documents directory or somewhere else.
-  /// This method is using the path_provider package to get that location.
   Future<File> _getFile(String filename) async {
     final dir = await getTemporaryDirectory();
     // final dir = await getApplicationDocumentsDirectory();
@@ -730,13 +444,8 @@ class _DetailSecState extends State<DetailSec> {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
     bool audioIsSaved=File("data/user/0/pydart.mafatih/cache/${widget.code}.mp3").existsSync();
-// print("//////////////////////////////////////////////////// audioIsSaved   $audioIsSaved");
-//     print("//////////////////////////////////////////////////// progress   $progress");
 
-    return
-//      WillPopScope(
-//      onWillPop: _onBackPressed,
-//      onWillPop: () async => true,
+   return
 
         Scaffold(
       appBar: AppBar(
@@ -819,11 +528,6 @@ class _DetailSecState extends State<DetailSec> {
           preferredSize: Size(0.0, 100.0),
         ):null,
         title: Center(
-
-            // child: Text(
-            //   widget.detail,
-            //   style: AppStyle.titleupdetailsec,
-            // ),
             child: Text(
           widget.detail,
           textAlign: TextAlign.center,
@@ -857,35 +561,6 @@ class _DetailSecState extends State<DetailSec> {
           globals.edameFaraz==true?globals.edameFaraz=false:globals.edameFaraz=false;
           return snapshot.hasData
               ? Column(children: <Widget>[
-//             globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 && globals.indexlastViewedPage==widget.index ? Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: [
-//                 ElevatedButton(
-//                     child: const Text('ادامه فراز',                                            style: TextStyle(
-// //                                            fontWeight: FontWeight.bold,
-//                         fontFamily: 'IRANSans',
-//                         fontSize: 14,
-//                         height: 1.7,
-// //                                            color:
-// //                                                Theme.of(context).buttonColor),
-//                         color: Color(0xf6c40c0c)),
-//                     ),
-//                     onPressed: () async {
-//                       getLastScolledPixel();
-//                       SchedulerBinding.instance?.addPostFrameCallback((_) {
-//                         _scrollToPixel();
-//                       });
-//                     },
-//                     style: ElevatedButton.styleFrom(
-//                       primary: Theme.of(context).brightness == Brightness.light
-//                           ? Colors.grey[400]
-//                           : Colors.grey[500],
-//
-//                     )),
-//
-//
-//               ],
-//             ):SizedBox(),
                   Expanded(
                     child: Scrollbar(
                       child: ListView.builder(
@@ -897,9 +572,6 @@ class _DetailSecState extends State<DetailSec> {
                         physics: AlwaysScrollableScrollPhysics(),
                         itemBuilder: (BuildContext c, int i) {
                           String key = snapshot.data.arabic.keys.elementAt(i);
-                          // return Padding(
-                          //   padding: const EdgeInsets.symmetric(
-                          //       horizontal: 15.0, vertical: 5.0),
                           return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -913,18 +585,6 @@ class _DetailSecState extends State<DetailSec> {
                                               null) //ui.tafsir &&
                                         ListTile(
                                             dense: true,
-
-//                                      title:  Text(
-//                                        '${snapshot.data.tozih[key]}',
-//                                        textAlign: TextAlign.justify,
-//                                        style: TextStyle(
-//                                          fontFamily: 'AdobeArabic-Regular',
-////                                          fontSize: ui.fontSizeTozih,
-//                                          fontSize: globals.fontTozihLevel,
-//                                          height: 1.5,
-//                                        ),
-//                                      ),
-
                                             title: RichText(
                                               textAlign: TextAlign.justify,
                                               text: TextSpan(
@@ -936,13 +596,10 @@ class _DetailSecState extends State<DetailSec> {
                                                         globals.fontTozihLevel +
                                                             4),
                                                 style: TextStyle(
-//                                            fontWeight: FontWeight.bold,
                                                     fontFamily: 'عربی ساده',
                                                     fontSize:
                                                         globals.fontTozihLevel,
                                                     height: 1.5,
-//                                            color:
-//                                                Theme.of(context).buttonColor),
                                                     color: snapshot.data
                                                             .arabic["1"].isEmpty
                                                         ? Theme.of(context)
@@ -987,24 +644,6 @@ class _DetailSecState extends State<DetailSec> {
                                           widget.indexFasl != 4)
                                         ListTile(
                                           dense: true,
-
-                                          // leading: Text(
-                                          //   snapshot.data.arabic.keys.elementAt(i),
-                                          //   style: AppStyle.number,
-                                          // ),
-//                                      title: Text(
-//                                        '${snapshot.data.arabic[key]}',
-//                                        textAlign: TextAlign.justify,
-//                                        style: TextStyle(
-//                                          fontFamily: 'Neirizi',
-////                                        fontSize: ui.fontSize,
-//                                          fontSize: globals.fontArabicLevel,
-//
-////                                        fontWeight: FontWeight.w600,
-//                                          height: 2.5,
-//                                        ),
-//                                      ),
-
                                           title: RichText(
                                             textAlign: TextAlign.justify,
                                             text: TextSpan(
@@ -1035,24 +674,8 @@ class _DetailSecState extends State<DetailSec> {
                                       if (ui.terjemahan &&
                                           snapshot.data.farsi[key] != null &&
                                           snapshot.data.farsi[key] != "")
-//                                Text(
-//                                  'ترجمه',
-//                                  style: AppStyle.end2subtitle,
-//                                ),
                                         ListTile(
                                           dense: true,
-
-//                                      title: Text(
-//                                        '${snapshot.data.farsi[key]}',
-//                                        textAlign: TextAlign.justify,
-//                                        style: TextStyle(
-//                                          fontFamily: 'AdobeArabic-Regular',
-////                                          fontSize: ui.fontSizetext,
-//                                          fontSize: globals.fontTarjLevel,
-//                                          height: 1.5,
-//                                        ),
-//                                      ),
-
                                           title: RichText(
                                             textAlign: TextAlign.justify,
                                             text: TextSpan(
@@ -1084,13 +707,13 @@ class _DetailSecState extends State<DetailSec> {
               : Center(child: CircularProgressIndicator());
         },
       ),
-      // bottomNavigationBar: AdmobBanner(
-      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-      //   adSize: AdmobBannerSize.BANNER,
-      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-      //   //   if (event == AdmobAdEvent.clicked) {}
-      //   // },
-      // ),
+      bottomNavigationBar: AdmobBanner(
+        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        adSize: AdmobBannerSize.BANNER,
+        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //   if (event == AdmobAdEvent.clicked) {}
+        // },
+      ),
     );
   }
 }
@@ -1098,20 +721,7 @@ class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
   ControlButtons(this.player, {Key key}) : super(key: key);
-  // int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
   final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1110.mp3";
-  // var dio = Dio();
-
-  // @override
-  // void initState() {
-  //   int _jsonCode=1000 *globals.indexFaslCurrentPage + globals.indexCurrentPage;
-  //   _init(_jsonCode);
-  //   print("////////////////////////////////////.........................download2 ");
-  //
-  //   download2(dio, audioUrl);
-  //
-  // }
-
   Future<void> _init(jsonCode) async {
     print("////////////////////////////////////.........................// _init Playing controls ");
     try {
@@ -1120,58 +730,13 @@ class ControlButtons extends StatelessWidget {
       final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
       await player.setAudioSource(audioSource);
     } catch (e, stackTrace) {
-      // Catch load errors: 404, invalid url ...
       print("Error loading playlist: $e");
       print(stackTrace);
     }
   }
 
-  // void showDownloadProgress(received, total) {
-  //   if (total != -1) {
-  //     print((received / total * 100).toStringAsFixed(0) + "%");
-  //   }
-  // }
-  // Future download2(Dio dio, String url) async {
-  //
-  //     var directory = await getTemporaryDirectory();
-  //     String savePath = directory.path + "/just_audio_cache/assets/sounds/1117.mp3";
-  //     print('*************************************************************************   full path ${savePath}');
-  //
-  //
-  //   try {
-  //     Response response = await dio.get(
-  //       url,
-  //       onReceiveProgress: showDownloadProgress,
-  //       //Received data with List<int>
-  //       options: Options(
-  //           responseType: ResponseType.bytes,
-  //           followRedirects: false,
-  //           validateStatus: (status) {
-  //             return status < 500;
-  //           }),
-  //     );
-  //     print(response.headers);
-  //     File file = File(savePath);
-  //     var raf = file.openSync(mode: FileMode.write);
-  //     // response.data is List<int> type
-  //     raf.writeFromSync(response.data);
-  //     await raf.close();
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // Future playAudio() async {
-  //   final file = new File('${(await getTemporaryDirectory()).path}/1110.mp3');
-  //   final result = await audioPlayer.play(file.path, isLocal: true);
-  // }
-
-
   @override
   Widget build(BuildContext context) {
-    // String tempsound = globals.sound;
-    var ui = Provider.of<UiState>(context);
-
 
     return
       Row(
@@ -1183,24 +748,21 @@ class ControlButtons extends StatelessWidget {
               icon: Text("${snapshot.data?.toStringAsFixed(1)}x",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () {
-                // download2(dio, audioUrl);
-
-                // showSliderDialog(
-                //   context: context,
-                //   title: "تنظیم سرعت",
-                //   divisions: 20,
-                //   min: 0.1,
-                //   max: 1.9,
-                //   stream: player.speedStream,
-                //   onChanged: player.setSpeed, value: player.speed,
-                // );
+                showSliderDialog(
+                  context: context,
+                  title: "تنظیم سرعت",
+                  divisions: 20,
+                  min: 0.1,
+                  max: 1.9,
+                  stream: player.speedStream,
+                  onChanged: player.setSpeed, value: player.speed,
+                );
               },
             ),
           ),
           StreamBuilder<PlayerState>(
             stream: player.playerStateStream,
             builder: (context, snapshot) {
-              // print("*******************************************                  ${LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/1110.mp3'))}"  );
               final playerState = snapshot.data;
               final processingState = playerState?.processingState;
               final playing = playerState?.playing;
@@ -1220,7 +782,6 @@ class ControlButtons extends StatelessWidget {
                   iconSize: 30.0,
                   onPressed:
                   player.play,
-
                 );
               }
 

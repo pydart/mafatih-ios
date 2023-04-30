@@ -1,17 +1,9 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen/flutter_screen.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-import 'package:package_info/package_info.dart';
-import 'package:provider/provider.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-
-import 'constants.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -26,36 +18,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // _getAudioList();
-    /// get Saved preferences
-//    getBookmark();
-//    getLastViewedPage();
     Timer(Duration(milliseconds: 0),
         () => Navigator.pushReplacementNamed(context, 'home'));
-
-//    //   setState(() {
-////   });
     getFontsLevel();
     getOtherSettings();
     getScreenBrightness();
     getBrightnessLevel();
   }
-  // _getAudioList() async {
-  //   print("******************************************_getAudioList  STARTED****************************************");
-  //
-  //   try {
-  //     http.Response response =
-  //     await http.get(Constants.audiosListUrl).whenComplete(() {});
-  //     if (response.statusCode == 200) {
-  //       var Results = response.body;
-  //       print("**********************************************************************************_getAudioList    $Results");
-  //     } else {
-  //       throw Exception('Failed to load');
-  //     }
-  //   } catch (e) {
-  //     print("Exception Caught: $e");
-  //   }
-  // }
   @override
   void dispose() {
     super.dispose();
@@ -93,7 +62,6 @@ class _SplashScreenState extends State<SplashScreen> {
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevelDefault =
         double.parse(_brightnessLevel4.toStringAsFixed(2));
-    // globals.brightnessLevelDefault = globals.brightnessLevel;
   }
 
   /// Get saved Brightness or the default value if Brightness level is not defined
@@ -178,17 +146,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if (globals.darkMode == null) {
       globals.darkMode = false;
     }
-
-//    Provider.of<ThemeNotifier>(context).curretThemeData2;
-    print(
+   print(
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.tozihActive}          globals.tozihActive');
   }
 
   @override
   Widget build(BuildContext context) {
-//    dark = Provider.of<ThemeNotifier>(context);
-//    _darkMode ?? dark.switchTheme();
-
     return Scaffold(
         body: new SafeArea(
       child: Container(

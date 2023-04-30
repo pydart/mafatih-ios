@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-//import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
-import 'package:mafatih/data/themes.dart';
-
-// var themeNotifier = ThemeNotifier();
-
 class AppStyle {
   static double ayahsize = 26.0;
   static final LinearGradient mainGradient = LinearGradient(colors: [
@@ -14,15 +7,12 @@ class AppStyle {
     Color(0xffb6f492),
   ]);
 
-  // static bool darkMsh = themeNotifier.darkmode;
-
   static final title = TextStyle(
     fontSize: 16.0,
     fontFamily: 'IRANSans',
   );
 
   static final textQuranfontFamily = 'عربی ساده';
-
   static final titleFasl = TextStyle(
     fontSize: 16.0,
     fontWeight: FontWeight.w700,
@@ -43,8 +33,7 @@ class AppStyle {
     fontWeight: FontWeight.w500,
     fontFamily: 'IRANSans',
   );
-//      color: darkMsh ? Colors.white : Colors.black
-//      color: Hexcolor('#212121'));
+
   static final subtitle = TextStyle(
       fontSize: 20.0, fontFamily: 'IRANSans'); //color: Hexcolor('#212121'),
 
@@ -76,10 +65,7 @@ class AppStyle {
     fontWeight: FontWeight.bold,
     fontFamily: 'IRANSans',
   );
-//      color: Hexcolor('#212121')
-
   static final setting = TextStyle(fontSize: 16.0, fontFamily: 'IRANSans');
-//      color: Hexcolor('#212121')
   static final settingRelated =
       TextStyle(fontSize: 14.0, fontFamily: 'IRANSans', color: Colors.green);
 

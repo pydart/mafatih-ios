@@ -1,12 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screen/flutter_screen.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/services.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/home2.dart';
@@ -14,12 +9,9 @@ import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa4.dart';
-// import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec55.dart';
-
-import 'notesSearch.dart';
 
 class DetailSec44 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
@@ -38,16 +30,11 @@ class DetailSec44 extends StatefulWidget {
 }
 
 class _DetailSec44State extends State<DetailSec44> {
-  /// Used for Bottom Navigation
   int _selectedIndex = 0;
-//  Home indexTabHomeDetailSec = Home();
-//  indexTabHomeDetailSec.indexTabHome=0;
-  /// Declare SharedPreferences
   SharedPreferences prefs;
   bool isBookmarked;
   static Color iconBookmarkcolor;
 
-  Widget _bookmarkWidget = Container();
 
   String titleCurrentPage;
   int indexCurrentPage;
@@ -249,21 +236,6 @@ class _DetailSec44State extends State<DetailSec44> {
     super.initState();
   }
 
-//  _scrollListener() {
-//    if (_controller.offset >= _controller.position.maxScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the bottom");
-//      });
-//    }
-//    if (_controller.offset <= _controller.position.minScrollExtent &&
-//        !_controller.position.outOfRange) {
-//      setState(() {
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   reach the top");
-//      });
-//    }
-//  }
-
   List<TextSpan> highlightOccurrencesDetailSec(
       String source, String query, double _fontSize) {
     if (query == null ||
@@ -282,8 +254,6 @@ class _DetailSec44State extends State<DetailSec44> {
       if (match.start != lastMatchEnd) {
         children.add(TextSpan(
           text: source.substring(lastMatchEnd, match.start),
-//          style: TextStyle(
-//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
         ));
       }
 
@@ -293,14 +263,10 @@ class _DetailSec44State extends State<DetailSec44> {
             fontWeight: FontWeight.bold,
             fontSize: _fontSize,
             color: Colors.green
-            // color: Colors.black,
             ),
       ));
 
       if (i == matches.length - 1 && match.end != source.length) {
-//        _scrollPosition = _controller.offset;
-//        print(
-//            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _scrollPosition $_scrollPosition");
         children.add(TextSpan(
           text: source.substring(match.end, source.length),
         ));
@@ -325,10 +291,6 @@ class _DetailSec44State extends State<DetailSec44> {
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
 
     return
-//      WillPopScope(
-//      onWillPop: _onBackPressed,
-//      onWillPop: () async => true,
-
         Scaffold(
       body: (ui.terjemahan == true)
           ? FutureBuilder<DailyDoa4>(
@@ -351,53 +313,17 @@ class _DetailSec44State extends State<DetailSec44> {
 
                 return snapshot.hasData
                     ? Column(children: <Widget>[
-//                   globals.lastScrolledPixel!=_scrollPosition && globals.lastScrolledPixel>100 ? Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                     children: [
-//                       ElevatedButton(
-//                           child: const Text('ادامه فراز',                                            style: TextStyle(
-// //                                            fontWeight: FontWeight.bold,
-//                               fontFamily: 'IRANSans',
-//                               fontSize: 14,
-//                               height: 1.7,
-// //                                            color:
-// //                                                Theme.of(context).buttonColor),
-//                               color: Color(0xf6c40c0c)),
-//                           ),
-//                           onPressed: () async {
-//                             getLastScolledPixel();
-//                             SchedulerBinding.instance?.addPostFrameCallback((_) {
-//                               _scrollController.animateTo(
-//                                   (globals.lastScrolledPixel),
-//                                   duration: const Duration(milliseconds: 2000),
-//                                   curve: Curves.fastOutSlowIn);
-//                             });
-//                           },
-//                           style: ElevatedButton.styleFrom(
-//                             primary: Theme.of(context).brightness == Brightness.light
-//                                 ? Colors.grey[400]
-//                                 : Colors.grey[500],
-//
-//                           )),
-//
-//
-//                     ],
-//                   ):SizedBox(),
                   Expanded(
                           child: Scrollbar(
                             child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               controller: _scrollController,
-//                        itemExtent: 1000,
                               physics: AlwaysScrollableScrollPhysics(),
                               itemCount: snapshot.data.arabic.length,
                               itemBuilder: (BuildContext c, int i) {
                                 String key =
                                     snapshot.data.arabic.keys.elementAt(i);
-                                // return Padding(
-                                //   padding: const EdgeInsets.symmetric(
-                                //       horizontal: 15.0, vertical: 5.0),
                                 return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -418,8 +344,6 @@ class _DetailSec44State extends State<DetailSec44> {
                                                   style: TextStyle(
                                                     fontFamily: AppStyle
                                                         .textQuranfontFamily,
-
-//                                          fontSize: ui.fontSizeTozih,
                                                     fontSize: 1.2 *
                                                         globals.fontArabicLevel,
                                                     height: 1.5,
@@ -463,7 +387,6 @@ class _DetailSec44State extends State<DetailSec44> {
                                             if (snapshot.data.farsi[key] !=
                                                     null &&
                                                 snapshot.data.farsi[key] != "")
-//
                                               ListTile(
                                                 dense: true,
                                                 title: RichText(
@@ -506,13 +429,13 @@ class _DetailSec44State extends State<DetailSec44> {
               indexFasl: 5,
               code: widget.indexFasl * 1000 + widget.index,
             ),
-      // bottomNavigationBar: AdmobBanner(
-      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-      //   adSize: AdmobBannerSize.BANNER,
-      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-      //   //   if (event == AdmobAdEvent.clicked) {}
-      //   // },
-      // ),
+      bottomNavigationBar: AdmobBanner(
+        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        adSize: AdmobBannerSize.BANNER,
+        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //   if (event == AdmobAdEvent.clicked) {}
+        // },
+      ),
     );
   }
 }

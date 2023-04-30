@@ -1,7 +1,5 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_screen/flutter_screen.dart';
-// import 'package:screen/screen.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
 import 'package:mafatih/theming/theme/locale_keys.g.dart';
@@ -13,8 +11,6 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart' show Provider;
 import 'package:easy_localization/easy_localization.dart';
-
-import 'home2.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -48,7 +44,6 @@ class _SettingsState extends State<Settings> {
   bool tempTarjKhati = globals.tarjKhati;
   bool tempTarjActive = globals.tarjActive;
   bool tempTozihActive = globals.tozihActive;
-  // bool tempDarkMode = globals.darkMode;
   bool themeType = globals.themeType;
   bool brightnessActive = globals.brightnessActive;
 
@@ -112,12 +107,6 @@ class _SettingsState extends State<Settings> {
     prefs = await SharedPreferences.getInstance();
     prefs.setBool(globals.TozihActive, level);
   }
-
-  // setDarkModeActive(bool level) async {
-  //   globals.darkMode = level;
-  //   prefs = await SharedPreferences.getInstance();
-  //   prefs.setBool(globals.DarkMode, level);
-  // }
 
   void getScreenBrightness() async {
     double _brightnessLevel3;
@@ -209,29 +198,6 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: <Widget>[
-//           CardSetting(
-//             title: 'تم تاریک',
-//             leading: Switch(
-//               activeColor: Colors.green,
-//
-//               value: currentTheme == ThemeMode.dark ? true : false,
-// //              value: tempDarkMode,
-//               onChanged: (newValue) {
-//                 setState(() {
-// //                   themeType = newValue;
-// // //                    ui.fontSizeTozih = newValue;
-// // //                   setDarkModeActive(newValue);
-// //                   globals.darkMode = newValue;
-//                   // dark.switchTheme();
-//                   // setThemeType(newValue);
-//                   currentTheme == ThemeMode.dark
-//                       ? selectLightMode()
-//                       : selectDarkMode();
-//                 });
-//               },
-//             ),
-//           ),
-          // _buildThemeButton,
           CardSetting(
             title: 'پوسته برنامه',
             leading: DropdownButton(
@@ -280,21 +246,6 @@ class _SettingsState extends State<Settings> {
                   });
                 }),
           ),
-          // CardSetting(
-          //   title: 'ترجمه',
-          //   leading: Switch(
-          //     activeColor: Colors.green,
-          //     value: tempTarjActive,
-          //     onChanged: (newValue) {
-          //       setState(() {
-          //         ui.terjemahan = newValue;
-          //         tempTarjActive = newValue;
-          //         setTarjActive(newValue);
-          //       });
-          //     },
-          //   ),
-          // ),
-
           CardSetting(
             title: 'ترجمه',
             leading: Switch(
@@ -511,8 +462,6 @@ class _SettingsState extends State<Settings> {
                   tempFontArabic = 'نیریزی دو';
                 });
                 if (globals.themeType) {
-                  // dark.switchTheme();
-                  // setDarkModeActive(themeType);
                   globals.themeType = themeType;
                   setThemeType(themeType);
                 }
@@ -530,17 +479,6 @@ class _SettingsState extends State<Settings> {
                 setBrightnessActive(false);
                 selectSystemThemeMode();
               },
-//              child: Container(
-//                decoration: const BoxDecoration(
-//                  gradient: LinearGradient(
-//                    colors: <Color>[
-//                      Color(0xFF0D47A1),
-//                      Color(0xFF1976D2),
-//                      Color(0xFF42A5F5),
-//                    ],
-//                  ),
-//                ),
-//              ),
             ),
           ),
           // SizedBox(

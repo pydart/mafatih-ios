@@ -1,15 +1,10 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:mafatih/data/themes.dart';
 import 'package:mafatih/data/uistate.dart';
-import 'package:mafatih/splashScreen.dart';
 import 'package:mafatih/theming/theme/AppConstants.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
 import 'package:mafatih/theming/theme/dark_theme.dart';
 import 'package:mafatih/theming/theme/light_theme.dart';
-//import 'package:mafatih/ui/about.dart';
 import 'package:mafatih/ui/home2.dart';
-import 'package:mafatih/ui/home_about.dart';
 import 'package:mafatih/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/ui/widget/favorites.dart';
@@ -80,10 +75,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // localizationsDelegates: context.localizationDelegates,
-      // supportedLocales: context.supportedLocales,
-      // locale: context.locale,
-
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -92,20 +83,11 @@ class _MyAppState extends State<MyApp> {
         Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
       ],
       locale: Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales,
-
-      // builder: (context, child) {
-      //   return Directionality(
-      //     textDirection: TextDirection.rtl,
-      //     child: child,
-      //   );
-      // },
-
       theme: themeLightData,
       darkTheme: themeDarkData,
       themeMode: Provider.of<CustomThemeMode>(context).getThemeMode,
       debugShowCheckedModeBanner: false,
       title: 'مفاتیح الجنان',
-      // theme: Provider.of<ThemeNotifier>(context).curretThemeData,
       initialRoute: 'mafatih/',
       routes: {
         'home': (context) => Home(),
@@ -114,7 +96,6 @@ class _MyAppState extends State<MyApp> {
         '/ListSec': (context) => ListSec(),
 //          '/about': (context) => HomeAbout(),
       },
-
       home: Home(),
     );
   }

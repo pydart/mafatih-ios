@@ -1,16 +1,9 @@
 import 'dart:convert';
-
-import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screen/flutter_screen.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mafatih/data/themes.dart';
-import 'package:mafatih/data/utils/style.dart';
-import 'package:mafatih/library/Globals.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
-import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
@@ -18,13 +11,11 @@ import '../data/uistate.dart';
 import 'detailSec4.dart';
 import 'detailSec5.dart';
 import 'drawer.dart';
-import 'home_about.dart';
 import 'listpage/listFasl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'notesSearch.dart';
 import 'package:admob_flutter/admob_flutter.dart';
@@ -37,11 +28,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
-  /// Used for Bottom Navigation
   int indexTabHome = 0;
   String newVersionBuildNumber;
   double currentBuildNumber;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String gif1Url="";
   String gif2Url="";
@@ -95,25 +84,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-
-  _getAudioList() async {
-    print("******************************************_getAudioList  STARTED****************************************");
-
-    try {
-      http.Response response =
-      await http.get(Constants.audiosListUrl+'/audiosList.php').whenComplete(() {});
-      if (response.statusCode == 200) {
-        var Results = response.body;
-        print("**********************************************************************************_getAudioList    $Results");
-      } else {
-        throw Exception('------------------------------------------------------------------------------------------------------Failed to load');
-      }
-    } catch (e) {
-      print("----------------------------------------------------------------------------------------------------------------Exception Caught: $e");
-    }
-  }
-
-
   _getBuildNumber() async {
     try {
       http.Response response =
@@ -149,36 +119,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-//  MyGlobals myGlobals = MyGlobals();
-
-//  _showVersionDialog(context) async {
-//    await showDialog<String>(
-//      context: myGlobals.scaffoldKey.currentContext,
-//      barrierDismissible: false,
-//      builder: (BuildContext context) {
-//        String title = "New Update Available";
-//        String message =
-//            "There is a newer version of app available please update it now.";
-//        String btnLabel = "Update Now";
-//        String btnLabelCancel = "Later";
-//        return new AlertDialog(
-//          title: Text(title),
-//          content: Text(message),
-//          actions: <Widget>[
-//            FlatButton(
-//              child: Text(btnLabel),
-//              onPressed: () => _launchURL(PLAY_STORE_URL),
-//            ),
-//            FlatButton(
-//              child: Text(btnLabelCancel),
-//              onPressed: () => Navigator.pop(context),
-//            ),
-//          ],
-//        );
-//      },
-//    );
-//  }
-
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -186,8 +126,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       throw 'Could not launch $url';
     }
   }
-
-  /// Navigation event handler
 
   void redirectToLastVisitedSurahView() {
     print("redirectTo:${globals.indexlastViewedPage}");
@@ -203,10 +141,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  /// Declare SharedPreferences
   SharedPreferences prefs;
-
-  /// get bookmarkPage from sharedPreferences
   getLastViewedPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.LAST_VIEWED_PAGE_index)) {
@@ -215,7 +150,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       var _lastViewedPageIndex = prefs.getInt(globals.LAST_VIEWED_PAGE_index);
       var _lastViewedPageIndexFasl =
           prefs.getInt(globals.LAST_VIEWED_PAGE_indexFasl);
-
       setState(() {
         globals.titlelastViewedPage = _lastViewedPageTitle;
         globals.indexlastViewedPage = _lastViewedPageIndex;
@@ -224,7 +158,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  /// get bookmarkPage from sharedPreferences
   getBookmark() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
@@ -253,7 +186,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.codeBookMarked = codeBookMarked;
       });
 
-      /// if not found return default value
     } else {
       setState(() {
         globals.titleBookMarked = [];
@@ -264,18 +196,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  /// get bookmarkPage from sharedPreferences
   getFontsize() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.FontArabic_LEVEL)) {
       double _fontarabiclevel = prefs.getDouble(globals.FontArabic_LEVEL);
-
       double _fonttarjlevel = prefs.getDouble(globals.FontTarj_LEVEL);
-
       double _fonttozihlevel = prefs.getDouble(globals.FontTozih_LEVEL);
-
       String _fontarabic = prefs.getString(globals.FontArabic);
-
       setState(() {
         globals.fontArabicLevel = _fontarabiclevel;
         globals.fontArabic = _fontarabic;
@@ -283,7 +210,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.fontTozihLevel = _fonttozihlevel;
       });
 
-      /// if not found return default value
     } else {
       setState(() {
         globals.fontArabic = 'نیریزی دو';
@@ -295,12 +221,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
 
-
-
   @override
   void initState() {
-
-    // _getAudioList();
     try {
       versionCheck(context);
     } catch (e) {
@@ -309,52 +231,23 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     getBookmark();
     getLastViewedPage();
-//    Timer(Duration(seconds: 3),
-//        () => Navigator.pushReplacementNamed(context, "index"));
-
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 1, vsync: this);
-
     getFontsLevel();
     getOtherSettings();
     getScreenBrightness();
     getBrightnessLevel();
-    // Screen.setBrightness(globals.brightnessActive == true
-    //     ? globals.brightnessLevel
-    //     : globals.brightnessLevelDefault);
-
-    print("************************************************************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
-    // if (prefs.containsKey(globals.JsonCodesHavingAudio)) {
-    //   var _jsonCodesHavingAudio = prefs.getStringList(globals.JsonCodesHavingAudio);
-    //   setState(() {
-    //     globals.jsonCodesHavingAudio = _jsonCodesHavingAudio;
-    //   });
-    // }
-    // if (globals.jsonCodesHavingAudio!=[]) {
-    //   print("************************************************************************** jsonCodesHavingAudio.Does Not contain ");
-    //   checkUrlExist();
-    // } else {
-    //   print("*************************************************************globals.jsonCodesHavingAudio   ${globals.jsonCodesHavingAudio} ");
-    //
-    //
-    // }
-
     checkUrlExist();
-
   }
 
   setAudioExist(List<String> jsonCode) async {
-    // (globals.jsonCodesHavingAudio).add(jsonCode);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     globals.jsonCodesHavingAudio=jsonCode;
     await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
-
     print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
-
   }
   checkUrlExist() async {
     print("************************************************************************** checkUrlExist ");
-
     try {
       http.Response response =
       await http.get(Constants.audiosListUrl +'/audiosList.php').whenComplete(() {});
@@ -371,7 +264,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  /// Get saved Brightness or the default value if Brightness level is not defined
   getBrightnessLevel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BRIGHTNESS_LEVEL) &&
@@ -384,29 +276,23 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.brightnessLevel =
             double.parse(_brightnessLevel2.toStringAsFixed(2));
       });
-
       FlutterScreen.setBrightness(globals.brightnessLevel);
     } else {
       // getScreenBrightness();
     }
   }
 
-  /// Get Screen Brightness
   void getScreenBrightness() async {
     double _brightnessLevel3;
     double _brightnessLevel4;
-
     print(globals.brightnessLevel);
     _brightnessLevel3 = await FlutterScreen.brightness;
-
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevelDefault =
         double.parse(_brightnessLevel4.toStringAsFixed(2));
-    // globals.brightnessLevelDefault = globals.brightnessLevel;
   }
 
-  /// Get saved Brightness or the default value if Brightness level is not defined
   getFontsLevel() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -415,7 +301,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       globals.fontTarjLevel = 21;
       globals.fontTozihLevel = 25;
     });
-
     if (prefs.containsKey(globals.FontArabic_LEVEL)) {
       var _fontArabicLevel = prefs.getDouble(globals.FontArabic_LEVEL);
       setState(() {
@@ -442,7 +327,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.fontTozihLevel = _fontTozihLevel;
       });
     }
-
     print(
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.fontArabicLevel}             globals.fontArabicLevel');
   }
@@ -505,18 +389,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       globals.darkMode = false;
     }
 
-//    Provider.of<ThemeNotifier>(context).curretThemeData2;
-    print(
-        '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.tozihActive}          globals.tozihActive');
-
-
     if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
       var _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
       setState(() {
         globals.lastScrolledPixel = _lastScrolledPixel;
       });
     }
-
 
     if (prefs.containsKey(globals.LAST_VIEWED_PAGE_title)) {
 
@@ -529,7 +407,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             prefs.getInt(globals.LAST_VIEWED_PAGE_indexFasl);
         globals.indentlastViewedPage =
             prefs.getString(globals.LAST_VIEWED_PAGE_indent);
-
       });
 
     }
@@ -561,34 +438,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ],
             ));
   }
-
-  // int backPressCounter = 1;
-  // int backPressTotal = 2;
-  // Future<bool> onWillPop() {
-  //   if (backPressCounter < 2) {
-  //     Fluttertoast.showToast(
-  //         // "برای خروج ${backPressTotal - backPressCounter} مرتبه برگشت بزنید");
-  //         msg: "برای خروج دو مرتبه برگشت بزنید",
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.BOTTOM,
-  //         backgroundColor: Colors.green,
-  //         textColor: Colors.white,
-  //         fontSize: 18.0);
-  //
-  //     // msg:
-  //     // "";
-  //     backPressCounter++;
-  //     Future.delayed(Duration(seconds: 1, milliseconds: 0), () {
-  //       backPressCounter--;
-  //     });
-  //     return Future.value(false);
-  //   } else {
-  //     return Future.value(true);
-  //   }
-  // }
-
   DateTime currentBackPressTime;
-
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
@@ -659,10 +509,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
-
     return Scrollbar(
       child: WillPopScope(
-        // onWillPop: _onBackPressed,
         onWillPop: onWillPop,
         child: Scaffold(
           drawer: Container(
@@ -672,7 +520,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   gif3Url: gif3Url,
                   newVersionBuildNumber: newVersionBuildNumber,
                   currentBuildNumber: currentBuildNumber),),
-//        width: 700.0 / MediaQuery.of(context).devicePixelRatio,
               width: 200),
           body: NestedScrollView(
             headerSliverBuilder:
@@ -694,14 +541,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         ),
                       ]),
                   actions: <Widget>[
-//                  IconButton(
-//                    icon: Icon(Icons.search),
-//                    onPressed: () {
-//                      showSearch(
-//                          context: context, delegate: DataSearch(cities));
-//                    },
-//                  ),
-
                     IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () {
@@ -713,12 +552,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ];
             },
             body: Container(
-              // decoration: BoxDecoration(
-              //   image: DecorationImage(
-              //     image: AssetImage("assets/bitmap.png"),
-              //     fit: BoxFit.fill,
-              //   ),
-              // ),
               child: Scaffold(
                 backgroundColor: Colors.transparent,
                 body: ListView(
@@ -747,11 +580,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       fontFamily: 'IRANSans',
                       fontSize: 12,
                       height: 1.7,
-
-//                                            color:
-//                                                Theme.of(context).buttonColor),
-//                       color: Color(0xf6c40c0c)
-
                                 ),
                   ),
                               ),

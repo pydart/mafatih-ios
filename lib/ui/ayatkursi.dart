@@ -1,15 +1,8 @@
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:device_apps/device_apps.dart';
-import 'package:mafatih/data/models/ayatkursi.dart';
-import 'package:mafatih/data/services.dart';
-import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
-import 'package:pk_skeleton/pk_skeleton.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../constants.dart';
 
 class AyatKursi extends StatefulWidget {
   @override

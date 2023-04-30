@@ -11,7 +11,6 @@ class UiState with ChangeNotifier {
 
   static bool translate = globals.tarjActive;
   static bool makna = globals.tozihActive;
-//  static double light = 0.5;
 
   set fontSize(newValue) {
     ayahsize = newValue;
@@ -43,13 +42,6 @@ class UiState with ChangeNotifier {
   double get fontSizeTozih => fontSizeT;
   double get sliderfontSizeTozih => fontSizeT;
 
-//  set lightlevel(newValue) {
-//    light = newValue;
-//    notifyListeners();
-//  }
-//
-//  double get lightlevel => light * 10;
-//  double get sliderLightlevel => light;
 
   set terjemahan(newValue) {
     translate = newValue;
@@ -79,16 +71,6 @@ class UiState with ChangeNotifier {
     notifyListeners();
   }
   bool get tarjKhatiSet => tarjKhatiGet;
-
-  // static String soundType = globals.sound;
-  // set soundFormat(newValue) {
-  //   soundType = newValue;
-  //   String filePath = "assets/sounds/ashoura/$soundType.mp3";
-  //   // final assetsAudioPlayer = AssetsAudioPlayer();
-  //   // assetsAudioPlayer.open(Audio(filePath),
-  //   //     autoStart: false, respectSilentMode: false, showNotification: false);
-  //   notifyListeners();
-  // }
 
 
 }

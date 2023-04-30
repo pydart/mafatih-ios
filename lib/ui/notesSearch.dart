@@ -99,13 +99,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
         Icons.arrow_back,
         color: Theme.of(context).splashColor,
       ),
-
       onPressed: () => Navigator.pop(context),
-
-//      onPressed: () {
-//        close(context, null);
-//      },
-//      onPressed: () => Navigator.popAndPushNamed(context, '/home'),
     );
   }
 
@@ -123,11 +117,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
               width: 100,
               height: 100,
               child: Container(
-//                child: SvgPicture.asset("assets/zarebin.svg"),
                 child: Image.asset("assets/zarebin.png"),
-//                color: Colors.grey,
-//                height: 25,
-//                width: 25,
               ),
             ),
             Text(
@@ -161,28 +151,16 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
             }
             if (filteredNotes.length == 0) {
               return Container(
-                // color: Colors.white,
                 child: Center(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-//                width: 50,
-//                height: 50,
-//                child: Icon(
-//                  Icons.sentiment_dissatisfied,
-//                  size: 50,
-//                  // color: Colors.black,
-//                ),
                       width: 100,
                       height: 100,
                       child: Container(
-//                        child: SvgPicture.asset("assets/notfound.svg"),
                         child: Image.asset("assets/notfound.png"),
-//                color: Colors.grey,
-//                height: 25,
-//                width: 25,
                       ),
                     ),
                     Text(
@@ -272,7 +250,6 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                               color: Colors.grey[
                                                   600], // color: Colors.grey,
 //
-//                                  color: Colors.grey,
                                             ),
                                           ),
                                         ),
@@ -440,15 +417,11 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
       }
 
       if (textSearchActive == true && note[i].arabic.contains(query)
-          // &&
-          // !note[i].title.contains(query)
           ) //
       {
         filteredNotesArabic.add(note[i]);
       }
     }
-//    filteredNotes.addAll(_filteredNotesTitle);
-//    filteredNotes.addAll(_filteredNotesArabic);
     filteredNotes = filteredNotesTitle + filteredNotesArabic;
     loading = false;
     return filteredNotes;
@@ -461,22 +434,11 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     if (query == '') {
       return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-//        return CheckboxListTile(
-//          title: const Text('Item'),
-//          value: titleSearchActive,
-//          onChanged: (bool newValue) {
-//            setState(() {
-//              titleSearchActive = newValue;
-//            });
-//          },
-//        );
-//      });
         return Column(children: <Widget>[
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Row(
-//                mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text("فهرست",
                         style: TextStyle(
@@ -534,11 +496,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                   width: 50,
                   height: 50,
                   child: Container(
-//                    child: SvgPicture.asset("assets/zarebin.svg"),
                     child: Image.asset("assets/zarebin.png"),
-//                color: Colors.grey,
-//                height: 25,
-//                width: 25,
                   ),
                 ),
                 Text(
@@ -638,11 +596,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                               style: TextStyle(
                                 fontFamily: 'IRANSans',
                                 fontSize: 12,
-//                              color: Theme.of(context)
-//                                  .accentColor, // color: Colors.grey,
                                 color: Colors.grey[600], // color: Colors.grey,
-//
-//                                  color: Colors.grey,
                               ),
                             ),
                           ),
@@ -736,17 +690,12 @@ List<TextSpan> highlightOccurrences(String source, String query) {
     if (match.start != lastMatchEnd) {
       children.add(TextSpan(
         text: source.substring(lastMatchEnd, match.start),
-
-//          style: TextStyle(
-//              fontFamily: 'IRANSans', fontSize: 20, color: Colors.grey[900])
       ));
     }
-
     children.add(TextSpan(
       text: source.substring(match.start, match.end),
       style: TextStyle(
           fontWeight: FontWeight.bold, fontSize: 17, color: Colors.green
-          // color: Colors.black,
           ),
     ));
 
@@ -755,7 +704,6 @@ List<TextSpan> highlightOccurrences(String source, String query) {
         text: source.substring(match.end, source.length),
       ));
     }
-
     lastMatchEnd = match.end;
   }
   return children;
