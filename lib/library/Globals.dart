@@ -16,7 +16,7 @@ String filePath="data/user/0/pydart.mafatih/app_flutter/1112.mp3";
 String cacheAudio="/data/data/pydart.mafatih/cache";
 String audioUrl = 'https://www.videoir.com/apps_versions/audios/1112.mp3';
 
-
+bool isonline;
 
 final playlist = ConcatenatingAudioSource(children: [
   AudioSource.uri(

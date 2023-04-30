@@ -256,26 +256,26 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                             ),
                                           ],
                                         ),
-//                                         subtitle: RichText(
-//                                           maxLines: 2,
-//                                           overflow: TextOverflow.ellipsis,
-//                                           text: TextSpan(
-//                                             children: highlightOccurrences(
-//                                                 filteredNotesTitle[index]
-//                                                     .arabic,
-//                                                 ""),
-//                                             style: TextStyle(
-//                                               fontFamily: 'IRANSans',
-//                                               fontSize: 12,
-// //                              color: Theme.of(context)
-// //                                  .accentColor, // color: Colors.grey,
-//                                               color: Colors.grey[
-//                                                   600], // color: Colors.grey,
-// //
-// //                                  color: Colors.grey,
-//                                             ),
-//                                           ),
-//                                         ),
+                                        subtitle: RichText(
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          text: TextSpan(
+                                            children: highlightOccurrences(
+                                                filteredNotesTitle[index]
+                                                    .arabic,
+                                                ""),
+                                            style: TextStyle(
+                                              fontFamily: 'IRANSans',
+                                              fontSize: 12,
+//                              color: Theme.of(context)
+//                                  .accentColor, // color: Colors.grey,
+                                              color: Colors.grey[
+                                                  600], // color: Colors.grey,
+//
+//                                  color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
 
                                         onTap: () {
                                           Navigator.push(
@@ -360,23 +360,23 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                             ),
                                           ],
                                         ),
-//                                         subtitle: RichText(
-//                                           maxLines: 2,
-//                                           overflow: TextOverflow.ellipsis,
-//                                           text: TextSpan(
-//                                             children: highlightOccurrences(
-//                                                 filteredNotesArabic[index]
-//                                                     .arabic,
-//                                                 query),
-//                                             style: TextStyle(
-//                                               fontFamily: 'IRANSans',
-//                                               fontSize: 12,
-//                                               color: Colors.grey[
-//                                                   600], // color: Colors.grey,
-// //
-//                                             ),
-//                                           ),
-//                                         ),
+                                        subtitle: RichText(
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          text: TextSpan(
+                                            children: highlightOccurrences(
+                                                filteredNotesArabic[index]
+                                                    .arabic,
+                                                query),
+                                            style: TextStyle(
+                                              fontFamily: 'IRANSans',
+                                              fontSize: 12,
+                                              color: Colors.grey[
+                                                  600], // color: Colors.grey,
+//
+                                            ),
+                                          ),
+                                        ),
                                         onTap: () {
                                           Navigator.push(
                                             context,
@@ -472,52 +472,52 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
 //        );
 //      });
         return Column(children: <Widget>[
-//           Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: <Widget>[
-//                 Row(
-// //                mainAxisAlignment: MainAxisAlignment.center,
-//                   children: <Widget>[
-//                     Text("فهرست",
-//                         style: TextStyle(
-//                           fontWeight: FontWeight.bold,
-//                           fontFamily: 'IRANSans',
-//                           fontSize: 18,
-//                           color: Colors.green,
-//                         )),
-//                     Checkbox(
-//                       activeColor: Colors.green,
-//                       value: titleSearchActive,
-//                       onChanged: (bool value) {
-//                         setState(() {
-//                           titleSearchActive = value;
-//                         });
-//                       },
-//                     ),
-//                   ],
-//                 ),
-//                 Row(
-// //                mainAxisAlignment: MainAxisAlignment.center,
-//                   children: <Widget>[
-//                     Text("متن",
-//                         style: TextStyle(
-//                           fontWeight: FontWeight.bold,
-//                           fontFamily: 'IRANSans',
-//                           fontSize: 18,
-//                           color: Colors.green,
-//                         )),
-//                     Checkbox(
-//                       value: textSearchActive,
-//                       activeColor: Colors.green,
-//                       onChanged: (bool value) {
-//                         setState(() {
-//                           textSearchActive = value;
-//                         });
-//                       },
-//                     ),
-//                   ],
-//                 ),
-//               ]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Row(
+//                mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("فهرست",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'IRANSans',
+                          fontSize: 18,
+                          color: Colors.green,
+                        )),
+                    Checkbox(
+                      activeColor: Colors.green,
+                      value: titleSearchActive,
+                      onChanged: (bool value) {
+                        setState(() {
+                          titleSearchActive = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+//                mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("متن",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'IRANSans',
+                          fontSize: 18,
+                          color: Colors.green,
+                        )),
+                    Checkbox(
+                      value: textSearchActive,
+                      activeColor: Colors.green,
+                      onChanged: (bool value) {
+                        setState(() {
+                          textSearchActive = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ]),
           Container(
             height: 1,
             color: Colors.green,
@@ -626,28 +626,28 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                               ),
                             ],
                           ),
-//                           subtitle: RichText(
-//                             maxLines: 2,
-//                             overflow: TextOverflow.ellipsis,
-//                             text: TextSpan(
-//                               children: textSearchActive
-//                                   ? highlightOccurrences(
-//                                       filteredNotes[index].arabic, query)
-//                                   : highlightOccurrences(
-//                                       filteredNotes[index].arabic, ""),
-//                               style: TextStyle(
-//                                 fontFamily: 'IRANSans',
-//                                 fontSize: 12,
-// //                              color: Theme.of(context)
-// //                                  .accentColor, // color: Colors.grey,
-//                                 color: Colors.grey[600], // color: Colors.grey,
-// //
-// //                                  color: Colors.grey,
-//                               ),
-//                             ),
-//                           ),
+                          subtitle: RichText(
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            text: TextSpan(
+                              children: textSearchActive
+                                  ? highlightOccurrences(
+                                      filteredNotes[index].arabic, query)
+                                  : highlightOccurrences(
+                                      filteredNotes[index].arabic, ""),
+                              style: TextStyle(
+                                fontFamily: 'IRANSans',
+                                fontSize: 12,
+//                              color: Theme.of(context)
+//                                  .accentColor, // color: Colors.grey,
+                                color: Colors.grey[600], // color: Colors.grey,
+//
+//                                  color: Colors.grey,
+                              ),
+                            ),
+                          ),
                           onTap: () {
-/*                            Navigator.push(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DetailSec(
@@ -658,7 +658,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                     code: filteredNotes[index].bab * 1000 +
                                         filteredNotes[index].indexbab),
                               ),
-                            );*/
+                            );
 
                             if (filteredNotes[index].bab != 4) {
                               Navigator.push(

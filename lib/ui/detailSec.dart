@@ -281,6 +281,7 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void initState() {
+
     print("********************************************** widget.code  **************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
 
@@ -546,98 +547,147 @@ class _DetailSecState extends State<DetailSec> {
   //   });
   // }
 
+
+
+
+
+
   double progress = null;
 
   String status = "Not Downloaded";
 
-  /// random download file for demonstration purposes
-  /// replace with any file you want to download
-  // final url = 'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_1000MG.mp3';
-  // final url = 'https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_1920_18MG.mp4';
+  Future<bool> hasNetwork() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
+  }
+
 
   void _downloadButtonPressed() async {
-    /// when download first called it takes a bit of time to communicate with server.
-    /// While that is happening, make circle just spin eternally
-    setState(() { progress = null; });
-    String audioUrl = 'https://www.videoir.com/apps_versions/audios/${widget.code}.mp3';
-    final request = Request('GET', Uri.parse(audioUrl));
-    /// calling Client().send() instead of get(url) method.
-    /// Reason: send() gives you a stream, and you’re going to listen to the
-    /// stream of bytes as it downloads the file from the server
-    final StreamedResponse response = await Client().send(request);
+    bool isOnline = await hasNetwork();
 
-    /// response coming from the server contains a header called Content-Length,
-    /// which includes the total size of the file in bytes
-    final contentLength = response.contentLength;
-    // sometimes the server doesn't return this value or sometimes the header gets stripped away.
-    // If that’s the case then contentLength will be null.
-    // That makes it more difficult to show your users the download progress.
-    // There are a couple of options:
-    //   - If you have control of the server, you can set the x-decompressed-content-length header
-    //     with the file size before you send it. That header seems to stay put.
-    //     On the client side you could retrieve the content length like this:
-    //       final contentLength = double.parse(response.headers['x-decompressed-content-length']);
-    //   - Another option is to just show the cumulative number of bytes that are being downloaded.
-    //     Since the final total is not known, the user still won’t know how long they have to wait,
-    //     but at least it will be more informative than an eternal spinning circle.
+    if(isOnline==true) {
 
-    /// Now that we have response from server, stop the spinning indicator & set it to 0
-    setState(() {
-      progress = 0.000001;
-      status = "دانلود شروع شد";
-    });
+      /// when download first called it takes a bit of time to communicate with server.
+      /// While that is happening, make circle just spin eternally
+      setState(() {
+        progress = null;
+      });
+      String audioUrl = 'https://www.videoir.com/apps_versions/audios/${widget
+          .code}.mp3';
+      final request = Request('GET', Uri.parse(audioUrl));
 
-    /// Initialize variable to save the download in.
-    /// Array stores the file in memory before you save to storage.
-    /// Since the length of this array is the number of bytes that have been
-    /// downloaded, use this to track the progress of the download.
-    List<int> bytes = [];
+      /// calling Client().send() instead of get(url) method.
+      /// Reason: send() gives you a stream, and you’re going to listen to the
+      /// stream of bytes as it downloads the file from the server
+      final StreamedResponse response = await Client().send(request);
 
-    /// place to store the file
-    final file = await _getFile('${widget.code}.mp3');
+      /// response coming from the server contains a header called Content-Length,
+      /// which includes the total size of the file in bytes
+      final contentLength = response.contentLength;
+      // sometimes the server doesn't return this value or sometimes the header gets stripped away.
+      // If that’s the case then contentLength will be null.
+      // That makes it more difficult to show your users the download progress.
+      // There are a couple of options:
+      //   - If you have control of the server, you can set the x-decompressed-content-length header
+      //     with the file size before you send it. That header seems to stay put.
+      //     On the client side you could retrieve the content length like this:
+      //       final contentLength = double.parse(response.headers['x-decompressed-content-length']);
+      //   - Another option is to just show the cumulative number of bytes that are being downloaded.
+      //     Since the final total is not known, the user still won’t know how long they have to wait,
+      //     but at least it will be more informative than an eternal spinning circle.
 
-    response.stream.listen(
-          (List<int> newBytes) {
-        // update progress
-        bytes.addAll(newBytes);
-        final downloadedLength = bytes.length;
-        setState(() {
-          progress = downloadedLength.toDouble() / (contentLength ?? 1);
-          status = "  پیشرفت ${((progress ?? 0)*100).toStringAsFixed(2)}% ";
-        });
-        print("progress: $progress");
-      },
-      onDone: () async {
-        // save file
-        setState(() {
-          progress = 1;
-          status = "دانلود تکمیل شد";
-        });
-        await file.writeAsBytes(bytes);
-        final duration = await _player.setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
+      /// Now that we have response from server, stop the spinning indicator & set it to 0
+      setState(() {
+        progress = 0.000001;
+        status = "دانلود شروع شد";
+      });
+      Fluttertoast.showToast(
+          msg: "دانلود شروع شد",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 18.0);
 
-        /// file has been downloaded
-        /// show success to user
-        debugPrint("Download finished");
-      },
-      onError: (e) {
-        /// if user loses internet connection while downloading the file, causes an error.
-        /// You can decide what to do about that in onError.
-        /// Setting cancelOnError to true will cause the StreamSubscription to get canceled.
-        debugPrint(e);
-      },
-      cancelOnError: true,
-    );
+      /// Initialize variable to save the download in.
+      /// Array stores the file in memory before you save to storage.
+      /// Since the length of this array is the number of bytes that have been
+      /// downloaded, use this to track the progress of the download.
+      List<int> bytes = [];
 
-    /// using Flutter package "dio":
-    //      Dio dio = Dio();
-    //      dio.download(urlOfFileToDownload, '$dir/$filename',
-    //         onReceiveProgress(received,total) {
-    //         setState(() {
-    //           int percentage = ((received / total) * 100).floor();
-    //         });
-    //      });
+      /// place to store the file
+      final file = await _getFile('${widget.code}.mp3');
 
+      response.stream.listen(
+            (List<int> newBytes) {
+          // update progress
+          bytes.addAll(newBytes);
+          final downloadedLength = bytes.length;
+          setState(() {
+            progress = downloadedLength.toDouble() / (contentLength ?? 1);
+            status = "  پیشرفت ${((progress ?? 0) * 100).toStringAsFixed(2)}% ";
+          });
+          print("progress: $progress");
+        },
+        onDone: () async {
+          // save file
+          setState(() {
+            progress = 1;
+            status = "دانلود تکمیل شد";
+          });
+          Fluttertoast.showToast(
+              msg: "دانلود تکمیل شد",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 18.0);
+          await file.writeAsBytes(bytes);
+          final duration = await _player.setFilePath(
+              '${globals.cacheAudio}/${widget.code}.mp3');
+
+          /// file has been downloaded
+          /// show success to user
+          debugPrint("Download finished");
+        },
+        onError: (e) {
+          /// if user loses internet connection while downloading the file, causes an error.
+          /// You can decide what to do about that in onError.
+          /// Setting cancelOnError to true will cause the StreamSubscription to get canceled.
+          print(
+              "/////////////////////////////////////////////////////////////////////////////// error $e");
+          Fluttertoast.showToast(
+              msg: "لطفا از اتصال دستگاه خود به اینترنت مطمئن شوید.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 18.0);
+
+          debugPrint(e);
+        },
+        cancelOnError: true,
+      );
+
+      /// using Flutter package "dio":
+      //      Dio dio = Dio();
+      //      dio.download(urlOfFileToDownload, '$dir/$filename',
+      //         onReceiveProgress(received,total) {
+      //         setState(() {
+      //           int percentage = ((received / total) * 100).floor();
+      //         });
+      //      });
+    }else if (isOnline==false){      Fluttertoast.showToast(
+        msg: "برای دانلود فایل صوتی لطفا به اینترنت متصل شوید",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 18.0);}
 
   }
 
@@ -649,6 +699,29 @@ class _DetailSecState extends State<DetailSec> {
     final dir = await getTemporaryDirectory();
     // final dir = await getApplicationDocumentsDirectory();
     return File("${dir.path}/$filename");
+  }
+
+  Future<bool> checkInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('https://www.google.com/');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        return true;
+
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      Fluttertoast.showToast(
+          msg: "برای دانلود فایل صوتی لطفا به اینترنت متصل شوید",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 18.0);
+
+      return false;
+
+    }
   }
 
 
@@ -697,7 +770,7 @@ class _DetailSecState extends State<DetailSec> {
           icon: const Icon(Icons.play_arrow),
           iconSize: 50.0,
           onPressed:
-          progress==null ? _downloadButtonPressed : null,
+          progress==null ? ((_downloadButtonPressed)) : null,
 
         ),
                 if (progress!=null && progress!=0 && progress<1) CircularProgressIndicator(

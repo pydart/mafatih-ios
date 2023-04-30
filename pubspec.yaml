@@ -54,7 +54,8 @@ dependencies:
   encrypt: ^4.1.0
   flutter_media_metadata: ^1.0.0+1
 #  audioplayers: ^0.17.4
-  audioplayer: 0.8.1
+#  audioplayer: 0.8.1
+  connectivity_plus: ^0.8.1
 
 
 dev_dependencies:
@@ -75,7 +76,7 @@ flutter:
     - python/Babs/4/
     - python/Babs/5/
     - python/Babs/6/
-    - python/Babs/7/
+    - python/Babs/70/
     - assets/lang/
     - assets/sounds/
 

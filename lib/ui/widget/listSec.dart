@@ -123,6 +123,21 @@ class _ListSecState extends State<ListSec> {
                                                         dense: true,
                                                         onTap: () {
                                                           if (widget
+                                                              .indexFasl ==
+                                                          7 ) {
+                                                          Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                          builder:
+                                                          (context) =>
+                                                          ListSec(
+                                                          detail:
+                                                          data.title,
+                                                          indexFasl:
+                                                          data.index)
+                                                          ));
+                                                          }
+                                                          else if (widget
                                                                   .indexFasl !=
                                                               4) {
                                                             Navigator.push(
@@ -170,6 +185,7 @@ class _ListSecState extends State<ListSec> {
                                                                               code: widget.indexFasl * 1000 + data.index,
                                                                             )));
                                                           }
+
                                                         })
                                                   ]))),
                                     )

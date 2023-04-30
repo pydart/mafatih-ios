@@ -22,6 +22,7 @@ class ServiceData {
   static var infoFasl4 = 'python/Babs/infobabs/infobab4.json';
   static var infoFasl6 = 'python/Babs/infobabs/infobab6.json';
   static var infoFasl7 = 'python/Babs/infobabs/infobab7.json';
+  static var infoFasl70 = 'python/Babs/infobabs/infobab70.json';
 
   var dict = {
     1: infoFasl1,
@@ -29,7 +30,8 @@ class ServiceData {
     3: infoFasl3,
     4: infoFasl4,
     6: infoFasl6,
-    7: infoFasl7
+    7: infoFasl7,
+    70: infoFasl70
   };
   var listdoa = 'surah/doa-harian.json';
   var listasmaulhusna = 'surah/asmaul-husna.json';
