@@ -1,0 +1,72 @@
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mafatih/data/uistate.dart';
+import 'package:mafatih/splashScreen.dart';
+import 'package:mafatih/theming/theme/AppConstants.dart';
+import 'package:mafatih/theming/theme/custom_theme_mode.dart';
+import 'package:mafatih/theming/theme/dark_theme.dart';
+import 'package:mafatih/theming/theme/light_theme.dart';
+import 'package:mafatih/ui/home2.dart';
+import 'package:mafatih/ui/settings.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+void main() async {
+  Admob.initialize();
+  runApp(EasyLocalization(
+    supportedLocales: [AppConstants.FA_LOCALE],
+    path: AppConstants.LANG_PATH,
+    startLocale: AppConstants.FA_LOCALE,
+    child: MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => UiState(), lazy: false),
+      ChangeNotifierProvider(create: (_) => CustomThemeMode()),
+    ], child: MyApp()),
+  ));
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  SharedPreferences prefs;
+  var dark;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
+        ],
+        locale:
+            Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales,
+
+        theme: themeLightData,
+        darkTheme: themeDarkData,
+        themeMode: Provider.of<CustomThemeMode>(context).getThemeMode,
+        debugShowCheckedModeBanner: false,
+        title: 'دعای حوحو',        initialRoute: 'mafatih/',
+        routes: {
+          'home': (context) => Home(),
+          '/settings': (context) => Settings(),
+        },
+        home: SplashScreen());
+  }
+}

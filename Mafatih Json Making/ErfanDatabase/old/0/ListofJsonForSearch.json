@@ -1,0 +1,2521 @@
+[
+    {
+        "number": 2,
+        "bab": 0,
+        "title": "دعای حزین که بعد از نماز شب خوانده می شود",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 1
+    },
+    {
+        "number": 3,
+        "bab": 0,
+        "title": "دعای «اللَّهُمّ ربَّ النّور العظیمِ» برای لحظه افطار",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 2
+    },
+    {
+        "number": 4,
+        "bab": 0,
+        "title": "دعای بعد از نماز صبح در روز عید فطر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 3
+    },
+    {
+        "number": 5,
+        "bab": 0,
+        "title": "نماز حضرت امام محمد باقر(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 4
+    },
+    {
+        "number": 6,
+        "bab": 0,
+        "title": "نماز حضرت امام جعفر صادق(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 5
+    },
+    {
+        "number": 7,
+        "bab": 0,
+        "title": "نماز حضرت امام موسی کاظم(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 6
+    },
+    {
+        "number": 8,
+        "bab": 0,
+        "title": "نماز امام هشتم حضرت امام رضا(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 7
+    },
+    {
+        "number": 9,
+        "bab": 0,
+        "title": "نماز امام جواد، حضرت امام محمد تقی(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 8
+    },
+    {
+        "number": 10,
+        "bab": 0,
+        "title": "نماز امام هادی، حضرت امام علی النقی(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 9
+    },
+    {
+        "number": 11,
+        "bab": 0,
+        "title": "نماز حضرت امام حسن عسکری(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 10
+    },
+    {
+        "number": 12,
+        "bab": 0,
+        "title": "دعای روز اول ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 11
+    },
+    {
+        "number": 13,
+        "bab": 0,
+        "title": "دعای روز دوم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 12
+    },
+    {
+        "number": 14,
+        "bab": 0,
+        "title": "دعای روز سوم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 13
+    },
+    {
+        "number": 15,
+        "bab": 0,
+        "title": "دعای روز چهارم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 14
+    },
+    {
+        "number": 16,
+        "bab": 0,
+        "title": "دعای روز پنجم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 15
+    },
+    {
+        "number": 17,
+        "bab": 0,
+        "title": "دعای روز ششم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 16
+    },
+    {
+        "number": 18,
+        "bab": 0,
+        "title": "دعای روز هفتم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 17
+    },
+    {
+        "number": 19,
+        "bab": 0,
+        "title": "دعای روز هشتم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 18
+    },
+    {
+        "number": 20,
+        "bab": 0,
+        "title": "دعای روز نهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 19
+    },
+    {
+        "number": 21,
+        "bab": 0,
+        "title": "دعای روز دهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 20
+    },
+    {
+        "number": 22,
+        "bab": 0,
+        "title": "دعای روز یازدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 21
+    },
+    {
+        "number": 23,
+        "bab": 0,
+        "title": "دعای روز دوازدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 22
+    },
+    {
+        "number": 24,
+        "bab": 0,
+        "title": "دعای روز سیزدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 23
+    },
+    {
+        "number": 25,
+        "bab": 0,
+        "title": "دعای روز چهاردهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 24
+    },
+    {
+        "number": 26,
+        "bab": 0,
+        "title": "دعای روز پانزدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 25
+    },
+    {
+        "number": 27,
+        "bab": 0,
+        "title": "دعای روز شانزدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 26
+    },
+    {
+        "number": 28,
+        "bab": 0,
+        "title": "دعای روز هفدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 27
+    },
+    {
+        "number": 29,
+        "bab": 0,
+        "title": "دعای روز هجدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 28
+    },
+    {
+        "number": 30,
+        "bab": 0,
+        "title": "دعای روز نوزدهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 29
+    },
+    {
+        "number": 31,
+        "bab": 0,
+        "title": "دعای روز بیستم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 30
+    },
+    {
+        "number": 32,
+        "bab": 0,
+        "title": "دعای روز بیست و یکم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 31
+    },
+    {
+        "number": 33,
+        "bab": 0,
+        "title": "دعای روز بیست و دوم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 32
+    },
+    {
+        "number": 34,
+        "bab": 0,
+        "title": "دعای روز بیست و سوم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 33
+    },
+    {
+        "number": 35,
+        "bab": 0,
+        "title": "دعای روز بیست و چهارم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 34
+    },
+    {
+        "number": 36,
+        "bab": 0,
+        "title": "دعای روز بیست و پنجم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 35
+    },
+    {
+        "number": 37,
+        "bab": 0,
+        "title": "دعای روز بیست و ششم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 36
+    },
+    {
+        "number": 38,
+        "bab": 0,
+        "title": "دعای روز بیست و هفتم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 37
+    },
+    {
+        "number": 39,
+        "bab": 0,
+        "title": "دعای روز بیست و هشتم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 38
+    },
+    {
+        "number": 40,
+        "bab": 0,
+        "title": "دعای روز بیست و نهم ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 39
+    },
+    {
+        "number": 41,
+        "bab": 0,
+        "title": "دعای روز سی‌ام ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 40
+    },
+    {
+        "number": 42,
+        "bab": 0,
+        "title": "اعمال روزهای آخر ماه شعبان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 41
+    },
+    {
+        "number": 43,
+        "bab": 0,
+        "title": "دعاهای کوتاه بعد از نماز ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 42
+    },
+    {
+        "number": 44,
+        "bab": 0,
+        "title": "ثواب عجیب خواندن آیاتی از سوره روم و صافات در تعقیب نماز مغرب ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 43
+    },
+    {
+        "number": 45,
+        "bab": 0,
+        "title": "دعاهای هر روز که اختصاص به ساعت خاصی ندارد",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 44
+    },
+    {
+        "number": 46,
+        "bab": 0,
+        "title": "فضیلت ذکر «لا حول و لا قوّة الاّ باللّه» و «تسبیحات اربعه» برای هر روز ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 45
+    },
+    {
+        "number": 47,
+        "bab": 0,
+        "title": "نماز روز شنبه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 46
+    },
+    {
+        "number": 48,
+        "bab": 0,
+        "title": "نماز روز یک‌شنبه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 47
+    },
+    {
+        "number": 49,
+        "bab": 0,
+        "title": "نماز روز دوشنبه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 48
+    },
+    {
+        "number": 50,
+        "bab": 0,
+        "title": "نماز روز سه‌شنبه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 49
+    },
+    {
+        "number": 51,
+        "bab": 0,
+        "title": "نماز روز چهارشنبه  ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 50
+    },
+    {
+        "number": 52,
+        "bab": 0,
+        "title": "نماز روز پنج‌شنبه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 51
+    },
+    {
+        "number": 53,
+        "bab": 0,
+        "title": "نماز روز جمعه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 52
+    },
+    {
+        "number": 54,
+        "bab": 0,
+        "title": "آداب زمان طلوع آفتاب و ابتدای روز",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 53
+    },
+    {
+        "number": 55,
+        "bab": 0,
+        "title": "فصل سوم: اعمال مابین غروب آفتاب تا وقت خواب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 54
+    },
+    {
+        "number": 56,
+        "bab": 0,
+        "title": "رساله باقیات‌ الصالحات",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 55
+    },
+    {
+        "number": 57,
+        "bab": 0,
+        "title": "ملحقات مفاتیح الجنان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 56
+    },
+    {
+        "number": 58,
+        "bab": 0,
+        "title": " اعمال شب و روز",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 57
+    },
+    {
+        "number": 59,
+        "bab": 0,
+        "title": "زیارت حضرت امیرالمومنین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 58
+    },
+    {
+        "number": 60,
+        "bab": 0,
+        "title": "فصل دوم: اعمال مابین طلوع و غروب آفتاب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 59
+    },
+    {
+        "number": 61,
+        "bab": 0,
+        "title": "فصل چهارم: برخاستن از خواب و نماز شب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 60
+    },
+    {
+        "number": 62,
+        "bab": 0,
+        "title": "دعایی جامع برای دنیا و آخرت",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 61
+    },
+    {
+        "number": 63,
+        "bab": 0,
+        "title": "در بیان بعضی از حرزها و دعاهای مختصر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 62
+    },
+    {
+        "number": 64,
+        "bab": 0,
+        "title": "آداب اموات و ادعیه متعلق به آن",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 63
+    },
+    {
+        "number": 65,
+        "bab": 0,
+        "title": "دعای جبرئیل برای به جا آوردن حق عبادت",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 64
+    },
+    {
+        "number": 66,
+        "bab": 0,
+        "title": "دعایی که مردی بادیه نشین به جهت آن بخشیده شد",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 65
+    },
+    {
+        "number": 67,
+        "bab": 0,
+        "title": "دعایی که امام باقر(علیه السلام) به برادرش آموخت",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 66
+    },
+    {
+        "number": 68,
+        "bab": 0,
+        "title": "دعای امام صادق(ع) برای نماز وتر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 67
+    },
+    {
+        "number": 69,
+        "bab": 0,
+        "title": "دعای معروف نزد اهل آسمان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 68
+    },
+    {
+        "number": 70,
+        "bab": 0,
+        "title": "دعای جامع از حضرت باقر(علیه السلام)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 69
+    },
+    {
+        "number": 71,
+        "bab": 0,
+        "title": "ادعیه منتخبه از کتاب کافی",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 70
+    },
+    {
+        "number": 72,
+        "bab": 0,
+        "title": "دعای درمان ضعیفی و بیماری‌های چشم ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 71
+    },
+    {
+        "number": 73,
+        "bab": 0,
+        "title": "دعای حفظ از ترس و وحشت",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 72
+    },
+    {
+        "number": 74,
+        "bab": 0,
+        "title": "دعا برای کسی که شب را تنها مانده",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 73
+    },
+    {
+        "number": 75,
+        "bab": 0,
+        "title": "دعای پیامبر برای در امان ماندن امام حسن(ع) و امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 74
+    },
+    {
+        "number": 76,
+        "bab": 0,
+        "title": "دعا برای در امان ماندن از شیر و پلنگ و گرگ و ...",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 75
+    },
+    {
+        "number": 77,
+        "bab": 0,
+        "title": "فصل هفتم: زیارت امام حسین(ع) ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 76
+    },
+    {
+        "number": 78,
+        "bab": 0,
+        "title": "دعای حفظ از انواع بلا ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 77
+    },
+    {
+        "number": 79,
+        "bab": 0,
+        "title": " خواص بعضی سوره و آیات و غیره",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 78
+    },
+    {
+        "number": 80,
+        "bab": 0,
+        "title": "دعاى درمان زحیر (دل پیچه)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 79
+    },
+    {
+        "number": 81,
+        "bab": 0,
+        "title": "دعاى قرقر شکم",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 80
+    },
+    {
+        "number": 82,
+        "bab": 0,
+        "title": "دعاى برص(پیسی اندام)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 81
+    },
+    {
+        "number": 83,
+        "bab": 0,
+        "title": "داستان تنبیه علی بن یقطین از سوی امام کاظم(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 82
+    },
+    {
+        "number": 84,
+        "bab": 0,
+        "title": "نزدیکی با همسر در شب اول ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 83
+    },
+    {
+        "number": 85,
+        "bab": 0,
+        "title": "اهمیت غسل شب اول ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 84
+    },
+    {
+        "number": 86,
+        "bab": 0,
+        "title": "ثواب زیارت امام حسین(علیه‌السلام) در شب اول ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 85
+    },
+    {
+        "number": 87,
+        "bab": 0,
+        "title": "دعایی که رسول خدا(ص) در آغاز ماه رمضان می خواندند",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 86
+    },
+    {
+        "number": 88,
+        "bab": 0,
+        "title": "دعای امام صادق(علیه‌السلام) پیش از تلاوت قرآن",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 87
+    },
+    {
+        "number": 89,
+        "bab": 0,
+        "title": "اهمیت غسل در روز اول ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 88
+    },
+    {
+        "number": 90,
+        "bab": 0,
+        "title": "دعای «یا علی یا عظیم...» بعد از هر نماز واجب در ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 89
+    },
+    {
+        "number": 91,
+        "bab": 0,
+        "title": "دعای «ادخل علی اهل القبور السرور...» بعد از هر نماز واجب در ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 90
+    },
+    {
+        "number": 92,
+        "bab": 0,
+        "title": "ثواب فراوان صلوات در شب و روز جمعه  ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 91
+    },
+    {
+        "number": 93,
+        "bab": 0,
+        "title": "دعای امیرالمومنین(ع) در شب هجرت وقتی که جای پیامبر(ص) خوابید",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 92
+    },
+    {
+        "number": 94,
+        "bab": 0,
+        "title": "دعاهای زمان افطار",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 93
+    },
+    {
+        "number": 95,
+        "bab": 0,
+        "title": "دعای بخشش گناهان چهل ساله در ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 94
+    },
+    {
+        "number": 96,
+        "bab": 0,
+        "title": "آداب افطار کردن و افطاری دادن  ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 95
+    },
+    {
+        "number": 97,
+        "bab": 0,
+        "title": "دعای حفظ از کوری و دیوانگی و فقر بعد از نماز صبح ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 96
+    },
+    {
+        "number": 98,
+        "bab": 0,
+        "title": "دعای حضرت یوسف(ع) در زندان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 97
+    },
+    {
+        "number": 99,
+        "bab": 0,
+        "title": "دعای درمان ورم معده، پیسی و دیوانگی بعد از نماز صبح",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 98
+    },
+    {
+        "number": 100,
+        "bab": 0,
+        "title": "دعای درمان درد چشم بعد از نماز صبح",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 99
+    },
+    {
+        "number": 101,
+        "bab": 0,
+        "title": "دعای حاجت بعد از نماز صبح ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 100
+    },
+    {
+        "number": 102,
+        "bab": 0,
+        "title": "دعایی که هر مسلمانی باید پیش از طلوع و غروب آفتاب بخواند",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 101
+    },
+    {
+        "number": 103,
+        "bab": 0,
+        "title": "نماز نافله روز جمعه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 102
+    },
+    {
+        "number": 104,
+        "bab": 0,
+        "title": "اهمیت خواندن سوره های جمعه و منافقون در ظهر روز جمعه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 103
+    },
+    {
+        "number": 105,
+        "bab": 0,
+        "title": "دعای تقویت حافظه بعد از هر نماز ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 104
+    },
+    {
+        "number": 106,
+        "bab": 0,
+        "title": "غسل شب قدر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 105
+    },
+    {
+        "number": 107,
+        "bab": 0,
+        "title": "دعاهای امام زمان(عج) برای ماه رجب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 106
+    },
+    {
+        "number": 108,
+        "bab": 0,
+        "title": "دعای آمرزش گناهان هر چند به عدد قطره‌های باران باشد",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 107
+    },
+    {
+        "number": 109,
+        "bab": 0,
+        "title": "نمازهای ماه رجب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 108
+    },
+    {
+        "number": 110,
+        "bab": 0,
+        "title": "روز دوم و سوم و دهم ماه رجب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 109
+    },
+    {
+        "number": 111,
+        "bab": 0,
+        "title": "اعمال روز آخر ماه رجب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 110
+    },
+    {
+        "number": 112,
+        "bab": 0,
+        "title": "اعمال روز نیمه رجب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 111
+    },
+    {
+        "number": 113,
+        "bab": 0,
+        "title": "خواندن صد آیه از قرآن برای زمانی که از چیزی ترسیدی",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 112
+    },
+    {
+        "number": 114,
+        "bab": 0,
+        "title": "دعای حاجت در دهه دوم ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 113
+    },
+    {
+        "number": 115,
+        "bab": 0,
+        "title": "خاتمه کتاب باقیات الصالحات",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 114
+    },
+    {
+        "number": 116,
+        "bab": 0,
+        "title": "دعای «اللهم ارزقنی حج بیتک الحرام» که در ماه رمضان بعد از هر نماز واجب خوانده می‌شود",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 115
+    },
+    {
+        "number": 117,
+        "bab": 0,
+        "title": "دعاهای مخصوص شب جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 116
+    },
+    {
+        "number": 118,
+        "bab": 0,
+        "title": "لزوم تواضع و فروتنی و خشوع در زیارت امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 117
+    },
+    {
+        "number": 119,
+        "bab": 0,
+        "title": "توصیه به خوردن انار در شب جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 118
+    },
+    {
+        "number": 120,
+        "bab": 0,
+        "title": "فضیلت خواندن سوره «احقاف» در شب و روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 119
+    },
+    {
+        "number": 121,
+        "bab": 0,
+        "title": "فضیلت خواندن سوره «مومنون» در شب و روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 120
+    },
+    {
+        "number": 122,
+        "bab": 0,
+        "title": "اهمیت و ثواب غسل جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 121
+    },
+    {
+        "number": 123,
+        "bab": 0,
+        "title": "شستن سر با گل ختمی در روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 122
+    },
+    {
+        "number": 124,
+        "bab": 0,
+        "title": "آداب و ثواب گرفتن ناخن و موی پشت لب (نوک سبیل) در روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 123
+    },
+    {
+        "number": 125,
+        "bab": 0,
+        "title": "ثواب صدقه در شب و روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 124
+    },
+    {
+        "number": 126,
+        "bab": 0,
+        "title": "رسیدگی به خانواده در روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 125
+    },
+    {
+        "number": 127,
+        "bab": 0,
+        "title": "اهمیت خوردن انار قبل از صبحانه روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 126
+    },
+    {
+        "number": 128,
+        "bab": 0,
+        "title": "اهمیت علم آموزی در روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 127
+    },
+    {
+        "number": 129,
+        "bab": 0,
+        "title": "صلوات، محبوب ترین عبادت در روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 128
+    },
+    {
+        "number": 130,
+        "bab": 0,
+        "title": "ثواب زیارت اهل قبور در روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 129
+    },
+    {
+        "number": 131,
+        "bab": 0,
+        "title": "نمازهای مستحبی روز جمعه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 130
+    },
+    {
+        "number": 132,
+        "bab": 0,
+        "title": "نمازی برای روز جمعه که سبب در امان ماندن از فتنه می شود",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 131
+    },
+    {
+        "number": 133,
+        "bab": 0,
+        "title": "بهترین زمان فرستادن صلوات در روز جمعه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 132
+    },
+    {
+        "number": 134,
+        "bab": 0,
+        "title": "ثواب صد بار خواندن سوره قدر در عصر جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 133
+    },
+    {
+        "number": 135,
+        "bab": 0,
+        "title": "ساعت دقیق اجابت دعا در روز جمعه ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 134
+    },
+    {
+        "number": 136,
+        "bab": 0,
+        "title": "تعلق روز جمعه به امام زمان(عج)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 135
+    },
+    {
+        "number": 137,
+        "bab": 0,
+        "title": "ثواب خدمت و کمک به زائران امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 136
+    },
+    {
+        "number": 138,
+        "bab": 0,
+        "title": "نماز شب قدر برای آمرزش خود و پدر و مادر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 137
+    },
+    {
+        "number": 139,
+        "bab": 0,
+        "title": "ثواب خواندن سوره های عنکبوت و روم در شب قدر بیست و سوم ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 138
+    },
+    {
+        "number": 140,
+        "bab": 0,
+        "title": "دعای سلامتی امام زمان(عجل‌الله‌فرجه)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 139
+    },
+    {
+        "number": 141,
+        "bab": 0,
+        "title": "نماز حاجت و آمرزش گناهان در شب عید فطر ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 140
+    },
+    {
+        "number": 142,
+        "bab": 0,
+        "title": "اهمیت صدقه دادن قبل از سفر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 141
+    },
+    {
+        "number": 143,
+        "bab": 0,
+        "title": "دعای سفر ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 142
+    },
+    {
+        "number": 144,
+        "bab": 0,
+        "title": "فضیلت همراه داشتن انگشتر عقیق و فیروزه در سفر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 143
+    },
+    {
+        "number": 145,
+        "bab": 0,
+        "title": "اعمال روز اول ماه ربیع‌ الاول",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 144
+    },
+    {
+        "number": 146,
+        "bab": 0,
+        "title": "اهمیت بزرگداشت روز میلاد پیامبر(ص)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 145
+    },
+    {
+        "number": 147,
+        "bab": 0,
+        "title": "ماه‌ های رومی",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 146
+    },
+    {
+        "number": 148,
+        "bab": 0,
+        "title": "دعای لحظه تحویل سال ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 147
+    },
+    {
+        "number": 149,
+        "bab": 0,
+        "title": "ثواب و ارزش کمک به دیگران در سفر ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 148
+    },
+    {
+        "number": 150,
+        "bab": 0,
+        "title": "لزوم اهمیت دادن به نماز در سفر ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 149
+    },
+    {
+        "number": 151,
+        "bab": 0,
+        "title": "مقدمه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 150
+    },
+    {
+        "number": 152,
+        "bab": 0,
+        "title": "بهترین زمان حجامت بر اساس روایات (هفتم یا چهاردهم حزیران)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 151
+    },
+    {
+        "number": 153,
+        "bab": 0,
+        "title": "ارزش زیارت امام رضا(ع) و حج عمره در ماه رجب",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 152
+    },
+    {
+        "number": 154,
+        "bab": 0,
+        "title": "ثواب بسیار صدقه در ماه شعبان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 153
+    },
+    {
+        "number": 155,
+        "bab": 0,
+        "title": "ذکری در ماه شعبان که برابر با عبادت هزار سال است ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 154
+    },
+    {
+        "number": 156,
+        "bab": 0,
+        "title": "نماز حاجت مخصوص ماه شعبان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 155
+    },
+    {
+        "number": 157,
+        "bab": 0,
+        "title": "ثواب فراوان روزه داری در ماه شعبان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 156
+    },
+    {
+        "number": 158,
+        "bab": 0,
+        "title": "اعمال شب سیزدهم ماه شعبان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 157
+    },
+    {
+        "number": 159,
+        "bab": 0,
+        "title": "اهمیت احیای شب نیمه شعبان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 158
+    },
+    {
+        "number": 160,
+        "bab": 0,
+        "title": "بهترین عمل در شب نیمه شعبان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 159
+    },
+    {
+        "number": 161,
+        "bab": 0,
+        "title": "زیارت امام زمان در شب نیمه شعبان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 160
+    },
+    {
+        "number": 162,
+        "bab": 0,
+        "title": "ذکر برآورده شدن حاجات و بخشش گناهان در شب نیمه شعبان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 161
+    },
+    {
+        "number": 163,
+        "bab": 0,
+        "title": "بهترین دعا برای شب نیمه شعبان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 162
+    },
+    {
+        "number": 164,
+        "bab": 0,
+        "title": "حکایت نگرانی عایشه در شب نیمه شعبان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 163
+    },
+    {
+        "number": 165,
+        "bab": 0,
+        "title": "نمازهای شب نیمه شعبان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 164
+    },
+    {
+        "number": 166,
+        "bab": 0,
+        "title": "اعمال ماه مبارک رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 165
+    },
+    {
+        "number": 167,
+        "bab": 0,
+        "title": "اعمال مشترک ماه مبارک رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 166
+    },
+    {
+        "number": 168,
+        "bab": 0,
+        "title": " اعمال مخصوص هر شب و روز ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 167
+    },
+    {
+        "number": 169,
+        "bab": 0,
+        "title": "نیت روزه و شب زنده داری در سحرهای ماه رمضان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 168
+    },
+    {
+        "number": 170,
+        "bab": 0,
+        "title": "ثواب افطاری دادن",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 169
+    },
+    {
+        "number": 171,
+        "bab": 0,
+        "title": "فضیلت خواندن سوره فتح در هر شب ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 170
+    },
+    {
+        "number": 172,
+        "bab": 0,
+        "title": "اهمیت سحری خوردن ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 171
+    },
+    {
+        "number": 173,
+        "bab": 0,
+        "title": "ثواب خواندن سوره قدر در سحر و افطار ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 172
+    },
+    {
+        "number": 174,
+        "bab": 0,
+        "title": "زیارت قبر امام حسین در شب قدر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 173
+    },
+    {
+        "number": 175,
+        "bab": 0,
+        "title": "ثواب احیای شب قدر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 174
+    },
+    {
+        "number": 176,
+        "bab": 0,
+        "title": "دعای امام سجاد(علیه‌السلام) در شب‌های قدر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 175
+    },
+    {
+        "number": 177,
+        "bab": 0,
+        "title": "بهترین اعمال برای شب قدر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 176
+    },
+    {
+        "number": 178,
+        "bab": 0,
+        "title": "نحسی ماه حزیران",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 177
+    },
+    {
+        "number": 179,
+        "bab": 0,
+        "title": "بیدار نگه داشتن بچه ها در شب قدر ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 178
+    },
+    {
+        "number": 180,
+        "bab": 0,
+        "title": "روز قدر ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 179
+    },
+    {
+        "number": 181,
+        "bab": 0,
+        "title": "دعای وداع ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 180
+    },
+    {
+        "number": 182,
+        "bab": 0,
+        "title": "نماز شب آخر ماه رمضان که باعث قبولی این ماه می شود",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 181
+    },
+    {
+        "number": 183,
+        "bab": 0,
+        "title": "دعای ختم قرآن ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 182
+    },
+    {
+        "number": 184,
+        "bab": 0,
+        "title": "دعای «اللهم هذا شهر رمضان» ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 183
+    },
+    {
+        "number": 185,
+        "bab": 0,
+        "title": "صلوات کبیر هر روز ماه رمضان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 184
+    },
+    {
+        "number": 186,
+        "bab": 0,
+        "title": "دعای «اللهم انی اسالک من فضلک»",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 185
+    },
+    {
+        "number": 187,
+        "bab": 0,
+        "title": "قرآن به سر گرفتن در شب قدر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 186
+    },
+    {
+        "number": 188,
+        "bab": 0,
+        "title": "دعایی که جبرئیل برای حضرت عیسی هدیه آورد ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 187
+    },
+    {
+        "number": 189,
+        "bab": 0,
+        "title": "ذکر «لا اله الا الله» مخصوص دهه اول ذی الحجه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 188
+    },
+    {
+        "number": 190,
+        "bab": 0,
+        "title": "دعای امان از شر ستمگر در روز اول ذی الحجه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 189
+    },
+    {
+        "number": 191,
+        "bab": 0,
+        "title": "دعای آمرزش از گناهان در شب جمعه و عرفه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 190
+    },
+    {
+        "number": 192,
+        "bab": 0,
+        "title": "صلواتی که باعث سرور محمد و آل‌محمد می شود",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 191
+    },
+    {
+        "number": 193,
+        "bab": 0,
+        "title": "تکبیرهای عید قربان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 192
+    },
+    {
+        "number": 194,
+        "bab": 0,
+        "title": "ثواب روزه عید غدیر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 193
+    },
+    {
+        "number": 195,
+        "bab": 0,
+        "title": "ذکر روز عید غدیر هنگام ملاقات دیگران",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 194
+    },
+    {
+        "number": 196,
+        "bab": 0,
+        "title": "دعای مباهله",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 195
+    },
+    {
+        "number": 197,
+        "bab": 0,
+        "title": "محرم؛ ماه حزن اهل بیت(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 196
+    },
+    {
+        "number": 198,
+        "bab": 0,
+        "title": "اعمال شب اول ماه محرم ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 197
+    },
+    {
+        "number": 199,
+        "bab": 0,
+        "title": "معجزه امیرالمومنین در حق دختر بی شوهر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 198
+    },
+    {
+        "number": 200,
+        "bab": 0,
+        "title": "برابری زیارت امام حسین(ع) با حج خانه خدا ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 199
+    },
+    {
+        "number": 201,
+        "bab": 0,
+        "title": "ثواب فراوان غسل در آب فرات ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 200
+    },
+    {
+        "number": 202,
+        "bab": 0,
+        "title": "از کدام در وارد حرم امام حسین(ع) شویم؟",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 201
+    },
+    {
+        "number": 203,
+        "bab": 0,
+        "title": "اعمال و آداب لحظه رسیدن به قبر امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 202
+    },
+    {
+        "number": 204,
+        "bab": 0,
+        "title": "تسبیح حضرت علی و فاطمه در کنار قبر امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 203
+    },
+    {
+        "number": 205,
+        "bab": 0,
+        "title": "ثواب نماز در حرم امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 204
+    },
+    {
+        "number": 206,
+        "bab": 0,
+        "title": "دعای مظلوم علیه ظالم در حرم امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 205
+    },
+    {
+        "number": 207,
+        "bab": 0,
+        "title": "استخاره در حرم امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 206
+    },
+    {
+        "number": 208,
+        "bab": 0,
+        "title": "لزوم سکوت در حرم امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 207
+    },
+    {
+        "number": 209,
+        "bab": 0,
+        "title": "دستوری برای برآورده شدن حاجت در حرم امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 208
+    },
+    {
+        "number": 210,
+        "bab": 0,
+        "title": "نمازی در حرم امام حسین(ع) که برابر با بیست و پنج حج با رسول خداست",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 209
+    },
+    {
+        "number": 211,
+        "bab": 0,
+        "title": "گریه ملائکه بر امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 210
+    },
+    {
+        "number": 212,
+        "bab": 0,
+        "title": "ثواب گریه در حرم امام حسین(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 211
+    },
+    {
+        "number": 213,
+        "bab": 0,
+        "title": "جایگاه حضرت عباس(ع) در بهشت",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 212
+    },
+    {
+        "number": 214,
+        "bab": 0,
+        "title": "اذن دخول سرداب مطهر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 213
+    },
+    {
+        "number": 215,
+        "bab": 0,
+        "title": "فضیلت و ثواب زیارت امام حسین(ع) در روز نیمه ماه شعبان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 214
+    },
+    {
+        "number": 216,
+        "bab": 0,
+        "title": "فضیلت و ثواب زیارت امام حسین(ع) در شب‌ قدر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 215
+    },
+    {
+        "number": 217,
+        "bab": 0,
+        "title": "فضیلت و ثواب زیارت امام حسین(ع) در روز عید فطر و قربان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 216
+    },
+    {
+        "number": 218,
+        "bab": 0,
+        "title": "فضیلت و ثواب زیارت امام حسین(ع) در روز عرفه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 217
+    },
+    {
+        "number": 219,
+        "bab": 0,
+        "title": "فضيلت و كيفيت زيارت كاظمين(ع) و مسجد براثا و نواب اربعه و جناب سلمان",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 218
+    },
+    {
+        "number": 220,
+        "bab": 0,
+        "title": "صلوات بر امام جواد، حضرت امام محمد تقی(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 219
+    },
+    {
+        "number": 221,
+        "bab": 0,
+        "title": "زیارت جامعه چهارم: زیارت امین‌الله",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 220
+    },
+    {
+        "number": 222,
+        "bab": 0,
+        "title": "زیارت جامعه پنجم: زیارت رجبیه",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 221
+    },
+    {
+        "number": 223,
+        "bab": 0,
+        "title": "صلوات مخصوص امام هشتم، حضرت امام رضا(ع)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 222
+    },
+    {
+        "number": 224,
+        "bab": 0,
+        "title": "زیارت ائمه سر من رأی و اعمال سرداب مطهر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 223
+    },
+    {
+        "number": 225,
+        "bab": 0,
+        "title": "زیارت دوم امام زمان(عج): زیارت مخصوص سرداب مطهر",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 224
+    },
+    {
+        "number": 226,
+        "bab": 0,
+        "title": "زیارت سوم امام زمان(عج)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 225
+    },
+    {
+        "number": 227,
+        "bab": 0,
+        "title": "زیارت چهارم امام زمان(عج)",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 226
+    },
+    {
+        "number": 228,
+        "bab": 0,
+        "title": "فصل یازدهم: زیارات جامعه و دعای بعد از زیارت و صلوات بر حجج طاهره",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 227
+    },
+    {
+        "number": 229,
+        "bab": 0,
+        "title": "زیارت انبیا، امام ‌زادگان و قبور مؤمنان ",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 228
+    },
+    {
+        "number": 230,
+        "bab": 0,
+        "title": "زیارت جناب ابوالفتوح رازی و شیخ صدوق در شهر ری",
+        "arabic": {
+            "1": ""
+        },
+        "farsi": {},
+        "tozih": {},
+        "indexbab": 229
+    }
+]
