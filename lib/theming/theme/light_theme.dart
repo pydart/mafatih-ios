@@ -27,7 +27,6 @@ final themeLightData = ThemeData(
   // primaryColorDark: AppColors.colorDarkPrimary,
   splashColor: Colors.white,
   // highlightColor: AppColors.colorLightSecondary,
-  // cardColor: AppColors.colorLightCardColors,
   // dividerColor: AppColors.colorLightPrimary,
   // floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: AppColors.colorStarted, elevation: 2),
   // iconTheme: IconThemeData(color: AppColors.colorLightPrimary, size: 24),

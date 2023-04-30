@@ -629,7 +629,7 @@ class _DetailSecState extends State<DetailSec> {
           final downloadedLength = bytes.length;
           setState(() {
             progress = downloadedLength.toDouble() / (contentLength ?? 1);
-            status = "  پیشرفت ${((progress ?? 0) * 100).toStringAsFixed(2)}% ";
+            status = "   در حال دانلود ${((progress ?? 0) * 100).toStringAsFixed(2)} % ";
           });
           print("progress: $progress");
         },
@@ -766,18 +766,38 @@ class _DetailSecState extends State<DetailSec> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+
                if ((progress==null && audioIsSaved!=true)|| (progress==0 && audioIsSaved!=null) ) IconButton(
-          icon: const Icon(Icons.play_arrow),
+          icon:  Image.asset("assets/play.png"),
           iconSize: 50.0,
           onPressed:
           progress==null ? ((_downloadButtonPressed)) : null,
 
         ),
+                if ((progress==null && audioIsSaved!=true)|| (progress==0 && audioIsSaved!=null) ) Text(
+                  "دانلود فایل صوتی",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'IRANSans',
+                      fontSize: 10,
+                      color: Colors.white
+                  ),
+                  textAlign: TextAlign.right,
+                ),
                 if (progress!=null && progress!=0 && progress<1) CircularProgressIndicator(
-                  value: progress,
+                  value: progress,backgroundColor: Colors.white,
                 ),
                 if (progress!=null && progress!=0 && progress<1) SizedBox(height: 20,),
-                if (progress!=null && progress!=0 && progress<1) Text(status),
+                if (progress!=null && progress!=0 && progress<1) Text(
+    status,
+    style: TextStyle(
+    fontWeight: FontWeight.bold,
+    fontFamily: 'IRANSans',
+    fontSize: 12,
+      color: Colors.white
+    ),
+    textAlign: TextAlign.right,
+    ),
                 SizedBox(height: 10,),
                 if (audioIsSaved==true || (progress!=null && progress==1))ControlButtons(_player),
                 if (audioIsSaved==true || (progress!=null && progress==1))StreamBuilder<PositionData>(

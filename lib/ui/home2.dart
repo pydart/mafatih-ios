@@ -731,7 +731,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           semanticContainer: true,
                           margin: EdgeInsets.fromLTRB(0,0,0,0),
 
-                          color: Colors.lightGreen[50],
+                          color:                               Theme.of(context).brightness == Brightness.light
+                              ? Colors.lightGreen[50]
+                              : Colors.green,
                           elevation: 0.0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
@@ -743,8 +745,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 child: Text('نمایش آخرین صفحه',                                            style: TextStyle(
                                            fontWeight: FontWeight.bold,
                       fontFamily: 'IRANSans',
-                      fontSize: 14,
+                      fontSize: 12,
                       height: 1.7,
+
 //                                            color:
 //                                                Theme.of(context).buttonColor),
 //                       color: Color(0xf6c40c0c)

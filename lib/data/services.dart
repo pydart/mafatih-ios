@@ -23,6 +23,13 @@ class ServiceData {
   static var infoFasl6 = 'python/Babs/infobabs/infobab6.json';
   static var infoFasl7 = 'python/Babs/infobabs/infobab7.json';
   static var infoFasl70 = 'python/Babs/infobabs/infobab70.json';
+  static var infoFasl71 = 'python/Babs/infobabs/infobab71.json';
+  static var infoFasl72 = 'python/Babs/infobabs/infobab72.json';
+  static var infoFasl73 = 'python/Babs/infobabs/infobab73.json';
+  static var infoFasl74 = 'python/Babs/infobabs/infobab74.json';
+  static var infoFasl75 = 'python/Babs/infobabs/infobab75.json';
+  static var infoFasl76 = 'python/Babs/infobabs/infobab76.json';
+  static var infoFasl77 = 'python/Babs/infobabs/infobab77.json';
 
   var dict = {
     1: infoFasl1,
@@ -31,7 +38,14 @@ class ServiceData {
     4: infoFasl4,
     6: infoFasl6,
     7: infoFasl7,
-    70: infoFasl70
+    70: infoFasl70,
+    71: infoFasl71,
+    72: infoFasl72,
+    73: infoFasl73,
+    74: infoFasl74,
+    75: infoFasl75,
+    76: infoFasl76,
+    77: infoFasl77,
   };
   var listdoa = 'surah/doa-harian.json';
   var listasmaulhusna = 'surah/asmaul-husna.json';

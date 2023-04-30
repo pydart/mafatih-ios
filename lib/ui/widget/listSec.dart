@@ -125,7 +125,9 @@ class _ListSecState extends State<ListSec> {
                                                           if (widget
                                                               .indexFasl ==
                                                           7 ) {
-                                                          Navigator.push(
+                                                            print("//////////////////********************************************************////////////////////////////////widget.indexFasl     ${widget.indexFasl}");
+
+                                                            Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
                                                           builder:

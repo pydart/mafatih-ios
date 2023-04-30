@@ -70,7 +70,7 @@ class SeekBarState extends State<SeekBar> {
         //   ),
         // ),
         SizedBox(
-          width: 10,
+          width: 25,
           // child: Text(durationToString(widget.duration)),
         ),
         SizedBox(
@@ -91,8 +91,11 @@ class SeekBarState extends State<SeekBar> {
               quarterTurns: 2,
 
               child: Slider(
-                  activeColor: Color(0xf6c40c0c),
-                  inactiveColor: Colors.grey,
+                  // activeColor: Color(0xf6c40c0c),
+                activeColor:                              Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.green,
+                inactiveColor: Colors.white,
                 min: 0.0,
                 max: widget.duration.inMilliseconds.toDouble(),
                 value: min(_dragValue ?? widget.position.inMilliseconds.toDouble(),

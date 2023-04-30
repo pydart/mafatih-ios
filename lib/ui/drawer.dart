@@ -125,8 +125,8 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
               child: CachedNetworkImage(
                 imageUrl: urlgif1,
                 cacheKey: urlgif1 + DateTime.now().weekOfYear.toString(),
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
+                // progressIndicatorBuilder: (context, url, downloadProgress) =>
+                //     CircularProgressIndicator(value: downloadProgress.progress, backgroundColor: Theme.of(context).canvasColor),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
@@ -136,8 +136,8 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
               child: CachedNetworkImage(
                 imageUrl: urlgif2,
                 cacheKey: urlgif2+DateTime.now().weekOfYear.toString(),
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
+                // progressIndicatorBuilder: (context, url, downloadProgress) =>
+                //     CircularProgressIndicator(value: downloadProgress.progress),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
@@ -147,8 +147,8 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
               child: CachedNetworkImage(
                 imageUrl: urlgif3,
                 cacheKey: urlgif3+DateTime.now().weekOfYear.toString(),
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
+                // progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    // CircularProgressIndicator(value: downloadProgress.progress),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
