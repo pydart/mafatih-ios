@@ -306,7 +306,7 @@ class _DetailSec5State extends State<DetailSec5> {
     try {
       print("////////////////////////////////////.........................// setAudioSource   ${globals.audioExist}");
       await _player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-
+      final duration = await _player.setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
     } catch (e, stackTrace) {
       // Catch load errors: 404, invalid url ...
       print("Error loading playlist: $e");

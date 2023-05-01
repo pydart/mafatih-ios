@@ -492,7 +492,9 @@ class _DetailSecState extends State<DetailSec> {
                   textAlign: TextAlign.right,
                 ),
                 if (progress!=null && progress!=0 && progress<1) CircularProgressIndicator(
-                  value: progress,backgroundColor: Colors.white,
+                  value: progress,backgroundColor: Theme.of(context).brightness == Brightness.light
+                    ? Colors.white
+                    : Colors.green,
                 ),
                 if (progress!=null && progress!=0 && progress<1) SizedBox(height: 20,),
                 if (progress!=null && progress!=0 && progress<1) Text(
