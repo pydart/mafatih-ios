@@ -42,6 +42,37 @@ List<int> indexFaslBookMarked;
 List<int> codeBookMarked;
 List<dynamic> mapBookMarked;
 List<String> jsonCodesHavingAudio=[];
+String jsonGifAdUrl="";
+Map jsonGifAdUrlMap ={
+"urlgifdrawer1":"",
+"urlgifdrawer2":"",
+"urlgifdrawer3":"",
+
+"urlgiffirstpage1":"",
+"urlgiffirstpage2":"",
+"urlgiffirstpage3":"",
+
+"urlgiffav1":"",
+"urlgiffav2":"",
+"urlgiffav3":"",
+
+"urlgifsearch1":"",
+"urlgifsearch2":"",
+"urlgifsearch3":"",
+};
+// String urlgifdrawer1;
+// String urlgifdrawer2;
+// String urlgifdrawer3;
+// String urlgiffirstpage1;
+// String urlgiffirstpage2;
+// String urlgiffirstpage3;
+// String urlgiffav1;
+// String urlgiffav2;
+// String urlgiffav3;
+// String jsonGifAdUrl;
+// String jsonGifAdUrl;
+// String jsonGifAdUrl;
+
 
 const DEFAULT_BRIGHTNESS_LEVEL = 0.5;
 const LAST_VIEWED_PAGE_title = 'lastViewedPageTitle';
@@ -70,6 +101,7 @@ const TarjKhati = 'TarjKhati';
 const Sound = 'Sound';
 const AudioExist = 'AudioExist';
 const JsonCodesHavingAudio = 'JsonCodesHavingAudio';
+const JsonGifAdUrl = 'JsonGifAdUrl';
 
 double fontArabicLevel;
 double fontTarjLevel;

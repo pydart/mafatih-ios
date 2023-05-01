@@ -6,11 +6,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library//Globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class SharedFunc {
   SharedPreferences prefs;
 
+
+  launchURL(url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   setLaterDialog() async {
     prefs = await SharedPreferences.getInstance();
     bool level = false;

@@ -1,12 +1,18 @@
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/models/MixedTextInfoAll.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/data/uistate.dart';
+import 'package:mafatih/ui/widget/favorites.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/ui/detailSec4.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:mafatih/ui/detailSec5.dart';
+import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:week_of_year/date_week_extensions.dart';
+
+import '../constants.dart';
 
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   @override
@@ -280,10 +286,38 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                         },
                                       )
                                     : Container(),
+                                InkWell(
+                                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch1"]);
+                                  final date = DateTime.now();
+                                  print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
+                                  child: CachedNetworkImage(
+                                    imageUrl: Constants.urlgifsearch1,
+                                    cacheKey: Constants.urlgifsearch1 + DateTime.now().weekOfYear.toString(),
+                                    errorWidget: (context, url, error) => SizedBox.shrink(),
+                                  ),
+                                ),
+                                SizedBox(height:5),
+                                InkWell(
+                                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch2"]);},
+                                  child: CachedNetworkImage(
+                                    imageUrl: Constants.urlgifsearch2,
+                                    cacheKey: Constants.urlgifsearch2+DateTime.now().weekOfYear.toString(),
+                                    errorWidget: (context, url, error) => SizedBox.shrink(),
+                                  ),
+                                ),
+                                SizedBox(height:5),
+                                InkWell(
+                                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch3"]);},
+                                  child: CachedNetworkImage(
+                                    imageUrl: Constants.urlgifsearch3,
+                                    cacheKey: Constants.urlgifsearch3+DateTime.now().weekOfYear.toString(),
+                                    errorWidget: (context, url, error) => SizedBox.shrink(),
+                                  ),
+                                ),
                                 AdmobBanner(
                                   adUnitId:
                                       'ca-app-pub-5524959616213219/7557264464',
-                                  adSize: AdmobBannerSize.BANNER,
+                                  adSize: AdmobBannerSize.FULL_BANNER,
                                   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
                                   //   if (event == AdmobAdEvent.clicked) {}
                                   // },
@@ -508,9 +542,37 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     fontFamily: 'IRANSans',
                   ),
                 ),
+                InkWell(
+                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch1"]);
+                  final date = DateTime.now();
+                  print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
+                  child: CachedNetworkImage(
+                    imageUrl: Constants.urlgifsearch1,
+                    cacheKey: Constants.urlgifsearch1 + DateTime.now().weekOfYear.toString(),
+                    errorWidget: (context, url, error) => SizedBox.shrink(),
+                  ),
+                ),
+                SizedBox(height:5),
+                InkWell(
+                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch2"]);},
+                  child: CachedNetworkImage(
+                    imageUrl: Constants.urlgifsearch2,
+                    cacheKey: Constants.urlgifsearch2+DateTime.now().weekOfYear.toString(),
+                    errorWidget: (context, url, error) => SizedBox.shrink(),
+                  ),
+                ),
+                SizedBox(height:5),
+                InkWell(
+                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch3"]);},
+                  child: CachedNetworkImage(
+                    imageUrl: Constants.urlgifsearch3,
+                    cacheKey: Constants.urlgifsearch3+DateTime.now().weekOfYear.toString(),
+                    errorWidget: (context, url, error) => SizedBox.shrink(),
+                  ),
+                ),
                 AdmobBanner(
                   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-                  adSize: AdmobBannerSize.MEDIUM_RECTANGLE,
+                  adSize: AdmobBannerSize.SMART_BANNER(context),
                   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
                   //   if (event == AdmobAdEvent.clicked) {}
                   // },
@@ -582,6 +644,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                   ),
                                 ),
                               ),
+
                             ],
                           ),
                           subtitle: RichText(

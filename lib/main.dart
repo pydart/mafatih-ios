@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/AppConstants.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -22,6 +24,8 @@ NotificationAppLaunchDetails notificationAppLaunchDetails;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // MobileAds.instance.initialize();
+  Admob.initialize();
 
   runApp(EasyLocalization(
     supportedLocales: [

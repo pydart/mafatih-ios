@@ -1,17 +1,17 @@
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../constants.dart';
 import '../detailSec.dart';
 import '../detailSec5.dart';
-import '../home2.dart';
-import '../notesSearch.dart';
+import 'package:week_of_year/date_week_extensions.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:provider/provider.dart';
 import '../detailSec4.dart';
 import 'package:mafatih/data/uistate.dart';
-
-import '../settings.dart';
 
 class Favorites extends StatefulWidget {
   List<String> titlebookmark = globals.titleBookMarked;
@@ -32,6 +32,7 @@ class Favorites extends StatefulWidget {
 }
 
 SharedPreferences prefs;
+final SharedFunc sharedfunc = new SharedFunc();
 
 /// get bookmarkPage from sharedPreferences
 getBookmark() async {
@@ -371,12 +372,57 @@ class _FavoritesState extends State<Favorites> {
                               })))),
               onReorder: reorderData,
             )),
-        bottomNavigationBar: AdmobBanner(
-          adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-          adSize: AdmobBannerSize.BANNER,
-          // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          //   if (event == AdmobAdEvent.clicked) {}
-          // },
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Column(
+            children: [
+
+              AdmobBanner(
+                adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+                adSize: AdmobBannerSize.FULL_BANNER,
+                // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                //   if (event == AdmobAdEvent.clicked) {}
+                // },
+              ),
+              SizedBox(
+height: 500,
+                child: InkWell(
+                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffav1"]);
+                  final date = DateTime.now();
+                  print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
+                  child: CachedNetworkImage(
+                    imageUrl: Constants.urlgiffav1,
+                    cacheKey: Constants.urlgiffav1+ DateTime.now().weekOfYear.toString(),
+                    errorWidget: (context, url, error) => SizedBox.shrink(),
+                  ),
+                ),
+              ),
+//               SizedBox(height:5),
+//               SizedBox(
+//                 height: 500,
+//                 child: InkWell(
+//                   onTap: () {sharedfunc.launchURL(Constants.urlgiffav2);},
+//                   child: CachedNetworkImage(
+//                     imageUrl: Constants.urlgiffav2,
+//                     cacheKey: Constants.urlgiffav2+DateTime.now().weekOfYear.toString(),
+//                     errorWidget: (context, url, error) => SizedBox.shrink(),
+//                   ),
+//                 ),
+//               ),
+//               SizedBox(height:5),
+//               SizedBox(
+//                 height: 500,
+//                 child: InkWell(
+//                   onTap: () {sharedfunc.launchURL(Constants.urlgiffav3);},
+//                   child: CachedNetworkImage(
+//                     imageUrl: Constants.urlgiffav3,
+//                     cacheKey: Constants.urlgiffav3+DateTime.now().weekOfYear.toString(),
+//                     errorWidget: (context, url, error) => SizedBox.shrink(),
+//                   ),
+//                 ),
+//               ),
+            ],
+          ),
         ));
   }
 

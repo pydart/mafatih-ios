@@ -4,30 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/utils/sharedFunc.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:week_of_year/date_week_extensions.dart';
+import '../constants.dart';
 import 'home_about.dart';
+import 'package:mafatih/library/Globals.dart' as globals;
 
 class Drawers extends StatelessWidget {
-  String gif1Url;
-  String gif2Url;
-  String gif3Url;
+
   String newVersionBuildNumber;
   double currentBuildNumber;
   Drawers({
     Key key,
-    this.gif1Url,
-    this.gif2Url,
-    this.gif3Url,
     this.newVersionBuildNumber,
     this.currentBuildNumber,
   }) : super(key: key);
   bool isInstalled;
   final SharedFunc sharedfunc = new SharedFunc();
-
-String urlgif1="https://www.videoir.com/apps_versions/gif1.gif";
-String urlgif2="https://www.videoir.com/apps_versions/gif2.gif";
-String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
 
   @override
   Widget build(BuildContext context) {
@@ -116,30 +108,30 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
                   }
                 }),
             InkWell(
-              onTap: () {_launchURL(gif1Url);
+              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifdrawer1"]);
               final date = DateTime.now();
                 print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
               child: CachedNetworkImage(
-                imageUrl: urlgif1,
-                cacheKey: urlgif1 + DateTime.now().weekOfYear.toString(),
+                imageUrl: Constants.urlgifdrawer1,
+                cacheKey: Constants.urlgifdrawer1 + DateTime.now().weekOfYear.toString(),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
             SizedBox(height:5),
             InkWell(
-              onTap: () {_launchURL(gif2Url);},
+              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifdrawer2"]);},
               child: CachedNetworkImage(
-                imageUrl: urlgif2,
-                cacheKey: urlgif2+DateTime.now().weekOfYear.toString(),
+                imageUrl: Constants.urlgifdrawer2,
+                cacheKey: Constants.urlgifdrawer2+DateTime.now().weekOfYear.toString(),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
             SizedBox(height:5),
             InkWell(
-              onTap: () {_launchURL(gif3Url);},
+              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifdrawer3"]);},
               child: CachedNetworkImage(
-                imageUrl: urlgif3,
-                cacheKey: urlgif3+DateTime.now().weekOfYear.toString(),
+                imageUrl: Constants.urlgifdrawer3,
+                cacheKey: Constants.urlgifdrawer3+DateTime.now().weekOfYear.toString(),
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
@@ -157,10 +149,3 @@ String urlgif3="https://www.videoir.com/apps_versions/gif3.gif";
   }
 }
 
-_launchURL(url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}

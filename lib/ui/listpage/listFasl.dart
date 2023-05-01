@@ -1,5 +1,5 @@
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/models/FaslInfo.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
@@ -7,15 +7,12 @@ import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/widget/favorites.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:mafatih/ui/widget/listSec.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-
-import '../detailSec.dart';
-import '../detailSec4.dart';
-import '../detailSec5.dart';
-import '../home2.dart';
+import 'package:mafatih/utils/sharedFunc.dart';
+import 'package:week_of_year/date_week_extensions.dart';
+import '../../constants.dart';
 
 class ListFasl extends StatefulWidget {
   @override
@@ -25,11 +22,8 @@ class ListFasl extends StatefulWidget {
 class _ListFaslState extends State<ListFasl> {
   SharedPreferences prefs;
 
-//  @override
-//  void initState() {
-//    CheshmakPlugin.removeBannerAds;
-//  }
-  /// Init Page Controller
+  final SharedFunc sharedfunc = new SharedFunc();
+
   PageController pageController;
   double _scrollPosition;
   ScrollController _scrollController;
@@ -76,25 +70,6 @@ class _ListFaslState extends State<ListFasl> {
         globals.indexFasllastViewedPage != null ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-
-//               ElevatedButton(
-//                   child: const Text('نمایش آخرین صفحه',                                            style: TextStyle(
-// //                                            fontWeight: FontWeight.bold,
-//                       fontFamily: 'IRANSans',
-//                       fontSize: 14,
-//                       height: 1.7,
-// //                                            color:
-// //                                                Theme.of(context).buttonColor),
-//                       color: Color(0xf6c40c0c)),
-//                   ),
-//                   style: ElevatedButton.styleFrom(
-//                     primary: Theme.of(context).brightness == Brightness.light
-//                         ? Colors.grey[400]
-//                         : Colors.grey[500],
-//
-//                   )),
-
-
             ],
           ):SizedBox(),                  SizedBox(height: 30),
                   // Container(
@@ -194,6 +169,41 @@ class _ListFaslState extends State<ListFasl> {
                     // ),
                     child: Image.asset("assets/tazhibLineOverFaslList.png"),
                   ),
+          InkWell(
+            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffirstpage1"]);
+            final date = DateTime.now();
+            print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
+            child: CachedNetworkImage(
+              imageUrl: Constants.urlgiffirstpage1,
+              cacheKey: Constants.urlgiffirstpage1 + DateTime.now().weekOfYear.toString(),
+              errorWidget: (context, url, error) => SizedBox.shrink(),
+            ),
+          ),
+          SizedBox(height:5),
+          InkWell(
+            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffirstpage2"]);},
+            child: CachedNetworkImage(
+              imageUrl: Constants.urlgiffirstpage2,
+              cacheKey: Constants.urlgiffirstpage2+DateTime.now().weekOfYear.toString(),
+              errorWidget: (context, url, error) => SizedBox.shrink(),
+            ),
+          ),
+          SizedBox(height:5),
+          InkWell(
+            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffirstpage3"]);},
+            child: CachedNetworkImage(
+              imageUrl: Constants.urlgiffirstpage3,
+              cacheKey: Constants.urlgiffirstpage3+DateTime.now().weekOfYear.toString(),
+              errorWidget: (context, url, error) => SizedBox.shrink(),
+            ),
+          ),
+          AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+            adSize: AdmobBannerSize.LARGE_BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
                 ],
               )
 //            : PKCardListSkeleton(

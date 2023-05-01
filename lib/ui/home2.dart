@@ -238,25 +238,50 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     getScreenBrightness();
     getBrightnessLevel();
     checkUrlExist();
+    checkAdUrlExist();
+  }
+
+  setAdUrl(String json) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    globals.jsonGifAdUrl=json;
+    await prefs.setString('JsonGifAdUrl', json);
+    print("*********************************************setAdUrl***************************** globals.jsonGifAdUrl ${globals.jsonGifAdUrl} ");
+  }
+  checkAdUrlExist() async {
+    print("************************************************************************** checkAdUrlExist ");
+    try {
+      http.Response response =
+      await http.get(Constants.mafatihads +'/gifAdUrlDic.php').whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        print("************************************************************************** response.statusCode == 200  $Results");
+        setAdUrl(Results);
+      } else {
+        print("************************************************************************** Failed to load ");
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
   }
 
   setAudioExist(List<String> jsonCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     globals.jsonCodesHavingAudio=jsonCode;
     await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
-    print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
+    // print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
   }
   checkUrlExist() async {
-    print("************************************************************************** checkUrlExist ");
+    // print("************************************************************************** checkUrlExist ");
     try {
       http.Response response =
       await http.get(Constants.audiosListUrl +'/audiosList.php').whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
-        print("************************************************************************** response.statusCode == 200  $Results");
+        // print("************************************************************************** response.statusCode == 200  $Results");
         setAudioExist(json.decode(Results).cast<String>().toList());
       } else {
-        print("************************************************************************** Failed to load ");
+        // print("************************************************************************** Failed to load ");
         throw Exception('Failed to load');
       }
     } catch (e) {
@@ -383,6 +408,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       setState(() {
         globals.jsonCodesHavingAudio = _jsonCodesHavingAudio;
       });
+    }
+
+    if (prefs.containsKey(globals.JsonGifAdUrl)) {
+      var _jsonGifAdUrl = prefs.getString(globals.JsonGifAdUrl);
+      setState(() {
+        globals.jsonGifAdUrl = _jsonGifAdUrl;
+        globals.jsonGifAdUrlMap=json.decode(_jsonGifAdUrl);
+      });
+      print("***************************************************************globals.jsonGifAdUrlMap  ${globals.jsonGifAdUrlMap["urlgiffirstpage1"]}");
+
     }
 
     if (globals.darkMode == null) {
@@ -515,9 +550,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         child: Scaffold(
           drawer: Container(
               child: Drawer(child: Drawers(
-                  gif1Url: gif1Url,
-                  gif2Url: gif2Url,
-                  gif3Url: gif3Url,
                   newVersionBuildNumber: newVersionBuildNumber,
                   currentBuildNumber: currentBuildNumber),),
               width: 200),
