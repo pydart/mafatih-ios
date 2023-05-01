@@ -190,7 +190,7 @@ class _DetailSec5State extends State<DetailSec5> {
 
   @override
   void initState() {
-    print("********************************************** widget.code  **************************** ${widget.code} ");
+    print("********************************************** widget.code  5**************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
     if (globals.jsonCodesHavingAudio.contains(widget.code)) {
       print("************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");

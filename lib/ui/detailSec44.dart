@@ -429,13 +429,13 @@ class _DetailSec44State extends State<DetailSec44> {
           indexFasl: 5,
           code: widget.indexFasl * 1000 + widget.index,
         ),
-        bottomNavigationBar: AdmobBanner(
-          adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-          adSize: AdmobBannerSize.BANNER,
-          // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          //   if (event == AdmobAdEvent.clicked) {}
-          // },
-        ),
+        // bottomNavigationBar: AdmobBanner(
+        //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        //   adSize: AdmobBannerSize.BANNER,
+        //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //   //   if (event == AdmobAdEvent.clicked) {}
+        //   // },
+        // ),
       );
   }
 }

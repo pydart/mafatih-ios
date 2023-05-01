@@ -176,7 +176,7 @@ class _DetailSecState extends State<DetailSec> {
   @override
   void initState() {
 
-    print("********************************************** widget.code  **************************** ${widget.code} ");
+    print("********************************************** widget.code  detail sec**************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
     if (globals.jsonCodesHavingAudio.contains(widget.code)) {
       print("************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");
@@ -441,6 +441,7 @@ class _DetailSecState extends State<DetailSec> {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
     bool audioIsSaved=File("data/user/0/pydart.mafatih/cache/${widget.code}.mp3").existsSync();
+    print("-----------------------------------------------------------------  audioIsSaved detsec   ----------- $audioIsSaved");
 
    return
 
@@ -718,23 +719,9 @@ class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
   ControlButtons(this.player, {Key key}) : super(key: key);
-  final audioUrl = "https://www.videoir.com/apps_versions/audios/ashoura/1110.mp3";
-  Future<void> _init(jsonCode) async {
-    print("////////////////////////////////////.........................// _init Playing controls ");
-    try {
-      print("////////////////////////////////////.........................// setAudioSource   ${Constants.audiosListUrl}$jsonCode.mp3'");
-      await player.setLoopMode(LoopMode.off);        // Set playlist to loop (off|all|one)
-      final audioSource = LockCachingAudioSource(Uri.parse('${Constants.audiosListUrl}/$jsonCode.mp3'));
-      await player.setAudioSource(audioSource);
-    } catch (e, stackTrace) {
-      print("Error loading playlist: $e");
-      print(stackTrace);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-
     return
       Row(
         mainAxisSize: MainAxisSize.min,

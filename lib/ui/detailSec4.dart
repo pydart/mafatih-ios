@@ -187,7 +187,7 @@ class _DetailSec4State extends State<DetailSec4> {
 
   @override
   void initState() {
-    print("********************************************** widget.code  **************************** ${widget.code} ");
+    print("********************************************** widget.code  4 **************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
     if (globals.jsonCodesHavingAudio.contains(widget.code)) {
       print("************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");
@@ -439,7 +439,7 @@ class _DetailSec4State extends State<DetailSec4> {
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
     bool audioIsSaved=File("data/user/0/pydart.mafatih/cache/${widget.code}.mp3").existsSync();
-
+print("-----------------------------------------------------------------  audioIsSaved   ----------- $audioIsSaved");
 
     return
       Scaffold(
