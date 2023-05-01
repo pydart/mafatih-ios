@@ -372,20 +372,21 @@ class _FavoritesState extends State<Favorites> {
                               })))),
               onReorder: reorderData,
             )),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(50.0),
-          child: Column(
-            children: [
+        // bottomNavigationBar: Padding(
+        //   padding: const EdgeInsets.fromLTRB(0,500,0,0),
+        //   child: Column(
+        //     children: [
+        //
+        //       AdmobBanner(
+        //         adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+        //         adSize: AdmobBannerSize.FULL_BANNER,
+        //         // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        //         //   if (event == AdmobAdEvent.clicked) {}
+        //         // },
+        //       ),
 
-              AdmobBanner(
-                adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-                adSize: AdmobBannerSize.FULL_BANNER,
-                // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                //   if (event == AdmobAdEvent.clicked) {}
-                // },
-              ),
-              SizedBox(
-height: 500,
+      bottomNavigationBar:  SizedBox(
+height: 400,
                 child: InkWell(
                   onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffav1"]);
                   final date = DateTime.now();
@@ -397,6 +398,19 @@ height: 500,
                   ),
                 ),
               ),
+//               SizedBox(
+// height: 250,
+//                 child: InkWell(
+//                   onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffav1"]);
+//                   final date = DateTime.now();
+//                   print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
+//                   child: CachedNetworkImage(
+//                     imageUrl: Constants.urlgiffav1,
+//                     cacheKey: Constants.urlgiffav1+ DateTime.now().weekOfYear.toString(),
+//                     errorWidget: (context, url, error) => SizedBox.shrink(),
+//                   ),
+//                 ),
+//               ),
 //               SizedBox(height:5),
 //               SizedBox(
 //                 height: 500,
@@ -421,9 +435,9 @@ height: 500,
 //                   ),
 //                 ),
 //               ),
-            ],
-          ),
-        ));
+//             ],
+//           ),
+        );
   }
 
   void reorderData(int oldindex, int newindex) {

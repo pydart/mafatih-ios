@@ -283,9 +283,6 @@ class _DetailSecState extends State<DetailSec> {
 
   }
 
-  List<int> khatiedDoa = [
-  1110,3153, 1122, 3216, 3224, 1119];
-
   Stream<PositionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration, PositionData>(
           _player.positionStream,
@@ -525,7 +522,7 @@ class _DetailSecState extends State<DetailSec> {
                   },
                 ),
               ]),
-          preferredSize: Size(0.0, 100.0),
+          preferredSize: Size(0.0, 80.0),
         ):null,
         title: Center(
             child: Text(
@@ -544,7 +541,7 @@ class _DetailSecState extends State<DetailSec> {
         ],
       ),
       body: FutureBuilder<DailyDoa>(
-        future: ServiceData().loadSec(widget.indexFasl, globals.tarjKhati==true && khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
+        future: ServiceData().loadSec(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
         builder: (c, snapshot) {
           if (snapshot.hasData) {
             getOtherSettings();

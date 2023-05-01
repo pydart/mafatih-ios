@@ -73,27 +73,27 @@ class _DetailSec44State extends State<DetailSec44> {
       if (indexTab == 2) {
         isBookmarked
             ? setState(() {
-                iconBookmarkcolor = Colors.white;
-                globals.titleBookMarked.remove(globals.titleCurrentPage);
-                globals.indexBookMarked.remove(globals.indexCurrentPage);
-                globals.indexFaslBookMarked
-                    .remove(globals.indexFaslCurrentPage);
-                globals.codeBookMarked.remove(globals.codeCurrentPage);
-                isBookmarked = false;
-                print(
-                    "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
-              })
+          iconBookmarkcolor = Colors.white;
+          globals.titleBookMarked.remove(globals.titleCurrentPage);
+          globals.indexBookMarked.remove(globals.indexCurrentPage);
+          globals.indexFaslBookMarked
+              .remove(globals.indexFaslCurrentPage);
+          globals.codeBookMarked.remove(globals.codeCurrentPage);
+          isBookmarked = false;
+          print(
+              "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+        })
             : setState(() {
-                iconBookmarkcolor = Colors.red;
-                globals.titleBookMarked.add(globals.titleCurrentPage);
-                globals.indexBookMarked.add(globals.indexCurrentPage);
-                globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
-                globals.codeBookMarked.add(globals.codeCurrentPage);
-                isBookmarked = true;
+          iconBookmarkcolor = Colors.red;
+          globals.titleBookMarked.add(globals.titleCurrentPage);
+          globals.indexBookMarked.add(globals.indexCurrentPage);
+          globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
+          globals.codeBookMarked.add(globals.codeCurrentPage);
+          isBookmarked = true;
 
-                print(
-                    "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
-              });
+          print(
+              "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+        });
 
         if (globals.indexBookMarked != null) {
           setBookmark(globals.titleBookMarked, globals.indexBookMarked,
@@ -219,8 +219,8 @@ class _DetailSec44State extends State<DetailSec44> {
       }
     });
 
-    /// Update lastViewedPage
-    setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
+    // /// Update lastViewedPage
+    // setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
 
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
@@ -263,7 +263,7 @@ class _DetailSec44State extends State<DetailSec44> {
             fontWeight: FontWeight.bold,
             fontSize: _fontSize,
             color: Colors.green
-            ),
+        ),
       ));
 
       if (i == matches.length - 1 && match.end != source.length) {
@@ -291,151 +291,151 @@ class _DetailSec44State extends State<DetailSec44> {
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
 
     return
-        Scaffold(
-      body: (ui.terjemahan == true)
-          ? FutureBuilder<DailyDoa4>(
-              future: ServiceData().loadSec4(widget.indexFasl, widget.index),
-              builder: (c, snapshot) {
-                if (snapshot.hasData) {
-                  titleCurrentPage = snapshot.data.title;
-                  globals.titleCurrentPage = titleCurrentPage;
-                  indexCurrentPage = snapshot.data.number;
-                  globals.indexCurrentPage = indexCurrentPage;
-                  indexFaslCurrentPage = snapshot.data.bab;
-                  globals.indexFaslCurrentPage = indexFaslCurrentPage;
-                  codeCurrentPage =
-                      indexFaslCurrentPage * 1000 + indexCurrentPage;
-                  globals.codeCurrentPage = codeCurrentPage;
-                  print(
-                      "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
-                          titleCurrentPage);
-                }
+      Scaffold(
+        body: (ui.terjemahan == true)
+            ? FutureBuilder<DailyDoa4>(
+          future: ServiceData().loadSec4(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
+          builder: (c, snapshot) {
+            if (snapshot.hasData) {
+              titleCurrentPage = snapshot.data.title;
+              globals.titleCurrentPage = titleCurrentPage;
+              indexCurrentPage = snapshot.data.number;
+              globals.indexCurrentPage = indexCurrentPage;
+              indexFaslCurrentPage = snapshot.data.bab;
+              globals.indexFaslCurrentPage = indexFaslCurrentPage;
+              codeCurrentPage =
+                  indexFaslCurrentPage * 1000 + indexCurrentPage;
+              globals.codeCurrentPage = codeCurrentPage;
+              print(
+                  "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
+                      titleCurrentPage);
+            }
 
-                return snapshot.hasData
-                    ? Column(children: <Widget>[
-                  Expanded(
-                          child: Scrollbar(
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              controller: _scrollController,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemCount: snapshot.data.arabic.length,
-                              itemBuilder: (BuildContext c, int i) {
-                                String key =
-                                    snapshot.data.arabic.keys.elementAt(i);
-                                return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            if (int.parse(key) -
-                                                    snapshot.data.delay ==
-                                                1)
-                                              ListTile(
-                                                dense: true,
-                                                title: Text(
-                                                  'بِسْمِ اللَّـهِ الرَّ حْمَـٰنِ الرَّ حِيمِ',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontFamily: AppStyle
-                                                        .textQuranfontFamily,
-                                                    fontSize: 1.2 *
-                                                        globals.fontArabicLevel,
-                                                    height: 1.5,
-                                                  ),
-                                                ),
-                                              ),
-                                            if (snapshot.data.arabic[key] !=
-                                                    "" &&
-                                                snapshot.data.arabic[key] !=
-                                                    null &&
-                                                widget.indexFasl >= 4)
-                                              ListTile(
-                                                dense: true,
-                                                title: RichText(
-                                                  textAlign: TextAlign.right,
-                                                  text: TextSpan(
-                                                    text: replaceFarsiNumber((snapshot
-                                                                .data
-                                                                .arabic[key] +
-                                                            '﴿' +
-                                                            (int.parse(key) -
-                                                                    snapshot
-                                                                        .data
-                                                                        .delay)
-                                                                .toString() +
-                                                            '﴾')
-                                                        .toString()),
-                                                    style: TextStyle(
-                                                      fontFamily: AppStyle
-                                                          .textQuranfontFamily,
-                                                      fontSize: 1.2 *
-                                                          globals
-                                                              .fontArabicLevel,
-                                                      height: 1.5,
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            if (snapshot.data.farsi[key] !=
-                                                    null &&
-                                                snapshot.data.farsi[key] != "")
-                                              ListTile(
-                                                dense: true,
-                                                title: RichText(
-                                                  textAlign: TextAlign.justify,
-                                                  text: TextSpan(
-                                                    children:
-                                                        highlightOccurrencesDetailSec(
-                                                            snapshot.data
-                                                                .farsi[key],
-                                                            widget.query,
-                                                            globals.fontTarjLevel +
-                                                                4),
-                                                    style: TextStyle(
-                                                      fontFamily: 'عربی ساده',
-                                                      fontSize:
-                                                          globals.fontTarjLevel,
-                                                      height: 1.5,
-                                                      color: Theme.of(context)
-                                                          .accentColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
+            return snapshot.hasData
+                ? Column(children: <Widget>[
+              Expanded(
+                child: Scrollbar(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    controller: _scrollController,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: snapshot.data.arabic.length,
+                    itemBuilder: (BuildContext c, int i) {
+                      String key =
+                      snapshot.data.arabic.keys.elementAt(i);
+                      return Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5.0),
+                              child: Column(
+                                children: <Widget>[
+                                  if (int.parse(key) -
+                                      snapshot.data.delay ==
+                                      1)
+                                    ListTile(
+                                      dense: true,
+                                      title: Text(
+                                        'بِسْمِ اللَّـهِ الرَّ حْمَـٰنِ الرَّ حِيمِ',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontFamily: AppStyle
+                                              .textQuranfontFamily,
+                                          fontSize: 1.2 *
+                                              globals.fontArabicLevel,
+                                          height: 1.5,
                                         ),
-                                      )
-                                    ]);
-                              },
-                            ),
-                          ),
-                        )
-                      ])
-                    : Center(child: CircularProgressIndicator());
-              },
-            )
-          : DetailSec55(
-              detail: widget.detail,
-              index: widget.index,
-              indent: widget.indent,
-              indexFasl: 5,
-              code: widget.indexFasl * 1000 + widget.index,
-            ),
-      bottomNavigationBar: AdmobBanner(
-        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        adSize: AdmobBannerSize.BANNER,
-        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //   if (event == AdmobAdEvent.clicked) {}
-        // },
-      ),
-    );
+                                      ),
+                                    ),
+                                  if (snapshot.data.arabic[key] !=
+                                      "" &&
+                                      snapshot.data.arabic[key] !=
+                                          null &&
+                                      widget.indexFasl >= 4)
+                                    ListTile(
+                                      dense: true,
+                                      title: RichText(
+                                        textAlign: TextAlign.right,
+                                        text: TextSpan(
+                                          text: replaceFarsiNumber((snapshot
+                                              .data
+                                              .arabic[key] +
+                                              '﴿' +
+                                              (int.parse(key) -
+                                                  snapshot
+                                                      .data
+                                                      .delay)
+                                                  .toString() +
+                                              '﴾')
+                                              .toString()),
+                                          style: TextStyle(
+                                            fontFamily: AppStyle
+                                                .textQuranfontFamily,
+                                            fontSize: 1.2 *
+                                                globals
+                                                    .fontArabicLevel,
+                                            height: 1.5,
+                                            color: Theme.of(context)
+                                                .accentColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  if (snapshot.data.farsi[key] !=
+                                      null &&
+                                      snapshot.data.farsi[key] != "")
+                                    ListTile(
+                                      dense: true,
+                                      title: RichText(
+                                        textAlign: TextAlign.justify,
+                                        text: TextSpan(
+                                          children:
+                                          highlightOccurrencesDetailSec(
+                                              snapshot.data
+                                                  .farsi[key],
+                                              widget.query,
+                                              globals.fontTarjLevel +
+                                                  4),
+                                          style: TextStyle(
+                                            fontFamily: 'عربی ساده',
+                                            fontSize:
+                                            globals.fontTarjLevel,
+                                            height: 1.5,
+                                            color: Theme.of(context)
+                                                .accentColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            )
+                          ]);
+                    },
+                  ),
+                ),
+              )
+            ])
+                : Center(child: CircularProgressIndicator());
+          },
+        )
+            : DetailSec55(
+          detail: widget.detail,
+          index: widget.index,
+          indent: widget.indent,
+          indexFasl: 5,
+          code: widget.indexFasl * 1000 + widget.index,
+        ),
+        bottomNavigationBar: AdmobBanner(
+          adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+          adSize: AdmobBannerSize.BANNER,
+          // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          //   if (event == AdmobAdEvent.clicked) {}
+          // },
+        ),
+      );
   }
 }

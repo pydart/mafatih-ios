@@ -220,6 +220,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
+  AdmobBannerSize bannerSize;
 
   @override
   void initState() {
@@ -228,6 +229,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     } catch (e) {
       print(e);
     }
+    bannerSize = AdmobBannerSize.BANNER;
 
     getBookmark();
     getLastViewedPage();
