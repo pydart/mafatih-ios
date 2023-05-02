@@ -83,12 +83,12 @@ class ServiceData {
     return data.map((model) => MixedTextInfoAll.fromJson(model)).toList();
   }
 
-  Future<List<JsonMappingForSearch>> loadForSearch() async {
-    var response =
-    await rootBundle.loadString('python/Babs/infobabs/ListofJsonForSearch.json');
-    Iterable data = json.decode(response);
-    return data.map((model) => JsonMappingForSearch.fromJson(model)).toList();
-  }
+  // Future<List<JsonMappingForSearch>> loadForSearch() async {
+  //   var response =
+  //   await rootBundle.loadString('python/Babs/infobabs/ListofJsonForSearch.json');
+  //   Iterable data = json.decode(response);
+  //   return data.map((model) => JsonMappingForSearch.fromJson(model)).toList();
+  // }
 
   Future<DailyDoa> loadDailyDoa(int number) async {
     final response =

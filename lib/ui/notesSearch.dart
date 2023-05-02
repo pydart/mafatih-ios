@@ -455,7 +455,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
       if (titleSearchActive == true && note[i].title.contains(query)) //
       {
         print(
-            "///////////////////////////////mmmmmmmmmmmmmmmmmmmmmmmmmmm     _filteredNotesTitle.add(note[i])");
+            "///////////////////////////////mmmmmmmmmmmmmmmmmmmmmmmmmmm     _filteredNotesTitle.add(note[i])  ${note[i]}");
         filteredNotesTitle.add(note[i]);
       }
 
@@ -673,18 +673,20 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                             ),
                           ),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailSec(
-                                    detail: filteredNotes[index].titleDetail,
-                                    index: filteredNotes[index].indexbab,
-                                    indexFasl: filteredNotes[index].bab,
-                                    query: query,
-                                    code: filteredNotes[index].bab * 1000 +
-                                        filteredNotes[index].indexbab),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) =>
+                            //
+                            //         DetailSec(
+                            //         detail: filteredNotes[index].titleDetail,
+                            //         index: filteredNotes[index].indexbab,
+                            //         indexFasl: filteredNotes[index].bab,
+                            //         query: query,
+                            //         code: filteredNotes[index].bab * 1000 +
+                            //             filteredNotes[index].indexbab),
+                            //   ),
+                            // );
 
                             if (filteredNotes[index].bab != 4) {
                               Navigator.push(
