@@ -1,5 +1,4 @@
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:flutter_screen/flutter_screen.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
 import 'package:mafatih/theming/theme/locale_keys.g.dart';
@@ -8,6 +7,7 @@ import 'package:mafatih/ui/widget/cardsetting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:screen_brightness/screen_brightness.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart' show Provider;
 import 'package:easy_localization/easy_localization.dart';
@@ -111,12 +111,12 @@ class _SettingsState extends State<Settings> {
   void getScreenBrightness() async {
     double _brightnessLevel3;
     double _brightnessLevel4;
-    _brightnessLevel3 = await FlutterScreen.brightness;
+    _brightnessLevel3 = await ScreenBrightness().current;
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevel =
         double.parse(_brightnessLevel4.toStringAsFixed(2));
-    FlutterScreen.setBrightness(globals.brightnessLevel);
+    ScreenBrightness().setScreenBrightness(globals.brightnessLevel);
   }
 
   void selectLightMode() => Provider.of<CustomThemeMode>(context, listen: false)
@@ -410,8 +410,9 @@ class _SettingsState extends State<Settings> {
                   globals.brightnessActive = newValue;
                   setBrightnessActive(newValue);
                   brightnessActive
-                      ? FlutterScreen.setBrightness(tempBrightnessLevel)
-                      : FlutterScreen.resetBrightness();
+                      ? ScreenBrightness().setScreenBrightness(tempBrightnessLevel)
+                      : ScreenBrightness().setScreenBrightness(
+                      globals.brightnessLevelDefault);
 
                   // : Screen.setBrightness(globals.brightnessLevelDefault);
                 });
@@ -432,7 +433,7 @@ class _SettingsState extends State<Settings> {
                         tempBrightnessLevel =
                             double.parse(briValue.toStringAsFixed(2));
                       });
-                      FlutterScreen.setBrightness(tempBrightnessLevel);
+                      ScreenBrightness().setScreenBrightness(tempBrightnessLevel);
 //                  ui.lightlevel = newValue;
                       setBrightnessLevel(tempBrightnessLevel);
                     },
@@ -442,9 +443,9 @@ class _SettingsState extends State<Settings> {
               : Container(),
           CardSetting(
             title: 'بازگشت به تنظیمات اولیه',
-            leading: RaisedButton(
-              elevation: 0,
-              color: Colors.green,
+            leading: ElevatedButton(
+              // elevation: 0,
+              // color: Colors.green,
               child: const Icon(
                 Icons.touch_app,
                 color: Colors.white,
@@ -452,7 +453,7 @@ class _SettingsState extends State<Settings> {
 
               onPressed: () {
                 setState(() {
-                  FlutterScreen.resetBrightness();
+                  ScreenBrightness().resetScreenBrightness();
                   tempFontArabicLevel = 25;
                   tempFontTarjLevel = 21;
                   tempFontTozihLevel = 25;

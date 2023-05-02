@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
-import 'package:flutter_screen/flutter_screen.dart';
+// import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:mafatih/audio/common.dart';
@@ -222,7 +222,7 @@ class _DetailSecState extends State<DetailSec> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-    FlutterScreen.keepOn(true);
+    // FlutterScreen.keepOn(true);
     super.initState();
   }
 

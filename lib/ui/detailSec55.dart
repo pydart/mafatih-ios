@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:flutter_screen/flutter_screen.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
@@ -206,7 +205,7 @@ class _DetailSec55State extends State<DetailSec55> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-    FlutterScreen.keepOn(true);
+    // FlutterScreen.keepOn(true);
     super.initState();
   }
 

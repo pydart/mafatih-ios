@@ -1,6 +1,6 @@
 library mafatih.globals;
 
-import 'package:audio_service/audio_service.dart';
+// import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 bool audioExist=false;
@@ -16,14 +16,14 @@ List<int> khatiedDoa = [
 
 
 bool isonline;
-final playlist = ConcatenatingAudioSource(children: [
-  AudioSource.uri(
-    Uri.parse("file:///$filePath"),
-    tag: MediaItem(
-        id: '${_nextMediaId++}',
-    ),
-  ),
-]);
+// final playlist = ConcatenatingAudioSource(children: [
+//   AudioSource.uri(
+//     Uri.parse("file:///$filePath"),
+//     tag: MediaItem(
+//         id: '${_nextMediaId++}',
+//     ),
+//   ),
+// ]);
 
 int currentPage;
 double lastScrolledPixel;

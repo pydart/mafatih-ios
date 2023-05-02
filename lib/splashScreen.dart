@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screen/flutter_screen.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
+import 'package:screen_brightness/screen_brightness.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
             double.parse(_brightnessLevel2.toStringAsFixed(2));
       });
 
-      FlutterScreen.setBrightness(globals.brightnessLevel);
+      ScreenBrightness().setScreenBrightness(globals.brightnessLevel);
     } else {
       // getScreenBrightness();
     }
@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
     double _brightnessLevel4;
 
     print(globals.brightnessLevel);
-    _brightnessLevel3 = await FlutterScreen.brightness;
+    _brightnessLevel3 = await ScreenBrightness().current;
 
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);

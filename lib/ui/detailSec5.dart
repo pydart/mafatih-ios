@@ -18,7 +18,6 @@ import 'package:mafatih/data/models/DailyDoa4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec44.dart';
-import 'package:flutter_screen/flutter_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
@@ -236,7 +235,7 @@ class _DetailSec5State extends State<DetailSec5> {
       globals.indexFaslBookMarked = [];
     }
 
-    FlutterScreen.keepOn(true);
+    // FlutterScreen.keepOn(true);
     super.initState();
   }
 

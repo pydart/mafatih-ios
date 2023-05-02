@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 import '../constants.dart';
 import '../data/uistate.dart';
 import 'detailSec4.dart';
@@ -87,7 +87,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   _getBuildNumber() async {
     try {
       http.Response response =
-          await http.get(Constants.newVersionUrl).whenComplete(() {});
+          await http.get(Uri.parse(Constants.newVersionUrl)).whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         newVersionBuildNumber = Results;
@@ -253,7 +253,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     print("************************************************************************** checkAdUrlExist ");
     try {
       http.Response response =
-      await http.get(Constants.mafatihads +'/gifAdUrlDic.php').whenComplete(() {});
+      await http.get(Uri.parse(Constants.mafatihads +'/gifAdUrlDic.php')).whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         print("************************************************************************** response.statusCode == 200  $Results");
@@ -277,7 +277,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     // print("************************************************************************** checkUrlExist ");
     try {
       http.Response response =
-      await http.get(Constants.audiosListUrl +'/audiosList.php').whenComplete(() {});
+      await http.get(Uri.parse(Constants.audiosListUrl +'/audiosList.php')).whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         // print("************************************************************************** response.statusCode == 200  $Results");
@@ -302,8 +302,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             _brightnessLevel > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
         globals.brightnessLevel =
             double.parse(_brightnessLevel2.toStringAsFixed(2));
+        ScreenBrightness().setScreenBrightness(globals.brightnessLevel);
+
       });
-      FlutterScreen.setBrightness(globals.brightnessLevel);
     } else {
       // getScreenBrightness();
     }
@@ -313,7 +314,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     double _brightnessLevel3;
     double _brightnessLevel4;
     print(globals.brightnessLevel);
-    _brightnessLevel3 = await FlutterScreen.brightness;
+    _brightnessLevel3 = await ScreenBrightness().current;
     _brightnessLevel4 =
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevelDefault =
@@ -460,12 +461,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         builder: (context) => AlertDialog(
               title: Text("آیا قصد خروج از برنامه را دارید؟"),
               actions: <Widget>[
-                FlatButton(
+                ElevatedButton(
                   child: Text("بله"),
                   onPressed: () => exit(0),
 //                  onPressed: () => Navigator.pop(context, true),
                 ),
-                FlatButton(
+                ElevatedButton(
                   child: Text(
                     "خیر",
                     textAlign: TextAlign.right,
@@ -513,7 +514,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     fontSize: 16,
                   )),
               actions: <Widget>[
-                FlatButton(
+                ElevatedButton(
                   child: Text("بروزرسانی",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -524,7 +525,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   onPressed: () => _launchURL(Constants.PLAY_STORE_URL),
 //                  onPressed: () => Navigator.pop(context, true),
                 ),
-                FlatButton(
+                ElevatedButton(
                   child: Text(
                     "بعدا",
                     style: TextStyle(
@@ -687,7 +688,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
           bottomNavigationBar: AdmobBanner(
             adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-            adSize: AdmobBannerSize.LARGE_BANNER,
+            adSize: AdmobBannerSize.BANNER,
             // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
             //   if (event == AdmobAdEvent.clicked) {}
             // },

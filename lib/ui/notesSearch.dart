@@ -457,6 +457,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
         print(
             "///////////////////////////////mmmmmmmmmmmmmmmmmmmmmmmmmmm     _filteredNotesTitle.add(note[i])  ${note[i]}");
         filteredNotesTitle.add(note[i]);
+
       }
 
       if (textSearchActive == true && note[i].arabic.contains(query)

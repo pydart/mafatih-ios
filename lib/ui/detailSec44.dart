@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:admob_flutter/admob_flutter.dart';
-import 'package:flutter_screen/flutter_screen.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
@@ -231,7 +230,7 @@ class _DetailSec44State extends State<DetailSec44> {
     }
 
     /// Prevent screen from going into sleep mode:
-    FlutterScreen.keepOn(true);
+    // FlutterScreen.keepOn(true);
 
     super.initState();
   }
