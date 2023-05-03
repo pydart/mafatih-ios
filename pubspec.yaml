@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_automation: ^2.0.0
-  admob_flutter: ^3.0.0
+#  admob_flutter: ^3.0.0
   flutter_localizations:
     sdk: flutter
 
@@ -40,7 +40,7 @@ dependencies:
   encrypt: ^5.0.1
   flutter_media_metadata: ^1.0.0+1
   connectivity_plus: ^3.0.6
-#  google_mobile_ads: ^2.0.0
+  google_mobile_ads: ^3.0.0
 
 
 dev_dependencies:
@@ -61,14 +61,12 @@ flutter:
     - python/Babs/4/
     - python/Babs/5/
     - python/Babs/6/
-    - python/Babs/70/
     - python/Babs/71/
     - python/Babs/72/
     - python/Babs/73/
     - python/Babs/74/
     - python/Babs/75/
     - python/Babs/76/
-    - python/Babs/77/
     - assets/lang/
     - assets/sounds/
 

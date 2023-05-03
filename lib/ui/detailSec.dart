@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:admob_flutter/admob_flutter.dart';
+// import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
 // import 'package:flutter_screen/flutter_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -492,9 +492,13 @@ class _DetailSecState extends State<DetailSec> {
                   textAlign: TextAlign.right,
                 ),
                 if (progress!=null && progress!=0 && progress<1) CircularProgressIndicator(
-                  value: progress,backgroundColor: Theme.of(context).brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.green,
+                  value: progress,
+                  color: Theme.of(context).brightness == Brightness.light
+    ? Colors.white
+        : Colors.green,
+                  backgroundColor: Theme.of(context).brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
                 ),
                 if (progress!=null && progress!=0 && progress<1) SizedBox(height: 20,),
                 if (progress!=null && progress!=0 && progress<1) Text(
@@ -707,13 +711,13 @@ class _DetailSecState extends State<DetailSec> {
               : Center(child: CircularProgressIndicator());
         },
       ),
-      bottomNavigationBar: AdmobBanner(
-        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        adSize: AdmobBannerSize.BANNER,
-        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //   if (event == AdmobAdEvent.clicked) {}
-        // },
-      ),
+      // bottomNavigationBar: AdmobBanner(
+      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+      //   adSize: AdmobBannerSize.BANNER,
+      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+      //   //   if (event == AdmobAdEvent.clicked) {}
+      //   // },
+      // ),
     );
   }
 }

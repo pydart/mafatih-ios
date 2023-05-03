@@ -14,4 +14,7 @@ plugins.each { name, path ->
     project(":$name").projectDir = pluginDirectory
 }
 
+if (pluginsFile.exists()) {
+    pluginsFile.withInputStream { stream -> plugins.load(stream) }
+}
 

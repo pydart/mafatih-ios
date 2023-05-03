@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:admob_flutter/admob_flutter.dart';
+// import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';

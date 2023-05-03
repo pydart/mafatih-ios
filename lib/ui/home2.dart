@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mafatih/ui/detailSec.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
@@ -18,7 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'notesSearch.dart';
-import 'package:admob_flutter/admob_flutter.dart';
+// import 'package:admob_flutter/admob_flutter.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -220,7 +221,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  AdmobBannerSize bannerSize;
+  // AdmobBannerSize bannerSize;
 
   @override
   void initState() {
@@ -229,7 +230,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     } catch (e) {
       print(e);
     }
-    bannerSize = AdmobBannerSize.BANNER;
+    // bannerSize = AdmobBannerSize.BANNER;
 
     getBookmark();
     getLastViewedPage();
@@ -544,6 +545,87 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ));
   }
 
+
+  BannerAd _anchoredAdaptiveAd;
+  bool _isLoaded = false;
+  Orientation _currentOrientation;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _currentOrientation = MediaQuery.of(context).orientation;
+    _loadAd();
+  }
+
+  /// Load another ad, disposing of the current ad if there is one.
+  Future<void> _loadAd() async {
+    await _anchoredAdaptiveAd?.dispose();
+    setState(() {
+      _anchoredAdaptiveAd = null;
+      _isLoaded = false;
+    });
+
+    final AnchoredAdaptiveBannerAdSize size =
+    await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.of(context).size.width.truncate());
+
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    _anchoredAdaptiveAd = BannerAd(
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-5524959616213219/7557264464'
+          : 'ca-app-pub-5524959616213219/7557264464',
+      size: size,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            _anchoredAdaptiveAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
+    );
+    return _anchoredAdaptiveAd.load();
+  }
+
+  /// Gets a widget containing the ad, if one is loaded.
+  ///
+  /// Returns an empty container if no ad is loaded, or the orientation
+  /// has changed. Also loads a new ad if the orientation changes.
+  Widget _getAdWidget() {
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        if (_currentOrientation == orientation &&
+            _anchoredAdaptiveAd != null &&
+            _isLoaded) {
+          return Container(
+            color: Colors.green,
+            width: _anchoredAdaptiveAd.size.width.toDouble(),
+            height: _anchoredAdaptiveAd.size.height.toDouble(),
+            child: AdWidget(ad: _anchoredAdaptiveAd),
+          );
+        }
+        // Reload the ad if the orientation changes.
+        if (_currentOrientation != orientation) {
+          _currentOrientation = orientation;
+          _loadAd();
+        }
+        return Container();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
@@ -592,10 +674,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 body: ListView(
                   // controller: _tabController,
                   children: <Widget>[
-                    Padding(
+                    if (globals.edameFaraz==true  || ui.edameFarazSet == true) Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 120.0, vertical: 0),
-                      child: Card(
+                      child:
+                      Card(
                           semanticContainer: true,
                           margin: EdgeInsets.fromLTRB(0,0,0,0),
 
@@ -610,7 +693,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           child: Container(
                             child: ListTile(
                               title: Center(
-                                child: Text('نمایش آخرین صفحه',                                            style: TextStyle(
+                                child: Text(' نمایش آخرین صفحه',                                            style: TextStyle(
                                            fontWeight: FontWeight.bold,
                       fontFamily: 'IRANSans',
                       fontSize: 12,
@@ -686,13 +769,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          bottomNavigationBar: AdmobBanner(
-            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-            adSize: AdmobBannerSize.BANNER,
-            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-            //   if (event == AdmobAdEvent.clicked) {}
-            // },
-          ),
+            // bottomNavigationBar:  _getAdWidget()
+          // bottomNavigationBar: AdmobBanner(
+          //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+          //   adSize: AdmobBannerSize.BANNER,
+          //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          //   //   if (event == AdmobAdEvent.clicked) {}
+          //   // },
+          // ),
         ),
       ),
     );
