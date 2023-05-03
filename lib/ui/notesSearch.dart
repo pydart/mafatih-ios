@@ -21,7 +21,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   TextStyle get searchFieldStyle => TextStyle(
         color: Colors.white,
         fontSize: 18.0,
-        decoration: TextDecoration.none,
+        fontWeight: FontWeight.bold,
+        // decoration: TextDecoration.none,
       );
 
   List<MixedTextInfoAll> notes;
@@ -66,11 +67,11 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   ThemeData appBarTheme(BuildContext context) {
     assert(context != null);
     final ThemeData theme = Theme.of(context).copyWith(
-        hintColor: Theme.of(context).accentColor,
-        primaryColor: Colors.white54,
+        hintColor: Colors.white54,
+        primaryColor: Colors.white,
         textTheme: TextTheme(
           headline6: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
             fontFamily: 'IRANSans',
             fontSize: 20,

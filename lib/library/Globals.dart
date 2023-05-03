@@ -39,7 +39,7 @@ String titlelastViewedPage;
 int indexlastViewedPage;
 int indexFasllastViewedPage;
 String indentlastViewedPage;
-bool edameFaraz;
+bool edameFaraz=false;
 
 List<String> titleBookMarked;
 List<int> indexBookMarked;
@@ -107,6 +107,9 @@ const Sound = 'Sound';
 const AudioExist = 'AudioExist';
 const JsonCodesHavingAudio = 'JsonCodesHavingAudio';
 const JsonGifAdUrl = 'JsonGifAdUrl';
+// const EdameFaraz = 'EdameFaraz';
+
+
 
 double fontArabicLevel;
 double fontTarjLevel;

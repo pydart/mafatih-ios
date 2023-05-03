@@ -385,20 +385,20 @@ class _FavoritesState extends State<Favorites> {
         //         // },
         //       ),
 
-      bottomNavigationBar:
-              SizedBox(
-
-                child: InkWell(
-                  onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffav1"]);
-                  final date = DateTime.now();
-                  print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
-                  child: CachedNetworkImage(
-                    imageUrl: Constants.urlgiffav1,
-                    cacheKey: Constants.urlgiffav1+ DateTime.now().weekOfYear.toString(),
-                    errorWidget: (context, url, error) => SizedBox.shrink(),
-                  ),
-                ),
-              ),
+      // bottomNavigationBar:
+      //         SizedBox(
+      //
+      //           child: InkWell(
+      //             onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffav1"]);
+      //             final date = DateTime.now();
+      //             print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
+      //             child: CachedNetworkImage(
+      //               imageUrl: Constants.urlgiffav1,
+      //               cacheKey: Constants.urlgiffav1+ DateTime.now().weekOfYear.toString(),
+      //               errorWidget: (context, url, error) => SizedBox.shrink(),
+      //             ),
+      //           ),
+      //         ),
 //               SizedBox(height:5),
 //               SizedBox(
 //                 height: 500,

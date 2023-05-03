@@ -142,10 +142,16 @@ class _SplashScreenState extends State<SplashScreen> {
         globals.darkMode = false;
       });
     }
-
     if (globals.darkMode == null) {
       globals.darkMode = false;
     }
+
+    // if (prefs.containsKey(globals.EdameFaraz)) {
+    //   var _edameFaraz = prefs.getBool(globals.EdameFaraz);
+    //   setState(() {
+    //     globals.edameFaraz = _edameFaraz;
+    //   });
+    // }
    print(
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.tozihActive}          globals.tozihActive');
   }

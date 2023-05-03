@@ -1,6 +1,5 @@
-// import 'package:admob_flutter/admob_flutter.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/AppConstants.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
@@ -26,15 +25,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // MobileAds.instance.initialize();
-  MobileAds.instance.initialize()
-      .then((initializationStatus) {
-    initializationStatus.adapterStatuses.forEach((key, value) {
-      debugPrint('Adapter status for $key: ${value.description}');
-    });
-  });
+  Admob.initialize();
 
-
-runApp(EasyLocalization(
+  runApp(EasyLocalization(
     supportedLocales: [
       AppConstants.TR_LOCALE,
       AppConstants.EN_LOCALE,

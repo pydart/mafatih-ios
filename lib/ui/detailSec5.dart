@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-// import 'package:admob_flutter/admob_flutter.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
@@ -651,13 +651,13 @@ class _DetailSec5State extends State<DetailSec5> {
           indexFasl: 4,
           code: widget.indexFasl * 1000 + widget.index,
         ),
-        // bottomNavigationBar: AdmobBanner(
-        //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        //   adSize: AdmobBannerSize.BANNER,
-        //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //   //   if (event == AdmobAdEvent.clicked) {}
-        //   // },
-        // ),
+        bottomNavigationBar: AdmobBanner(
+          adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+          adSize: AdmobBannerSize.BANNER,
+          // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          //   if (event == AdmobAdEvent.clicked) {}
+          // },
+        ),
       );
   }
 }
