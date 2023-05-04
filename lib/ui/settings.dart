@@ -1,4 +1,5 @@
 // import 'package:admob_flutter/admob_flutter.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
 import 'package:mafatih/theming/theme/locale_keys.g.dart';
@@ -485,13 +486,13 @@ class _SettingsState extends State<Settings> {
           // SizedBox(
           //   height: 50,
           // )
-          // AdmobBanner(
-          //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-          //   adSize: AdmobBannerSize.BANNER,
-          //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          //   //   if (event == AdmobAdEvent.clicked) {}
-          //   // },
-          // ),
+          AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/3936589352',
+            adSize: AdmobBannerSize.BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
         ],
       ),
     );

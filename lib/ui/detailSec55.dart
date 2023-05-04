@@ -1,5 +1,6 @@
 import 'dart:async';
 // import 'package:admob_flutter/admob_flutter.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
@@ -13,7 +14,7 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec44.dart';
 
 class DetailSec55 extends StatefulWidget {
-  final detail, index, indent, indexFasl, code, query;
+  final detail, index, indent, indexFasl, code, query, player;
   DetailSec55({
     Key key,
     @required this.detail,
@@ -22,6 +23,7 @@ class DetailSec55 extends StatefulWidget {
     this.indexFasl,
     this.code,
     this.query,
+    this.player
   }) : super(key: key);
 
   @override
@@ -45,7 +47,10 @@ class _DetailSec55State extends State<DetailSec55> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    widget.player.stop();     widget.player.setLoopMode(LoopMode.off);
+    widget.player.dispose();
+    print("************************************************************************dispos detailsec");
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -367,6 +372,7 @@ class _DetailSec55State extends State<DetailSec55> {
           indent: widget.indent,
           indexFasl: 5,
           code: widget.indexFasl * 1000 + widget.index,
+          player: widget.player,
         ),
         // bottomNavigationBar: AdmobBanner(
         //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',

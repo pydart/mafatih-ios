@@ -39,7 +39,7 @@ String titlelastViewedPage;
 int indexlastViewedPage;
 int indexFasllastViewedPage;
 String indentlastViewedPage;
-bool edameFaraz=false;
+bool edameFaraz;
 
 List<String> titleBookMarked;
 List<int> indexBookMarked;

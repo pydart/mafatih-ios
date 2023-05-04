@@ -438,7 +438,6 @@ class _DetailSec4State extends State<DetailSec4> {
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
-    ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
     bool audioIsSaved=File("data/user/0/pydart.mafatih/cache/${widget.code}.mp3").existsSync();
 print("-----------------------------------------------------------------  audioIsSaved   ----------- $audioIsSaved");
 
@@ -649,6 +648,7 @@ print("-----------------------------------------------------------------  audioI
           indent: widget.indent,
           indexFasl: 4,
           code: widget.indexFasl * 1000 + widget.index,
+          player: _player
         ),
         // bottomNavigationBar: AdmobBanner(
         //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',

@@ -592,7 +592,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 body: ListView(
                   // controller: _tabController,
                   children: <Widget>[
-                    if (globals.indexFasllastViewedPage != null )Padding(
+                    if (ui.edameFarazSet == false || globals.indexFasllastViewedPage!=null)Padding(
                       padding:
                       const EdgeInsets.symmetric(horizontal: 120.0, vertical: 0),
                       child:
@@ -688,7 +688,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ),
           ),
           bottomNavigationBar: AdmobBanner(
-            adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+            adUnitId: 'ca-app-pub-5524959616213219/5790610979',
             adSize: AdmobBannerSize.BANNER,
             // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
             //   if (event == AdmobAdEvent.clicked) {}

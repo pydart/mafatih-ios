@@ -650,6 +650,7 @@ class _DetailSec5State extends State<DetailSec5> {
           indent: widget.indent,
           indexFasl: 4,
           code: widget.indexFasl * 1000 + widget.index,
+          player: _player,
         ),
         bottomNavigationBar: AdmobBanner(
           adUnitId: 'ca-app-pub-5524959616213219/7557264464',

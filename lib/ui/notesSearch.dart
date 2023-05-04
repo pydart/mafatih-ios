@@ -1,4 +1,5 @@
 // import 'package:admob_flutter/admob_flutter.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/models/MixedTextInfoAll.dart';
 import 'package:mafatih/data/services.dart';
@@ -19,6 +20,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
 
   @override
   TextStyle get searchFieldStyle => TextStyle(
+    // decorationColor: Colors.white,
+    // backgroundColor: Colors.white,
         color: Colors.white,
         fontSize: 18.0,
         fontWeight: FontWeight.bold,
@@ -66,7 +69,13 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   @override
   ThemeData appBarTheme(BuildContext context) {
     assert(context != null);
+    // TextField(cursorColor: Colors.white);
     final ThemeData theme = Theme.of(context).copyWith(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.white54,
+          selectionColor: Colors.white54,
+          selectionHandleColor: Colors.white54,
+        ),
         hintColor: Colors.white54,
         primaryColor: Colors.white,
         textTheme: TextTheme(
@@ -135,13 +144,13 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                 fontFamily: 'IRANSans',
               ),
             ),
-            // AdmobBanner(
-            //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-            //   adSize: AdmobBannerSize.FULL_BANNER,
-            //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-            //   //   if (event == AdmobAdEvent.clicked) {}
-            //   // },
-            // ),
+            AdmobBanner(
+              adUnitId: 'ca-app-pub-5524959616213219/3098984556',
+              adSize: AdmobBannerSize.FULL_BANNER,
+              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //   if (event == AdmobAdEvent.clicked) {}
+              // },
+            ),
           ],
         )),
       );
@@ -178,13 +187,13 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                         fontFamily: 'IRANSans',
                       ),
                     ),
-                    // AdmobBanner(
-                    //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-                    //   adSize: AdmobBannerSize.FULL_BANNER,
-                    //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                    //   //   if (event == AdmobAdEvent.clicked) {}
-                    //   // },
-                    // ),
+                    AdmobBanner(
+                      adUnitId: 'ca-app-pub-5524959616213219/3098984556',
+                      adSize: AdmobBannerSize.FULL_BANNER,
+                      // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                      //   if (event == AdmobAdEvent.clicked) {}
+                      // },
+                    ),
                     InkWell(
                       onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch1"]);
                       final date = DateTime.now();
@@ -324,14 +333,14 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                 //     errorWidget: (context, url, error) => SizedBox.shrink(),
                                 //   ),
                                 // ),
-                                // AdmobBanner(
-                                //   adUnitId:
-                                //       'ca-app-pub-5524959616213219/7557264464',
-                                //   adSize: AdmobBannerSize.FULL_BANNER,
-                                //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                                //   //   if (event == AdmobAdEvent.clicked) {}
-                                //   // },
-                                // ),
+                                AdmobBanner(
+                                  adUnitId:
+                                      'ca-app-pub-5524959616213219/3098984556',
+                                  adSize: AdmobBannerSize.FULL_BANNER,
+                                  // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                                  //   if (event == AdmobAdEvent.clicked) {}
+                                  // },
+                                ),
                               ],
                             ),
                           );
@@ -423,14 +432,14 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                           );
                                         },
                                       ),
-                                      // AdmobBanner(
-                                      //   adUnitId:
-                                      //       'ca-app-pub-5524959616213219/7557264464',
-                                      //   adSize: AdmobBannerSize.BANNER,
-                                      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                                      //   //   if (event == AdmobAdEvent.clicked) {}
-                                      //   // },
-                                      // ),
+                                      AdmobBanner(
+                                        adUnitId:
+                                            'ca-app-pub-5524959616213219/3098984556',
+                                        adSize: AdmobBannerSize.BANNER,
+                                        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                                        //   if (event == AdmobAdEvent.clicked) {}
+                                        // },
+                                      ),
                                     ],
                                   ),
                                 );
@@ -581,13 +590,13 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                 //     errorWidget: (context, url, error) => SizedBox.shrink(),
                 //   ),
                 // ),
-                // AdmobBanner(
-                //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-                //   adSize: AdmobBannerSize.SMART_BANNER(context),
-                //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                //   //   if (event == AdmobAdEvent.clicked) {}
-                //   // },
-                // ),
+                AdmobBanner(
+                  adUnitId: 'ca-app-pub-5524959616213219/3098984556',
+                  adSize: AdmobBannerSize.LARGE_BANNER,
+                  // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                  //   if (event == AdmobAdEvent.clicked) {}
+                  // },
+                ),
               ],
             )),
           ),
