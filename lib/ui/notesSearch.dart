@@ -34,7 +34,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   List<MixedTextInfoAll> filteredNotesArabic = [];
 
   bool titleSearchActive = true;
-  bool textSearchActive = false;
+  bool textSearchActive = true;
   List<int> selectedDoa = [
     3082,
     2229,

@@ -20,7 +20,7 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec44.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
-
+import 'package:screen/screen.dart';
 import '../constants.dart';
 
 
@@ -235,7 +235,7 @@ class _DetailSec5State extends State<DetailSec5> {
       globals.indexFaslBookMarked = [];
     }
 
-    // FlutterScreen.keepOn(true);
+    Screen.keepOn(true);
     super.initState();
   }
 

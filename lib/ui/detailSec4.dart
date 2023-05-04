@@ -21,6 +21,7 @@ import 'package:mafatih/ui/detailSec44.dart';
 import 'package:http/http.dart' as http;
 import '../constants.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:screen/screen.dart';
 
 class DetailSec4 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
@@ -230,7 +231,7 @@ class _DetailSec4State extends State<DetailSec4> {
       globals.indexFaslBookMarked = [];
     }
 
-    // FlutterScreen.keepOn(true);
+    Screen.keepOn(true);
     super.initState();
   }
 

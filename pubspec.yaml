@@ -41,6 +41,7 @@ dependencies:
   flutter_media_metadata: ^1.0.0+1
   connectivity_plus: ^3.0.6
 #  google_mobile_ads: ^2.0.0
+  screen: ^0.0.5
 
 
 dev_dependencies:

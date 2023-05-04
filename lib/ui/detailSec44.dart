@@ -12,6 +12,7 @@ import 'package:mafatih/data/models/DailyDoa4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec55.dart';
+import 'package:screen/screen.dart';
 
 class DetailSec44 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query, player;
@@ -237,7 +238,7 @@ class _DetailSec44State extends State<DetailSec44> {
     }
 
     /// Prevent screen from going into sleep mode:
-    // FlutterScreen.keepOn(true);
+    Screen.keepOn(true);
 
     super.initState();
   }

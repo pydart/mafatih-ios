@@ -12,6 +12,7 @@ import 'package:mafatih/data/models/DailyDoa4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/ui/detailSec44.dart';
+import 'package:screen/screen.dart';
 
 class DetailSec55 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query, player;
@@ -210,7 +211,7 @@ class _DetailSec55State extends State<DetailSec55> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-    // FlutterScreen.keepOn(true);
+    Screen.keepOn(true);
     super.initState();
   }
 
