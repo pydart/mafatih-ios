@@ -287,7 +287,7 @@ class _AyatKursiState extends State<AyatKursi> {
 //                 }),
             AdmobBanner(
               adUnitId: 'ca-app-pub-5524959616213219/5382351205',
-              adSize: AdmobBannerSize.BANNER,
+              adSize: AdmobBannerSize.LARGE_BANNER,
               // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
               //   if (event == AdmobAdEvent.clicked) {}
               // },

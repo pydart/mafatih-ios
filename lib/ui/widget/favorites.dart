@@ -272,7 +272,7 @@ class _FavoritesState extends State<Favorites> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => DetailSec5(
+                                          builder: (context) => DetailSec4(
                                                 detail:
                                                     globals.mapBookMarked[index]
                                                         ['titleBookMarked'],

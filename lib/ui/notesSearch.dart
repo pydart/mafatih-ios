@@ -435,7 +435,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                       AdmobBanner(
                                         adUnitId:
                                             'ca-app-pub-5524959616213219/3098984556',
-                                        adSize: AdmobBannerSize.BANNER,
+                                        adSize: AdmobBannerSize.LARGE_BANNER,
                                         // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
                                         //   if (event == AdmobAdEvent.clicked) {}
                                         // },
@@ -719,7 +719,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DetailSec5(
+                                      builder: (context) => DetailSec4(
                                             detail: filteredNotes[index]
                                                 .titleDetail,
                                             index:

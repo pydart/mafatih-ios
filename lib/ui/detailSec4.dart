@@ -23,6 +23,8 @@ import '../constants.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:screen/screen.dart';
 
+import 'detailSec55.dart';
+
 class DetailSec4 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
   DetailSec4({
@@ -545,103 +547,14 @@ print("-----------------------------------------------------------------  audioI
                     MaterialPageRoute(builder: (context) => Settings()))),
           ],
         ),
-        body: (ui.terjemahan == false)
-            ? FutureBuilder<DailyDoa4>(
-          future: ServiceData().loadSec4(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
-          builder: (c, snapshot) {
-            if (snapshot.hasData) {
-              titleCurrentPage = snapshot.data.title;
-              globals.titleCurrentPage = titleCurrentPage;
-              indexCurrentPage = snapshot.data.number;
-              globals.indexCurrentPage = indexCurrentPage;
-              indexFaslCurrentPage = snapshot.data.bab;
-              globals.indexFaslCurrentPage = indexFaslCurrentPage;
-              codeCurrentPage =
-                  indexFaslCurrentPage * 1000 + indexCurrentPage;
-              globals.codeCurrentPage = codeCurrentPage;
-              print(
-                  "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
-                      titleCurrentPage);
-            }
-
-            return snapshot.hasData
-                ? Column(children: <Widget>[
-              Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    controller: _scrollController,
-//                        itemExtent: 1000,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: snapshot.data.arabic.length,
-                    itemBuilder: (BuildContext c, int i) {
-                      String key =
-                      snapshot.data.arabic.keys.elementAt(i);
-                      return Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5.0),
-                              child: Column(
-                                children: <Widget>[
-                                  if (int.parse(key) -
-                                      snapshot.data.delay ==
-                                      1)
-                                    ListTile(
-                                      dense: true,
-                                      title: Text(
-                                        'بِسْمِ اللَّـهِ الرَّ حْمَـٰنِ الرَّ حِيمِ',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppStyle
-                                              .textQuranfontFamily,
-                                          fontSize: 1.2 *
-                                              globals.fontArabicLevel,
-                                          height: 1.5,
-                                        ),
-                                      ),
-                                    ),
-                                  if (snapshot.data.arabic[key] !=
-                                      "" &&
-                                      snapshot.data.arabic[key] !=
-                                          null &&
-                                      widget.indexFasl >= 4)
-                                    ListTile(
-                                      dense: true,
-                                      title: RichText(
-                                        textAlign: TextAlign.right,
-                                        text: TextSpan(
-                                          text: replaceFarsiNumber(
-                                              (snapshot.data
-                                                  .arabic[key])
-                                                  .toString()),
-                                          style: TextStyle(
-                                            fontFamily: AppStyle
-                                                .textQuranfontFamily,
-                                            fontSize: 1.2 *
-                                                globals
-                                                    .fontArabicLevel,
-                                            height: 1.5,
-                                            color: Theme.of(context)
-                                                .accentColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            )
-                          ]);
-                    },
-                  ),
-                ),
-              )
-            ])
-                : Center(child: CircularProgressIndicator());
-          },
+        body: (ui.terjemahan == false || globals.tarjActive== false)
+            ? DetailSec55(
+            detail: widget.detail,
+            index: widget.index,
+            indent: widget.indent,
+            indexFasl: 5,
+            code: widget.indexFasl * 1000 + widget.index,
+            player: _player
         )
             : DetailSec44(
           detail: widget.detail,

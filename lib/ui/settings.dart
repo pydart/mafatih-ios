@@ -30,6 +30,7 @@ class _SettingsState extends State<Settings> {
   double briValue;
   List FontArabicList = [
     'نیریزی یک',
+    'عثمان طه',
     'نیریزی دو',
     'عربی ساده',
     'زر',
@@ -199,6 +200,13 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: <Widget>[
+          AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/3936589352',
+            adSize: AdmobBannerSize.FULL_BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
           CardSetting(
             title: 'پوسته برنامه',
             leading: DropdownButton(
@@ -388,7 +396,17 @@ class _SettingsState extends State<Settings> {
                               : null,
                         ),
                       ),
-                      value: 4)
+                      value: 4),
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[5],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[5]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 5)
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -488,7 +506,7 @@ class _SettingsState extends State<Settings> {
           // )
           AdmobBanner(
             adUnitId: 'ca-app-pub-5524959616213219/3936589352',
-            adSize: AdmobBannerSize.BANNER,
+            adSize: AdmobBannerSize.FULL_BANNER,
             // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
             //   if (event == AdmobAdEvent.clicked) {}
             // },

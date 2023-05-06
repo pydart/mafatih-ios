@@ -32,18 +32,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   String newVersionBuildNumber;
   double currentBuildNumber;
 
-  String gif1Url="";
-  String gif2Url="";
-  String gif3Url="";
+  String gif1Url = "";
+  String gif2Url = "";
+  String gif3Url = "";
 
   _getGif1Url() async {
     try {
-      http.Response response =
-      await http.get(Uri.parse('https://videoir.com/apps_versions/gif1url.php')).whenComplete(() {});
+      http.Response response = await http
+          .get(Uri.parse('https://videoir.com/apps_versions/gif1url.php'))
+          .whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         gif1Url = Results;
-        print("/////////////////////////////////////******************************************************** gif1url   $gif1Url");
+        print(
+            "/////////////////////////////////////******************************************************** gif1url   $gif1Url");
       } else {
         throw Exception('Failed to load');
       }
@@ -54,8 +56,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   _getGif2Url() async {
     try {
-      http.Response response =
-      await http.get(Uri.parse('https://videoir.com/apps_versions/gif2url.php')).whenComplete(() {});
+      http.Response response = await http
+          .get(Uri.parse('https://videoir.com/apps_versions/gif2url.php'))
+          .whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         gif2Url = Results;
@@ -70,12 +73,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   _getGif3Url() async {
     try {
-      http.Response response =
-      await http.get(Uri.parse('https://videoir.com/apps_versions/gif3url.php')).whenComplete(() {});
+      http.Response response = await http
+          .get(Uri.parse('https://videoir.com/apps_versions/gif3url.php'))
+          .whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         gif3Url = Results;
-        print("/////////////////////////////////////******************************************************** gif3Url   $gif3Url");
+        print(
+            "/////////////////////////////////////******************************************************** gif3Url   $gif3Url");
       } else {
         throw Exception('Failed to load');
       }
@@ -86,8 +91,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   _getBuildNumber() async {
     try {
-      http.Response response =
-          await http.get(Uri.parse(Constants.newVersionUrl)).whenComplete(() {});
+      http.Response response = await http
+          .get(Uri.parse(Constants.newVersionUrl))
+          .whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         newVersionBuildNumber = Results;
@@ -185,7 +191,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.indexFaslBookMarked = indexFaslBookMarked;
         globals.codeBookMarked = codeBookMarked;
       });
-
     } else {
       setState(() {
         globals.titleBookMarked = [];
@@ -209,7 +214,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.fontTarjLevel = _fonttarjlevel;
         globals.fontTozihLevel = _fonttozihlevel;
       });
-
     } else {
       setState(() {
         globals.fontArabic = 'نیریزی دو';
@@ -245,21 +249,27 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   setAdUrl(String json) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    globals.jsonGifAdUrl=json;
+    globals.jsonGifAdUrl = json;
     await prefs.setString('JsonGifAdUrl', json);
-    print("*********************************************setAdUrl***************************** globals.jsonGifAdUrl ${globals.jsonGifAdUrl} ");
+    print(
+        "*********************************************setAdUrl***************************** globals.jsonGifAdUrl ${globals.jsonGifAdUrl} ");
   }
+
   checkAdUrlExist() async {
-    print("************************************************************************** checkAdUrlExist ");
+    print(
+        "************************************************************************** checkAdUrlExist ");
     try {
-      http.Response response =
-      await http.get(Uri.parse(Constants.mafatihads +'/gifAdUrlDic.php')).whenComplete(() {});
+      http.Response response = await http
+          .get(Uri.parse(Constants.mafatihads + '/gifAdUrlDic.php'))
+          .whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
-        print("************************************************************************** response.statusCode == 200  $Results");
+        print(
+            "************************************************************************** response.statusCode == 200  $Results");
         setAdUrl(Results);
       } else {
-        print("************************************************************************** Failed to load ");
+        print(
+            "************************************************************************** Failed to load ");
         throw Exception('Failed to load');
       }
     } catch (e) {
@@ -269,15 +279,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   setAudioExist(List<String> jsonCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    globals.jsonCodesHavingAudio=jsonCode;
-    await prefs.setStringList('JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
+    globals.jsonCodesHavingAudio = jsonCode;
+    await prefs.setStringList(
+        'JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
     // print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
   }
+
   checkUrlExist() async {
     // print("************************************************************************** checkUrlExist ");
     try {
-      http.Response response =
-      await http.get(Uri.parse(Constants.audiosListUrl +'/audiosList.php')).whenComplete(() {});
+      http.Response response = await http
+          .get(Uri.parse(Constants.audiosListUrl + '/audiosList.php'))
+          .whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
         // print("************************************************************************** response.statusCode == 200  $Results");
@@ -303,7 +316,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.brightnessLevel =
             double.parse(_brightnessLevel2.toStringAsFixed(2));
         ScreenBrightness().setScreenBrightness(globals.brightnessLevel);
-
       });
     } else {
       // getScreenBrightness();
@@ -365,7 +377,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     prefs = await SharedPreferences.getInstance();
     setState(() {
-      globals.audioExist=false;
+      globals.audioExist = false;
       globals.tarjKhati = false;
       globals.tarjActive = true;
       globals.tozihActive = false;
@@ -407,7 +419,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
 
     if (prefs.containsKey(globals.JsonCodesHavingAudio)) {
-      var _jsonCodesHavingAudio = prefs.getStringList(globals.JsonCodesHavingAudio);
+      var _jsonCodesHavingAudio =
+          prefs.getStringList(globals.JsonCodesHavingAudio);
       setState(() {
         globals.jsonCodesHavingAudio = _jsonCodesHavingAudio;
       });
@@ -417,10 +430,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       var _jsonGifAdUrl = prefs.getString(globals.JsonGifAdUrl);
       setState(() {
         globals.jsonGifAdUrl = _jsonGifAdUrl;
-        globals.jsonGifAdUrlMap=json.decode(_jsonGifAdUrl);
+        globals.jsonGifAdUrlMap = json.decode(_jsonGifAdUrl);
       });
-      print("***************************************************************globals.jsonGifAdUrlMap  ${globals.jsonGifAdUrlMap["urlgiffirstpage1"]}");
-
+      print(
+          "***************************************************************globals.jsonGifAdUrlMap  ${globals.jsonGifAdUrlMap["urlgiffirstpage1"]}");
     }
 
     if (globals.darkMode == null) {
@@ -435,7 +448,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
 
     if (prefs.containsKey(globals.LAST_VIEWED_PAGE_title)) {
-
       setState(() {
         globals.titlelastViewedPage =
             prefs.getString(globals.LAST_VIEWED_PAGE_title);
@@ -446,7 +458,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         globals.indentlastViewedPage =
             prefs.getString(globals.LAST_VIEWED_PAGE_indent);
       });
-
     }
   }
 
@@ -476,6 +487,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ],
             ));
   }
+
   DateTime currentBackPressTime;
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -552,9 +564,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         onWillPop: onWillPop,
         child: Scaffold(
           drawer: Container(
-              child: Drawer(child: Drawers(
-                  newVersionBuildNumber: newVersionBuildNumber,
-                  currentBuildNumber: currentBuildNumber),),
+              child: Drawer(
+                child: Drawers(
+                    newVersionBuildNumber: newVersionBuildNumber,
+                    currentBuildNumber: currentBuildNumber),
+              ),
               width: 200),
           body: NestedScrollView(
             headerSliverBuilder:
@@ -592,86 +606,110 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 body: ListView(
                   // controller: _tabController,
                   children: <Widget>[
-                    if (ui.edameFarazSet == false || globals.indexFasllastViewedPage!=null)Padding(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 120.0, vertical: 0),
-                      child:
-                      Card(
-                          semanticContainer: true,
-                          margin: EdgeInsets.fromLTRB(0,0,0,0),
-
-                          color:                               Theme.of(context).brightness == Brightness.light
-                              ? Colors.lightGreen[50]
-                              : Colors.green,
-                          elevation: 0.0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                              side: BorderSide(
-                                  width: 0.5, color: Colors.green)),
-                          child: Container(
-                            child: ListTile(
-                              title: Center(
-                                child: Text(' نمایش آخرین صفحه',                                            style: TextStyle(
-                                           fontWeight: FontWeight.bold,
-                      fontFamily: 'IRANSans',
-                      fontSize: 12,
-                      height: 1.7,
+                    if (ui.edameFarazSet == false ||
+                        globals.indexFasllastViewedPage != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 120.0, vertical: 0),
+                        child: Card(
+                            semanticContainer: true,
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.lightGreen[50]
+                                    : Colors.green,
+                            elevation: 0.0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                side: BorderSide(
+                                    width: 0.5, color: Colors.green)),
+                            child: Container(
+                              child: ListTile(
+                                title: Center(
+                                  child: Text(
+                                    ' نمایش آخرین صفحه',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'IRANSans',
+                                      fontSize: 12,
+                                      height: 1.7,
+                                    ),
+                                  ),
                                 ),
-                  ),
-                              ),
-                              onTap: () async {
-                                globals.edameFaraz=true;
-                                ui.edameFarazSet = true;
-                                {
-                                  if (globals.indexFasllastViewedPage !=
-                                      4) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder:
-                                                (context) =>
-                                                DetailSec(
-                                                  detail: globals.titlelastViewedPage,
-                                                  index: globals.indexlastViewedPage,
-                                                  indent: globals.indentlastViewedPage,
-                                                  indexFasl: globals.indexFasllastViewedPage,
-                                                  code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
-                                                )));
-                                  } else if (globals.indexFasllastViewedPage ==
-                                      4 &&
-                                      !ui.terjemahan) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder:
-                                                (context) =>
-                                                DetailSec5(
-                                                  detail: globals.titlelastViewedPage,
-                                                  index: globals.indexlastViewedPage,
-                                                  indent: globals.indentlastViewedPage,
-                                                  indexFasl: 5,
-                                                  code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
-                                                )));
-                                  } else if (globals.indexFasllastViewedPage ==
-                                      4 &&
-                                      ui.terjemahan) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder:
-                                                (context) =>
-                                                DetailSec4(
-                                                  detail: globals.titlelastViewedPage,
-                                                  index: globals.indexlastViewedPage,
-                                                  indent: globals.indentlastViewedPage,
-                                                  indexFasl: globals.indexFasllastViewedPage,
-                                                  code: globals.indexFasllastViewedPage * 1000 + globals.indexlastViewedPage,
-                                                )));
+                                onTap: () async {
+                                  globals.edameFaraz = true;
+                                  ui.edameFarazSet = true;
+                                  {
+                                    if (globals.indexFasllastViewedPage == 4 &&
+                                        !ui.terjemahan || globals
+                                        .indexFasllastViewedPage ==
+                                        5) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DetailSec4(
+                                                    detail: globals
+                                                        .titlelastViewedPage,
+                                                    index: globals
+                                                        .indexlastViewedPage,
+                                                    indent: globals
+                                                        .indentlastViewedPage,
+                                                    indexFasl: 5,
+                                                    code: globals
+                                                                .indexFasllastViewedPage *
+                                                            1000 +
+                                                        globals
+                                                            .indexlastViewedPage,
+                                                  )));
+                                    } else if ((globals
+                                        .indexFasllastViewedPage ==
+                                        4 &&
+                                        ui.terjemahan) ) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DetailSec4(
+                                                    detail: globals
+                                                        .titlelastViewedPage,
+                                                    index: globals
+                                                        .indexlastViewedPage,
+                                                    indent: globals
+                                                        .indentlastViewedPage,
+                                                    indexFasl: globals
+                                                        .indexFasllastViewedPage,
+                                                    code: globals
+                                                                .indexFasllastViewedPage *
+                                                            1000 +
+                                                        globals
+                                                            .indexlastViewedPage,
+                                                  )));
+                                    } else if (globals
+                                            .indexFasllastViewedPage !=
+                                        4) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DetailSec(
+                                                    detail: globals
+                                                        .titlelastViewedPage,
+                                                    index: globals
+                                                        .indexlastViewedPage,
+                                                    indent: globals
+                                                        .indentlastViewedPage,
+                                                    indexFasl: globals
+                                                        .indexFasllastViewedPage,
+                                                    code: globals
+                                                                .indexFasllastViewedPage *
+                                                            1000 +
+                                                        globals
+                                                            .indexlastViewedPage,
+                                                  )));
+                                    }
                                   }
-                                }
-                              },
-                            ),)),
-                    ),
+                                },
+                              ),
+                            )),
+                      ),
                     ListFasl(),
                     // Text(
                     //   'برای حمایت از ما روی تبلیغ ذیل کلیک فرماییدِ',
@@ -701,4 +739,3 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 //    ]);
   }
 }
-

@@ -12,24 +12,24 @@ import 'models/FaslSecInfo.dart';
 import 'models/MixedTextInfoAll.dart';
 
 class ServiceData {
-  var infosurah = 'surah/surah-info.json';
-//  var infdailyDoa = 'surah/dailyDoa-info.json';
-  var infdailyDoa = 'python/DailyDoa/dailyDoa-info.json';
-  var infoFasl = 'python/Babs/infobabs/infoBabs.json';
-  static var infoFasl1 = 'python/Babs/infobabs/infobab1.json';
-  static var infoFasl2 = 'python/Babs/infobabs/infobab2.json';
-  static var infoFasl3 = 'python/Babs/infobabs/infobab3.json';
-  static var infoFasl4 = 'python/Babs/infobabs/infobab4.json';
-  static var infoFasl6 = 'python/Babs/infobabs/infobab6.json';
-  static var infoFasl7 = 'python/Babs/infobabs/infobab7.json';
-  static var infoFasl70 = 'python/Babs/infobabs/infobab70.json';
-  static var infoFasl71 = 'python/Babs/infobabs/infobab71.json';
-  static var infoFasl72 = 'python/Babs/infobabs/infobab72.json';
-  static var infoFasl73 = 'python/Babs/infobabs/infobab73.json';
-  static var infoFasl74 = 'python/Babs/infobabs/infobab74.json';
-  static var infoFasl75 = 'python/Babs/infobabs/infobab75.json';
-  static var infoFasl76 = 'python/Babs/infobabs/infobab76.json';
-  static var infoFasl77 = 'python/Babs/infobabs/infobab77.json';
+  var infosurah = 'surah/surah-info';
+//  var infdailyDoa = 'surah/dailyDoa-info';
+  var infdailyDoa = 'python/DailyDoa/dailyDoa-info';
+  var infoFasl = 'python/Babs/infobabs/infoBabs';
+  static var infoFasl1 = 'python/Babs/infobabs/infobab1';
+  static var infoFasl2 = 'python/Babs/infobabs/infobab2';
+  static var infoFasl3 = 'python/Babs/infobabs/infobab3';
+  static var infoFasl4 = 'python/Babs/infobabs/infobab4';
+  static var infoFasl6 = 'python/Babs/infobabs/infobab6';
+  static var infoFasl7 = 'python/Babs/infobabs/infobab7';
+  static var infoFasl70 = 'python/Babs/infobabs/infobab70';
+  static var infoFasl71 = 'python/Babs/infobabs/infobab71';
+  static var infoFasl72 = 'python/Babs/infobabs/infobab72';
+  static var infoFasl73 = 'python/Babs/infobabs/infobab73';
+  static var infoFasl74 = 'python/Babs/infobabs/infobab74';
+  static var infoFasl75 = 'python/Babs/infobabs/infobab75';
+  static var infoFasl76 = 'python/Babs/infobabs/infobab76';
+  static var infoFasl77 = 'python/Babs/infobabs/infobab77';
 
   var dict = {
     1: infoFasl1,
@@ -47,9 +47,9 @@ class ServiceData {
     76: infoFasl76,
     77: infoFasl77,
   };
-  var listdoa = 'surah/doa-harian.json';
-  var listasmaulhusna = 'surah/asmaul-husna.json';
-  var ayatkursi = 'python/DailyDoa/dailyDoa-info.json';
+  var listdoa = 'surah/doa-harian';
+  var listasmaulhusna = 'surah/asmaul-husna';
+  var ayatkursi = 'python/DailyDoa/dailyDoa-info';
   var jadwalsholat = 'http://muslimsalat.com/';
 
   Future<List<SurahInfo>> loadInfo() async {
@@ -78,21 +78,21 @@ class ServiceData {
 
   Future<List<MixedTextInfoAll>> loadMixedTextInfoAll() async {
     var response = await rootBundle.loadString(
-        'python/Babs/infobabs/ListofJsonForSearch2.json'); //infobabMixedTextInfoAll
+        'python/Babs/infobabs/ListofJsonForSearch2'); //infobabMixedTextInfoAll
     Iterable data = json.decode(response);
     return data.map((model) => MixedTextInfoAll.fromJson(model)).toList();
   }
 
   // Future<List<JsonMappingForSearch>> loadForSearch() async {
   //   var response =
-  //   await rootBundle.loadString('python/Babs/infobabs/ListofJsonForSearch.json');
+  //   await rootBundle.loadString('python/Babs/infobabs/ListofJsonForSearch');
   //   Iterable data = json.decode(response);
   //   return data.map((model) => JsonMappingForSearch.fromJson(model)).toList();
   // }
 
   Future<DailyDoa> loadDailyDoa(int number) async {
     final response =
-    await rootBundle.loadString('python/DailyDoa/$number.json');
+    await rootBundle.loadString('python/DailyDoa/$number');
     var res = json.decode(response);
     var data = res['$number'];
     return DailyDoa.fromJson(data);
@@ -100,7 +100,7 @@ class ServiceData {
 
   Future<DailyDoa> loadSec(int indexFasl, String number) async {
     final response =
-    await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
+    await rootBundle.loadString('python/Babs/$indexFasl/$number');
     var res = json.decode(response);
     var data = res['$number'];
     return DailyDoa.fromJson(data);
@@ -108,7 +108,7 @@ class ServiceData {
 
   Future<DailyDoa4> loadSec4(int indexFasl, String number) async {
     final response =
-    await rootBundle.loadString('python/Babs/$indexFasl/$number.json');
+    await rootBundle.loadString('python/Babs/$indexFasl/$number');
     var res = json.decode(response);
     var data = res['$number'];
     return DailyDoa4.fromJson(data);

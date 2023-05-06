@@ -12,7 +12,7 @@ class AppStyle {
     fontFamily: 'IRANSans',
   );
 
-  static final textQuranfontFamily = 'عربی ساده';
+  static final textQuranfontFamily = 'عثمان طه';
   static final titleFasl = TextStyle(
     fontSize: 16.0,
     fontWeight: FontWeight.w700,

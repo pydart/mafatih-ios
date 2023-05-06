@@ -441,7 +441,7 @@ class _DetailSecState extends State<DetailSec> {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
     bool audioIsSaved=File("data/user/0/pydart.mafatih/cache/${widget.code}.mp3").existsSync();
-    print("-----------------------------------------------------------------  audioIsSaved detsec   ----------- $audioIsSaved");
+    // print("-----------------------------------------------------------------  audioIsSaved detsec   ----------- $audioIsSaved");
 
    return
 

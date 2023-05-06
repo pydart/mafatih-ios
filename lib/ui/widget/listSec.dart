@@ -142,7 +142,7 @@ class _ListSecState extends State<ListSec> {
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            DetailSec5(
+                                                                            DetailSec4(
                                                                               detail: data.title,
                                                                               index: data.index,
                                                                               indent: data.indent,
@@ -234,13 +234,13 @@ class _ListSecState extends State<ListSec> {
               : Container();
         },
       ),
-      bottomNavigationBar: AdmobBanner(
-        adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        adSize: AdmobBannerSize.BANNER,
-        // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //   if (event == AdmobAdEvent.clicked) {}
-        // },
-      ),
+      // bottomNavigationBar: AdmobBanner(
+      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+      //   adSize: AdmobBannerSize.LARGE_BANNER,
+      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+      //   //   if (event == AdmobAdEvent.clicked) {}
+      //   // },
+      // ),
     );
   }
 }

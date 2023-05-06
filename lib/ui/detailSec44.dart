@@ -299,7 +299,7 @@ class _DetailSec44State extends State<DetailSec44> {
 
     return
       Scaffold(
-        body: (ui.terjemahan == true)
+        body: (ui.terjemahan == true || globals.tarjActive)
             ? FutureBuilder<DailyDoa4>(
           future: ServiceData().loadSec4(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
           builder: (c, snapshot) {

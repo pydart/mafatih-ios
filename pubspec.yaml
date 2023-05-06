@@ -1,6 +1,6 @@
 name: mafatih
 description: Mafatih
-version: 1.0.0+29
+version: 1.0.0+2030
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -116,6 +116,6 @@ flutter:
       fonts:
         - asset: fonts/Al Qalam New.ttf
 
-    - family:  usman
+    - family:  عثمان طه
       fonts:
-        - asset: fonts/usmanTaha.ttf
+        - asset: fonts/osmantaha.ttf

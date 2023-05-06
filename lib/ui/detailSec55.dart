@@ -270,7 +270,7 @@ class _DetailSec55State extends State<DetailSec55> {
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
     return
       Scaffold(
-        body: (ui.terjemahan == false)
+        body: (ui.terjemahan == false || globals.tarjActive== false)
             ? FutureBuilder<DailyDoa4>(
           future: ServiceData().loadSec4(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
           builder: (c, snapshot) {
@@ -377,7 +377,7 @@ class _DetailSec55State extends State<DetailSec55> {
         ),
         // bottomNavigationBar: AdmobBanner(
         //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        //   adSize: AdmobBannerSize.BANNER,
+        //   adSize: AdmobBannerSize.LARGE_BANNER,
         //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
         //   //   if (event == AdmobAdEvent.clicked) {}
         //   // },
