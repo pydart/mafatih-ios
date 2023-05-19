@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library//Globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 
-import '../constants.dart';
+import 'constants.dart';
+
 
 class SharedFunc {
   SharedPreferences prefs;

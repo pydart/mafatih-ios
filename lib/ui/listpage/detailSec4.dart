@@ -1,28 +1,24 @@
 import 'dart:async';
 import 'dart:io';
-// import 'package:admob_flutter/admob_flutter.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mafatih/audio/common.dart';
-import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
-import 'package:mafatih/ui/home2.dart';
-import 'package:mafatih/ui/settings.dart';
+import 'package:mafatih/ui/listpage/home2.dart';
+import 'package:mafatih/ui/listpage/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:mafatih/data/models/DailyDoa4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-import 'package:mafatih/ui/detailSec44.dart';
 import 'package:http/http.dart' as http;
-import '../constants.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:screen/screen.dart';
-
+import '../../utils/constants.dart';
+import 'detailSec44.dart';
 import 'detailSec55.dart';
 
 class DetailSec4 extends StatefulWidget {

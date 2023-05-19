@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/data/utils/style.dart';
 
-import 'ayatkursi.dart';
+import '../widget/ayatkursi.dart';
 
 class HomeAbout extends StatefulWidget {
   @override

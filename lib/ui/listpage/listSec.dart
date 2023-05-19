@@ -1,14 +1,12 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/models/FaslSecInfo.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../detailSec.dart';
-import '../detailSec4.dart';
-import '../detailSec5.dart';
-import '../notesSearch.dart';
+import 'detailSec.dart';
+import 'detailSec4.dart';
+import 'notesSearch.dart';
 
 class ListSec extends StatefulWidget {
   final detail, indexFasl;

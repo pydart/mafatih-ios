@@ -7,12 +7,13 @@ import 'package:mafatih/data/utils/style.dart';
 import 'package:mafatih/ui/widget/favorites.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mafatih/ui/widget/listSec.dart';
+import 'package:mafatih/ui/listpage/listSec.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:week_of_year/date_week_extensions.dart';
-import '../../constants.dart';
+
+import '../../utils/constants.dart';
 
 class ListFasl extends StatefulWidget {
   @override

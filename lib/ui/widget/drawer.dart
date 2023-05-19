@@ -5,8 +5,8 @@ import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:week_of_year/date_week_extensions.dart';
-import '../constants.dart';
-import 'home_about.dart';
+import '../../utils/constants.dart';
+import '../listpage/home_about.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 
 class Drawers extends StatelessWidget {

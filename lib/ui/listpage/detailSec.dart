@@ -9,8 +9,8 @@ import 'package:mafatih/audio/common.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
-import 'package:mafatih/ui/home2.dart';
-import 'package:mafatih/ui/settings.dart';
+import 'package:mafatih/ui/listpage/home2.dart';
+import 'package:mafatih/ui/listpage/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,6 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:just_audio/just_audio.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
-import '../constants.dart';
 
 class DetailSec extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;

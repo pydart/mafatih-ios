@@ -1,22 +1,22 @@
 import 'dart:async';
-// import 'package:admob_flutter/admob_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
-import 'package:mafatih/ui/home2.dart';
-import 'package:mafatih/ui/settings.dart';
+import 'package:mafatih/ui/listpage/home2.dart';
+import 'package:mafatih/ui/listpage/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-import 'package:mafatih/ui/detailSec55.dart';
 import 'package:screen/screen.dart';
 
-class DetailSec44 extends StatefulWidget {
+import 'detailSec44.dart';
+
+class DetailSec55 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query, player;
-  DetailSec44({
+  DetailSec55({
     Key key,
     @required this.detail,
     this.index,
@@ -28,16 +28,14 @@ class DetailSec44 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DetailSec44State createState() => _DetailSec44State();
+  _DetailSec55State createState() => _DetailSec55State();
 }
 
-class _DetailSec44State extends State<DetailSec44> {
+class _DetailSec55State extends State<DetailSec55> {
   int _selectedIndex = 0;
   SharedPreferences prefs;
   bool isBookmarked;
   static Color iconBookmarkcolor;
-
-
   String titleCurrentPage;
   int indexCurrentPage;
   int indexFaslCurrentPage;
@@ -48,20 +46,6 @@ class _DetailSec44State extends State<DetailSec44> {
   final itemSize = globals.fontTozihLevel * 1.7;
   final queryOffset = 100;
 
-  _moveUp() {
-    //_controller.jumpTo(_controller.offset - itemSize);
-    _controller.animateTo(_scrollPosition - 100,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
-
-  _moveDown() {
-    //_controller.jumpTo(_controller.offset + itemSize);
-    _controller.animateTo(_scrollPosition,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
-
-
-
   @override
   void dispose() {
     widget.player.stop();     widget.player.setLoopMode(LoopMode.off);
@@ -71,12 +55,10 @@ class _DetailSec44State extends State<DetailSec44> {
     super.dispose();
   }
 
-  /// Navigation event handler
   _onItemTapped(int indexTab) {
     setState(() {
       _selectedIndex = indexTab;
 
-      /// Go to Bookmarked page
       if (indexTab == 2) {
         isBookmarked
             ? setState(() {
@@ -132,11 +114,9 @@ class _DetailSec44State extends State<DetailSec44> {
     return input;
   }
 
-  /// set bookmarkPage in sharedPreferences
   void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
       List<int> _code) async {
     prefs = await SharedPreferences.getInstance();
-//    if (_index[0] != null && !_index[0].isNaN) {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
 
     List<String> _strindex = _index.map((i) => i.toString()).toList();
@@ -149,7 +129,6 @@ class _DetailSec44State extends State<DetailSec44> {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
   }
 
-  /// set lastViewedPage in sharedPreferences
   void setLastViewedPage(String _titleCurrentPage, int _indexCurrentPage,
       int _indexFaslCurrentPage) async {
     prefs = await SharedPreferences.getInstance();
@@ -172,7 +151,6 @@ class _DetailSec44State extends State<DetailSec44> {
     await page.close();
   }
 
-  /// Init Page Controller
   PageController pageController;
   double _scrollPosition;
   ScrollController _scrollController;
@@ -198,7 +176,6 @@ class _DetailSec44State extends State<DetailSec44> {
       });
     }
   }
-
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -226,9 +203,7 @@ class _DetailSec44State extends State<DetailSec44> {
       }
     });
 
-    // /// Update lastViewedPage
-    // setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
-
+    setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
       print("globals.titleBookMarked== null ????????????????????????????");
@@ -236,10 +211,7 @@ class _DetailSec44State extends State<DetailSec44> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-
-    /// Prevent screen from going into sleep mode:
     Screen.keepOn(true);
-
     super.initState();
   }
 
@@ -296,10 +268,9 @@ class _DetailSec44State extends State<DetailSec44> {
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
     ui.edameFarazSet==true?WidgetsBinding.instance.addPostFrameCallback((_) {_scrollToPixel();ui.edameFarazSet=false;} ):null;
-
     return
       Scaffold(
-        body: (ui.terjemahan == true || globals.tarjActive)
+        body: (ui.terjemahan == false || globals.tarjActive== false)
             ? FutureBuilder<DailyDoa4>(
           future: ServiceData().loadSec4(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
           builder: (c, snapshot) {
@@ -367,49 +338,16 @@ class _DetailSec44State extends State<DetailSec44> {
                                       title: RichText(
                                         textAlign: TextAlign.right,
                                         text: TextSpan(
-                                          text: replaceFarsiNumber((snapshot
-                                              .data
-                                              .arabic[key] +
-                                              '﴿' +
-                                              (int.parse(key) -
-                                                  snapshot
-                                                      .data
-                                                      .delay)
-                                                  .toString() +
-                                              '﴾')
-                                              .toString()),
+                                          text: replaceFarsiNumber(
+                                              (snapshot.data
+                                                  .arabic[key])
+                                                  .toString()),
                                           style: TextStyle(
                                             fontFamily: AppStyle
                                                 .textQuranfontFamily,
                                             fontSize: 1.2 *
                                                 globals
                                                     .fontArabicLevel,
-                                            height: 1.5,
-                                            color: Theme.of(context)
-                                                .accentColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  if (snapshot.data.farsi[key] !=
-                                      null &&
-                                      snapshot.data.farsi[key] != "")
-                                    ListTile(
-                                      dense: true,
-                                      title: RichText(
-                                        textAlign: TextAlign.justify,
-                                        text: TextSpan(
-                                          children:
-                                          highlightOccurrencesDetailSec(
-                                              snapshot.data
-                                                  .farsi[key],
-                                              widget.query,
-                                              globals.fontTarjLevel +
-                                                  4),
-                                          style: TextStyle(
-                                            fontFamily: 'عربی ساده',
-                                            fontSize:
-                                            globals.fontTarjLevel,
                                             height: 1.5,
                                             color: Theme.of(context)
                                                 .accentColor,
@@ -429,17 +367,17 @@ class _DetailSec44State extends State<DetailSec44> {
                 : Center(child: CircularProgressIndicator());
           },
         )
-            : DetailSec55(
+            : DetailSec44(
           detail: widget.detail,
           index: widget.index,
           indent: widget.indent,
           indexFasl: 5,
           code: widget.indexFasl * 1000 + widget.index,
-          player:widget.player
+          player: widget.player,
         ),
         // bottomNavigationBar: AdmobBanner(
         //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        //   adSize: AdmobBannerSize.BANNER,
+        //   adSize: AdmobBannerSize.LARGE_BANNER,
         //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
         //   //   if (event == AdmobAdEvent.clicked) {}
         //   // },

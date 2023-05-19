@@ -1,4 +1,3 @@
-// import 'package:admob_flutter/admob_flutter.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/models/MixedTextInfoAll.dart';
@@ -7,12 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/ui/widget/favorites.dart';
 import 'package:provider/provider.dart';
-import 'package:mafatih/ui/detailSec.dart';
+import 'package:mafatih/ui/listpage/detailSec.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:week_of_year/date_week_extensions.dart';
-import '../constants.dart';
+import '../../utils/constants.dart';
 import 'detailSec4.dart';
-import 'detailSec5.dart';
 
 class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   @override

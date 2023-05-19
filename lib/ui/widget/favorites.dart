@@ -1,16 +1,11 @@
-// import 'package:admob_flutter/admob_flutter.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../constants.dart';
-import '../detailSec.dart';
-import '../detailSec5.dart';
-import 'package:week_of_year/date_week_extensions.dart';
+import '../listpage/detailSec.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:provider/provider.dart';
-import '../detailSec4.dart';
+import '../listpage/detailSec4.dart';
 import 'package:mafatih/data/uistate.dart';
 
 class Favorites extends StatefulWidget {
