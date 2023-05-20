@@ -7,6 +7,14 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:provider/provider.dart';
 import '../listpage/detailSec4.dart';
 import 'package:mafatih/data/uistate.dart';
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mafatih/data/utils/style.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../listpage/home2.dart';
+import '../listpage/settings.dart';
 
 class Favorites extends StatefulWidget {
   List<String> titlebookmark = globals.titleBookMarked;
@@ -97,6 +105,7 @@ void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
   await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
 }
 
+
 class _FavoritesState extends State<Favorites> {
   @override
   void initState() {
@@ -118,6 +127,136 @@ class _FavoritesState extends State<Favorites> {
     ];
     globals.mapBookMarked = mapBookMarked;
 //    Favorites();
+  }
+
+
+
+  /// Navigation event handler
+  _onItemTapped(int indexTab, int _indexlocal) {
+    setState(() {
+      String _title = globals.mapBookMarked[_indexlocal]['titleBookMarked'];
+      int _index =
+          (globals.mapBookMarked[_indexlocal]['codeBookMarked'] - 1000000) ~/
+              1000;
+      int _indexKey = (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) %
+          1000) -
+          1) <
+          0
+          ? 0
+          : (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) % 1000) -
+          1);
+      int _indexFasl = 1;
+      int _code = globals.mapBookMarked[_indexlocal]['codeBookMarked'];
+      // globals.titleCurrentPage=
+      //     globals.indexCurrentPage
+      // globals.indexFaslCurrentPage
+
+      if (indexTab == 2) {
+        if (globals.codeBookMarked.contains(_code))
+          setState(() {
+            globals.titleBookMarked.remove(_title);
+            globals.indexBookMarked.remove(_index);
+            globals.indexFaslBookMarked.remove(_indexFasl);
+            globals.codeBookMarked.remove(_code);
+            print(
+                "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+            widget.titlebookmark = globals.titleBookMarked;
+            widget.indexbookmark = globals.indexBookMarked;
+            widget.indexFaslbookmark = globals.indexFaslBookMarked;
+            widget.codebookmark = globals.codeBookMarked;
+            List mapBookMarked = [
+              for (int i = 0; i < globals.codeBookMarked.length; i++)
+                {
+                  'index': i,
+                  'titleBookMarked': globals.titleBookMarked[i],
+                  'indexBookMarked': globals.indexBookMarked[i],
+                  'indexFaslBookMarked': globals.indexFaslBookMarked[i],
+                  'codeBookMarked': globals.codeBookMarked[i],
+                }
+            ];
+            globals.mapBookMarked = mapBookMarked;
+
+            setBookmark(
+                globals.titleBookMarked,
+                globals.indexBookMarked,
+                globals.indexFaslBookMarked,
+                globals.codeBookMarked);
+          });
+        // else
+        //   setState(() {
+        //     print(
+        //         "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.indexKey =  ${_indexKey}");
+        //
+        //     globals.titleBookMarked.add(_title);
+        //     globals.indexBookMarked.add(_index);
+        //     globals.indexKeyBookMarked.add(_indexKey);
+        //     globals.indexFaslBookMarked.add(_indexFasl);
+        //     globals.codeBookMarked.add(_code);
+        //     isBookmarked = true;
+        //     print(
+        //         "${globals.codeBookMarked} ----------------------------------------------- globals.codeBookMarked------------------------------------------------");
+        //     print(
+        //         "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+        //   });
+
+        // if (globals.indexBookMarked != null) {
+        //   setBookmark(
+        //       globals.titleBookMarked,
+        //       globals.indexBookMarked,
+        //       globals.indexKeyBookMarked,
+        //       globals.indexFaslBookMarked,
+        //       globals.codeBookMarked);
+        // }
+      } else if (indexTab == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      } else if (indexTab == 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Settings()));
+      }
+    });
+  }
+
+
+  Future<bool> _onDeletePressed(context, _index) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("آیا قصد پاک کردن منتخب را دارید؟"),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text("بله"),
+              onPressed: () {
+                String smsSaved = "با موفقیت به منتخب ها افزوده شد";
+                String smsRemoved = "با موفقیت از منتخب ها حذف شد";
+                Fluttertoast.showToast(
+                    msg:
+                    // (globals.codeBookMarked
+                    //             .contains(globals
+                    //                         .mapBookMarked[
+                    //                     index][
+                    //                 'codeBookMarked'])) ==
+                    //         true ??
+                    smsRemoved,
+                    // : smsSaved,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 18.0);
+                _onItemTapped(2, _index);
+                Navigator.pop(context, false);
+              },
+            ),
+            ElevatedButton(
+              child: Text(
+                "خیر",
+                textAlign: TextAlign.right,
+              ),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+          ],
+        ));
   }
 
   @override
@@ -193,15 +332,27 @@ class _FavoritesState extends State<Favorites> {
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
-                                    Positioned(
-                                      right: 0,
-                                      child: Icon(
-                                        Icons.height,
-                                        color: Colors.grey.withOpacity(0.5),
-                                      ),
-                                    ),
+                                    // Positioned(
+                                    //   right: 0,
+                                    //   child: Icon(
+                                    //     Icons.height,
+                                    //     color: Colors.grey.withOpacity(0.5),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
+                              ),
+                              leading: Icon(
+                                Icons.height,
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                              trailing: IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                ),
+                                onPressed: () {
+                                  _onDeletePressed(context,index);
+                                },
                               ),
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 0.0, horizontal: 16),
