@@ -433,7 +433,14 @@ class _DetailSecState extends State<DetailSec> {
 
     }
   }
-
+  String replaceFarsiNumber(String input) {
+    const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const farsi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    for (int i = 0; i < english.length; i++) {
+      input = input.replaceAll(english[i], farsi[i]);
+    }
+    return input;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -445,107 +452,193 @@ class _DetailSecState extends State<DetailSec> {
    return
 
         Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.bookmark,
-            color: iconBookmarkcolor,
-          ),
-          onPressed: () {
-            String smsSaved = "با موفقیت به منتخب ها افزوده شد";
-            String smsRemoved = "با موفقیت از منتخب ها حذف شد";
-            Fluttertoast.showToast(
-                msg: isBookmarked ? smsRemoved : smsSaved,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.green,
-                textColor: Colors.white,
-                fontSize: 18.0);
-            _onItemTapped(2);
-          },
-        ),
-        bottom:
-        globals.jsonCodesHavingAudio.contains((1000 *widget.indexFasl + widget.index).toString()) ?
+          appBar: PreferredSize(
+            preferredSize:  globals.jsonCodesHavingAudio
+                .contains((1000 * widget.indexFasl + widget.index).toString()) && (audioIsSaved == true ||
+                (progress != null && progress == 1)) || (progress != null && progress != 0 && progress < 1)? Size.fromHeight(100.0):Size.fromHeight(50.0) , // here the desired height
+            child: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.bookmark,
+                  color: iconBookmarkcolor,
+                ),
+                onPressed: () {
+                  String smsSaved = "با موفقیت به منتخب ها افزوده شد";
+                  String smsRemoved = "با موفقیت از منتخب ها حذف شد";
+                  Fluttertoast.showToast(
+                      msg: isBookmarked ? smsRemoved : smsSaved,
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 18.0);
+                  _onItemTapped(2);
+                },
+              ),
+              flexibleSpace: globals.jsonCodesHavingAudio
+                  .contains((1000 * widget.indexFasl + widget.index).toString())
+                  ?
 // globals.audioExist?
-        PreferredSize(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
 
-               if ((progress==null && audioIsSaved!=true)|| (progress==0 && audioIsSaved!=null) ) IconButton(
-          icon:  Image.asset("assets/play.png"),
-          iconSize: 50.0,
-          onPressed:
-          progress==null ? ((_downloadButtonPressed)) : null,
+                    // if (progress != null && progress != 0 && progress < 1)
+                    //   SizedBox(
+                    //     height: 20,
+                    //   ),
+                    // if (audioIsSaved == true ||
+                    //     (progress != null && progress == 1))
+                    //   ControlButtons(_player),
+                    // if (progress != null && progress != 0 && progress < 1)
+                    //   Text(
+                    //     status,
+                    //     style: TextStyle(
+                    //         fontWeight: FontWeight.bold,
+                    //         fontFamily: 'IRANSans',
+                    //         fontSize: 12,
+                    //         color: Colors.white),
+                    //     textAlign: TextAlign.right,
+                    //   ),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    // if (audioIsSaved == true ||
+                    //     (progress != null && progress == 1))
+                    //   ControlButtons(_player),
 
-        ),
-                if ((progress==null && audioIsSaved!=true)|| (progress==0 && audioIsSaved!=null) ) Text(
-                  "دانلود فایل صوتی",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'IRANSans',
-                      fontSize: 10,
-                      color: Colors.white
+                    if (progress != null && progress != 0 && progress < 1)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: CircularProgressIndicator(
+                            value: progress,
+                            color:
+                            Theme.of(context).brightness == Brightness.light
+                                ? Colors.white
+                                : Colors.green,
+                            backgroundColor:
+                            Theme.of(context).brightness == Brightness.light
+                                ? Colors.black
+                                : Colors.white,
+                          ),
+                        ),
+                      ),
+                    if (audioIsSaved == true ||
+                        (progress != null && progress == 1))
+                      Flexible(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            StreamBuilder<PositionData>(
+                              stream: _positionDataStream,
+                              builder: (context, snapshot) {
+                                final positionData = snapshot.data;
+                                return SeekBar(
+                                  duration: positionData?.duration ?? Duration.zero,
+                                  position: positionData?.position ?? Duration.zero,
+                                  bufferedPosition:
+                                  positionData?.bufferedPosition ??
+                                      Duration.zero,
+                                  onChangeEnd: (newPosition) {
+                                    _player.seek(newPosition);
+                                  },
+                                );
+                              },
+                            ),
+                            StreamBuilder<double>(
+                              stream: _player.speedStream,
+                              builder: (context, snapshot) => IconButton(
+                                icon: Text(replaceFarsiNumber("${snapshot.data?.toStringAsFixed(1)}x"),
+                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                                onPressed: () {
+                                  showSliderDialog(
+                                    context: context,
+                                    title: "تنظیم سرعت",
+                                    divisions: 20,
+                                    min: 0.1,
+                                    max: 1.9,
+                                    stream: _player.speedStream,
+                                    onChanged: _player.setSpeed,
+                                    value: _player.speed,
+                                  );
+                                },
+                              ),
+                            ),
+                            StreamBuilder<PlayerState>(
+                              stream: _player.playerStateStream,
+                              builder: (context, snapshot) {
+                                final playerState = snapshot.data;
+                                final processingState = playerState?.processingState;
+                                final playing = playerState?.playing;
+
+                                if (processingState == ProcessingState.loading ||
+                                    processingState == ProcessingState.buffering) {
+                                  return Container(
+                                    margin: const EdgeInsets.all(0.0),
+                                    width: 30.0,
+                                    height: 30.0,
+                                    child: const CircularProgressIndicator(),
+                                  );
+                                } else if (playing != true) {
+                                  return IconButton(
+                                    icon: const Icon(Icons.play_arrow),
+                                    iconSize: 30.0,
+                                    onPressed: _player.play,
+                                  );
+                                } else if (processingState != ProcessingState.completed) {
+                                  return IconButton(
+                                    icon: const Icon(Icons.pause),
+                                    iconSize: 30.0,
+                                    onPressed: _player.pause,
+                                  );
+                                } else {
+                                  return IconButton(
+                                    icon: const Icon(Icons.replay),
+                                    iconSize: 30.0,
+                                    onPressed: () => _player.seek(Duration.zero,
+                                        index: _player.effectiveIndices.first),
+                                  );
+                                }
+                              },
+                            ),
+
+                          ],
+                        ),
+                      ),
+                  ])
+                  : null,
+              title: Center(
+                  child: Text(
+                    widget.detail,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppStyle.titleupdetailsec,
+                    maxLines: 2,
+                  )),
+              elevation: 0.0,
+              actions: <Widget>[
+
+                if (globals.jsonCodesHavingAudio
+                    .contains((1000 * widget.indexFasl + widget.index).toString()) && (progress == null && audioIsSaved != true) ||
+                    (progress == 0 && audioIsSaved != null))
+                  IconButton(
+                      icon: Icon(Icons.audio_file),
+                      onPressed: progress == null
+                          ? ((_downloadButtonPressed))
+                          : null
                   ),
-                  textAlign: TextAlign.right,
-                ),
-                if (progress!=null && progress!=0 && progress<1) CircularProgressIndicator(
-                  value: progress,
-                  color: Theme.of(context).brightness == Brightness.light
-    ? Colors.white
-        : Colors.green,
-                  backgroundColor: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
-                ),
-                if (progress!=null && progress!=0 && progress<1) SizedBox(height: 20,),
-                if (progress!=null && progress!=0 && progress<1) Text(
-    status,
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontFamily: 'IRANSans',
-    fontSize: 12,
-      color: Colors.white
-    ),
-    textAlign: TextAlign.right,
-    ),
-                SizedBox(height: 10,),
-                if (audioIsSaved==true || (progress!=null && progress==1))ControlButtons(_player),
-                if (audioIsSaved==true || (progress!=null && progress==1))StreamBuilder<PositionData>(
-                  stream: _positionDataStream,
-                  builder: (context, snapshot) {
-                    final positionData = snapshot.data;
-                    return SeekBar(
-                      duration: positionData?.duration ?? Duration.zero,
-                      position: positionData?.position ?? Duration.zero,
-                      bufferedPosition:
-                      positionData?.bufferedPosition ?? Duration.zero,
-                      onChangeEnd: (newPosition) {
-                        _player.seek(newPosition);
-                      },
-                    );
-                  },
-                ),
-              ]),
-          preferredSize: Size(0.0, 80.0),
-        ):null,
-        title: Center(
-            child: Text(
-          widget.detail,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          style: AppStyle.titleupdetailsec,
-          maxLines: 2,
-        )),
-        elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Settings()))),
-        ],
-      ),
+                IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Settings()))),
+              ],
+            ),
+          ),
       body: FutureBuilder<DailyDoa>(
         future: ServiceData().loadSec(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
         builder: (c, snapshot) {
@@ -718,136 +811,5 @@ class _DetailSecState extends State<DetailSec> {
       //   // },
       // ),
     );
-  }
-}
-class ControlButtons extends StatelessWidget {
-  final AudioPlayer player;
-
-  ControlButtons(this.player, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          StreamBuilder<double>(
-            stream: player.speedStream,
-            builder: (context, snapshot) => IconButton(
-              icon: Text("${snapshot.data?.toStringAsFixed(1)}x",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              onPressed: () {
-                showSliderDialog(
-                  context: context,
-                  title: "تنظیم سرعت",
-                  divisions: 20,
-                  min: 0.1,
-                  max: 1.9,
-                  stream: player.speedStream,
-                  onChanged: player.setSpeed, value: player.speed,
-                );
-              },
-            ),
-          ),
-          StreamBuilder<PlayerState>(
-            stream: player.playerStateStream,
-            builder: (context, snapshot) {
-              final playerState = snapshot.data;
-              final processingState = playerState?.processingState;
-              final playing = playerState?.playing;
-
-               if (processingState == ProcessingState.loading ||
-                   processingState == ProcessingState.buffering) {
-              return Container(
-              margin: const EdgeInsets.all(0.0),
-              width: 30.0,
-              height: 30.0,
-              child: const CircularProgressIndicator(),
-              );
-              }
-              else if (playing != true  ) {
-                return IconButton(
-                  icon: const Icon(Icons.play_arrow),
-                  iconSize: 30.0,
-                  onPressed:
-                  player.play,
-                );
-              }
-
-              else if (processingState != ProcessingState.completed) {
-                return IconButton(
-                  icon: const Icon(Icons.pause),
-                  iconSize: 30.0,
-                  onPressed: player.pause,
-                );
-              } else {
-                return IconButton(
-                  icon: const Icon(Icons.replay),
-                  iconSize: 30.0,
-                  onPressed: () => player.seek(Duration.zero,
-                      index: player.effectiveIndices.first),
-                );
-              }
-            },
-          ),
-          // PopupMenuButton<String>(
-          //   icon: Icon(Icons.playlist_play_outlined),
-          //
-          //   onSelected: (value) {
-          //     // int intIndexofValue=soundList.indexOf(value);
-          //     tempsound = value;
-          //     print('///////////////////////////              /////////////////   $tempsound');
-          //     print('///////////////////////////              /////////////////value   $value');
-          //
-          //     ui.soundFormat = tempsound;
-          //     setSound(tempsound);
-          //     player?.stop();
-          //     _init(_jsonCode);
-          //   },
-          //   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          //     haveAudio[_jsonCode].length>0? PopupMenuItem<String>(
-          //       value: '0',
-          //       child: Text(haveAudio[_jsonCode][0]),
-          //       textStyle:TextStyle(
-          //         color: tempsound == '0'
-          //             ? Colors.red
-          //             : Theme.of(context).accentColor,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ):null,
-          //     haveAudio[_jsonCode].length>1?PopupMenuItem<String>(
-          //       value: '1',
-          //       child: Text(haveAudio[_jsonCode][1]),
-          //       textStyle:TextStyle(
-          //         color: tempsound == '1'
-          //             ? Colors.red
-          //             : Theme.of(context).accentColor,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ):null,
-          //     haveAudio[_jsonCode].length>2?PopupMenuItem<String>(
-          //       value: '2',
-          //       child: Text(haveAudio[_jsonCode][2]),
-          //       textStyle:TextStyle(
-          //         color: tempsound == '2'
-          //             ? Colors.red
-          //             : Theme.of(context).accentColor,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ):null,
-          //     haveAudio[_jsonCode].length>3?PopupMenuItem<String>(
-          //   value: '3',
-          //   child: Text(haveAudio[_jsonCode][3]),
-          //   textStyle:TextStyle(
-          //     color: tempsound == '3'
-          //         ? Colors.red
-          //         : Theme.of(context).accentColor,
-          //     fontWeight: FontWeight.bold,
-          //    ),
-          //  ):null,
-          //   ],
-          // ),
-        ],
-      );
   }
 }

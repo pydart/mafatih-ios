@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library//Globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../audio/common.dart';
 import 'constants.dart';
 
 
@@ -173,3 +175,5 @@ class SharedFunc {
             ));
   }
 }
+
+

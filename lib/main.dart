@@ -16,6 +16,10 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:adivery/adivery.dart';
+import 'package:adivery/adivery_ads.dart';
+import 'package:tapsell_plus/tapsell_plus.dart';
+
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -26,6 +30,10 @@ void main() {
   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // MobileAds.instance.initialize();
   Admob.initialize();
+  final appId = "bilpdqakqjndpildsbqprjprsdjrctprgdikdkapefddbmdpjlioktsosrtqgkqgjefngn";
+  TapsellPlus.instance.initialize(appId);
+  AdiveryPlugin.initialize("f53c7111-1b46-4b1f-8daa-a652bc5182a1");
+
 
   runApp(EasyLocalization(
     supportedLocales: [

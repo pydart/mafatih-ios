@@ -1,4 +1,5 @@
 // import 'package:admob_flutter/admob_flutter.dart';
+import 'package:adivery/adivery_ads.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -285,12 +286,21 @@ class _AyatKursiState extends State<AyatKursi> {
 //                       throw 'Could not launch $url';
 //                   }
 //                 }),
-            AdmobBanner(
-              adUnitId: 'ca-app-pub-5524959616213219/5382351205',
-              adSize: AdmobBannerSize.LARGE_BANNER,
-              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-              //   if (event == AdmobAdEvent.clicked) {}
-              // },
+
+            Center(
+              child: BannerAd(
+                "2028260f-a8b1-4890-8ef4-224c4de96e02",
+                BannerAdSize.LARGE_BANNER,
+              ),
+            ),
+            Center(
+              child: AdmobBanner(
+                adUnitId: 'ca-app-pub-5524959616213219/5382351205',
+                adSize: AdmobBannerSize.LARGE_BANNER,
+                // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                //   if (event == AdmobAdEvent.clicked) {}
+                // },
+              ),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 // import 'package:admob_flutter/admob_flutter.dart';
+import 'package:adivery/adivery_ads.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
@@ -200,13 +201,16 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: <Widget>[
-          AdmobBanner(
-            adUnitId: 'ca-app-pub-5524959616213219/3936589352',
-            adSize: AdmobBannerSize.FULL_BANNER,
-            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-            //   if (event == AdmobAdEvent.clicked) {}
-            // },
-          ),
+          // Center(
+          //   child: AdmobBanner(
+          //     adUnitId: 'ca-app-pub-5524959616213219/3936589352',
+          //     adSize: AdmobBannerSize.BANNER,
+          //     // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          //     //   if (event == AdmobAdEvent.clicked) {}
+          //     // },
+          //   ),
+          // ),
+          Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.BANNER,)),
           CardSetting(
             title: 'پوسته برنامه',
             leading: DropdownButton(
@@ -504,13 +508,16 @@ class _SettingsState extends State<Settings> {
           // SizedBox(
           //   height: 50,
           // )
-          AdmobBanner(
-            adUnitId: 'ca-app-pub-5524959616213219/3936589352',
-            adSize: AdmobBannerSize.FULL_BANNER,
-            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-            //   if (event == AdmobAdEvent.clicked) {}
-            // },
+          Center(
+            child: AdmobBanner(
+              adUnitId: 'ca-app-pub-5524959616213219/3936589352',
+              adSize: AdmobBannerSize.LARGE_BANNER,
+              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //   if (event == AdmobAdEvent.clicked) {}
+              // },
+            ),
           ),
+          Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,)),
         ],
       ),
     );

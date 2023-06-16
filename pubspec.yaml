@@ -1,6 +1,6 @@
 name: mafatih
 description: Mafatih
-version: 1.0.0+2030
+version: 2.0.0+0
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -42,6 +42,8 @@ dependencies:
   connectivity_plus: ^3.0.6
 #  google_mobile_ads: ^2.0.0
   screen: ^0.0.5
+  adivery: ^4.2.0
+  tapsell_plus: ^2.1.7
 
 
 dev_dependencies:
