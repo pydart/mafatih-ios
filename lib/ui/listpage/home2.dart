@@ -98,7 +98,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           .whenComplete(() {});
       if (response.statusCode == 200) {
         var Results = response.body;
-        newVersionBuildNumber = Results;
+        setState(() {
+          newVersionBuildNumber = Results;
+          double currentBuildNumberdouble = double.parse(newVersionBuildNumber);
+          globals.newVersionBuildNumber=currentBuildNumberdouble;
+        });
+
       } else {
         throw Exception('Failed to load');
       }
@@ -115,6 +120,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       currentBuildNumber = currentBuildNumber > 1000
           ? currentBuildNumber - 1000
           : currentBuildNumber;
+      globals.currentBuildNumber=currentBuildNumber;
     });
     try {
       if (double.parse(newVersionBuildNumber) > currentBuildNumber) {
@@ -548,7 +554,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   child: Text("بروزرسانی",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                        color: Colors.white,
                         fontFamily: 'IRANSans',
                         fontSize: 16,
                       )),
@@ -560,6 +566,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     "بعدا",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                       fontFamily: 'IRANSans',
                       fontSize: 12,
                     ),
@@ -590,8 +597,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           drawer: Container(
               child: Drawer(
                 child: Drawers(
-                    newVersionBuildNumber: newVersionBuildNumber,
-                    currentBuildNumber: currentBuildNumber),
+                    newVersionBuildNumber: globals.newVersionBuildNumber,
+                    currentBuildNumber: globals.currentBuildNumber),
               ),
               width: 200),
           body: NestedScrollView(

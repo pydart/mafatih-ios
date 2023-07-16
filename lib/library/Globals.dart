@@ -40,6 +40,8 @@ int indexlastViewedPage;
 int indexFasllastViewedPage;
 String indentlastViewedPage;
 bool edameFaraz;
+double newVersionBuildNumber;
+double currentBuildNumber;
 
 List<String> titleBookMarked;
 List<int> indexBookMarked;

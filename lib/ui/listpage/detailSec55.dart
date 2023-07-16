@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-import 'package:screen/screen.dart';
+// import 'package:screen/screen.dart';
 
 import 'detailSec44.dart';
 
@@ -211,7 +211,7 @@ class _DetailSec55State extends State<DetailSec55> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-    Screen.keepOn(true);
+    // Screen.keepOn(true);
     super.initState();
   }
 

@@ -16,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
-import 'package:screen/screen.dart';
+// import 'package:screen/screen.dart';
 import '../../utils/constants.dart';
 import 'detailSec44.dart';
 import 'detailSec55.dart';
@@ -235,7 +235,7 @@ class _DetailSec4State extends State<DetailSec4> {
       globals.indexFaslBookMarked = [];
     }
 
-    Screen.keepOn(true);
+    // Screen.keepOn(true);
     super.initState();
   }
 

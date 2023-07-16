@@ -1,6 +1,6 @@
 name: mafatih
 description: Mafatih
-version: 2.0.0+0
+version: 1.0.0+2031
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -41,10 +41,18 @@ dependencies:
   flutter_media_metadata: ^1.0.0+1
   connectivity_plus: ^3.0.6
 #  google_mobile_ads: ^2.0.0
-  screen: ^0.0.5
+#  screen: ^0.0.5
   adivery: ^4.2.0
-  tapsell_plus: ^2.1.7
-
+#  tapsell_plus: ^2.1.7
+  share_plus: ^4.5.3
+  pin_code_fields: ^7.4.0
+  video_player: ^2.4.8
+  image_picker: ^0.8.6
+  crop: ^0.5.2
+  audioplayers: ^0.20.1
+  better_audio_picker_plugin: ^0.0.6
+  permission_handler: ^10.2.0
+  flutter_staggered_grid_view: ^0.6.2
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +80,7 @@ flutter:
     - python/Babs/76/
     - assets/lang/
     - assets/sounds/
+    - assets/icons/
 
   fonts:
     - family: far_nazanin

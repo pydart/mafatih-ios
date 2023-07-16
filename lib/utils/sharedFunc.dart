@@ -43,6 +43,7 @@ class SharedFunc {
     Widget cancelButton = TextButton(
       child: Text("بستن",
           style: TextStyle(
+            color: Colors.green,
             fontWeight: FontWeight.bold,
             fontFamily: 'IRANSans',
             fontSize: 12,
@@ -85,6 +86,7 @@ class SharedFunc {
     Widget cancelButton = TextButton(
       child: Text("بعدا",
           style: TextStyle(
+            color: Colors.green,
             fontWeight: FontWeight.bold,
             fontFamily: 'IRANSans',
             fontSize: 12,
@@ -97,6 +99,7 @@ class SharedFunc {
     Widget continueButton = TextButton(
       child: Text("بروز رسانی",
           style: TextStyle(
+            color: Colors.green,
             fontWeight: FontWeight.bold,
             fontFamily: 'IRANSans',
             fontSize: 16,
@@ -174,6 +177,10 @@ class SharedFunc {
               ],
             ));
   }
+
+
+
+
 }
 
 

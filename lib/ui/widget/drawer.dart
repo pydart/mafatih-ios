@@ -12,7 +12,7 @@ import 'package:mafatih/library/Globals.dart' as globals;
 
 class Drawers extends StatelessWidget {
 
-  String newVersionBuildNumber;
+  double newVersionBuildNumber;
   double currentBuildNumber;
   Drawers({
     Key key,
@@ -97,10 +97,10 @@ class Drawers extends StatelessWidget {
                 onTap: () {
                   print("currentBuildNumber $currentBuildNumber");
                   try {
-                    if (newVersionBuildNumber!=null && double.parse(newVersionBuildNumber) >
+                    if (newVersionBuildNumber!=null && newVersionBuildNumber >
                         currentBuildNumber) {
                       sharedfunc.updater(context);
-                    } else if (newVersionBuildNumber==null || double.parse(newVersionBuildNumber) <=
+                    } else if (newVersionBuildNumber==null || newVersionBuildNumber <=
                         currentBuildNumber){
                       sharedfunc.no_update(context);
                     }

@@ -59,6 +59,30 @@ class _AyatKursiState extends State<AyatKursi> {
                 padding: const EdgeInsets.all(5.0),
                 child: TextButton.icon(
                   onPressed: () async {
+                    String tel =
+                        'tel://+989356007935';
+                    if (await canLaunch(tel))
+                      await launch(tel);
+                    else
+                      throw 'Could not launch $tel';
+                  },
+                  icon: Text(
+                    '989356007935+',
+                    textAlign: TextAlign.justify,
+                    style: AppStyle.contactus,
+                  ),
+                  label: Icon(
+                    Icons.call,
+                    size: 30,
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TextButton.icon(
+                  onPressed: () async {
                     String urlgmail =
                         'mailto:pydart.com@gmail.com?subject=This is Subject Title&body=This is Body of Email';
                     if (await canLaunch(urlgmail))

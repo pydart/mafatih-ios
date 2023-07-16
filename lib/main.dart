@@ -18,7 +18,6 @@ import 'package:easy_localization/easy_localization.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:adivery/adivery.dart';
 import 'package:adivery/adivery_ads.dart';
-import 'package:tapsell_plus/tapsell_plus.dart';
 
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -31,7 +30,6 @@ void main() {
   // MobileAds.instance.initialize();
   Admob.initialize();
   final appId = "bilpdqakqjndpildsbqprjprsdjrctprgdikdkapefddbmdpjlioktsosrtqgkqgjefngn";
-  TapsellPlus.instance.initialize(appId);
   AdiveryPlugin.initialize("f53c7111-1b46-4b1f-8daa-a652bc5182a1");
 
 

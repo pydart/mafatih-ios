@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:mafatih/data/models/DailyDoa4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
-import 'package:screen/screen.dart';
+// import 'package:screen/screen.dart';
 
 import 'detailSec55.dart';
 
@@ -238,7 +238,7 @@ class _DetailSec44State extends State<DetailSec44> {
     }
 
     /// Prevent screen from going into sleep mode:
-    Screen.keepOn(true);
+    // Screen.keepOn(true);
 
     super.initState();
   }
