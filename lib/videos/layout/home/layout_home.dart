@@ -9,6 +9,7 @@ import 'package:mafatih/videos/data/data.dart';
 import 'package:mafatih/videos/models/categories_model.dart';
 import 'package:mafatih/videos/models/theme_model.dart';
 
+import '../../Screens/Activity_ShowAllVideo_PerPageLoading.dart';
 import '../staggered.dart';
 
 
@@ -112,7 +113,7 @@ class layout_home_State extends State<layout_home>
                           onPressed: (){
 
                             selected_category_index=snapshot.data[index].id;
-                            Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo() )));
+                            Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(selected_category_index.toString()) )));
 
                           },
                           child: Text(snapshot.data[index].name,style: TextStyle( color: (SelectedItem==index)?Colors.white:Colors.black87 ,fontSize: 12),)
@@ -344,7 +345,7 @@ class layout_home_State extends State<layout_home>
               ),
               onPressed: (){
                 selected_category_index=catgegory.id;
-                Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo() )));
+                Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(catgegory.id.toString()) )));
               },
               child: Row(
                 children: [

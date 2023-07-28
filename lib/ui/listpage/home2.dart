@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:adivery/adivery.dart';
-import 'package:adivery/adivery_ads.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/ui/listpage/detailSec.dart';
@@ -235,22 +233,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   AdmobBannerSize bannerSize;
 
 
-  void initPlatformState() {
-    AdiveryPlugin.initialize("f53c7111-1b46-4b1f-8daa-a652bc5182a1");
-    AdiveryPlugin.setLoggingEnabled(true);
-    AdiveryPlugin.prepareInterstitialAd("de5db046-765d-478f-bb2e-30dc2eaf3f51");
-    AdiveryPlugin.prepareRewardedAd("3f97dc4d-3e09-4024-acaf-931862c03ba8");
-    // AdiveryPlugin.addListener(
-    //     onError: onError,
-    //     onInterstitialLoaded: onInterstitialLoaded,
-    //     onRewardedClosed: onRewardedClosed,
-    //     onRewardedLoaded: (placement) => {});
-  }
+  // void initPlatformState() {
+  //   // AdiveryPlugin.initialize("f53c7111-1b46-4b1f-8daa-a652bc5182a1");
+  //   // AdiveryPlugin.setLoggingEnabled(true);
+  //   // AdiveryPlugin.prepareInterstitialAd("de5db046-765d-478f-bb2e-30dc2eaf3f51");
+  //   // AdiveryPlugin.prepareRewardedAd("3f97dc4d-3e09-4024-acaf-931862c03ba8");
+  //   // AdiveryPlugin.addListener(
+  //   //     onError: onError,
+  //   //     onInterstitialLoaded: onInterstitialLoaded,
+  //   //     onRewardedClosed: onRewardedClosed,
+  //   //     onRewardedLoaded: (placement) => {});
+  // }
 
 
   @override
   void initState() {
-    initPlatformState();
+    // initPlatformState();
 
     try {
       versionCheck(context);
@@ -580,13 +578,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ],
             ));
   }
-  static void _onAdLoaded(Ad ad) {
-    print("/////////////////////////////////////////////////////////////////////////////////////////////////////////////banner loaded");
-  }
-
-  static void _onAdClicked(Ad ad) {
-    print("banner clicked");
-  }
+  // static void _onAdLoaded(Ad ad) {
+  //   print("/////////////////////////////////////////////////////////////////////////////////////////////////////////////banner loaded");
+  // }
+  //
+  // static void _onAdClicked(Ad ad) {
+  //   print("banner clicked");
+  // }
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
@@ -756,19 +754,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          // bottomNavigationBar: AdmobBanner(
-          //   adUnitId: 'ca-app-pub-5524959616213219/5790610979',
-          //   adSize: AdmobBannerSize.BANNER,
-          //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          //   //   if (event == AdmobAdEvent.clicked) {}
-          //   // },
-          // ),
-         bottomNavigationBar: BannerAd(
-          "2028260f-a8b1-4890-8ef4-224c4de96e02",
-          BannerAdSize.BANNER,
-          onAdLoaded: _onAdLoaded,
-          onAdClicked: _onAdClicked,
-        ),
+          bottomNavigationBar: AdmobBanner(
+            adUnitId: 'ca-app-pub-5524959616213219/5790610979',
+            adSize: AdmobBannerSize.BANNER,
+            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+            //   if (event == AdmobAdEvent.clicked) {}
+            // },
+          ),
+        //  bottomNavigationBar: BannerAd(
+        //   "2028260f-a8b1-4890-8ef4-224c4de96e02",
+        //   BannerAdSize.BANNER,
+        //   onAdLoaded: _onAdLoaded,
+        //   onAdClicked: _onAdClicked,
+        // ),
         ),
       ),
     );

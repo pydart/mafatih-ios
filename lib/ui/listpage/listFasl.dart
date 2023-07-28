@@ -1,4 +1,3 @@
-import 'package:adivery/adivery_ads.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/models/FaslInfo.dart';
@@ -165,36 +164,36 @@ class _ListFaslState extends State<ListFasl> {
                                         ),
 
                                   ])))),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(65, 0, 65, 0),
-              child: Card(
-                  elevation: 0.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      side:
-                      BorderSide(width: 0.5, color: Colors.green)),
-                  child: Container(
-                      padding: EdgeInsets.all(0.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            ListTile(
-                                title: Center(
-                                  child: Text(
-                                    "ویدیوها",
-                                    style: AppStyle.titleBab,
-                                  ),
-                                ),
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Activity_Splash(
-                                          )),
-                                )
-//          ), //_onItemTapped(0),
-                            )
-                          ])))),
+//           Padding(
+//               padding: const EdgeInsets.fromLTRB(65, 0, 65, 0),
+//               child: Card(
+//                   elevation: 0.0,
+//                   shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(50),
+//                       side:
+//                       BorderSide(width: 0.5, color: Colors.green)),
+//                   child: Container(
+//                       padding: EdgeInsets.all(0.0),
+//                       child: Column(
+//                           crossAxisAlignment: CrossAxisAlignment.center,
+//                           children: <Widget>[
+//                             ListTile(
+//                                 title: Center(
+//                                   child: Text(
+//                                     "ویدیوها",
+//                                     style: AppStyle.titleBab,
+//                                   ),
+//                                 ),
+//                                 onTap: () => Navigator.push(
+//                                   context,
+//                                   MaterialPageRoute(
+//                                       builder: (context) =>
+//                                           Activity_Splash(
+//                                           )),
+//                                 )
+// //          ), //_onItemTapped(0),
+//                             )
+//                           ])))),
                   Container(
                     height: 60,
                     width: 250,

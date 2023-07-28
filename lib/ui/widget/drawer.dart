@@ -1,4 +1,3 @@
-import 'package:adivery/adivery_ads.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -136,7 +135,7 @@ class Drawers extends StatelessWidget {
                 errorWidget: (context, url, error) => SizedBox.shrink(),
               ),
             ),
-        Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,)),
+        // Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,)),
             Center(
               child: AdmobBanner(
                 adUnitId: 'ca-app-pub-5524959616213219/7557264464',

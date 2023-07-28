@@ -1,5 +1,4 @@
 // import 'package:admob_flutter/admob_flutter.dart';
-import 'package:adivery/adivery_ads.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
@@ -210,7 +209,7 @@ class _SettingsState extends State<Settings> {
           //     // },
           //   ),
           // ),
-          Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.BANNER,)),
+          // Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.BANNER,)),
           CardSetting(
             title: 'پوسته برنامه',
             leading: DropdownButton(
@@ -517,7 +516,7 @@ class _SettingsState extends State<Settings> {
               // },
             ),
           ),
-          Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,)),
+          // Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,)),
         ],
       ),
     );

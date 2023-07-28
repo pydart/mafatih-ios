@@ -276,6 +276,24 @@ class api
   }
   //Get all categories end
 
+  // //Get all categories start
+  // String GetAllVideosPerPage(page)
+  // {
+  //   // var response = await server().Post("app/cat-templates",{ "category_id" : selected_category_index.toString() },true);
+  //   var response =  server().Get("video/all?page=$page",true);
+  //   print("//////////////////////////////////               //////////////  $response");
+  //
+  //   List all_vid_each_page=jsonDecode(response)["data"];
+  //   print("//////////////////////////////////               //////////////  $all_vid_each_page");
+  //
+  //   // List<theme_model> result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
+  //   // print("//////////////////////////////////               //////////////  $result");
+  //
+  //   return all_vid_each_page;
+  // }
+  // //Get all categories end
+
+
 
   //Get all categories start
   Future<List<theme_model>> GetAllThemeOfCategoriesById(String cat_id) async
@@ -286,6 +304,28 @@ class api
     // print("//////////////////////////////////               //////////////  $all_cat");
 
     List<theme_model> result=List<theme_model>.from(all_cat.map((x) => theme_model.fromjson(x)));
+    return result;
+  }
+  //Get all categories end
+
+  //Get all videos by page start
+  Future<List<theme_model>> GetAllVideosPerPage(String cat_id, String page) async
+  {
+    print("//////////////////////////////////               GetAllVideosPerPage////////////// start");
+
+    var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : page},true);
+    // List all_vid_each_page=jsonDecode(response)["data"]["videos"]["data"];
+    print("//////////////////////////////////               GetAllVideosPerPage////////////// ${(jsonDecode(response)["data"]["videos"]["total"] / 15).ceil()}");
+    List all_vid_each_page=[];
+    for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
+      var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : i.toString()},true);
+      List all_vid_each_page_1=jsonDecode(response)["data"]["videos"]["data"];
+      all_vid_each_page.addAll(all_vid_each_page_1);
+    }
+
+
+
+    List<theme_model> result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
     return result;
   }
   //Get all categories end
@@ -301,6 +341,8 @@ class api
     return result;
   }
   //Get All Themes end
+
+
 
 
   //Get all list start

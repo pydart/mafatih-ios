@@ -1,4 +1,3 @@
-import 'package:adivery/adivery_ads.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mafatih/data/models/MixedTextInfoAll.dart';
@@ -150,7 +149,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
               //   if (event == AdmobAdEvent.clicked) {}
               // },
             ),
-            BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
+            // BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
           ],
         )),
       );
@@ -194,7 +193,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                       //   if (event == AdmobAdEvent.clicked) {}
                       // },
                     ),
-                    BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
+                    // BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
 
                     InkWell(
                       onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch1"]);
@@ -442,7 +441,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                         //   if (event == AdmobAdEvent.clicked) {}
                                         // },
                                       ),
-                                      BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
+                                      // BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
 
                                     ],
                                   ),
@@ -601,7 +600,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                   //   if (event == AdmobAdEvent.clicked) {}
                   // },
                 ),
-                BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
+                // BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
 
               ],
             )),
