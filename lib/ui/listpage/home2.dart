@@ -98,6 +98,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         var Results = response.body;
         setState(() {
           newVersionBuildNumber = Results;
+          print(
+              "/////////////////////////////////////******************************************************** newVersionBuildNumber   $newVersionBuildNumber");
           double currentBuildNumberdouble = double.parse(newVersionBuildNumber);
           globals.newVersionBuildNumber=currentBuildNumberdouble;
         });
@@ -113,17 +115,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   versionCheck(context) async {
     final PackageInfo info = await PackageInfo.fromPlatform();
     currentBuildNumber = double.parse(info.buildNumber);
+
     await _getBuildNumber();
     setState(() {
-      currentBuildNumber = currentBuildNumber > 1000
-          ? currentBuildNumber - 1000
-          : currentBuildNumber;
+      // currentBuildNumber = currentBuildNumber > 1000
+      //     ? currentBuildNumber - 1000
+      //     : currentBuildNumber;
       globals.currentBuildNumber=currentBuildNumber;
     });
     try {
+      print(
+          "/////////////////////////////////////******************************************************** newVersionBuildNumber   ${double.parse(newVersionBuildNumber)}");
+      print(
+          "/////////////////////////////////////******************************************************** currentBuildNumber   $currentBuildNumber");
       if (double.parse(newVersionBuildNumber) > currentBuildNumber) {
+        print(
+            "/////////////////////////////////////******************************************************** double.parse(newVersionBuildNumber) > currentBuildNumber)");
         if (!prefs.containsKey(globals.LaterDialog)) {
           await _upgrader();
+
         }
       }
     } catch (e) {

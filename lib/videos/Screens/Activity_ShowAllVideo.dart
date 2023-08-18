@@ -47,7 +47,7 @@ class Activity_ShowAllVideo extends StatelessWidget {
                 // )
                 // ,
                 FutureBuilder<List<theme_model>>(
-                    future: api().GetAllVideosPerPage("1", "1"),
+                    future: api().GetAllVideosPerPage(cat_id, "1"),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data.length == 0) {

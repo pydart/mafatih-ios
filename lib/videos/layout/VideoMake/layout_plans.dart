@@ -358,7 +358,7 @@ class layout_plans_state extends State<layout_plans>
 
     List<String> sizes=size.toUpperCase().split("X");
 
-    PickedFile pickedFile = await ImagePicker().getImage(
+    XFile pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,

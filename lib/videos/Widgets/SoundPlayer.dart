@@ -37,7 +37,7 @@ class SoundPlayerState extends State<SoundPlayer>
 
     player.getDuration().then((value) {
       setState(() {
-        maxduration=value;
+        // maxduration=value;
       });
     });
 
@@ -47,7 +47,7 @@ class SoundPlayerState extends State<SoundPlayer>
       });
     });
 
-    player.onAudioPositionChanged.listen((newPosition) {
+    player.onPositionChanged.listen((newPosition) {
       setState(() {
         currentpos=newPosition;
       });

@@ -42,9 +42,9 @@ class Activity_Main_State extends State<Activity_Main> {
   @override
   Widget build(BuildContext context) {
     MenuItem.add(layout_home());
-    MenuItem.add(layout_setting());
+    // MenuItem.add(layout_setting());
     //MenuItem.add(layout_theme());
-    MenuItem.add(layout_profile());
+    // MenuItem.add(layout_profile());
 
     return WillPopScope(
         onWillPop: onWillPop,
