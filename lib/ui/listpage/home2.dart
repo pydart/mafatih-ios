@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:mafatih/ui/listpage/detailSec.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
@@ -276,7 +278,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     getScreenBrightness();
     getBrightnessLevel();
     checkUrlExist();
+    checkCatList();
     checkAdUrlExist();
+    KeepScreenOn.turnOn();
+
   }
 
   setAdUrl(String json) async {
@@ -317,6 +322,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     // print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
   }
 
+  setCatExist(List<String> jsonCode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    globals.jsonCodesHavingCat= jsonCode;
+    await prefs.setStringList(
+        'JsonCodesHavingCat', globals.jsonCodesHavingCat);
+    print("*********************************************setAudioExist***************************** globals.jsonCodesHavingCat ${globals.jsonCodesHavingCat} ");
+  }
+
   checkUrlExist() async {
     // print("************************************************************************** checkUrlExist ");
     try {
@@ -327,6 +340,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         var Results = response.body;
         // print("************************************************************************** response.statusCode == 200  $Results");
         setAudioExist(json.decode(Results).cast<String>().toList());
+      } else {
+        // print("************************************************************************** Failed to load ");
+        throw Exception('Failed to load');
+      }
+    } catch (e) {
+      print("Exception Caught: $e");
+    }
+  }
+
+
+  checkCatList() async {
+    // print("************************************************************************** checkUrlExist ");
+    try {
+      http.Response response = await http
+          .get(Uri.parse(Constants.catListUrl + '/catBlockList.php'))
+          .whenComplete(() {});
+      if (response.statusCode == 200) {
+        var Results = response.body;
+        // print("************************************************************************** response.statusCode == 200  $Results");
+        setCatExist(json.decode(Results).cast<String>().toList());
       } else {
         // print("************************************************************************** Failed to load ");
         throw Exception('Failed to load');
@@ -458,6 +491,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       });
     }
 
+    if (prefs.containsKey(globals.JsonCodesHavingCat)) {
+      var _jsonCodesHavingCat =
+      prefs.getStringList(globals.JsonCodesHavingCat);
+      setState(() {
+        globals.jsonCodesHavingCat = _jsonCodesHavingCat;
+      });
+    }
+
     if (prefs.containsKey(globals.JsonGifAdUrl)) {
       var _jsonGifAdUrl = prefs.getString(globals.JsonGifAdUrl);
       setState(() {
@@ -536,7 +577,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       return Future.value(false);
     } else {
       Fluttertoast.cancel();
-      return Future.value(true);
+      SystemNavigator.pop();
+      return Future.value(false);
     }
   }
 

@@ -2,6 +2,7 @@ class Constants {
   // static final newVersionUrl = 'https://videoir.com/apps_versions/mafatih.php';
   static final newVersionUrl = 'https://videoir.com/mafatih.php';
   static final audiosListUrl = 'https://videoir.com/apps_versions/audios';
+  static final catListUrl = 'https://videoir.com/apps_versions/videos';
   static final mafatihads = 'https://videoir.com/apps_versions/mafatihads';
 
   // flutter build appbundle --obfuscate --split-debug-info=/mafatih

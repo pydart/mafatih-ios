@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:mafatih/videos/layout/Global/navbar.dart';
 import 'package:mafatih/videos/layout/home/layout_home.dart';
 import 'package:mafatih/videos/layout/home/layout_profile.dart';
@@ -29,6 +30,8 @@ class Activity_Main_State extends State<Activity_Main> {
 
   @override
   void initState() {
+    KeepScreenOn.turnOn();
+
     super.initState();
     _scaffoldKey = GlobalKey<ScaffoldState>();
   }
@@ -56,22 +59,36 @@ class Activity_Main_State extends State<Activity_Main> {
                         newVersionBuildNumber: globals.newVersionBuildNumber, currentBuildNumber: globals.currentBuildNumber),
                   ),
                   width: 200),
+
               key: _scaffoldKey,
               // bottomNavigationBar: BottomMenu(context),
               // endDrawer: Container(
               //   width: 250,
               //   child: navbar(),
               // ),
+
               body: NestedScrollView(
                 headerSliverBuilder:
                     (BuildContext context, bool innerBoxIsScrolled) {
                   return [
                     SliverAppBar(
                       pinned: true,
+
+                      leading:                       IconButton(
+                        icon: Icon(
+                          Icons.keyboard_backspace,
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
                       title: Text(
-                        "اربعین TV",
+                        "ویدیوها",
                         style: AppStyle.titleup,
                       ),
+
+                      // title: Text(
+                      //   "ویدیوها",
+                      //   style: AppStyle.titleup,
+                      // ),
 
 
                       // Row(

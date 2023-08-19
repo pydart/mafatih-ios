@@ -17,7 +17,7 @@ class Activity_Splash extends StatelessWidget
   void StarTimer(BuildContext context)
   {
 
-    Timer.periodic(Duration( seconds: 3 ), (timer){
+    Timer.periodic(Duration( seconds: 5 ), (timer){
 
       Data_Sever.Get_Data("token").then((value) {
         value="15|513csRNHOFJidVSYrItGuQHnDiC9NWE4WdJsnpKe";
@@ -33,7 +33,7 @@ class Activity_Splash extends StatelessWidget
 
           token=value;
           api().GetUserData(token).then((value) {
-            // print("///////////////////////////**************************************  token:   ${token}") ;
+            print("///////////////////////////*************************value *************  value:   ${value}") ;
             if(value)
             {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> Activity_Main()), (route) => false);
@@ -62,6 +62,7 @@ class Activity_Splash extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> Activity_Main()), (route) => false);
 
     StarTimer(context);
 

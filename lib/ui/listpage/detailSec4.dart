@@ -4,6 +4,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:mafatih/audio/common.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
@@ -189,6 +190,8 @@ class _DetailSec4State extends State<DetailSec4> {
 
   @override
   void initState() {
+    KeepScreenOn.turnOn();
+
     print(
         "********************************************** widget.code  4 **************************** ${widget.code} ");
     final url =

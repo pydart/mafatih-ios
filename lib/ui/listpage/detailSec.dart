@@ -5,6 +5,7 @@ import 'package:audio_session/audio_session.dart';
 // import 'package:screen/screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:mafatih/audio/common.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
@@ -20,6 +21,7 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:just_audio/just_audio.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
+import 'package:mafatih/library/Globals.dart' as globals;
 
 class DetailSec extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
@@ -174,6 +176,7 @@ class _DetailSecState extends State<DetailSec> {
 
   @override
   void initState() {
+    KeepScreenOn.turnOn();
 
     print("********************************************** widget.code  detail sec**************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";

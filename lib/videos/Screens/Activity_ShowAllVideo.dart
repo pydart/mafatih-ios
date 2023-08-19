@@ -8,8 +8,9 @@ import 'Activity_Review.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 
 class Activity_ShowAllVideo extends StatelessWidget {
-  Activity_ShowAllVideo(this.cat_id);
+  Activity_ShowAllVideo(this.cat_id, this.cat_name);
   final String cat_id;
+  final String cat_name;
 
 
   GlobalKey<ScaffoldState> _scaffoldKey;
@@ -19,13 +20,13 @@ class Activity_ShowAllVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            drawer: Container(
-                child: Drawer(
-                  child: Drawers(
-                      newVersionBuildNumber: globals.newVersionBuildNumber,
-                      currentBuildNumber: globals.currentBuildNumber),
-                ),
-                width: 200),
+            // drawer: Container(
+            //     child: Drawer(
+            //       child: Drawers(
+            //           newVersionBuildNumber: globals.newVersionBuildNumber,
+            //           currentBuildNumber: globals.currentBuildNumber),
+            //     ),
+            //     width: 200),
             key: _scaffoldKey,
             body: NestedScrollView(
               headerSliverBuilder:
@@ -33,8 +34,18 @@ class Activity_ShowAllVideo extends StatelessWidget {
                 return [
                   SliverAppBar(
                     pinned: true,
+                    // title: Text(
+                    //   cat_name,
+                    //   style: AppStyle.titleup,
+                    // ),
+                    leading:                       IconButton(
+                      icon: Icon(
+                        Icons.keyboard_backspace,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
                     title: Text(
-                      "نمایش همه",
+                      cat_name,
                       style: AppStyle.titleup,
                     ),
                   )

@@ -17,7 +17,7 @@ class categories_model
 
   factory categories_model.fromjson(Map<String,dynamic> json)
   {
-    debugPrint("Get Cats "+json.toString());
+    // debugPrint("Get Cats "+json.toString());
     return categories_model(
         id: json["id"],
         name: json["name"],

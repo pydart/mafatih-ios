@@ -49,6 +49,8 @@ List<int> indexFaslBookMarked;
 List<int> codeBookMarked;
 List<dynamic> mapBookMarked;
 List<String> jsonCodesHavingAudio=[];
+List<String> jsonCodesHavingCat=[];
+
 String jsonGifAdUrl="";
 Map jsonGifAdUrlMap ={
 "urlgifdrawer1":"",
@@ -108,6 +110,8 @@ const TarjKhati = 'TarjKhati';
 const Sound = 'Sound';
 const AudioExist = 'AudioExist';
 const JsonCodesHavingAudio = 'JsonCodesHavingAudio';
+const CatExist = 'CatExist';
+const JsonCodesHavingCat = 'JsonCodesHavingCat';
 const JsonGifAdUrl = 'JsonGifAdUrl';
 // const EdameFaraz = 'EdameFaraz';
 

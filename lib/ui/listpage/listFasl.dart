@@ -14,6 +14,7 @@ import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../../utils/constants.dart';
+import '../../videos/Screens/Activity_Main.dart';
 import '../../videos/Screens/Activity_Splash.dart';
 
 class ListFasl extends StatefulWidget {
@@ -188,8 +189,7 @@ class _ListFaslState extends State<ListFasl> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          Activity_Splash(
-                                          )),
+                                          Activity_Main()),
                                 )
 //          ), //_onItemTapped(0),
                             )

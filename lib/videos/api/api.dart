@@ -11,6 +11,7 @@ import 'package:mafatih/videos/models/project_model.dart';
 import 'package:mafatih/videos/models/theme_model.dart';
 import 'package:mafatih/videos/models/user_model.dart';
 import 'package:mafatih/videos/models/video_project_model.dart';
+import 'package:mafatih/library/Globals.dart' as globals;
 
 
 class api
@@ -250,9 +251,28 @@ class api
   {
 
     var response = await server().Get("app/categories",true);
-
     List all_cat=jsonDecode(response)["data"]["categories"];
-    all_categories=List<categories_model>.from(all_cat.map((x) => categories_model.fromjson(x)));
+    // globals.jsonCodesHavingAudio.contains(widget.code)
+    List filteredCat=[];
+
+    // print("//////////////////////////////////          filteredCat.addAll(all_cat[i])     //////////////  ${filteredCat.insert(0,all_cat[0])}");
+    // print("//////////////////////////////////          all_cat.length     //////////////  ${all_cat.length}");
+    int num=0;
+    for (var i = 0; i < (all_cat.length); i++){
+      if (globals.jsonCodesHavingCat.contains(all_cat[i]['name'])) {
+        print("//////////////////////////////////          globals.jsonCodesHavingCat.contains(all_cat[i]['name'])     //////////////  ${all_cat.length}");
+        num+=1;
+      } else {
+        filteredCat.insert(i-num, all_cat[i]);
+        // print("//////////////////////////////////          filteredCat    //////////////  ${filteredCat}");
+
+      }
+    }
+
+    print("//////////////////////////////////          filteredCat     //////////////  $filteredCat");
+
+    all_categories=List<categories_model>.from(filteredCat.map((x) => categories_model.fromjson(x)));
+
     return all_categories;
   }
   //Get all categories end
@@ -315,7 +335,7 @@ class api
     var response = await server().Get("app/category/$cat_id",true);
     // var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : page},true);
     // List all_vid_each_page=jsonDecode(response)["data"]["videos"]["data"];
-    // print("//////////////////////////////////               GetAllVideosPerPage////////////// ${(jsonDecode(response)["data"]["videos"])}");
+    print("//////////////////////////////////               GetAllVideosPerPage////////////// ${(jsonDecode(response)["data"]["per_page"])}");
     List all_vid_each_page=jsonDecode(response)["data"]["videos"];
     // List all_vid_each_page=[];
     // for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){

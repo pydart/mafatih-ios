@@ -1,5 +1,7 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:mafatih/videos/Screens/Activity_Create_Video.dart';
@@ -48,6 +50,8 @@ class Activity_Review_State extends State<Activity_Review>
   @override
   void initState() 
   {
+    KeepScreenOn.turnOn();
+
     super.initState();
     _scaffoldKey = GlobalKey<ScaffoldState>();
   }
@@ -77,10 +81,20 @@ class Activity_Review_State extends State<Activity_Review>
   return [
   SliverAppBar(
   pinned: true,
-  title: Text(
-  "نمایش ویدیو",
-  style: AppStyle.titleup,
-  ),
+  // title: Text(
+  //   theme_data.title,
+  // style: AppStyle.titleup,
+  // ),
+    leading:                       IconButton(
+      icon: Icon(
+        Icons.keyboard_backspace,
+      ),
+      onPressed: () => Navigator.pop(context),
+    ),
+    title: Text(
+        theme_data.title,
+      style: AppStyle.titleup,
+    ),
   )
   ];
   },
@@ -306,7 +320,15 @@ class Activity_Review_State extends State<Activity_Review>
           //   ),
           // ),
           // )
-
+          Center(
+            child: AdmobBanner(
+              adUnitId: 'ca-app-pub-5524959616213219/5790610979',
+              adSize: AdmobBannerSize.LARGE_BANNER,
+              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //   if (event == AdmobAdEvent.clicked) {}
+              // },
+            ),
+          ),
         ],
       ),
     );

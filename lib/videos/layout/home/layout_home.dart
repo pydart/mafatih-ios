@@ -92,7 +92,7 @@ class layout_home_State extends State<layout_home>
 
             if(snapshot.hasData)
             {
-              snapshot.data.insert(0, categories_model(id: 0, name: "همه", slug: "", status: ""));
+              // snapshot.data.insert(0, categories_model(id: 0, name: "همه", slug: "", status: ""));
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: snapshot.data.length,
@@ -104,7 +104,9 @@ class layout_home_State extends State<layout_home>
                       borderRadius: BorderRadius.circular(10),
                       child: TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor: (SelectedItem==index)?Colors.green:Color.fromARGB(255, 247, 247, 247),
+                              // backgroundColor: (SelectedItem==index)?Colors.green:Color.fromARGB(255, 247, 247, 247),
+                              backgroundColor: Color.fromARGB(255, 247, 247, 247),
+
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   side: BorderSide(color: Colors.green,width: 1,style: BorderStyle.solid)
@@ -113,10 +115,11 @@ class layout_home_State extends State<layout_home>
                           onPressed: (){
 
                             selected_category_index=snapshot.data[index].id;
-                            Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(selected_category_index.toString()) )));
+                            Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(selected_category_index.toString(),snapshot.data[index].name.toString()) )));
 
                           },
-                          child: Text(snapshot.data[index].name,style: TextStyle( color: (SelectedItem==index)?Colors.white:Colors.black87 ,fontSize: 12),)
+                          // child: Text(snapshot.data[index].name,style: TextStyle( color: (SelectedItem==index)?Colors.white:Colors.black87 ,fontSize: 12,fontFamily: 'IRANSans'),)
+                        child: Text(snapshot.data[index].name,style: TextStyle( color: Colors.black87 ,fontSize: 12,fontFamily: 'IRANSans'),)
                       ),
                     ),
                   );
@@ -173,7 +176,7 @@ class layout_home_State extends State<layout_home>
                     ),
                   )
                   ,
-                  Text("قالب دیجیتال مارکتینگ",style: TextStyle( color: Colors.black87 ,fontSize: 10,fontWeight: FontWeight.bold),)
+                  Text("قالب دیجیتال مارکتینگ",style: TextStyle( color: Colors.black87 ,fontSize: 10,fontWeight: FontWeight.bold,fontFamily: 'IRANSans'),)
 
                 ],
               ),
@@ -334,7 +337,7 @@ class layout_home_State extends State<layout_home>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
-            Text(catgegory.name,style: TextStyle( fontSize: 13 , fontWeight: FontWeight.bold))
+            Text(catgegory.name,style: TextStyle( fontSize: 13 , fontWeight: FontWeight.bold,fontFamily: 'IRANSans'))
             ,
             TextButton(
               style: TextButton.styleFrom(
@@ -345,11 +348,11 @@ class layout_home_State extends State<layout_home>
               ),
               onPressed: (){
                 selected_category_index=catgegory.id;
-                Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(catgegory.id.toString()) )));
+                Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(catgegory.id.toString(), catgegory.name.toString()) )));
               },
               child: Row(
                 children: [
-                  Text("نمایش همه",style: TextStyle( fontSize: 13 ))
+                  Text("نمایش همه",style: TextStyle( fontSize: 13 ,fontFamily: 'IRANSans'))
                   ,
                   Icon(Icons.keyboard_arrow_left,size: 13,)
                 ],

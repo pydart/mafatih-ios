@@ -10,6 +10,7 @@ import 'package:mafatih/ui/listpage/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/ui/widget/favorites.dart';
 import 'package:mafatih/ui/listpage/listSec.dart';
+import 'package:mafatih/videos/Screens/Activity_Main.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
@@ -99,6 +100,8 @@ class _MyAppState extends State<MyApp> {
         '/settings': (context) => Settings(),
         '/Favorites': (context) => Favorites(),
         '/ListSec': (context) => ListSec(),
+        '/Vidoes': (context) => Activity_Main(),
+
 //          '/about': (context) => HomeAbout(),
       },
       home: Home(),

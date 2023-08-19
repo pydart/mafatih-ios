@@ -7,6 +7,7 @@ class server
 
   //global variables
   String ROOT="http://www.arbaeentv.com/api/v1/";
+  String token="15|513csRNHOFJidVSYrItGuQHnDiC9NWE4WdJsnpKe";
 
 
   //Get ftech sata from server start
