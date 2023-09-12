@@ -261,7 +261,7 @@ class _SettingsState extends State<Settings> {
           CardSetting(
             title: 'ترجمه',
             leading: Switch(
-              activeColor: Color(0xf6c40c0c),
+              activeColor: Colors.green,
               value: tempTarjActive,
               onChanged: (newValue) {
                 setState(() {
@@ -283,7 +283,7 @@ class _SettingsState extends State<Settings> {
               ? CardSetting(
             title: ' ترجمه خطی(تعدادی محدود)',
             leading: Switch(
-              activeColor: Color(0xf6c40c0c),
+              activeColor: Colors.green,
               value: tempTarjKhati,
               onChanged: (newValue) {
                 setState(() {

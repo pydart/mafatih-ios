@@ -328,26 +328,45 @@ class api
   }
   //Get all categories end
 
+  // //Get all videos by page start
+  // Future<List<theme_model>> GetAllVideosPerPage(String cat_id, String page) async
+  // {
+  //   print("//////////////////////////////////               GetAllVideosPerPage////////////// start");
+  //   var response = await server().Get("app/category/$cat_id",true);
+  //   // var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : page},true);
+  //   // List all_vid_each_page=jsonDecode(response)["data"]["videos"]["data"];
+  //   print("//////////////////////////////////               GetAllVideosPerPage////////////// ${(jsonDecode(response)["data"]["per_page"])}");
+  //   List all_vid_each_page=jsonDecode(response)["data"]["videos"];
+  //   // List all_vid_each_page=[];
+  //   // for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
+  //   //   var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : i.toString()},true);
+  //   //   List all_vid_each_page_1=jsonDecode(response)["data"]["videos"]["data"];
+  //   //   all_vid_each_page.addAll(all_vid_each_page_1);
+  //   // }
+  //
+  //   List<theme_model> result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
+  //   return result;
+  // }
+  //Get all categories end
+
   //Get all videos by page start
   Future<List<theme_model>> GetAllVideosPerPage(String cat_id, String page) async
   {
-    print("//////////////////////////////////               GetAllVideosPerPage////////////// start");
-    var response = await server().Get("app/category/$cat_id",true);
-    // var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : page},true);
-    // List all_vid_each_page=jsonDecode(response)["data"]["videos"]["data"];
-    print("//////////////////////////////////               GetAllVideosPerPage////////////// ${(jsonDecode(response)["data"]["per_page"])}");
-    List all_vid_each_page=jsonDecode(response)["data"]["videos"];
-    // List all_vid_each_page=[];
-    // for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
-    //   var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : i.toString()},true);
-    //   List all_vid_each_page_1=jsonDecode(response)["data"]["videos"]["data"];
-    //   all_vid_each_page.addAll(all_vid_each_page_1);
-    // }
+
+    List all_vid_each_page=[];
+    String UrlApi;
+    UrlApi="app/category/$cat_id";
+
+    var response = await server().Get("$UrlApi",true);
+    for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
+      var response = await server().Get("${UrlApi}?page=${i.toString()}",true);
+      List all_vid_each_page_1=jsonDecode(response)["data"]["videos"]["data"];
+      all_vid_each_page.addAll(all_vid_each_page_1);
+    }
 
     List<theme_model> result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
     return result;
   }
-  //Get all categories end
 
 
 

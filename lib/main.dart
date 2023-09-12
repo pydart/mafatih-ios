@@ -18,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
