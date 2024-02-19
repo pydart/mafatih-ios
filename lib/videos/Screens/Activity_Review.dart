@@ -185,7 +185,7 @@ class Activity_Review_State extends State<Activity_Review>
       child: AspectRatio(
         aspectRatio: 16/16,
         child: VideoApp(
-          videoaddress: "http://arbaeentv.com/"+theme_data.video_address,
+          videoaddress: "https://arbaeentv.com/"+theme_data.video_address,
         ),
       ),
     );

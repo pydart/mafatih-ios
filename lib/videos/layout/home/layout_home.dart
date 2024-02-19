@@ -387,7 +387,7 @@ class layout_home_State extends State<layout_home>
                             child: Container(
                               width: 200,
                               height: 120,
-                              child: Image.network("http://arbaeentv.com/" + snapshot.data[index].cover_address,height: 120,fit: BoxFit.cover),
+                              child: Image.network("https://arbaeentv.com/" + snapshot.data[index].cover_address,height: 120,fit: BoxFit.cover),
                               // child: Image.network("https://www.videoir.com/FileManager/themes/00c3617e06d3243d792cfd381f39b19e7b8c02e74329dcf91aa73f9dc4ea8c19/338-cover.jpg",height: 120,fit: BoxFit.cover),
                             )
                         ),

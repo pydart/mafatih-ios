@@ -249,6 +249,7 @@ class api
   //Get all categories start
   Future<List<categories_model>> GetAllCategories() async
   {
+    print("//////////////////////////////////          GetAllCategories    //////////////  ");
 
     var response = await server().Get("app/categories",true);
     List all_cat=jsonDecode(response)["data"]["categories"];
@@ -256,7 +257,7 @@ class api
     List filteredCat=[];
 
     // print("//////////////////////////////////          filteredCat.addAll(all_cat[i])     //////////////  ${filteredCat.insert(0,all_cat[0])}");
-    // print("//////////////////////////////////          all_cat.length     //////////////  ${all_cat.length}");
+    print("//////////////////////////////////          all_cat.length     //////////////  ${all_cat.length}");
     int num=0;
     for (var i = 0; i < (all_cat.length); i++){
       if (globals.jsonCodesHavingCat.contains(all_cat[i]['name'])) {

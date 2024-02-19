@@ -109,18 +109,18 @@ class Activity_ShowAllVideo extends StatelessWidget {
                                                         .width /
                                                     2 -
                                                 12,
-                                            child: Image.network(
-                                              "http://arbaeentv.com/" +
-                                                  snapshot
-                                                      .data[i].cover_address,
-                                              width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2 -
-                                                  50,
-                                              height: 200,
-                                              fit: BoxFit.cover,
-                                            ),
+                                            // child: Image.network(
+                                            //   "https://arbaeentv.com/" +
+                                            //       snapshot
+                                            //           .data[i].cover_address,
+                                            //   width: MediaQuery.of(context)
+                                            //               .size
+                                            //               .width /
+                                            //           2 -
+                                            //       50,
+                                            //   height: 200,
+                                            //   fit: BoxFit.cover,
+                                            // ),
                                           )),
                                     )
                                 ],
