@@ -621,7 +621,7 @@ class _DetailSecState extends State<DetailSec> {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: AppStyle.titleupdetailsec,
-                    maxLines: 2,
+                    maxLines: 1,
                   )),
               elevation: 0.0,
               actions: <Widget>[

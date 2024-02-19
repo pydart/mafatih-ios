@@ -19,7 +19,7 @@ class AppStyle {
     fontFamily: 'IRANSans',
   );
   static final titleup = TextStyle(
-    fontSize: 20.0,
+    fontSize: 14.0,
     fontFamily: 'IRANSans',
   );
 

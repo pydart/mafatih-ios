@@ -357,6 +357,7 @@ class api
     List all_vid_each_page=[];
     String UrlApi;
     UrlApi="app/category/$cat_id";
+    print("//////////////////////////////////         GetAllVideosPerPage      //////////////  ");
 
     var response = await server().Get("$UrlApi",true);
     for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
@@ -366,6 +367,8 @@ class api
     }
 
     List<theme_model> result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
+    print("//////////////////////////////////         GetAllVideosPerPage      //////////////  $result");
+
     return result;
   }
 

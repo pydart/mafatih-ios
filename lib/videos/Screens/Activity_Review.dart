@@ -14,42 +14,30 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import '../../data/utils/style.dart';
 import '../../ui/widget/drawer.dart';
 
-class Activity_Review extends StatefulWidget
-{
+class Activity_Review extends StatefulWidget {
   theme_model theme_data;
 
-  Activity_Review({
-     this.theme_data
-  });
+  Activity_Review({this.theme_data});
 
   @override
-  State<StatefulWidget> createState()=>Activity_Review_State(
-    theme_data: this.theme_data
-  );
+  State<StatefulWidget> createState() =>
+      Activity_Review_State(theme_data: this.theme_data);
 }
 
-class Activity_Review_State extends State<Activity_Review>
-{
-
+class Activity_Review_State extends State<Activity_Review> {
   //constractor start
   theme_model theme_data;
 
-  Activity_Review_State({
-     this.theme_data
-  });
+  Activity_Review_State({this.theme_data});
   //constractor end
 
-
   //global variable start
-   GlobalKey<ScaffoldState> _scaffoldKey;
+  GlobalKey<ScaffoldState> _scaffoldKey;
   //global variable end
-
-
 
   //initilize function start
   @override
-  void initState() 
-  {
+  void initState() {
     KeepScreenOn.turnOn();
 
     super.initState();
@@ -57,92 +45,81 @@ class Activity_Review_State extends State<Activity_Review>
   }
   //initilize function end
 
-
-
-
-
   //main function start
   @override
-  Widget build(BuildContext context) 
-  {
+  Widget build(BuildContext context) {
     return SafeArea(
-      child:Scaffold(
+        child: Scaffold(
+            drawer: Container(
+                child: Drawer(
+                  child: Drawers(
+                      newVersionBuildNumber: globals.newVersionBuildNumber,
+                      currentBuildNumber: globals.currentBuildNumber),
+                ),
+                width: 200),
+            key: _scaffoldKey,
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    pinned: true,
+                    // title: Text(
+                    //   theme_data.title,
+                    // style: AppStyle.titleup,
+                    // ),
+                    leading: IconButton(
+                      icon: Icon(
+                        Icons.keyboard_backspace,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    title: Text(
+                      theme_data.title.replaceAll("\n", " "),
+                      style: AppStyle.titleup,
+                    ),
+                  )
+                ];
+              },
 
-        drawer: Container(
-        child: Drawer(
-        child: Drawers(
-        newVersionBuildNumber: globals.newVersionBuildNumber, currentBuildNumber: globals.currentBuildNumber),
-    ),
-    width: 200),
-    key: _scaffoldKey,
-  body: NestedScrollView(
-  headerSliverBuilder:
-  (BuildContext context, bool innerBoxIsScrolled) {
-  return [
-  SliverAppBar(
-  pinned: true,
-  // title: Text(
-  //   theme_data.title,
-  // style: AppStyle.titleup,
-  // ),
-    leading:                       IconButton(
-      icon: Icon(
-        Icons.keyboard_backspace,
-      ),
-      onPressed: () => Navigator.pop(context),
-    ),
-    title: Text(
-        theme_data.title,
-      style: AppStyle.titleup,
-    ),
-  )
-  ];
-  },
-
-
-        // endDrawer: navbar(),
-      key: _scaffoldKey,
-      body: SingleChildScrollView(
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Column(
-            children: [
-
-              // TopAppBar(context)
-              // ,
-              // Container(
-              //   margin: EdgeInsets.all(14),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Text("نمایش قالب",style: TextStyle( fontSize: 14,fontWeight: FontWeight.bold ),)
-              //       ,
-              //       InkWell(
-              //         child: Text("قالب ها",style: TextStyle( fontSize: 14,fontWeight: FontWeight.bold ,color: Colors.blue),),
-              //         onTap: (){
-              //           Navigator.pop(context);
-              //         },
-              //       )
-              //     ],
-              //   ),
-              // )
-              // ,
-              VideoPlayer(context)
-              ,
-              Content(context)
-
-            ],
-          ),
-        ),
-      ),
-    )));
+              // endDrawer: navbar(),
+              key: _scaffoldKey,
+              body: SingleChildScrollView(
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    children: [
+                      // TopAppBar(context)
+                      // ,
+                      // Container(
+                      //   margin: EdgeInsets.all(14),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text("نمایش قالب",style: TextStyle( fontSize: 14,fontWeight: FontWeight.bold ),)
+                      //       ,
+                      //       InkWell(
+                      //         child: Text("قالب ها",style: TextStyle( fontSize: 14,fontWeight: FontWeight.bold ,color: Colors.blue),),
+                      //         onTap: (){
+                      //           Navigator.pop(context);
+                      //         },
+                      //       )
+                      //     ],
+                      //   ),
+                      // )
+                      // ,
+                      VideoPlayer(context),
+                      Content(context)
+                    ],
+                  ),
+                ),
+              ),
+            )));
   }
   //main function end
 
-
   //top appbar start
-  Widget TopAppBar(BuildContext context)
-  {
+  Widget TopAppBar(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(14),
       width: MediaQuery.of(context).size.width,
@@ -153,19 +130,22 @@ class Activity_Review_State extends State<Activity_Review>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
             SizedBox(
               width: 40,
               child: TextButton(
-              onPressed: (){
-                _scaffoldKey.currentState?.openEndDrawer();
-              },
-              child: Icon(Icons.menu,color: Colors.black,size: 24,)
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openEndDrawer();
+                  },
+                  child: Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                    size: 24,
+                  )),
             ),
+            Image.asset(
+              "assets/textlogo.png",
+              height: 50,
             )
-            ,
-            Image.asset("assets/textlogo.png",height: 50,)
-
           ],
         ),
       ),
@@ -173,23 +153,23 @@ class Activity_Review_State extends State<Activity_Review>
   }
   //top appbar end
 
-
   //Video Player Start
-  Widget VideoPlayer(BuildContext context)
-  {
-    print("//////////////////////////////////   theme_data            //////////////  $theme_data");
+  Widget VideoPlayer(BuildContext context) {
+    print(
+        "//////////////////////////////////   theme_data            //////////////  $theme_data");
 
     return Container(
       width: MediaQuery.of(context).size.width - 14,
       margin: EdgeInsets.all(14),
       child: AspectRatio(
-        aspectRatio: 16/16,
+        aspectRatio: 16 / 16,
         child: VideoApp(
-          videoaddress: "https://arbaeentv.com/"+theme_data.video_address,
+          videoaddress: "https://arbaeentv.com/" + theme_data.video_address,
         ),
       ),
     );
   }
+
   //Video Player End
   String replaceFarsiNumber(String input) {
     const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -201,72 +181,101 @@ class Activity_Review_State extends State<Activity_Review>
   }
 
   //Content Start
-  Widget Content(BuildContext context)
-  {
+  Widget Content(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(14),
       padding: EdgeInsets.all(14),
-      width: MediaQuery.of(context).size.width-14,
+      width: MediaQuery.of(context).size.width - 14,
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-
-          Text(theme_data.title,style: TextStyle( fontSize: 20,fontWeight: FontWeight.bold ,fontFamily: 'IRANSans'),)
-          ,
+          Text(
+            theme_data.title,
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'IRANSans'),
+          ),
           Container(
-            margin: EdgeInsets.only(top: 14,bottom: 14),
+            margin: EdgeInsets.only(top: 14, bottom: 14),
             height: 1,
             color: Color(0XFFb0b6bf),
-          )
-          ,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-
               Row(
                 children: [
-                  
-                  Icon(Icons.timer,color: Color(0XFFb0b6bf),size: 14)
-                  ,
+                  Icon(Icons.timer, color: Color(0XFFb0b6bf), size: 14),
                   Container(
                     margin: EdgeInsets.all(2),
+                  ),
+                  Text(
+                    replaceFarsiNumber(theme_data.duration),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'IRANSans',
+                      color: Color(0XFFb0b6bf),
+                    ),
                   )
-                  ,
-                  Text("زمان ویدیو "+replaceFarsiNumber(theme_data.duration),style: TextStyle( fontSize: 15,fontWeight: FontWeight.bold ,fontFamily: 'IRANSans',color: Color(0XFFb0b6bf),),)
-
                 ],
-              )
-              ,
+              ),
               TextButton(
-                onPressed: (){
-                  Share.share('https://Videoir.com/template/'+theme_data.title);
-                },
-                child: Row(
-                  children: [
+                  onPressed: () {
+                    Share.share(
+                        "https://arbaeentv.com/video/" + theme_data.video_address);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.share, color: Color(0XFFb0b6bf), size: 14
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(2),
+                      ),
+                      Text(
+                        "اشتراک گذاری",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'IRANSans',
+                          color: Color(0XFFb0b6bf),
+                        ),
+                      )
+                    ],
+                  )),
+              TextButton(
+                  onPressed: () {
+                    Share.share(
+                        "https://arbaeentv.com/video/" + theme_data.video_address);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.remove_red_eye, color: Color(0XFFb0b6bf), size: 14
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(2),
+                      ),
 
-                    Icon(Icons.share,color: Color(0XFFb0b6bf),size: 14)
-                    ,
-                    Container(
-                      margin: EdgeInsets.all(2),
-                    )
-                    ,
-                    Text("اشتراک گذاری",style: TextStyle( fontSize: 15,fontWeight: FontWeight.bold ,fontFamily: 'IRANSans' ,color: Color(0XFFb0b6bf),),)
-
-                  ],
-                )
-              )
-
-
+                      Text(
+                        replaceFarsiNumber(theme_data.seen.toString()),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'IRANSans',
+                          color: Color(0XFFb0b6bf),
+                        ),
+                      )
+                    ],
+                  ))
             ],
-          )
-          ,
+          ),
           Container(
-            margin: EdgeInsets.only(top: 14,bottom: 14),
+            margin: EdgeInsets.only(top: 14, bottom: 14),
             height: 1,
             color: Color(0XFFb0b6bf),
-          )
-          ,
+          ),
           // Container(
           //   width: 50,
           //   height: 50,
@@ -334,6 +343,5 @@ class Activity_Review_State extends State<Activity_Review>
     );
   }
   //Content End
-
 
 }
