@@ -26,7 +26,7 @@ class Activity_Main_State extends State<Activity_Main> {
   var MenuIndex = 0;
   var MenuItem = [];
   var BackPress = false;
-  GlobalKey<ScaffoldState> _scaffoldKey;
+  GlobalKey<ScaffoldState>? _scaffoldKey;
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class Activity_Main_State extends State<Activity_Main> {
     _scaffoldKey = GlobalKey<ScaffoldState>();
   }
 
-  DateTime currentBackPressTime;
+  DateTime? currentBackPressTime;
   Future<bool> onWillPop() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
   }
@@ -181,7 +181,7 @@ class Activity_Main_State extends State<Activity_Main> {
                   onTap: () {
                     debugPrint("Open");
                     setState(() {
-                      _scaffoldKey.currentState?.openEndDrawer();
+                      _scaffoldKey!.currentState?.openEndDrawer();
                     });
                   },
                   child: Icon(

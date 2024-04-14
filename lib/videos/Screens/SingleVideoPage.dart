@@ -15,7 +15,7 @@ import '../../data/utils/style.dart';
 import '../../ui/widget/drawer.dart';
 
 class Activity_Review extends StatefulWidget {
-  theme_model theme_data;
+  theme_model? theme_data;
 
   Activity_Review({this.theme_data});
 
@@ -26,13 +26,13 @@ class Activity_Review extends StatefulWidget {
 
 class Activity_Review_State extends State<Activity_Review> {
   //constractor start
-  theme_model theme_data;
+  theme_model? theme_data;
 
   Activity_Review_State({this.theme_data});
   //constractor end
 
   //global variable start
-  GlobalKey<ScaffoldState> _scaffoldKey;
+  GlobalKey<ScaffoldState>? _scaffoldKey;
   //global variable end
 
   //initilize function start
@@ -75,7 +75,7 @@ class Activity_Review_State extends State<Activity_Review> {
                       onPressed: () => Navigator.pop(context),
                     ),
                     title: Text(
-                      theme_data.title.replaceAll("\n", " "),
+                      theme_data!.title!.replaceAll("\n", " "),
                       style: AppStyle.titleup,
                     ),
                   )
@@ -134,7 +134,7 @@ class Activity_Review_State extends State<Activity_Review> {
               width: 40,
               child: TextButton(
                   onPressed: () {
-                    _scaffoldKey.currentState?.openEndDrawer();
+                    _scaffoldKey!.currentState?.openEndDrawer();
                   },
                   child: Icon(
                     Icons.menu,
@@ -164,18 +164,18 @@ class Activity_Review_State extends State<Activity_Review> {
       child: AspectRatio(
         aspectRatio: 16 / 16,
         child: VideoApp(
-          videoaddress: "https://arbaeentv.com/" + theme_data.video_address,
+          videoaddress: "https://arbaeentv.com/" + theme_data!.video_address!,
         ),
       ),
     );
   }
 
   //Video Player End
-  String replaceFarsiNumber(String input) {
+  String? replaceFarsiNumber(String? input) {
     const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     const farsi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     for (int i = 0; i < english.length; i++) {
-      input = input.replaceAll(english[i], farsi[i]);
+      input = input!.replaceAll(english[i], farsi[i]);
     }
     return input;
   }
@@ -191,7 +191,7 @@ class Activity_Review_State extends State<Activity_Review> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            theme_data.title,
+            theme_data!.title!,
             style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -212,7 +212,7 @@ class Activity_Review_State extends State<Activity_Review> {
                     margin: EdgeInsets.all(2),
                   ),
                   Text(
-                    replaceFarsiNumber(theme_data.duration),
+                    replaceFarsiNumber(theme_data!.duration)!,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -225,7 +225,7 @@ class Activity_Review_State extends State<Activity_Review> {
               TextButton(
                   onPressed: () {
                     Share.share(
-                        "https://arbaeentv.com/video/" + theme_data.video_address);
+                        "https://arbaeentv.com/video/" + theme_data!.video_address!);
                   },
                   child: Row(
                     children: [
@@ -248,7 +248,7 @@ class Activity_Review_State extends State<Activity_Review> {
               TextButton(
                   onPressed: () {
                     Share.share(
-                        "https://arbaeentv.com/video/" + theme_data.video_address);
+                        "https://arbaeentv.com/video/" + theme_data!.video_address!);
                   },
                   child: Row(
                     children: [
@@ -259,7 +259,7 @@ class Activity_Review_State extends State<Activity_Review> {
                       ),
 
                       Text(
-                        replaceFarsiNumber(theme_data.seen.toString()),
+                        replaceFarsiNumber(theme_data!.seen.toString())!,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
