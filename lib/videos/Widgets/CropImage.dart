@@ -8,9 +8,9 @@ import 'package:flutter/widgets.dart';
 class CropImage extends StatefulWidget 
 {
 
-  String image_path;
-  int width;
-  int height;
+  String? image_path;
+  int? width;
+  int? height;
 
   CropImage({
      this.image_path,
@@ -26,9 +26,9 @@ class CropImage extends StatefulWidget
 class CropImageState extends State<CropImage> {
 
 
-  String image_path;
-  int width;
-  int height;
+  String? image_path;
+  int? width;
+  int? height;
 
   CropImageState({
      this.image_path,
@@ -37,7 +37,7 @@ class CropImageState extends State<CropImage> {
   });
 
 
-  var controller;
+  late var controller;
 
 
   double _rotation = 0;
@@ -80,7 +80,7 @@ class CropImageState extends State<CropImage> {
 
   @override
   Widget build(BuildContext context) {
-    controller=CropController(aspectRatio: width / height);
+    controller=CropController(aspectRatio: width! / height!);
     final theme = Theme.of(context);
     return Scaffold(
       body: Column(
@@ -104,7 +104,7 @@ class CropImageState extends State<CropImage> {
                 controller: controller,
                 shape: shape,
                 child: Image.file(
-                  File(image_path),
+                  File(image_path!),
                   fit: BoxFit.cover,
                 ),
                 /* It's very important to set `fit: BoxFit.cover`.

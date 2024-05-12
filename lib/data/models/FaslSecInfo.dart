@@ -7,14 +7,14 @@ String faslInfoToJson(List<FaslSecInfo> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class FaslSecInfo {
-  String title;
-  int index;
+  String? title;
+  int? index;
   var indent;
-  String titleNext;
-  int indexNext;
+  String? titleNext;
+  int? indexNext;
   var indentNext;
-  String titlePrev;
-  int indexPrev;
+  String? titlePrev;
+  int? indexPrev;
   var indentPrev;
 
   FaslSecInfo({

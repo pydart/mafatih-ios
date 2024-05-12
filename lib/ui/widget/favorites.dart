@@ -17,14 +17,14 @@ import '../listpage/home2.dart';
 import '../listpage/settings.dart';
 
 class Favorites extends StatefulWidget {
-  List<String> titlebookmark = globals.titleBookMarked;
-  List<int> indexbookmark = globals.indexBookMarked;
-  List<int> indexFaslbookmark = globals.indexFaslBookMarked;
-  List<int> codebookmark = globals.codeBookMarked;
+  List<String?>? titlebookmark = globals.titleBookMarked;
+  List<int?>? indexbookmark = globals.indexBookMarked;
+  List<int?>? indexFaslbookmark = globals.indexFaslBookMarked;
+  List<int?>? codebookmark = globals.codeBookMarked;
 
   Favorites(
-      {Key key,
-      @required this.titlebookmark,
+      {Key? key,
+       this.titlebookmark,
       this.indexbookmark,
       this.indexFaslbookmark,
       this.codebookmark})
@@ -34,7 +34,7 @@ class Favorites extends StatefulWidget {
   _FavoritesState createState() => _FavoritesState();
 }
 
-SharedPreferences prefs;
+late SharedPreferences prefs;
 final SharedFunc sharedfunc = new SharedFunc();
 
 /// get bookmarkPage from sharedPreferences
@@ -48,19 +48,19 @@ getBookmark() async {
     globals.indexFaslBookMarked = [];
     globals.codeBookMarked = [];
   } else if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
-    final titleBookMarked = prefs.getStringList(globals.BOOKMARKED_PAGE_title);
+    final List<String?>? titleBookMarked = prefs.getStringList(globals.BOOKMARKED_PAGE_title);
 
-    final savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index);
-    List<int> indexBookMarked = savedStrList.map((i) => int.parse(i)).toList();
+    final savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index)!;
+    List<int?> indexBookMarked = savedStrList.map((i) => int.parse(i)).toList();
 
     final savedStrFaslList =
-        prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
-    List<int> indexFaslBookMarked =
+        prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl)!;
+    List<int?> indexFaslBookMarked =
         savedStrFaslList.map((i) => int.parse(i)).toList();
 
     List<String> savedStrCodeList =
-        prefs.getStringList(globals.BOOKMARKED_PAGE_Code);
-    List<int> codeBookMarked =
+        prefs.getStringList(globals.BOOKMARKED_PAGE_Code)!;
+    List<int?> codeBookMarked =
         savedStrCodeList.map((i) => int.parse(i)).toList();
 
     globals.titleBookMarked = titleBookMarked;
@@ -71,13 +71,13 @@ getBookmark() async {
 
   if (globals.indexBookMarked == null) {
     List mapBookMarked = [
-      for (int i = 0; i < globals.codeBookMarked.length; i++)
+      for (int i = 0; i < globals.codeBookMarked!.length; i++)
         {
           'index': i,
-          'titleBookMarked': globals.titleBookMarked[i],
-          'indexBookMarked': globals.indexBookMarked[i],
-          'indexFaslBookMarked': globals.indexFaslBookMarked[i],
-          'codeBookMarked': globals.codeBookMarked[i],
+          'titleBookMarked': globals.titleBookMarked![i],
+          'indexBookMarked': globals.indexBookMarked![i],
+          'indexFaslBookMarked': globals.indexFaslBookMarked![i],
+          'codeBookMarked': globals.codeBookMarked![i],
         }
     ];
     globals.mapBookMarked = mapBookMarked;
@@ -89,11 +89,11 @@ getBookmark() async {
 }
 
 /// set bookmarkPage in sharedPreferences
-void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
-    List<int> _code) async {
+void setBookmark(List<String?> _title, List<int?> _index, List<int?> _indexFasl,
+    List<int?> _code) async {
   prefs = await SharedPreferences.getInstance();
 //    if (_index[0] != null && !_index[0].isNaN) {
-  await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
+  await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title as List<String>);
 
   List<String> _strindex = _index.map((i) => i.toString()).toList();
   await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
@@ -116,13 +116,13 @@ class _FavoritesState extends State<Favorites> {
     widget.indexFaslbookmark = globals.indexFaslBookMarked;
     widget.codebookmark = globals.codeBookMarked;
     List mapBookMarked = [
-      for (int i = 0; i < globals.codeBookMarked.length; i++)
+      for (int i = 0; i < globals.codeBookMarked!.length; i++)
         {
           'index': i,
-          'titleBookMarked': globals.titleBookMarked[i],
-          'indexBookMarked': globals.indexBookMarked[i],
-          'indexFaslBookMarked': globals.indexFaslBookMarked[i],
-          'codeBookMarked': globals.codeBookMarked[i],
+          'titleBookMarked': globals.titleBookMarked![i],
+          'indexBookMarked': globals.indexBookMarked![i],
+          'indexFaslBookMarked': globals.indexFaslBookMarked![i],
+          'codeBookMarked': globals.codeBookMarked![i],
         }
     ];
     globals.mapBookMarked = mapBookMarked;
@@ -134,11 +134,11 @@ class _FavoritesState extends State<Favorites> {
   /// Navigation event handler
   _onItemTapped(int indexTab, int _indexlocal) {
     setState(() {
-      String _title = globals.mapBookMarked[_indexlocal]['titleBookMarked'];
-      int _index =
+      String? _title = globals.mapBookMarked[_indexlocal]['titleBookMarked'];
+      int? _index =
           (globals.mapBookMarked[_indexlocal]['codeBookMarked'] - 1000000) ~/
               1000;
-      int _indexKey = (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) %
+      int? _indexKey = (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) %
           1000) -
           1) <
           0
@@ -146,18 +146,18 @@ class _FavoritesState extends State<Favorites> {
           : (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) % 1000) -
           1);
       int _indexFasl = 1;
-      int _code = globals.mapBookMarked[_indexlocal]['codeBookMarked'];
+      int? _code = globals.mapBookMarked[_indexlocal]['codeBookMarked'];
       // globals.titleCurrentPage=
       //     globals.indexCurrentPage
       // globals.indexFaslCurrentPage
 
       if (indexTab == 2) {
-        if (globals.codeBookMarked.contains(_code))
+        if (globals.codeBookMarked!.contains(_code))
           setState(() {
-            globals.titleBookMarked.remove(_title);
-            globals.indexBookMarked.remove(_index);
-            globals.indexFaslBookMarked.remove(_indexFasl);
-            globals.codeBookMarked.remove(_code);
+            globals.titleBookMarked!.remove(_title);
+            globals.indexBookMarked!.remove(_index);
+            globals.indexFaslBookMarked!.remove(_indexFasl);
+            globals.codeBookMarked!.remove(_code);
             print(
                 "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
             widget.titlebookmark = globals.titleBookMarked;
@@ -165,48 +165,24 @@ class _FavoritesState extends State<Favorites> {
             widget.indexFaslbookmark = globals.indexFaslBookMarked;
             widget.codebookmark = globals.codeBookMarked;
             List mapBookMarked = [
-              for (int i = 0; i < globals.codeBookMarked.length; i++)
+              for (int i = 0; i < globals.codeBookMarked!.length; i++)
                 {
                   'index': i,
-                  'titleBookMarked': globals.titleBookMarked[i],
-                  'indexBookMarked': globals.indexBookMarked[i],
-                  'indexFaslBookMarked': globals.indexFaslBookMarked[i],
-                  'codeBookMarked': globals.codeBookMarked[i],
+                  'titleBookMarked': globals.titleBookMarked![i],
+                  'indexBookMarked': globals.indexBookMarked![i],
+                  'indexFaslBookMarked': globals.indexFaslBookMarked![i],
+                  'codeBookMarked': globals.codeBookMarked![i],
                 }
             ];
             globals.mapBookMarked = mapBookMarked;
 
             setBookmark(
-                globals.titleBookMarked,
-                globals.indexBookMarked,
-                globals.indexFaslBookMarked,
-                globals.codeBookMarked);
+                globals.titleBookMarked!,
+                globals.indexBookMarked!,
+                globals.indexFaslBookMarked!,
+                globals.codeBookMarked!);
           });
-        // else
-        //   setState(() {
-        //     print(
-        //         "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.indexKey =  ${_indexKey}");
-        //
-        //     globals.titleBookMarked.add(_title);
-        //     globals.indexBookMarked.add(_index);
-        //     globals.indexKeyBookMarked.add(_indexKey);
-        //     globals.indexFaslBookMarked.add(_indexFasl);
-        //     globals.codeBookMarked.add(_code);
-        //     isBookmarked = true;
-        //     print(
-        //         "${globals.codeBookMarked} ----------------------------------------------- globals.codeBookMarked------------------------------------------------");
-        //     print(
-        //         "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
-        //   });
 
-        // if (globals.indexBookMarked != null) {
-        //   setBookmark(
-        //       globals.titleBookMarked,
-        //       globals.indexBookMarked,
-        //       globals.indexKeyBookMarked,
-        //       globals.indexFaslBookMarked,
-        //       globals.codeBookMarked);
-        // }
       } else if (indexTab == 0) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
@@ -218,7 +194,7 @@ class _FavoritesState extends State<Favorites> {
   }
 
 
-  Future<bool> _onDeletePressed(context, _index) {
+  Future<bool?> _onDeletePressed(context, _index) {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -265,6 +241,9 @@ class _FavoritesState extends State<Favorites> {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor:Theme.of(context).brightness == Brightness.light
+              ? Colors.green
+              : Colors.black,
           centerTitle: true,
           title: Text(
             "فهرست منتخب",
@@ -394,18 +373,18 @@ class _FavoritesState extends State<Favorites> {
                                           globals.codeBookMarked;
                                       List mapBookMarked = [
                                         for (int i = 0;
-                                            i < globals.codeBookMarked.length;
+                                            i < globals.codeBookMarked!.length;
                                             i++)
                                           {
                                             'index': i,
                                             'titleBookMarked':
-                                                globals.titleBookMarked[i],
+                                                globals.titleBookMarked![i],
                                             'indexBookMarked':
-                                                globals.indexBookMarked[i],
+                                                globals.indexBookMarked![i],
                                             'indexFaslBookMarked':
-                                                globals.indexFaslBookMarked[i],
+                                                globals.indexFaslBookMarked![i],
                                             'codeBookMarked':
-                                                globals.codeBookMarked[i],
+                                                globals.codeBookMarked![i],
                                           }
                                       ];
                                       globals.mapBookMarked = mapBookMarked;
@@ -414,7 +393,7 @@ class _FavoritesState extends State<Favorites> {
                                 } else if (globals.mapBookMarked[index]
                                             ['indexFaslBookMarked'] ==
                                         4 &&
-                                    !ui.terjemahan) {
+                                    !ui.terjemahan!) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -446,18 +425,18 @@ class _FavoritesState extends State<Favorites> {
                                           globals.codeBookMarked;
                                       List mapBookMarked = [
                                         for (int i = 0;
-                                            i < globals.codeBookMarked.length;
+                                            i < globals.codeBookMarked!.length;
                                             i++)
                                           {
                                             'index': i,
                                             'titleBookMarked':
-                                                globals.titleBookMarked[i],
+                                                globals.titleBookMarked![i],
                                             'indexBookMarked':
-                                                globals.indexBookMarked[i],
+                                                globals.indexBookMarked![i],
                                             'indexFaslBookMarked':
-                                                globals.indexFaslBookMarked[i],
+                                                globals.indexFaslBookMarked![i],
                                             'codeBookMarked':
-                                                globals.codeBookMarked[i],
+                                                globals.codeBookMarked![i],
                                           }
                                       ];
                                       globals.mapBookMarked = mapBookMarked;
@@ -466,7 +445,7 @@ class _FavoritesState extends State<Favorites> {
                                 } else if (globals.mapBookMarked[index]
                                             ['indexFaslBookMarked'] ==
                                         4 &&
-                                    ui.terjemahan) {
+                                    ui.terjemahan!) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -496,18 +475,18 @@ class _FavoritesState extends State<Favorites> {
                                           globals.codeBookMarked;
                                       List mapBookMarked = [
                                         for (int i = 0;
-                                            i < globals.codeBookMarked.length;
+                                            i < globals.codeBookMarked!.length;
                                             i++)
                                           {
                                             'index': i,
                                             'titleBookMarked':
-                                                globals.titleBookMarked[i],
+                                                globals.titleBookMarked![i],
                                             'indexBookMarked':
-                                                globals.indexBookMarked[i],
+                                                globals.indexBookMarked![i],
                                             'indexFaslBookMarked':
-                                                globals.indexFaslBookMarked[i],
+                                                globals.indexFaslBookMarked![i],
                                             'codeBookMarked':
-                                                globals.codeBookMarked[i],
+                                                globals.codeBookMarked![i],
                                           }
                                       ];
                                       globals.mapBookMarked = mapBookMarked;
@@ -589,18 +568,18 @@ class _FavoritesState extends State<Favorites> {
       globals.codeBookMarked = [];
 
       for (int i = 0; i < globals.mapBookMarked.length; i++) {
-        globals.titleBookMarked
+        globals.titleBookMarked!
             .insert(i, globals.mapBookMarked[i]['titleBookMarked']);
-        globals.indexBookMarked
+        globals.indexBookMarked!
             .insert(i, globals.mapBookMarked[i]['indexBookMarked']);
-        globals.indexFaslBookMarked
+        globals.indexFaslBookMarked!
             .insert(i, globals.mapBookMarked[i]['indexFaslBookMarked']);
-        globals.codeBookMarked
+        globals.codeBookMarked!
             .insert(i, globals.mapBookMarked[i]['codeBookMarked']);
       }
 
-      setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-          globals.indexFaslBookMarked, globals.codeBookMarked);
+      setBookmark(globals.titleBookMarked!, globals.indexBookMarked!,
+          globals.indexFaslBookMarked!, globals.codeBookMarked!);
     });
   }
 }

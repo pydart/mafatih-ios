@@ -6,7 +6,7 @@ import 'common.dart';
 
 class StaggeredPage extends StatelessWidget {
   const StaggeredPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   static const tiles = [

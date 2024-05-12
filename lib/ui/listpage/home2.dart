@@ -28,11 +28,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   int indexTabHome = 0;
-  String newVersionBuildNumber;
-  double currentBuildNumber;
+  late String newVersionBuildNumber;
+  double? currentBuildNumber;
 
   String gif1Url = "";
   String gif2Url = "";
@@ -130,7 +130,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           "/////////////////////////////////////******************************************************** newVersionBuildNumber   ${double.parse(newVersionBuildNumber)}");
       print(
           "/////////////////////////////////////******************************************************** currentBuildNumber   $currentBuildNumber");
-      if (double.parse(newVersionBuildNumber) > currentBuildNumber) {
+      if (double.parse(newVersionBuildNumber) > currentBuildNumber!) {
         print(
             "/////////////////////////////////////******************************************************** double.parse(newVersionBuildNumber) > currentBuildNumber)");
         if (!prefs.containsKey(globals.LaterDialog)) {
@@ -165,7 +165,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
   getLastViewedPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.LAST_VIEWED_PAGE_index)) {
@@ -185,22 +185,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   getBookmark() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
-      List<String> titleBookMarked =
+      List<String?>? titleBookMarked =
           prefs.getStringList(globals.BOOKMARKED_PAGE_title);
 
       List<String> savedStrList =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_index);
-      List<int> indexBookMarked =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_index)!;
+      List<int?> indexBookMarked =
           savedStrList.map((i) => int.parse(i)).toList();
 
       List<String> savedStrFaslList =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl);
-      List<int> indexFaslBookMarked =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl)!;
+      List<int?> indexFaslBookMarked =
           savedStrFaslList.map((i) => int.parse(i)).toList();
 
       List<String> savedStrCodeList =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_Code);
-      List<int> codeBookMarked =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_Code)!;
+      List<int?> codeBookMarked =
           savedStrCodeList.map((i) => int.parse(i)).toList();
 
       setState(() {
@@ -222,10 +222,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   getFontsize() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.FontArabic_LEVEL)) {
-      double _fontarabiclevel = prefs.getDouble(globals.FontArabic_LEVEL);
-      double _fonttarjlevel = prefs.getDouble(globals.FontTarj_LEVEL);
-      double _fonttozihlevel = prefs.getDouble(globals.FontTozih_LEVEL);
-      String _fontarabic = prefs.getString(globals.FontArabic);
+      double? _fontarabiclevel = prefs.getDouble(globals.FontArabic_LEVEL);
+      double? _fonttarjlevel = prefs.getDouble(globals.FontTarj_LEVEL);
+      double? _fonttozihlevel = prefs.getDouble(globals.FontTozih_LEVEL);
+      String? _fontarabic = prefs.getString(globals.FontArabic);
       setState(() {
         globals.fontArabicLevel = _fontarabiclevel;
         globals.fontArabic = _fontarabic;
@@ -242,7 +242,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  AdmobBannerSize bannerSize;
+  AdmobBannerSize? bannerSize;
 
 
   // void initPlatformState() {
@@ -314,19 +314,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  setAudioExist(List<String> jsonCode) async {
+  setAudioExist(List<String>? jsonCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     globals.jsonCodesHavingAudio = jsonCode;
     await prefs.setStringList(
-        'JsonCodesHavingAudio', globals.jsonCodesHavingAudio);
+        'JsonCodesHavingAudio', globals.jsonCodesHavingAudio!);
     // print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
   }
 
-  setCatExist(List<String> jsonCode) async {
+  setCatExist(List<String>? jsonCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     globals.jsonCodesHavingCat= jsonCode;
     await prefs.setStringList(
-        'JsonCodesHavingCat', globals.jsonCodesHavingCat);
+        'JsonCodesHavingCat', globals.jsonCodesHavingCat!);
     print("*********************************************setAudioExist***************************** globals.jsonCodesHavingCat ${globals.jsonCodesHavingCat} ");
   }
 
@@ -372,15 +372,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   getBrightnessLevel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BRIGHTNESS_LEVEL) &&
-        globals.brightnessActive) {
-      double _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
-      double _brightnessLevel2;
+        globals.brightnessActive!) {
+      double? _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
+      double? _brightnessLevel2;
       setState(() {
         _brightnessLevel2 =
-            _brightnessLevel > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
+            _brightnessLevel! > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
         globals.brightnessLevel =
-            double.parse(_brightnessLevel2.toStringAsFixed(2));
-        ScreenBrightness().setScreenBrightness(globals.brightnessLevel);
+            double.parse(_brightnessLevel2!.toStringAsFixed(2));
+        ScreenBrightness().setScreenBrightness(globals.brightnessLevel!);
       });
     } else {
       // getScreenBrightness();
@@ -436,7 +436,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.fontArabicLevel}             globals.fontArabicLevel');
   }
 
-  bool _darkMode;
+  bool? _darkMode;
   getOtherSettings() async {
     SharedPreferences prefs;
 
@@ -503,10 +503,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       var _jsonGifAdUrl = prefs.getString(globals.JsonGifAdUrl);
       setState(() {
         globals.jsonGifAdUrl = _jsonGifAdUrl;
-        globals.jsonGifAdUrlMap = json.decode(_jsonGifAdUrl);
+        globals.jsonGifAdUrlMap = json.decode(_jsonGifAdUrl!);
       });
       print(
-          "***************************************************************globals.jsonGifAdUrlMap  ${globals.jsonGifAdUrlMap["urlgiffirstpage1"]}");
+          "***************************************************************globals.jsonGifAdUrlMap  ${globals.jsonGifAdUrlMap!["urlgiffirstpage1"]}");
     }
 
     if (globals.darkMode == null) {
@@ -539,7 +539,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  Future<bool> _onBackPressed() {
+  Future<bool?> _onBackPressed() {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -561,11 +561,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ));
   }
 
-  DateTime currentBackPressTime;
+  DateTime? currentBackPressTime;
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(
           msg: "برای خروج دو مرتبه برگشت بزنید",
@@ -589,7 +589,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     prefs.setBool(globals.LaterDialog, level);
   }
 
-  Future<bool> _upgrader() {
+  Future<bool?> _upgrader() {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -656,6 +656,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
                 SliverAppBar(
+                  backgroundColor:Theme.of(context).brightness == Brightness.light
+                      ? Colors.green
+                      : Colors.black,
                   pinned: true,
                   title: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -722,7 +725,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                   ui.edameFarazSet = true;
                                   {
                                     if (globals.indexFasllastViewedPage == 4 &&
-                                        !ui.terjemahan || globals
+                                        !ui.terjemahan! || globals
                                         .indexFasllastViewedPage ==
                                         5) {
                                       Navigator.push(
@@ -737,15 +740,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                         .indentlastViewedPage,
                                                     indexFasl: 5,
                                                     code: globals
-                                                                .indexFasllastViewedPage *
+                                                                .indexFasllastViewedPage! *
                                                             1000 +
                                                         globals
-                                                            .indexlastViewedPage,
+                                                            .indexlastViewedPage!,
                                                   )));
                                     } else if ((globals
                                         .indexFasllastViewedPage ==
                                         4 &&
-                                        ui.terjemahan) ) {
+                                        ui.terjemahan!) ) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -759,10 +762,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                     indexFasl: globals
                                                         .indexFasllastViewedPage,
                                                     code: globals
-                                                                .indexFasllastViewedPage *
+                                                                .indexFasllastViewedPage! *
                                                             1000 +
                                                         globals
-                                                            .indexlastViewedPage,
+                                                            .indexlastViewedPage!,
                                                   )));
                                     } else if (globals
                                             .indexFasllastViewedPage !=
@@ -780,10 +783,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                                     indexFasl: globals
                                                         .indexFasllastViewedPage,
                                                     code: globals
-                                                                .indexFasllastViewedPage *
+                                                                .indexFasllastViewedPage! *
                                                             1000 +
                                                         globals
-                                                            .indexlastViewedPage,
+                                                            .indexlastViewedPage!,
                                                   )));
                                     }
                                   }

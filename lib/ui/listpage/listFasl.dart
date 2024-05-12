@@ -14,8 +14,8 @@ import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:week_of_year/date_week_extensions.dart';
 
 import '../../utils/constants.dart';
-import '../../videos/Screens/Activity_Main.dart';
-import '../../videos/Screens/Activity_Splash.dart';
+import '../../videos/Screens/EndlessGridView.dart';
+import '../../videos/Screens/MainVideos.dart';
 
 class ListFasl extends StatefulWidget {
   @override
@@ -23,13 +23,13 @@ class ListFasl extends StatefulWidget {
 }
 
 class _ListFaslState extends State<ListFasl> {
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
 
   final SharedFunc sharedfunc = new SharedFunc();
 
-  PageController pageController;
-  double _scrollPosition;
-  ScrollController _scrollController;
+  PageController? pageController;
+  late double _scrollPosition;
+  late ScrollController _scrollController;
   setLastScolledPixel(double level) async {
     globals.lastScrolledPixel = level;
     prefs = await SharedPreferences.getInstance();
@@ -47,7 +47,7 @@ class _ListFaslState extends State<ListFasl> {
   getLastScolledPixel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
-      double _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
+      double? _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
       setState(() {
         globals.lastScrolledPixel = _lastScrolledPixel;
       });
@@ -62,7 +62,7 @@ class _ListFaslState extends State<ListFasl> {
 
   @override
   Widget build(BuildContext context) {
-    print("***************************************************_scrollPosition    $_scrollPosition ");
+    // print("***************************************************_scrollPosition    $_scrollPosition ");
     var ui = Provider.of<UiState>(context);
 
     return FutureBuilder<List<FaslInfo>>(
@@ -85,7 +85,7 @@ class _ListFaslState extends State<ListFasl> {
                     child: ListView(
                         physics: ScrollPhysics(),
                         shrinkWrap: true,
-                        children: snapshot.data.map((data) {
+                        children: snapshot.data!.map((data) {
                           return Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 36.0),
@@ -105,7 +105,7 @@ class _ListFaslState extends State<ListFasl> {
                                               ListTile(
                                                 title: Center(
                                                   child: Text(
-                                                    data.title,
+                                                    data.title!,
                                                     style: AppStyle.titleBab,
                                                   ),
                                                 ),
@@ -152,8 +152,8 @@ class _ListFaslState extends State<ListFasl> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       Favorites(
-//                                                      titlebookmark: globals
-//                                                          .titleBookMarked,
+                                                     titlebookmark: globals
+                                                         .titleBookMarked,
 //                                                      indexbookmark: globals
 //                                                          .indexBookMarked,
 //                                                      indexFaslbookmark: globals
@@ -185,13 +185,15 @@ class _ListFaslState extends State<ListFasl> {
                                     style: AppStyle.titleBab,
                                   ),
                                 ),
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Activity_Main()),
-                                )
-//          ), //_onItemTapped(0),
+
+                                  onTap: () => Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_Main()  ))),
+
+        // onTap: () => Navigator.push(
+        //                           context,
+        //                           MaterialPageRoute(
+        //                               builder: (context) =>
+        //                                   Activity_Main()),
+        //                         )
                             )
                           ])))),
                   Container(
@@ -203,7 +205,7 @@ class _ListFaslState extends State<ListFasl> {
                     child: Image.asset("assets/tazhibLineOverFaslList.png"),
                   ),
           InkWell(
-            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffirstpage1"]);
+            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap!["urlgiffirstpage1"]);
             final date = DateTime.now();
             print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
             child: CachedNetworkImage(
@@ -214,7 +216,7 @@ class _ListFaslState extends State<ListFasl> {
           ),
           SizedBox(height:5),
           InkWell(
-            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffirstpage2"]);},
+            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap!["urlgiffirstpage2"]);},
             child: CachedNetworkImage(
               imageUrl: Constants.urlgiffirstpage2,
               cacheKey: Constants.urlgiffirstpage2+DateTime.now().weekOfYear.toString(),
@@ -223,7 +225,7 @@ class _ListFaslState extends State<ListFasl> {
           ),
           SizedBox(height:5),
           InkWell(
-            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffirstpage3"]);},
+            onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap!["urlgiffirstpage3"]);},
             child: CachedNetworkImage(
               imageUrl: Constants.urlgiffirstpage3,
               cacheKey: Constants.urlgiffirstpage3+DateTime.now().weekOfYear.toString(),

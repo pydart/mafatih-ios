@@ -5,10 +5,10 @@ AyathKursi ayathKursiFromJson(String str) => AyathKursi.fromJson(json.decode(str
 String ayathKursiToJson(AyathKursi data) => json.encode(data.toJson());
 
 class AyathKursi {
-    String tafsir;
-    String translation;
-    String arabic;
-    String latin;
+    String? tafsir;
+    String? translation;
+    String? arabic;
+    String? latin;
 
     AyathKursi({
         this.tafsir,

@@ -16,10 +16,13 @@ import 'package:flutter/material.dart'
 final themeLightData = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.light,
-  buttonColor: Color.fromRGBO(155, 15, 15, 1),
+  // buttonColor: Color.fromRGBO(155, 15, 15, 1),
+  hoverColor: Color.fromRGBO(155, 15, 15, 1),
+
   primarySwatch: Colors.green,
-  accentColor: Colors.grey[900],
-  scaffoldBackgroundColor: Color(0xf6f6f6f6),
+  // accentColor: Colors.grey[900],
+  shadowColor: Colors.grey[900],
+  // scaffoldBackgroundColor: Color(0xf6f6f6f6),
   canvasColor: Color.fromRGBO(255, 255, 255, 1),
   // primaryColor: AppColors.colorLightPrimary,
   // accentColor: AppColors.colorLightSecondary,

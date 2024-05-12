@@ -12,7 +12,7 @@ import 'constants.dart';
 
 
 class SharedFunc {
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
 
 
   launchURL(url) async {

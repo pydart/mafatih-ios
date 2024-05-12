@@ -10,7 +10,8 @@ import 'package:mafatih/ui/listpage/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/ui/widget/favorites.dart';
 import 'package:mafatih/ui/listpage/listSec.dart';
-import 'package:mafatih/videos/Screens/Activity_Main.dart';
+import 'package:mafatih/videos/Screens/MainVideos.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
@@ -21,13 +22,14 @@ import 'package:easy_localization/easy_localization.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
-NotificationAppLaunchDetails notificationAppLaunchDetails;
+NotificationAppLaunchDetails? notificationAppLaunchDetails;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // MobileAds.instance.initialize();
   Admob.initialize();
+  MediaKit.ensureInitialized();
 
   runApp(EasyLocalization(
     supportedLocales: [

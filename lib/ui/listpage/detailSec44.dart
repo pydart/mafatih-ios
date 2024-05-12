@@ -17,8 +17,8 @@ import 'detailSec55.dart';
 class DetailSec44 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query, player;
   DetailSec44({
-    Key key,
-    @required this.detail,
+    Key? key,
+    required this.detail,
     this.index,
     this.indent,
     this.indexFasl,
@@ -33,19 +33,19 @@ class DetailSec44 extends StatefulWidget {
 
 class _DetailSec44State extends State<DetailSec44> {
   int _selectedIndex = 0;
-  SharedPreferences prefs;
-  bool isBookmarked;
-  static Color iconBookmarkcolor;
+  late SharedPreferences prefs;
+  late bool isBookmarked;
+  static Color? iconBookmarkcolor;
 
 
-  String titleCurrentPage;
-  int indexCurrentPage;
-  int indexFaslCurrentPage;
-  int codeCurrentPage;
+  String? titleCurrentPage;
+  int? indexCurrentPage;
+  int? indexFaslCurrentPage;
+  int? codeCurrentPage;
   // var themeNotifier = ThemeNotifier();
 
-  ScrollController _controller;
-  final itemSize = globals.fontTozihLevel * 1.7;
+  late ScrollController _controller;
+  final itemSize = globals.fontTozihLevel! * 1.7;
   final queryOffset = 100;
 
   _moveUp() {
@@ -67,7 +67,7 @@ class _DetailSec44State extends State<DetailSec44> {
     widget.player.stop();     widget.player.setLoopMode(LoopMode.off);
     widget.player.dispose();
     print("************************************************************************dispos detailsec");
-    _scrollController.dispose();
+    _scrollController!.dispose();
     super.dispose();
   }
 
@@ -81,21 +81,21 @@ class _DetailSec44State extends State<DetailSec44> {
         isBookmarked
             ? setState(() {
           iconBookmarkcolor = Colors.white;
-          globals.titleBookMarked.remove(globals.titleCurrentPage);
-          globals.indexBookMarked.remove(globals.indexCurrentPage);
-          globals.indexFaslBookMarked
+          globals.titleBookMarked!.remove(globals.titleCurrentPage);
+          globals.indexBookMarked!.remove(globals.indexCurrentPage);
+          globals.indexFaslBookMarked!
               .remove(globals.indexFaslCurrentPage);
-          globals.codeBookMarked.remove(globals.codeCurrentPage);
+          globals.codeBookMarked!.remove(globals.codeCurrentPage);
           isBookmarked = false;
           print(
               "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
         })
             : setState(() {
           iconBookmarkcolor = Colors.red;
-          globals.titleBookMarked.add(globals.titleCurrentPage);
-          globals.indexBookMarked.add(globals.indexCurrentPage);
-          globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
-          globals.codeBookMarked.add(globals.codeCurrentPage);
+          globals.titleBookMarked!.add(globals.titleCurrentPage);
+          globals.indexBookMarked!.add(globals.indexCurrentPage);
+          globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage);
+          globals.codeBookMarked!.add(globals.codeCurrentPage);
           isBookmarked = true;
 
           print(
@@ -103,8 +103,8 @@ class _DetailSec44State extends State<DetailSec44> {
         });
 
         if (globals.indexBookMarked != null) {
-          setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-              globals.indexFaslBookMarked, globals.codeBookMarked);
+          setBookmark(globals.titleBookMarked!, globals.indexBookMarked!,
+              globals.indexFaslBookMarked!, globals.codeBookMarked!);
         }
       } else if (indexTab == 0) {
         Navigator.push(
@@ -133,11 +133,11 @@ class _DetailSec44State extends State<DetailSec44> {
   }
 
   /// set bookmarkPage in sharedPreferences
-  void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
-      List<int> _code) async {
+  void setBookmark(List<String?> _title, List<int?> _index, List<int?> _indexFasl,
+      List<int?> _code) async {
     prefs = await SharedPreferences.getInstance();
 //    if (_index[0] != null && !_index[0].isNaN) {
-    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title as List<String>);
 
     List<String> _strindex = _index.map((i) => i.toString()).toList();
     await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
@@ -173,9 +173,9 @@ class _DetailSec44State extends State<DetailSec44> {
   }
 
   /// Init Page Controller
-  PageController pageController;
-  double _scrollPosition;
-  ScrollController _scrollController;
+  PageController? pageController;
+  late double _scrollPosition;
+  ScrollController? _scrollController;
   setLastScolledPixel(double level) async {
     globals.lastScrolledPixel = level;
     prefs = await SharedPreferences.getInstance();
@@ -185,14 +185,14 @@ class _DetailSec44State extends State<DetailSec44> {
   }
   _scrollListener() {
     setState(() {
-      _scrollPosition = _scrollController.position.pixels;
+      _scrollPosition = _scrollController!.position.pixels;
       setLastScolledPixel(_scrollPosition);
     });
   }
   getLastScolledPixel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
-      double _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
+      double? _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
       setState(() {
         globals.lastScrolledPixel = _lastScrolledPixel;
       });
@@ -202,7 +202,7 @@ class _DetailSec44State extends State<DetailSec44> {
   @override
   void initState() {
     _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
+    _scrollController!.addListener(_scrollListener);
 
     print(
         "************************************************************************** widget.indexFasl " +
@@ -212,7 +212,7 @@ class _DetailSec44State extends State<DetailSec44> {
             widget.index.toString());
 
     setState(() {
-      if (globals.codeBookMarked.contains(widget.code)) {
+      if (globals.codeBookMarked!.contains(widget.code)) {
         print(
             "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked.contains(${widget.detail})");
         isBookmarked = true;
@@ -244,10 +244,10 @@ class _DetailSec44State extends State<DetailSec44> {
   }
 
   List<TextSpan> highlightOccurrencesDetailSec(
-      String source, String query, double _fontSize) {
+      String? source, String? query, double _fontSize) {
     if (query == null ||
         query.isEmpty ||
-        !source.toLowerCase().contains(query.toLowerCase())) {
+        !source!.toLowerCase().contains(query.toLowerCase())) {
       return [TextSpan(text: source)];
     }
     final matches = query.toLowerCase().allMatches(source.toLowerCase());
@@ -284,8 +284,8 @@ class _DetailSec44State extends State<DetailSec44> {
     return children;
   }
   void _scrollToPixel() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(globals.lastScrolledPixel,
+    if (_scrollController!.hasClients) {
+      _scrollController!.animateTo(globals.lastScrolledPixel!,
           duration: Duration(milliseconds: 100), curve: Curves.fastOutSlowIn);
     } else {
       Timer(Duration(milliseconds: 400), () => _scrollToPixel());
@@ -299,23 +299,23 @@ class _DetailSec44State extends State<DetailSec44> {
 
     return
       Scaffold(
-        body: (ui.terjemahan == true || globals.tarjActive)
+        body: (ui.terjemahan == true || globals.tarjActive!)
             ? FutureBuilder<DailyDoa4>(
           future: ServiceData().loadSec4(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
           builder: (c, snapshot) {
             if (snapshot.hasData) {
-              titleCurrentPage = snapshot.data.title;
+              titleCurrentPage = snapshot.data!.title;
               globals.titleCurrentPage = titleCurrentPage;
-              indexCurrentPage = snapshot.data.number;
+              indexCurrentPage = snapshot.data!.number;
               globals.indexCurrentPage = indexCurrentPage;
-              indexFaslCurrentPage = snapshot.data.bab;
+              indexFaslCurrentPage = snapshot.data!.bab;
               globals.indexFaslCurrentPage = indexFaslCurrentPage;
               codeCurrentPage =
-                  indexFaslCurrentPage * 1000 + indexCurrentPage;
+                  indexFaslCurrentPage! * 1000 + indexCurrentPage!;
               globals.codeCurrentPage = codeCurrentPage;
               print(
                   "titleCurrentPage      <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<   " +
-                      titleCurrentPage);
+                      titleCurrentPage!);
             }
 
             return snapshot.hasData
@@ -327,10 +327,10 @@ class _DetailSec44State extends State<DetailSec44> {
                     shrinkWrap: true,
                     controller: _scrollController,
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: snapshot.data.arabic.length,
+                    itemCount: snapshot.data!.arabic!.length,
                     itemBuilder: (BuildContext c, int i) {
                       String key =
-                      snapshot.data.arabic.keys.elementAt(i);
+                      snapshot.data!.arabic!.keys.elementAt(i);
                       return Column(
                           crossAxisAlignment:
                           CrossAxisAlignment.start,
@@ -341,7 +341,7 @@ class _DetailSec44State extends State<DetailSec44> {
                               child: Column(
                                 children: <Widget>[
                                   if (int.parse(key) -
-                                      snapshot.data.delay ==
+                                      snapshot.data!.delay! ==
                                       1)
                                     ListTile(
                                       dense: true,
@@ -352,14 +352,14 @@ class _DetailSec44State extends State<DetailSec44> {
                                           fontFamily: AppStyle
                                               .textQuranfontFamily,
                                           fontSize: 1.2 *
-                                              globals.fontArabicLevel,
+                                              globals.fontArabicLevel!,
                                           height: 1.5,
                                         ),
                                       ),
                                     ),
-                                  if (snapshot.data.arabic[key] !=
+                                  if (snapshot.data!.arabic![key] !=
                                       "" &&
-                                      snapshot.data.arabic[key] !=
+                                      snapshot.data!.arabic![key] !=
                                           null &&
                                       widget.indexFasl >= 4)
                                     ListTile(
@@ -368,13 +368,13 @@ class _DetailSec44State extends State<DetailSec44> {
                                         textAlign: TextAlign.right,
                                         text: TextSpan(
                                           text: replaceFarsiNumber((snapshot
-                                              .data
-                                              .arabic[key] +
+                                              .data!
+                                              .arabic![key]! +
                                               '﴿' +
                                               (int.parse(key) -
                                                   snapshot
-                                                      .data
-                                                      .delay)
+                                                      .data!
+                                                      .delay!)
                                                   .toString() +
                                               '﴾')
                                               .toString()),
@@ -383,17 +383,17 @@ class _DetailSec44State extends State<DetailSec44> {
                                                 .textQuranfontFamily,
                                             fontSize: 1.2 *
                                                 globals
-                                                    .fontArabicLevel,
+                                                    .fontArabicLevel!,
                                             height: 1.5,
                                             color: Theme.of(context)
-                                                .accentColor,
+                                                .shadowColor,
                                           ),
                                         ),
                                       ),
                                     ),
-                                  if (snapshot.data.farsi[key] !=
+                                  if (snapshot.data!.farsi![key] !=
                                       null &&
-                                      snapshot.data.farsi[key] != "")
+                                      snapshot.data!.farsi![key] != "")
                                     ListTile(
                                       dense: true,
                                       title: RichText(
@@ -401,10 +401,10 @@ class _DetailSec44State extends State<DetailSec44> {
                                         text: TextSpan(
                                           children:
                                           highlightOccurrencesDetailSec(
-                                              snapshot.data
-                                                  .farsi[key],
+                                              snapshot.data!
+                                                  .farsi![key],
                                               widget.query,
-                                              globals.fontTarjLevel +
+                                              globals.fontTarjLevel! +
                                                   4),
                                           style: TextStyle(
                                             fontFamily: 'عربی ساده',
@@ -412,7 +412,7 @@ class _DetailSec44State extends State<DetailSec44> {
                                             globals.fontTarjLevel,
                                             height: 1.5,
                                             color: Theme.of(context)
-                                                .accentColor,
+                                                .shadowColor,
                                           ),
                                         ),
                                       ),

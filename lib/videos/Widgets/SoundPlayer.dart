@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class SoundPlayer extends StatefulWidget
 {
-  String address;
+  String? address;
 
   SoundPlayer({
      this.address
@@ -19,7 +19,7 @@ class SoundPlayerState extends State<SoundPlayer>
 
   //Global vriables
   int maxduration = 120;
-  String address;
+  String? address;
   AudioPlayer player = AudioPlayer();
   Icon play_ic_btn=Icon(Icons.play_arrow,color: Colors.black,);
   bool isplay=false;

@@ -70,8 +70,8 @@ class ServiceData {
     return data.map((model) => FaslInfo.fromJson(model)).toList();
   }
 
-  Future<List<FaslSecInfo>> loadFaslSecInfo(int index) async {
-    var response = await rootBundle.loadString(dict[index]); //dict[index]
+  Future<List<FaslSecInfo>> loadFaslSecInfo(int? index) async {
+    var response = await rootBundle.loadString(dict[index!]!); //dict[index]
     Iterable data = json.decode(response);
     return data.map((model) => FaslSecInfo.fromJson(model)).toList();
   }
@@ -98,7 +98,7 @@ class ServiceData {
     return DailyDoa.fromJson(data);
   }
 
-  Future<DailyDoa> loadSec(int indexFasl, String number) async {
+  Future<DailyDoa> loadSec(int? indexFasl, String number) async {
     final response =
     await rootBundle.loadString('python/Babs/$indexFasl/$number');
     var res = json.decode(response);
@@ -106,7 +106,7 @@ class ServiceData {
     return DailyDoa.fromJson(data);
   }
 
-  Future<DailyDoa4> loadSec4(int indexFasl, String number) async {
+  Future<DailyDoa4> loadSec4(int? indexFasl, String number) async {
     final response =
     await rootBundle.loadString('python/Babs/$indexFasl/$number');
     var res = json.decode(response);

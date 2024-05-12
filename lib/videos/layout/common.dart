@@ -4,21 +4,21 @@ const _defaultColor = Color(0xFF34568B);
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold({
-    Key key,
+    Key? key,
      this.title,
     this.topPadding = 0,
      this.child,
   }) : super(key: key);
 
-  final String title;
-  final Widget child;
+  final String? title;
+  final Widget? child;
   final double topPadding;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: topPadding),
@@ -30,17 +30,17 @@ class AppScaffold extends StatelessWidget {
 
 class Tile extends StatelessWidget {
   const Tile({
-    Key key,
+    Key? key,
      this.index,
     this.extent,
     this.backgroundColor,
     this.bottomSpace,
   }) : super(key: key);
 
-  final int index;
-  final double extent;
-  final double bottomSpace;
-  final Color backgroundColor;
+  final int? index;
+  final double? extent;
+  final double? bottomSpace;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -76,22 +76,22 @@ class Tile extends StatelessWidget {
 
 class ImageTile extends StatelessWidget {
   const ImageTile({
-    Key key,
+    Key? key,
      this.index,
      this.width,
      this.height,
   }) : super(key: key);
 
-  final int index;
-  final int width;
-  final int height;
+  final int? index;
+  final int? width;
+  final int? height;
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
       'https://picsum.photos/$width/$height?random=$index',
-      width: width.toDouble(),
-      height: height.toDouble(),
+      width: width!.toDouble(),
+      height: height!.toDouble(),
       fit: BoxFit.cover,
     );
   }
@@ -99,15 +99,15 @@ class ImageTile extends StatelessWidget {
 
 class InteractiveTile extends StatefulWidget {
   const InteractiveTile({
-    Key key,
+    Key? key,
      this.index,
     this.extent,
     this.bottomSpace,
   }) : super(key: key);
 
-  final int index;
-  final double extent;
-  final double bottomSpace;
+  final int? index;
+  final double? extent;
+  final double? bottomSpace;
 
   @override
   _InteractiveTileState createState() => _InteractiveTileState();

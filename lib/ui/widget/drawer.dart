@@ -11,14 +11,14 @@ import 'package:mafatih/library/Globals.dart' as globals;
 
 class Drawers extends StatelessWidget {
 
-  double newVersionBuildNumber;
-  double currentBuildNumber;
+  double? newVersionBuildNumber;
+  double? currentBuildNumber;
   Drawers({
-    Key key,
+    Key? key,
     this.newVersionBuildNumber,
     this.currentBuildNumber,
   }) : super(key: key);
-  bool isInstalled;
+  bool? isInstalled;
   final SharedFunc sharedfunc = new SharedFunc();
 
   @override
@@ -96,11 +96,11 @@ class Drawers extends StatelessWidget {
                 onTap: () {
                   print("currentBuildNumber $currentBuildNumber");
                   try {
-                    if (newVersionBuildNumber!=null && newVersionBuildNumber >
-                        currentBuildNumber) {
+                    if (newVersionBuildNumber!=null && newVersionBuildNumber! >
+                        currentBuildNumber!) {
                       sharedfunc.updater(context);
-                    } else if (newVersionBuildNumber==null || newVersionBuildNumber <=
-                        currentBuildNumber){
+                    } else if (newVersionBuildNumber==null || newVersionBuildNumber! <=
+                        currentBuildNumber!){
                       sharedfunc.no_update(context);
                     }
                   } catch (e) {
@@ -108,7 +108,7 @@ class Drawers extends StatelessWidget {
                   }
                 }),
             InkWell(
-              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifdrawer1"]);
+              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap!["urlgifdrawer1"]);
               final date = DateTime.now();
                 print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
               child: CachedNetworkImage(
@@ -119,7 +119,7 @@ class Drawers extends StatelessWidget {
             ),
             SizedBox(height:5),
             InkWell(
-              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifdrawer2"]);},
+              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap!["urlgifdrawer2"]);},
               child: CachedNetworkImage(
                 imageUrl: Constants.urlgifdrawer2,
                 cacheKey: Constants.urlgifdrawer2+DateTime.now().weekOfYear.toString(),
@@ -128,7 +128,7 @@ class Drawers extends StatelessWidget {
             ),
             SizedBox(height:5),
             InkWell(
-              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifdrawer3"]);},
+              onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap!["urlgifdrawer3"]);},
               child: CachedNetworkImage(
                 imageUrl: Constants.urlgifdrawer3,
                 cacheKey: Constants.urlgifdrawer3+DateTime.now().weekOfYear.toString(),

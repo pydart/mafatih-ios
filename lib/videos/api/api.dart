@@ -33,25 +33,25 @@ class api
     {
       token=json["data"]["token"];
       user=user_model(
-        id: json["data"]["user"]["id"], 
-        roll: json["data"]["user"]["roll"].toString(), 
-        status: json["data"]["user"]["status"].toString(), 
-        access_make_video: json["data"]["user"]["access_make_video"].toString(), 
-        access_make_template: json["data"]["user"]["access_make_template"].toString(), 
-        mobile: json["data"]["user"]["mobile"].toString(), 
-        first_name: json["data"]["user"]["first_name"].toString(), 
-        name: json["data"]["user"]["name"].toString(), 
-        last_name: json["data"]["user"]["last_name"].toString(), 
-        image: json["data"]["user"]["image"].toString(), 
-        image_th: json["data"]["user"]["image_th"].toString(), 
-        email: json["data"]["user"]["email"].toString(), 
-        email_verified_at: json["data"]["user"]["email_verified_at"].toString(), 
-        rule: json["data"]["user"]["rule"].toString(), 
-        created_at: json["data"]["user"]["created_at"].toString(), 
-        updated_at: json["data"]["user"]["updated_at"].toString()
+          id: json["data"]["user"]["id"],
+          roll: json["data"]["user"]["roll"].toString(),
+          status: json["data"]["user"]["status"].toString(),
+          access_make_video: json["data"]["user"]["access_make_video"].toString(),
+          access_make_template: json["data"]["user"]["access_make_template"].toString(),
+          mobile: json["data"]["user"]["mobile"].toString(),
+          first_name: json["data"]["user"]["first_name"].toString(),
+          name: json["data"]["user"]["name"].toString(),
+          last_name: json["data"]["user"]["last_name"].toString(),
+          image: json["data"]["user"]["image"].toString(),
+          image_th: json["data"]["user"]["image_th"].toString(),
+          email: json["data"]["user"]["email"].toString(),
+          email_verified_at: json["data"]["user"]["email_verified_at"].toString(),
+          rule: json["data"]["user"]["rule"].toString(),
+          created_at: json["data"]["user"]["created_at"].toString(),
+          updated_at: json["data"]["user"]["updated_at"].toString()
       );
-      
-      Data_Sever.Save_Data("token", token);
+
+      Data_Sever.Save_Data("token", token!);
 
       return true;
     }
@@ -93,28 +93,28 @@ class api
     //debugPrint(response);
     JsonDecoder decoder=new JsonDecoder();
     Map<String,dynamic> json=decoder.convert(response);
-    
+
     if(!response.toString().contains("message"))
     {
       user=user_model(
-        id: json["data"]["user"]["id"], 
-        roll: json["data"]["user"]["roll"].toString(), 
-        status: json["data"]["user"]["status"].toString(), 
-        access_make_video: json["data"]["user"]["access_make_video"].toString(), 
-        access_make_template: json["data"]["user"]["access_make_template"].toString(), 
-        mobile: json["data"]["user"]["mobile"].toString(), 
-        first_name: json["data"]["user"]["first_name"].toString(), 
-        name: json["data"]["user"]["name"].toString(), 
-        last_name: json["data"]["user"]["last_name"].toString(), 
-        image: json["data"]["user"]["image"].toString(), 
-        image_th: json["data"]["user"]["image_th"].toString(), 
-        email: json["data"]["user"]["email"].toString(), 
-        email_verified_at: json["data"]["user"]["email_verified_at"].toString(), 
-        rule: json["data"]["user"]["rule"].toString(), 
-        created_at: json["data"]["user"]["created_at"].toString(), 
-        updated_at: json["data"]["user"]["updated_at"].toString()
+          id: json["data"]["user"]["id"],
+          roll: json["data"]["user"]["roll"].toString(),
+          status: json["data"]["user"]["status"].toString(),
+          access_make_video: json["data"]["user"]["access_make_video"].toString(),
+          access_make_template: json["data"]["user"]["access_make_template"].toString(),
+          mobile: json["data"]["user"]["mobile"].toString(),
+          first_name: json["data"]["user"]["first_name"].toString(),
+          name: json["data"]["user"]["name"].toString(),
+          last_name: json["data"]["user"]["last_name"].toString(),
+          image: json["data"]["user"]["image"].toString(),
+          image_th: json["data"]["user"]["image_th"].toString(),
+          email: json["data"]["user"]["email"].toString(),
+          email_verified_at: json["data"]["user"]["email_verified_at"].toString(),
+          rule: json["data"]["user"]["rule"].toString(),
+          created_at: json["data"]["user"]["created_at"].toString(),
+          updated_at: json["data"]["user"]["updated_at"].toString()
       );
-      
+
       return true;
     }
     else
@@ -129,7 +129,7 @@ class api
           textColor: Colors.white,
           fontSize: 16.0
       );
-      
+
     }
 
     return false;
@@ -158,7 +158,7 @@ class api
   //Check forget password code start
   Future<bool> CheckForgetPasswordCode(String mobile,String code) async
   {
-    
+
     String resposne=await server().Post("auth/forget-pass", { "mobile":mobile,"code":code },false);
 
     if(resposne.contains("message"))
@@ -202,7 +202,7 @@ class api
 
 
   //Get all themplate start
-  Future<List<theme_model>> GetAllThemeData() async
+  Future<List<theme_model>?> GetAllThemeData() async
   {
     String resposne=await server().Get("app/index",true);
     List all = jsonDecode(resposne)["data"]["story"];
@@ -226,8 +226,8 @@ class api
       resposne=await server().Post("panel/setting",{"first_name":first_name,"last_name":last_name,"password":password},true);
     }
 
-    user.first_name=first_name;
-    user.last_name=last_name;
+    user?.first_name=first_name;
+    user?.last_name=last_name;
     //debugPrint("Setting response is : "+resposne);
 
     Fluttertoast.showToast(
@@ -249,7 +249,8 @@ class api
   //Get all categories start
   Future<List<categories_model>> GetAllCategories() async
   {
-    print("//////////////////////////////////          GetAllCategories    //////////////  ");
+    print("//////////////////////////////////          GetAllCategories     //////////////  ");
+
 
     var response = await server().Get("app/categories",true);
     List all_cat=jsonDecode(response)["data"]["categories"];
@@ -257,10 +258,10 @@ class api
     List filteredCat=[];
 
     // print("//////////////////////////////////          filteredCat.addAll(all_cat[i])     //////////////  ${filteredCat.insert(0,all_cat[0])}");
-    print("//////////////////////////////////          all_cat.length     //////////////  ${all_cat.length}");
+    // print("//////////////////////////////////          all_cat.length     //////////////  ${all_cat.length}");
     int num=0;
     for (var i = 0; i < (all_cat.length); i++){
-      if (globals.jsonCodesHavingCat.contains(all_cat[i]['name'])) {
+      if (globals.jsonCodesHavingCat!.contains(all_cat[i]['name'])) {
         print("//////////////////////////////////          globals.jsonCodesHavingCat.contains(all_cat[i]['name'])     //////////////  ${all_cat.length}");
         num+=1;
       } else {
@@ -273,8 +274,9 @@ class api
     print("//////////////////////////////////          filteredCat     //////////////  $filteredCat");
 
     all_categories=List<categories_model>.from(filteredCat.map((x) => categories_model.fromjson(x)));
+    print("//////////////////////////////////          all_categories     //////////////  $all_categories");
 
-    return all_categories;
+    return all_categories!;
   }
   //Get all categories end
 
@@ -283,9 +285,11 @@ class api
   //Get all categories start
   Future<List<theme_model>> GetAllThemeOfCategories() async
   {
+    print("//////////////////////////////////    GetAllThemeOfCategories          ////////////// ");
+
     // var response = await server().Post("app/cat-templates",{ "category_id" : selected_category_index.toString() },true);
     var response = await server().Get("app/categories-videos",true);
-    print("//////////////////////////////////               //////////////  $response");
+    print("//////////////////////////////////    app/categories-videos           //////////////  $response");
 
     List all_cat=jsonDecode(response)["data"]["categories"][0]["index_video"];
     print("//////////////////////////////////               //////////////  $all_cat");
@@ -322,55 +326,60 @@ class api
     var response = await server().Post("video/all",{ "category_id" : cat_id },true);
 
     List all_cat=jsonDecode(response)["data"]["videos"]["data"];
-    // print("//////////////////////////////////               //////////////  $all_cat");
+    print("//////////////////////////////////        GetAllThemeOfCategoriesById       //////////////  ${jsonDecode(response)["data"]["videos"]["total"]}");
 
     List<theme_model> result=List<theme_model>.from(all_cat.map((x) => theme_model.fromjson(x)));
+    print("//////////////////////////////////        GetAllThemeOfCategoriesById       //////////////  ${result}");
+
     return result;
   }
   //Get all categories end
 
-  // //Get all videos by page start
-  // Future<List<theme_model>> GetAllVideosPerPage(String cat_id, String page) async
-  // {
-  //   print("//////////////////////////////////               GetAllVideosPerPage////////////// start");
-  //   var response = await server().Get("app/category/$cat_id",true);
-  //   // var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : page},true);
-  //   // List all_vid_each_page=jsonDecode(response)["data"]["videos"]["data"];
-  //   print("//////////////////////////////////               GetAllVideosPerPage////////////// ${(jsonDecode(response)["data"]["per_page"])}");
-  //   List all_vid_each_page=jsonDecode(response)["data"]["videos"];
-  //   // List all_vid_each_page=[];
-  //   // for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
-  //   //   var response = await server().Post("video/all",{ "category_id" : cat_id , "page" : i.toString()},true);
-  //   //   List all_vid_each_page_1=jsonDecode(response)["data"]["videos"]["data"];
-  //   //   all_vid_each_page.addAll(all_vid_each_page_1);
-  //   // }
-  //
-  //   List<theme_model> result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
-  //   return result;
-  // }
-  //Get all categories end
-
   //Get all videos by page start
-  Future<List<theme_model>> GetAllVideosPerPage(String cat_id, String page) async
-  {
+  Future<List<theme_model>> GetAllVideosPerPage(String cat_id, int pageNum) async {
 
     List all_vid_each_page=[];
     String UrlApi;
-    UrlApi="app/category/$cat_id";
-    print("//////////////////////////////////         GetAllVideosPerPage      //////////////  ");
+    cat_id=="0"? UrlApi="video/all-videos": UrlApi="app/category/$cat_id";
+    print(
+        "//////////////////////////////////               GetAllVideosPerPage////////////// start");
+    //   // var response = await server().Get("$UrlApi", true);
+    //   // print(
+    //   //     "//////////////////////////////////               GetAllVideosPerPage////////////// ${(jsonDecode(
+    //   //         response)["data"]["per_page"])}");
+    //   // all_vid_each_page = jsonDecode(response)["data"]["videos"];
+    // }
 
-    var response = await server().Get("$UrlApi",true);
-    for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
-      var response = await server().Get("${UrlApi}?page=${i.toString()}",true);
+    // var response = await server().Get("$UrlApi",true);
+    for (var i = 1; i <= 1; i++){
+      // for (var i = 1; i <= ((jsonDecode(response)["data"]["videos"]["total"] / jsonDecode(response)["data"]["videos"]["per_page"]).floor())+1; i++){
+      var response = await server().Get("${UrlApi}?page=${pageNum.toString()}",true);
+      // var response = await server().Get("video/all?category_id=2&page=1",true);
       List all_vid_each_page_1=jsonDecode(response)["data"]["videos"]["data"];
       all_vid_each_page.addAll(all_vid_each_page_1);
     }
 
-    List<theme_model> result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
-    print("//////////////////////////////////         GetAllVideosPerPage      //////////////  $result");
+    // var response = await server().Get("${UrlApi}?page=${pageNum.toString()}",true);
+    // List all_vid_each_page_1=jsonDecode(response)["data"]["videos"]["data"];
+    //  // all_vid_each_page=List.from( all_vid_each_page_1.map((x) => x['allvideos']=jsonDecode(response)["data"]["videos"]["total"]));
+    // // all_vid_each_page_1.map((x) => x['allvideos']=jsonDecode(response)["data"]["videos"]["total"]);
+    // print(
+    //     "//////////////////////////////////               all_vid_each_page_1////////////// ${all_vid_each_page_1}");
+    // for(var item in all_vid_each_page_1) {
+    //   item['num_all_vid']=jsonDecode(response)["data"]["videos"]["total"];
+    //   all_vid_each_page.addAll(item);
+    // }
 
+    print(
+        "//////////////////////////////////               GetAllVideosPerPage////////////// ${all_vid_each_page}");
+    var result=List<theme_model>.from(all_vid_each_page.map((x) => theme_model.fromjson(x)));
+
+    print(
+        "//////////////////////////////////               GetAllVideosPerPage all_vid_each_page.map((x)///////////// $result");
     return result;
   }
+  // }
+  //Get all categories end
 
 
 
@@ -416,16 +425,16 @@ class api
     var response = await server().Post("video/plan/next",data,true);
     debugPrint("Step one result is  : "+response);
   }
-  //Get submit first step in make video end
+//Get submit first step in make video end
 
 
 
-  //Get all project from server start
-  // Future<List<project_model>> GetAllProjects() async
-  // {
-  //   String resposne=await server().Get("panel/videos",true);
-  // }
-  //Get all project from server end
+//Get all project from server start
+// Future<List<project_model>> GetAllProjects() async
+// {
+//   String resposne=await server().Get("panel/videos",true);
+// }
+//Get all project from server end
 
 
 

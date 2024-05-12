@@ -12,7 +12,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   /// Declare SharedPreferences
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
   var dark;
 
   @override
@@ -34,17 +34,17 @@ class _SplashScreenState extends State<SplashScreen> {
   getBrightnessLevel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BRIGHTNESS_LEVEL) &&
-        globals.brightnessActive) {
-      double _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
-      double _brightnessLevel2;
+        globals.brightnessActive!) {
+      double? _brightnessLevel = prefs.getDouble(globals.BRIGHTNESS_LEVEL);
+      double? _brightnessLevel2;
       setState(() {
         _brightnessLevel2 =
-            _brightnessLevel > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
+            _brightnessLevel! > 1 ? (_brightnessLevel) / 10 : _brightnessLevel;
         globals.brightnessLevel =
-            double.parse(_brightnessLevel2.toStringAsFixed(2));
+            double.parse(_brightnessLevel2!.toStringAsFixed(2));
       });
 
-      ScreenBrightness().setScreenBrightness(globals.brightnessLevel);
+      ScreenBrightness().setScreenBrightness(globals.brightnessLevel!);
     } else {
       // getScreenBrightness();
     }
@@ -105,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
         '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   ${globals.fontArabicLevel}             globals.fontArabicLevel');
   }
 
-  bool _darkMode;
+  bool? _darkMode;
   getOtherSettings() async {
     SharedPreferences prefs;
 

@@ -19,15 +19,15 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  double tempBrightnessLevel = globals.brightnessLevel == null
+  double? tempBrightnessLevel = globals.brightnessLevel == null
       ? globals.brightnessLevelDefault
       : globals.brightnessLevel;
-  double tempFontArabicLevel = globals.fontArabicLevel;
-  double tempFontTarjLevel = globals.fontTarjLevel;
-  double tempFontTozihLevel = globals.fontTozihLevel;
-  String tempFontArabic = globals.fontArabic;
+  double? tempFontArabicLevel = globals.fontArabicLevel;
+  double? tempFontTarjLevel = globals.fontTarjLevel;
+  double? tempFontTozihLevel = globals.fontTozihLevel;
+  String? tempFontArabic = globals.fontArabic;
   // List FontArabicList = ['نیریزی'];
-  double briValue;
+  late double briValue;
   List FontArabicList = [
     'نیریزی یک',
     'عثمان طه',
@@ -43,13 +43,13 @@ class _SettingsState extends State<Settings> {
     'تاریک',
   ];
 
-  bool tempTarjKhati = globals.tarjKhati;
-  bool tempTarjActive = globals.tarjActive;
-  bool tempTozihActive = globals.tozihActive;
-  bool themeType = globals.themeType;
-  bool brightnessActive = globals.brightnessActive;
+  bool? tempTarjKhati = globals.tarjKhati;
+  bool? tempTarjActive = globals.tarjActive;
+  bool? tempTozihActive = globals.tozihActive;
+  bool? themeType = globals.themeType;
+  bool? brightnessActive = globals.brightnessActive;
 
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
   setBrightnessLevel(double level) async {
     globals.brightnessLevel = level;
     prefs = await SharedPreferences.getInstance();
@@ -98,10 +98,10 @@ class _SettingsState extends State<Settings> {
     prefs.setBool(globals.TarjKhati, level);
   }
 
-  setThemeType(bool level) async {
+  setThemeType(bool? level) async {
     globals.themeType = level;
     prefs = await SharedPreferences.getInstance();
-    prefs.setBool(globals.ThemeType, globals.themeType);
+    prefs.setBool(globals.ThemeType, globals.themeType!);
   }
 
   setTozihActive(bool level) async {
@@ -118,7 +118,7 @@ class _SettingsState extends State<Settings> {
         _brightnessLevel3 > 1 ? (_brightnessLevel3) / 10 : (_brightnessLevel3);
     globals.brightnessLevel =
         double.parse(_brightnessLevel4.toStringAsFixed(2));
-    ScreenBrightness().setScreenBrightness(globals.brightnessLevel);
+    ScreenBrightness().setScreenBrightness(globals.brightnessLevel!);
   }
 
   void selectLightMode() => Provider.of<CustomThemeMode>(context, listen: false)
@@ -130,7 +130,7 @@ class _SettingsState extends State<Settings> {
           .setThemeMode(ThemeMode.system);
 
   Widget get _buildThemeButton {
-    ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
+    ThemeMode? currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
     Map<String, bool> theme = {
       LocaleKeys.lightMode.tr(): currentTheme == ThemeMode.light ? true : false,
       LocaleKeys.darkMode.tr(): currentTheme == ThemeMode.dark ? true : false,
@@ -172,7 +172,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeMode currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
+    ThemeMode? currentTheme = Provider.of<CustomThemeMode>(context).getThemeMode;
     Map<String, bool> themeMap = {
       LocaleKeys.lightMode.tr(): currentTheme == ThemeMode.light ? true : false,
       LocaleKeys.darkMode.tr(): currentTheme == ThemeMode.dark ? true : false,
@@ -190,6 +190,9 @@ class _SettingsState extends State<Settings> {
     // var dark = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Theme.of(context).brightness == Brightness.light
+            ? Colors.green
+            : Colors.black,
         leading: IconButton(
           icon: Icon(Icons.keyboard_backspace),
           onPressed: () => Navigator.of(context).pop(),
@@ -248,7 +251,7 @@ class _SettingsState extends State<Settings> {
                       ),
                       value: 2),
                 ],
-                onChanged: (value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     value == 0
                         ? selectSystemThemeMode()
@@ -259,38 +262,41 @@ class _SettingsState extends State<Settings> {
                 }),
           ),
           CardSetting(
+
             title: 'ترجمه',
             leading: Switch(
               activeColor: Colors.green,
-              value: tempTarjActive,
+              inactiveThumbColor: Colors.green,
+
+              value: tempTarjActive!,
               onChanged: (newValue) {
                 setState(() {
                   ui.terjemahan = newValue;
                   tempTarjActive = newValue;
                   setTarjActive(newValue);
 
-                  tempTarjKhati = (newValue & globals.tarjKhati) ? true : false;
+                  tempTarjKhati = (newValue & globals.tarjKhati!) ? true : false;
                   print("***********************************************************************" + tempTarjKhati.toString());
                   //
                   ui.tarjKhatiSet = globals.tarjKhati;
                   globals.tarjKhati = tempTarjKhati;
-                  setTarjKhati(globals.tarjKhati);
+                  setTarjKhati(globals.tarjKhati!);
                 });
               },
             ),
           ),
-          tempTarjActive
+          tempTarjActive!
               ? CardSetting(
             title: ' ترجمه خطی(تعدادی محدود)',
             leading: Switch(
               activeColor: Colors.green,
-              value: tempTarjKhati,
+              value: tempTarjKhati!,
               onChanged: (newValue) {
                 setState(() {
                   tempTarjKhati = newValue;
                   globals.tarjKhati = tempTarjKhati;
                   ui.tarjKhatiSet = tempTarjKhati;
-                  setTarjKhati(globals.tarjKhati);
+                  setTarjKhati(globals.tarjKhati!);
                 });
               },
             ),
@@ -299,10 +305,12 @@ class _SettingsState extends State<Settings> {
           CardSlider(
             title: 'سایز متن توضیحات ',
             slider: Slider(
+                activeColor: Colors.green,
+
                 min: 14,
                 max: 1.5 * 30,
 //                value: ui.sliderfontSizeTozih,
-                value: tempFontTozihLevel,
+                value: tempFontTozihLevel!,
                 onChanged: (newValue) {
                   setState(() {
                     tempFontTozihLevel = newValue;
@@ -311,14 +319,16 @@ class _SettingsState extends State<Settings> {
                   });
                 }),
 //            trailing: ui.fontSizeTozih.toInt().toString(),
-            trailing: tempFontTozihLevel.toInt().toString(),
+            trailing: tempFontTozihLevel!.toInt().toString(),
           ),
           CardSlider(
             title: 'سایز متن فارسی ',
             slider: Slider(
+                activeColor: Colors.green,
+
                 min: 14,
                 max: 1.5 * 30,
-                value: tempFontTarjLevel,
+                value: tempFontTarjLevel!,
                 onChanged: (newValue) {
                   setState(() {
                     tempFontTarjLevel = newValue;
@@ -326,14 +336,16 @@ class _SettingsState extends State<Settings> {
                     setFontTarjLevel(newValue);
                   });
                 }),
-            trailing: tempFontTarjLevel.toInt().toString(),
+            trailing: tempFontTarjLevel!.toInt().toString(),
           ),
           CardSlider(
             title: 'سایز متن عربی',
             slider: Slider(
+                activeColor: Colors.green,
+
                 min: 14,
                 max: 1.5 * 30,
-                value: tempFontArabicLevel,
+                value: tempFontArabicLevel!,
                 onChanged: (newValue) {
                   setState(() {
                     ui.fontSize = newValue;
@@ -341,7 +353,7 @@ class _SettingsState extends State<Settings> {
                     setFontArabicLevel(newValue);
                   });
                 }),
-            trailing: tempFontArabicLevel.toInt().toString(),
+            trailing: tempFontArabicLevel!.toInt().toString(),
           ),
           CardSetting(
             title: 'تغییر فونت عربی مفاتیح',
@@ -411,7 +423,7 @@ class _SettingsState extends State<Settings> {
                       ),
                       value: 5)
                 ],
-                onChanged: (value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     tempFontArabic = FontArabicList[value];
                     ui.fontFormat = tempFontArabic;
@@ -424,43 +436,45 @@ class _SettingsState extends State<Settings> {
             leading: Switch(
               activeColor: Colors.green,
 
-              value: brightnessActive,
+              value: brightnessActive!,
 //              value: tempDarkMode,
               onChanged: (newValue) {
                 setState(() {
                   brightnessActive = newValue;
                   globals.brightnessActive = newValue;
                   setBrightnessActive(newValue);
-                  brightnessActive
-                      ? ScreenBrightness().setScreenBrightness(tempBrightnessLevel)
+                  brightnessActive!
+                      ? ScreenBrightness().setScreenBrightness(tempBrightnessLevel!)
                       : ScreenBrightness().setScreenBrightness(
-                      globals.brightnessLevelDefault);
+                      globals.brightnessLevelDefault!);
 
                   // : Screen.setBrightness(globals.brightnessLevelDefault);
                 });
               },
             ),
           ),
-          brightnessActive
+          brightnessActive!
               ? CardSlider(
                   title: 'نور صفحه',
                   slider: Slider(
+                    activeColor: Colors.green,
+
                     min: 0,
                     max: 100,
                     divisions: 101,
-                    value: tempBrightnessLevel * 100,
+                    value: tempBrightnessLevel! * 100,
                     onChanged: (newValue) {
                       setState(() {
                         briValue = newValue / 100;
                         tempBrightnessLevel =
                             double.parse(briValue.toStringAsFixed(2));
                       });
-                      ScreenBrightness().setScreenBrightness(tempBrightnessLevel);
+                      ScreenBrightness().setScreenBrightness(tempBrightnessLevel!);
 //                  ui.lightlevel = newValue;
-                      setBrightnessLevel(tempBrightnessLevel);
+                      setBrightnessLevel(tempBrightnessLevel!);
                     },
                   ),
-                  trailing: (tempBrightnessLevel * 100).toInt().toString(),
+                  trailing: (tempBrightnessLevel! * 100).toInt().toString(),
                 )
               : Container(),
           CardSetting(
@@ -470,7 +484,7 @@ class _SettingsState extends State<Settings> {
               // color: Colors.green,
               child: const Icon(
                 Icons.touch_app,
-                color: Colors.white,
+                color: Colors.green,
               ),
 
               onPressed: () {
@@ -484,20 +498,20 @@ class _SettingsState extends State<Settings> {
                   brightnessActive = false;
                   tempFontArabic = 'نیریزی دو';
                 });
-                if (globals.themeType) {
+                if (globals.themeType!) {
                   globals.themeType = themeType;
                   setThemeType(themeType);
                 }
                 ui.terjemahan = tempTarjActive;
-                setTarjActive(tempTarjActive);
+                setTarjActive(tempTarjActive!);
                 ui.fontSizeTozih = tempFontTozihLevel;
-                setFontTozihLevel(tempFontTozihLevel);
+                setFontTozihLevel(tempFontTozihLevel!);
                 ui.fontSizetext = tempFontTarjLevel;
-                setFontTarjLevel(tempFontTarjLevel);
+                setFontTarjLevel(tempFontTarjLevel!);
                 ui.fontSize = tempFontArabicLevel;
-                setFontArabicLevel(tempFontArabicLevel);
+                setFontArabicLevel(tempFontArabicLevel!);
                 ui.fontFormat = tempFontArabic;
-                setFontArabic(tempFontArabic);
+                setFontArabic(tempFontArabic!);
                 globals.brightnessActive = false;
                 setBrightnessActive(false);
                 selectSystemThemeMode();
@@ -525,10 +539,10 @@ class _SettingsState extends State<Settings> {
 
 class CardSlider extends StatelessWidget {
   const CardSlider({
-    Key key,
-    @required this.title,
-    @required this.slider,
-    @required this.trailing,
+    Key? key,
+    required this.title,
+    required this.slider,
+    required this.trailing,
   }) : super(key: key);
 
   final String title;

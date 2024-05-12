@@ -16,17 +16,17 @@ String JsonMappingForSearchToJson(
         Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())))));
 
 class JsonMappingForSearch {
-  int number;
-  String title; //name
-  int bab; //name
-  int indexbab; //name
+  int? number;
+  String? title; //name
+  int? bab; //name
+  int? indexbab; //name
 
-  Map<String, String> arabic;
-  Map<String, String> arabicSelected;
+  Map<String, String>? arabic;
+  Map<String, String>? arabicSelected;
 
-  Map<String, String> farsi;
-  Map<String, String> tozih;
-  Map<String, String> Sharh;
+  Map<String, String>? farsi;
+  Map<String, String>? tozih;
+  Map<String, String>? Sharh;
 
   JsonMappingForSearch({
     this.number,
@@ -81,22 +81,22 @@ class JsonMappingForSearch {
         "title": title == null ? null : title,
         "arabic": arabic == null
             ? null
-            : Map.from(arabic).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(arabic!).map((k, v) => MapEntry<String, dynamic>(k, v)),
 
         "arabicSelected": arabicSelected == null
             ? null
-            : Map.from(arabicSelected)
+            : Map.from(arabicSelected!)
                 .map((k, v) => MapEntry<String, dynamic>(k, v)),
 
         "farsi": farsi == null
             ? null
-            : Map.from(farsi).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(farsi!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "tozih": tozih == null
             ? null
-            : Map.from(tozih).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(tozih!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "Sharh": Sharh == null
             ? null
-            : Map.from(Sharh).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(Sharh!).map((k, v) => MapEntry<String, dynamic>(k, v)),
 //        "translations": farsi == null ? null : farsi.toJson(),
       };
 }

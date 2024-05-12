@@ -8,13 +8,13 @@ String MixedTextInfoToJson(List<MixedTextInfoAll> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class MixedTextInfoAll {
-  String title;
-  String titleDetail;
+  String? title;
+  String? titleDetail;
 
-  String arabic;
-  int index;
-  int indexbab;
-  int bab;
+  String? arabic;
+  int? index;
+  int? indexbab;
+  int? bab;
 
   MixedTextInfoAll({
     this.title,

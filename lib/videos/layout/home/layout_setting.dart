@@ -18,8 +18,8 @@ class layout_setting extends StatelessWidget
   Widget build(BuildContext context) 
   {
 
-    first_name_EditTextController.text=user.first_name;
-    last_name_EditTextController.text=user.last_name;
+    first_name_EditTextController.text=user.first_name!;
+    last_name_EditTextController.text=user.last_name!;
 
     return SingleChildScrollView(
       child: Directionality(

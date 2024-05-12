@@ -11,7 +11,7 @@ class HomeAbout extends StatefulWidget {
 
 class _HomeAboutState extends State<HomeAbout>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   @override
   void initState() {
@@ -31,6 +31,9 @@ class _HomeAboutState extends State<HomeAbout>
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return [
           SliverAppBar(
+            backgroundColor:Theme.of(context).brightness == Brightness.light
+                ? Colors.green
+                : Colors.black,
             leading: IconButton(
               icon: Icon(Icons.keyboard_backspace),
               onPressed: () => Navigator.of(context).pop(),

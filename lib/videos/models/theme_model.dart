@@ -7,19 +7,19 @@ import 'package:mafatih/videos/models/file_model.dart';
 class theme_model
 {
 
-  int id;
-  String title;
-  String slug;
-  int seen;
-  String duration;
-  String video_address;
-  String cover_address;
-  String cover_time;
-  String cover_status;
-  int category_id;
-  int user_id;
-  String created_at;
-  String updated_at;
+  int? id;
+  String? title;
+  String? slug;
+  int? seen;
+  String? duration;
+  String? video_address;
+  String? cover_address;
+  String? cover_time;
+  String? cover_status;
+  int? category_id;
+  int? user_id;
+  String? created_at;
+  String? updated_at;
   // List<file_model> files;
   // int access_id;
   //

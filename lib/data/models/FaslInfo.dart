@@ -7,8 +7,8 @@ String faslInfoToJson(List<FaslInfo> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class FaslInfo {
-  String title;
-  int index;
+  String? title;
+  int? index;
 
   FaslInfo({
     this.title,

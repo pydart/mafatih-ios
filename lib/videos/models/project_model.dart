@@ -1,11 +1,11 @@
 class project_model
 {
 
-  String current_page;
-  String first_page_url;
-  String last_page;
-  String last_page_url;
-  String path;
+  String? current_page;
+  String? first_page_url;
+  String? last_page;
+  String? last_page_url;
+  String? path;
 
 
   project_model({

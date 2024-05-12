@@ -15,7 +15,7 @@ List<int> khatiedDoa = [
   1110,3153, 1122, 3216, 3224, 1119];
 
 
-bool isonline;
+bool? isonline;
 // final playlist = ConcatenatingAudioSource(children: [
 //   AudioSource.uri(
 //     Uri.parse("file:///$filePath"),
@@ -25,34 +25,34 @@ bool isonline;
 //   ),
 // ]);
 
-int currentPage;
-double lastScrolledPixel;
-int lastViewedPage;
-double brightnessLevel;
-double brightnessLevelDefault;
-bool brightnessActive;
-String titleCurrentPage;
-int indexCurrentPage;
-int indexFaslCurrentPage;
-int codeCurrentPage;
-String titlelastViewedPage;
-int indexlastViewedPage;
-int indexFasllastViewedPage;
-String indentlastViewedPage;
-bool edameFaraz;
-double newVersionBuildNumber;
-double currentBuildNumber;
+int? currentPage;
+double? lastScrolledPixel;
+int? lastViewedPage;
+double? brightnessLevel;
+double? brightnessLevelDefault;
+bool? brightnessActive;
+String? titleCurrentPage;
+int? indexCurrentPage;
+int? indexFaslCurrentPage;
+int? codeCurrentPage;
+String? titlelastViewedPage;
+int? indexlastViewedPage;
+int? indexFasllastViewedPage;
+String? indentlastViewedPage;
+bool? edameFaraz;
+double? newVersionBuildNumber;
+double? currentBuildNumber;
 
-List<String> titleBookMarked;
-List<int> indexBookMarked;
-List<int> indexFaslBookMarked;
-List<int> codeBookMarked;
-List<dynamic> mapBookMarked;
-List<String> jsonCodesHavingAudio=[];
-List<String> jsonCodesHavingCat=[];
+List<String?>? titleBookMarked;
+List<int?>? indexBookMarked;
+List<int?>? indexFaslBookMarked;
+List<int?>? codeBookMarked;
+late List<dynamic> mapBookMarked;
+List<String>? jsonCodesHavingAudio=[];
+List<String>? jsonCodesHavingCat=[];
 
-String jsonGifAdUrl="";
-Map jsonGifAdUrlMap ={
+String? jsonGifAdUrl="";
+Map? jsonGifAdUrlMap ={
 "urlgifdrawer1":"",
 "urlgifdrawer2":"",
 "urlgifdrawer3":"",
@@ -117,14 +117,14 @@ const JsonGifAdUrl = 'JsonGifAdUrl';
 
 
 
-double fontArabicLevel;
-double fontTarjLevel;
-double fontTozihLevel;
-String fontArabic;
-bool themeType;
+double? fontArabicLevel;
+double? fontTarjLevel;
+double? fontTozihLevel;
+String? fontArabic;
+bool? themeType;
 
-bool tarjActive;
-bool tozihActive;
-bool darkMode;
-bool laterDialog;
-bool tarjKhati;
+bool? tarjActive;
+bool? tozihActive;
+bool? darkMode;
+bool? laterDialog;
+bool? tarjKhati;

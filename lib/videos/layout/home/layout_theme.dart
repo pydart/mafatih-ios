@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
-// import 'package:mafatih/videos/Screens/Activity_Review.dart';
+// import 'package:mafatih/videos/Screens/SingleVideoPage.dart';
 // import 'package:mafatih/videos/Screens/Activity_ShowAllStoreies.dart';
-// import 'package:mafatih/videos/Screens/Activity_ShowAllVideo.dart';
+// import 'package:mafatih/videos/Screens/SecondPageShowAllVideos.dart';
 //
 // class layout_theme extends StatelessWidget
 // {

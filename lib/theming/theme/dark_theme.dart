@@ -14,11 +14,12 @@ import 'package:flutter/material.dart'
 final themeDarkData = ThemeData(
   // visualDensity: VisualDensity.adaptivePlatformDensity,
   brightness: Brightness.dark,
-  buttonColor: Colors.green,
+  // buttonColor: Colors.green,
+  hoverColor: Colors.green,
   primarySwatch: Colors.green,
   canvasColor: Colors.black,
-  accentColor: Colors.white70,
-
+  // accentColor: Colors.white70,
+  shadowColor: Colors.white70,
   // primaryColor: AppColors.colorDarkPrimary,
   // accentColor: AppColors.colorDarkSecondary,
   // backgroundColor: AppColors.colorDarkSecondary,

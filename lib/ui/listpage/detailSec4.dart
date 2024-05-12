@@ -25,8 +25,8 @@ import 'detailSec55.dart';
 class DetailSec4 extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
   DetailSec4({
-    Key key,
-    @required this.detail,
+    Key? key,
+    required this.detail,
     this.index,
     this.indent,
     this.indexFasl,
@@ -40,27 +40,27 @@ class DetailSec4 extends StatefulWidget {
 
 class _DetailSec4State extends State<DetailSec4> {
   int _selectedIndex = 0;
-  SharedPreferences prefs;
-  bool isBookmarked;
-  static Color iconBookmarkcolor;
-  String titleCurrentPage;
-  int indexCurrentPage;
-  int indexFaslCurrentPage;
-  int codeCurrentPage;
-  ScrollController _controller;
-  final itemSize = globals.fontTozihLevel * 1.7;
+  late SharedPreferences prefs;
+  late bool isBookmarked;
+  static Color? iconBookmarkcolor;
+  String? titleCurrentPage;
+  int? indexCurrentPage;
+  int? indexFaslCurrentPage;
+  int? codeCurrentPage;
+  ScrollController? _controller;
+  final itemSize = globals.fontTozihLevel! * 1.7;
   final queryOffset = 100;
 
   var client = http.Client();
   bool isPlaying = false;
   num curIndex = 0;
-  AudioPlayer _player;
+  AudioPlayer? _player;
 
   @override
   void dispose() {
-    _player.stop();
-    _player.setLoopMode(LoopMode.off);
-    _player.dispose();
+    _player!.stop();
+    _player!.setLoopMode(LoopMode.off);
+    _player!.dispose();
     print(
         "************************************************************************dispos detailsec");
     _scrollController.dispose();
@@ -74,29 +74,29 @@ class _DetailSec4State extends State<DetailSec4> {
         isBookmarked
             ? setState(() {
                 iconBookmarkcolor = Colors.white;
-                globals.titleBookMarked.remove(globals.titleCurrentPage);
-                globals.indexBookMarked.remove(globals.indexCurrentPage);
-                globals.indexFaslBookMarked
+                globals.titleBookMarked!.remove(globals.titleCurrentPage);
+                globals.indexBookMarked!.remove(globals.indexCurrentPage);
+                globals.indexFaslBookMarked!
                     .remove(globals.indexFaslCurrentPage);
-                globals.codeBookMarked.remove(globals.codeCurrentPage);
+                globals.codeBookMarked!.remove(globals.codeCurrentPage);
                 isBookmarked = false;
                 print(
                     "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               })
             : setState(() {
                 iconBookmarkcolor = Colors.red;
-                globals.titleBookMarked.add(globals.titleCurrentPage);
-                globals.indexBookMarked.add(globals.indexCurrentPage);
-                globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
-                globals.codeBookMarked.add(globals.codeCurrentPage);
+                globals.titleBookMarked!.add(globals.titleCurrentPage);
+                globals.indexBookMarked!.add(globals.indexCurrentPage);
+                globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage);
+                globals.codeBookMarked!.add(globals.codeCurrentPage);
                 isBookmarked = true;
 
                 print(
                     "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               });
         if (globals.indexBookMarked != null) {
-          setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-              globals.indexFaslBookMarked, globals.codeBookMarked);
+          setBookmark(globals.titleBookMarked!, globals.indexBookMarked!,
+              globals.indexFaslBookMarked!, globals.codeBookMarked!);
         }
       } else if (indexTab == 0) {
         Navigator.push(
@@ -123,10 +123,10 @@ class _DetailSec4State extends State<DetailSec4> {
   }
 
   /// set bookmarkPage in sharedPreferences
-  void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
-      List<int> _code) async {
+  void setBookmark(List<String?> _title, List<int?> _index, List<int?> _indexFasl,
+      List<int?> _code) async {
     prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title as List<String>);
 
     List<String> _strindex = _index.map((i) => i.toString()).toList();
     await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
@@ -138,11 +138,11 @@ class _DetailSec4State extends State<DetailSec4> {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
   }
 
-  void setLastViewedPage(String _titleCurrentPage, int _indexCurrentPage,
-      int _indexFaslCurrentPage) async {
+  void setLastViewedPage(String? _titleCurrentPage, int? _indexCurrentPage,
+      int? _indexFaslCurrentPage) async {
     prefs = await SharedPreferences.getInstance();
     if (_indexCurrentPage != null && !_indexCurrentPage.isNaN) {
-      prefs.setString(globals.LAST_VIEWED_PAGE_title, _titleCurrentPage);
+      prefs.setString(globals.LAST_VIEWED_PAGE_title, _titleCurrentPage!);
       globals.titlelastViewedPage =
           prefs.getString(globals.LAST_VIEWED_PAGE_title);
 
@@ -150,7 +150,7 @@ class _DetailSec4State extends State<DetailSec4> {
       globals.indexlastViewedPage =
           prefs.getInt(globals.LAST_VIEWED_PAGE_index);
 
-      prefs.setInt(globals.LAST_VIEWED_PAGE_indexFasl, _indexFaslCurrentPage);
+      prefs.setInt(globals.LAST_VIEWED_PAGE_indexFasl, _indexFaslCurrentPage!);
       globals.indexFasllastViewedPage =
           prefs.getInt(globals.LAST_VIEWED_PAGE_indexFasl);
     }
@@ -160,9 +160,9 @@ class _DetailSec4State extends State<DetailSec4> {
     await page.close();
   }
 
-  PageController pageController;
-  double _scrollPosition;
-  ScrollController _scrollController;
+  PageController? pageController;
+  late double _scrollPosition;
+  late ScrollController _scrollController;
   setLastScolledPixel(double level) async {
     globals.lastScrolledPixel = level;
     prefs = await SharedPreferences.getInstance();
@@ -181,7 +181,7 @@ class _DetailSec4State extends State<DetailSec4> {
   getLastScolledPixel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
-      double _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
+      double? _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
       setState(() {
         globals.lastScrolledPixel = _lastScrolledPixel;
       });
@@ -196,7 +196,7 @@ class _DetailSec4State extends State<DetailSec4> {
         "********************************************** widget.code  4 **************************** ${widget.code} ");
     final url =
         globals.audioUrl + "${widget.indexFasl * 1000 + widget.index}.mp3";
-    if (globals.jsonCodesHavingAudio.contains(widget.code)) {
+    if (globals.jsonCodesHavingAudio!.contains(widget.code)) {
       print(
           "************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");
       globals.audioExist = true;
@@ -217,7 +217,7 @@ class _DetailSec4State extends State<DetailSec4> {
             widget.index.toString());
 
     setState(() {
-      if (globals.codeBookMarked.contains(widget.code)) {
+      if (globals.codeBookMarked!.contains(widget.code)) {
         print(
             "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked.contains(${widget.detail})");
         isBookmarked = true;
@@ -279,7 +279,7 @@ class _DetailSec4State extends State<DetailSec4> {
 
   void _scrollToPixel() {
     if (_scrollController.hasClients) {
-      _scrollController.animateTo(globals.lastScrolledPixel,
+      _scrollController.animateTo(globals.lastScrolledPixel!,
           duration: Duration(milliseconds: 100), curve: Curves.fastOutSlowIn);
     } else {
       Timer(Duration(milliseconds: 400), () => _scrollToPixel());
@@ -287,10 +287,10 @@ class _DetailSec4State extends State<DetailSec4> {
   }
 
   Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration, PositionData>(
-          _player.positionStream,
-          _player.bufferedPositionStream,
-          _player.durationStream,
+      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+          _player!.positionStream,
+          _player!.bufferedPositionStream,
+          _player!.durationStream,
           (position, bufferedPosition, duration) => PositionData(
               position, bufferedPosition, duration ?? Duration.zero));
 
@@ -300,7 +300,7 @@ class _DetailSec4State extends State<DetailSec4> {
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.speech());
     // Listen to errors during playback.
-    _player.playbackEventStream.listen((event) {},
+    _player!.playbackEventStream.listen((event) {},
         onError: (Object e, StackTrace stackTrace) {
       print('A stream error occurred: $e');
     });
@@ -308,10 +308,10 @@ class _DetailSec4State extends State<DetailSec4> {
     try {
       print(
           "////////////////////////////////////.........................// setAudioSource   ${globals.audioExist}");
-      await _player
+      await _player!
           .setLoopMode(LoopMode.off); // Set playlist to loop (off|all|one)
       final duration =
-          await _player.setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
+          await _player!.setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
     } catch (e, stackTrace) {
       // Catch load errors: 404, invalid url ...
       print("Error loading playlist: $e");
@@ -319,7 +319,7 @@ class _DetailSec4State extends State<DetailSec4> {
     }
   }
 
-  double progress = null;
+  double? progress = null;
   String status = "Not Downloaded";
   Future<bool> hasNetwork() async {
     try {
@@ -384,7 +384,7 @@ class _DetailSec4State extends State<DetailSec4> {
               textColor: Colors.white,
               fontSize: 18.0);
           await file.writeAsBytes(bytes);
-          final duration = await _player
+          final duration = await _player!
               .setFilePath('${globals.cacheAudio}/${widget.code}.mp3');
 
           debugPrint("Download finished");
@@ -421,7 +421,7 @@ class _DetailSec4State extends State<DetailSec4> {
     return File("${dir.path}/$filename");
   }
 
-  Future<bool> checkInternetConnection() async {
+  Future<bool?> checkInternetConnection() async {
     try {
       final result = await InternetAddress.lookup('https://www.google.com/');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -459,10 +459,13 @@ class _DetailSec4State extends State<DetailSec4> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize:  globals.jsonCodesHavingAudio
+        preferredSize:  globals.jsonCodesHavingAudio!
             .contains((1000 * widget.indexFasl + widget.index).toString()) && (audioIsSaved == true ||
-      (progress != null && progress == 1)) || (progress != null && progress != 0 && progress < 1)? Size.fromHeight(100.0):Size.fromHeight(50.0) , // here the desired height
+      (progress != null && progress == 1)) || (progress != null && progress != 0 && progress! < 1)? Size.fromHeight(100.0):Size.fromHeight(50.0) , // here the desired height
         child: AppBar(
+          backgroundColor:Theme.of(context).brightness == Brightness.light
+              ? Colors.green
+              : Colors.black,
           leading: IconButton(
             icon: Icon(
               Icons.bookmark,
@@ -481,7 +484,7 @@ class _DetailSec4State extends State<DetailSec4> {
               _onItemTapped(2);
             },
           ),
-          flexibleSpace: globals.jsonCodesHavingAudio
+          flexibleSpace: globals.jsonCodesHavingAudio!
                   .contains((1000 * widget.indexFasl + widget.index).toString())
               ?
 // globals.audioExist?
@@ -514,7 +517,7 @@ class _DetailSec4State extends State<DetailSec4> {
                     //     (progress != null && progress == 1))
                     //   ControlButtons(_player),
 
-                    if (progress != null && progress != 0 && progress < 1)
+                    if (progress != null && progress != 0 && progress! < 1)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
@@ -550,13 +553,13 @@ class _DetailSec4State extends State<DetailSec4> {
                                       positionData?.bufferedPosition ??
                                           Duration.zero,
                                   onChangeEnd: (newPosition) {
-                                    _player.seek(newPosition);
+                                    _player!.seek(newPosition);
                                   },
                                 );
                               },
                             ),
                             StreamBuilder<double>(
-                              stream: _player.speedStream,
+                              stream: _player!.speedStream,
                               builder: (context, snapshot) => IconButton(
                                 icon: Text(replaceFarsiNumber("${snapshot.data?.toStringAsFixed(1)}x"),
                                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
@@ -567,15 +570,15 @@ class _DetailSec4State extends State<DetailSec4> {
                                     divisions: 20,
                                     min: 0.1,
                                     max: 1.9,
-                                    stream: _player.speedStream,
-                                    onChanged: _player.setSpeed,
-                                    value: _player.speed,
+                                    stream: _player!.speedStream,
+                                    onChanged: _player!.setSpeed,
+                                    value: _player!.speed,
                                   );
                                 },
                               ),
                             ),
                             StreamBuilder<PlayerState>(
-                              stream: _player.playerStateStream,
+                              stream: _player!.playerStateStream,
                               builder: (context, snapshot) {
                                 final playerState = snapshot.data;
                                 final processingState = playerState?.processingState;
@@ -593,20 +596,20 @@ class _DetailSec4State extends State<DetailSec4> {
                                   return IconButton(
                                     icon: const Icon(Icons.play_arrow),
                                     iconSize: 30.0,
-                                    onPressed: _player.play,
+                                    onPressed: _player!.play,
                                   );
                                 } else if (processingState != ProcessingState.completed) {
                                   return IconButton(
                                     icon: const Icon(Icons.pause),
                                     iconSize: 30.0,
-                                    onPressed: _player.pause,
+                                    onPressed: _player!.pause,
                                   );
                                 } else {
                                   return IconButton(
                                     icon: const Icon(Icons.replay),
                                     iconSize: 30.0,
-                                    onPressed: () => _player.seek(Duration.zero,
-                                        index: _player.effectiveIndices.first),
+                                    onPressed: () => _player!.seek(Duration.zero,
+                                        index: _player!.effectiveIndices!.first),
                                   );
                                 }
                               },
@@ -628,7 +631,7 @@ class _DetailSec4State extends State<DetailSec4> {
           elevation: 0.0,
           actions: <Widget>[
 
-            if (globals.jsonCodesHavingAudio
+            if (globals.jsonCodesHavingAudio!
                 .contains((1000 * widget.indexFasl + widget.index).toString()) && (progress == null && audioIsSaved != true) ||
                 (progress == 0 && audioIsSaved != null))
             IconButton(

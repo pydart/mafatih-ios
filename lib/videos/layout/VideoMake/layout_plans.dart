@@ -20,7 +20,7 @@ class layout_plans_state extends State<layout_plans>
   //global variables start
   String json="curent_theme.json";
   List<Map<String,dynamic>> form=[];
-  Map<String,dynamic> plans={};
+  Map<String,dynamic>? plans={};
 
 
 
@@ -30,9 +30,9 @@ class layout_plans_state extends State<layout_plans>
 
     plans=jsonDecode(json);
 
-    for(var i=0;i<plans["Plan"].length;i++)
-      for(var j=0;j<plans["Plan"][i].length;j++)
-        form.add({"name":plans["Plan"][i][j]["name"],"value":""});
+    for(var i=0;i<plans!["Plan"].length;i++)
+      for(var j=0;j<plans!["Plan"][i].length;j++)
+        form.add({"name":plans!["Plan"][i][j]["name"],"value":""});
 
 
   }
@@ -55,7 +55,7 @@ class layout_plans_state extends State<layout_plans>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
 
-          for(var i=0;i<plans["Plan"].length;i++)
+          for(var i=0;i<plans!["Plan"].length;i++)
             Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,12 +69,12 @@ class layout_plans_state extends State<layout_plans>
                     color: Color(0XFFd1d6dc),
                   )
                   ,
-                  for(var j=0;j<plans["Plan"][i].length;j++)
+                  for(var j=0;j<plans!["Plan"][i].length;j++)
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          if(plans["Plan"][i][j]["type"]=="txt")
+                          if(plans!["Plan"][i][j]["type"]=="txt")
                             ClipRRect(
                               borderRadius: BorderRadius.circular(0),
                               child: SizedBox(
@@ -83,14 +83,14 @@ class layout_plans_state extends State<layout_plans>
 
                                     int sc_index=0;
 
-                                    for(var q=0;q<plans["Plan"].length;q++)
+                                    for(var q=0;q<plans!["Plan"].length;q++)
                                     {
-                                      for (var p = 0; p <plans["Plan"][q].length; p++)
+                                      for (var p = 0; p <plans!["Plan"][q].length; p++)
                                       {
-                                        debugPrint("compare "+plans["Plan"][i][j]["name"].toString()+"\t and \t"+form[sc_index]["name"].toString());
-                                        if(plans["Plan"][i][j]["name"].toString()==form[sc_index]["name"].toString())
+                                        debugPrint("compare "+plans!["Plan"][i][j]["name"].toString()+"\t and \t"+form[sc_index]["name"].toString());
+                                        if(plans!["Plan"][i][j]["name"].toString()==form[sc_index]["name"].toString())
                                         {
-                                          form[sc_index]={"name":plans["Plan"][i][j]["name"].toString(),"value":value.toString()};
+                                          form[sc_index]={"name":plans!["Plan"][i][j]["name"].toString(),"value":value.toString()};
                                           break;
                                         }
                                         sc_index++;
@@ -104,17 +104,17 @@ class layout_plans_state extends State<layout_plans>
                                     fontSize: 12,
                                   ),
                                   maxLines: 1,
-                                  maxLength: int.parse(plans["Plan"][i][j]["len"].toString()),
+                                  maxLength: int.parse(plans!["Plan"][i][j]["len"].toString()),
                                   decoration: InputDecoration(
                                       fillColor: Color(0XFFf9f9f9),
                                       filled: true,
                                       border: InputBorder.none,
-                                      hintText: plans["Plan"][i][j]["placeholder"].toString()
+                                      hintText: plans!["Plan"][i][j]["placeholder"].toString()
                                   ),
                                 ),
                               ),
                             )
-                          else if(plans["Plan"][i][j]["type"]=="image")
+                          else if(plans!["Plan"][i][j]["type"]=="image")
                             ClipRRect(
                               borderRadius: BorderRadius.circular(0),
                               child: Container(
@@ -131,7 +131,7 @@ class layout_plans_state extends State<layout_plans>
                                   ),
                                   onPressed: (){
 
-                                    _getFromGallery(plans["Plan"][i][j]["size"].toString()).then((value){
+                                    _getFromGallery(plans!["Plan"][i][j]["size"].toString()).then((value){
 
 
                                       //Image to base64
@@ -140,14 +140,14 @@ class layout_plans_state extends State<layout_plans>
 
 
                                       int sc_index=0;
-                                      for(var q=0;q<plans["Plan"].length;q++)
+                                      for(var q=0;q<plans!["Plan"].length;q++)
                                       {
-                                        for (var p = 0; p <plans["Plan"][q].length; p++)
+                                        for (var p = 0; p <plans!["Plan"][q].length; p++)
                                         {
-                                          debugPrint("compare "+plans["Plan"][i][j]["name"].toString()+"\t and \t"+form[sc_index]["name"].toString());
-                                          if(plans["Plan"][i][j]["name"].toString()==form[sc_index]["name"].toString())
+                                          debugPrint("compare "+plans!["Plan"][i][j]["name"].toString()+"\t and \t"+form[sc_index]["name"].toString());
+                                          if(plans!["Plan"][i][j]["name"].toString()==form[sc_index]["name"].toString())
                                           {
-                                            form[sc_index]={"name":plans["Plan"][i][j]["name"].toString(),"value":base64Image};
+                                            form[sc_index]={"name":plans!["Plan"][i][j]["name"].toString(),"value":base64Image};
                                             break;
                                           }
                                           sc_index++;
@@ -358,11 +358,11 @@ class layout_plans_state extends State<layout_plans>
 
     List<String> sizes=size.toUpperCase().split("X");
 
-    XFile pickedFile = await ImagePicker().pickImage(
+    XFile pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
-    );
+    ))!;
 
     debugPrint(pickedFile.path);
     Navigator.push(context, MaterialPageRoute(builder: (context)=> CropImage(image_path: pickedFile.path,width: int.parse(sizes[0].toString()),height: int.parse(sizes[1].toString()),) ));

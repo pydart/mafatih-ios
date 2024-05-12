@@ -13,15 +13,15 @@ String dailyDoaToJson(List<Map<String, DailyDoa4>> data) =>
         Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())))));
 
 class DailyDoa4 {
-  int number;
-  String title; //name
-  int bab; //name
-  int delay; //name
+  int? number;
+  String? title; //name
+  int? bab; //name
+  int? delay; //name
 
-  Map<String, String> arabic;
-  Map<String, String> farsi;
-  Map<String, String> tozih;
-  Map<String, String> Sharh;
+  Map<String, String>? arabic;
+  Map<String, String>? farsi;
+  Map<String, String>? tozih;
+  Map<String, String>? Sharh;
 
   DailyDoa4({
     this.number,
@@ -69,16 +69,16 @@ class DailyDoa4 {
         "title": title == null ? null : title,
         "arabic": arabic == null
             ? null
-            : Map.from(arabic).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(arabic!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "farsi": farsi == null
             ? null
-            : Map.from(farsi).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(farsi!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "tozih": tozih == null
             ? null
-            : Map.from(tozih).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(tozih!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "Sharh": Sharh == null
             ? null
-            : Map.from(Sharh).map((k, v) => MapEntry<String, dynamic>(k, v)),
+            : Map.from(Sharh!).map((k, v) => MapEntry<String, dynamic>(k, v)),
 //        "translations": farsi == null ? null : farsi.toJson(),
       };
 }

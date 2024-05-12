@@ -28,7 +28,7 @@ class server
 
 
   //Get ftech sata from server start
-  Future<String> Post(String Address,Map<String,String> data,bool auth) async
+  Future<String> Post(String Address,Map<String,String?> data,bool auth) async
   {
     if(auth)
     {

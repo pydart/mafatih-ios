@@ -1,22 +1,22 @@
 class user_model
 {
 
-  int id;
-  String roll;
-  String status;
-  String access_make_video;
-  String access_make_template;
-  String mobile;
-  String first_name;
-  String name;
-  String last_name;
-  String image;
-  String image_th;
-  String email;
-  String email_verified_at;
-  String rule;
-  String created_at;
-  String updated_at;
+  int? id;
+  String? roll;
+  String? status;
+  String? access_make_video;
+  String? access_make_template;
+  String? mobile;
+  String? first_name;
+  String? name;
+  String? last_name;
+  String? image;
+  String? image_th;
+  String? email;
+  String? email_verified_at;
+  String? rule;
+  String? created_at;
+  String? updated_at;
 
   user_model({
      this.id,

@@ -4,13 +4,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CustomThemeMode extends ChangeNotifier {
   final themePreference = "theme_preference";
 
-  ThemeMode _themeMode;
+  ThemeMode? _themeMode;
 
   CustomThemeMode() {
     _loadTheme();
   }
 
-  ThemeMode get getThemeMode => _themeMode;
+  ThemeMode? get getThemeMode => _themeMode;
 
   Future<void> _loadTheme() async {
     SharedPreferences.getInstance().then((prefs) {
@@ -23,7 +23,7 @@ class CustomThemeMode extends ChangeNotifier {
   Future<void> setThemeMode(ThemeMode data) async {
     _themeMode = data;
     var prefs = await SharedPreferences.getInstance();
-    prefs.setInt(themePreference, _themeMode.index);
+    prefs.setInt(themePreference, _themeMode!.index);
     notifyListeners();
   }
 }

@@ -3,19 +3,19 @@ import 'package:flutter/widgets.dart';
 class file_model
 {
 
-  int id;
-  String file_name;
-  String file_address;
-  String file_address_server;
-  String file_type;
-  String file_extention;
-  String file_size;
-  String file_hash;
-  String file_date_time;
-  int template_id;
-  int user_id;
-  String created_at;
-  String updated_at;
+  int? id;
+  String? file_name;
+  String? file_address;
+  String? file_address_server;
+  String? file_type;
+  String? file_extention;
+  String? file_size;
+  String? file_hash;
+  String? file_date_time;
+  int? template_id;
+  int? user_id;
+  String? created_at;
+  String? updated_at;
 
   file_model({
        this.id,

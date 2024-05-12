@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 class categories_model
 {
-  int id;
-  String name;
-  String slug;
-  String status;
+  int? id;
+  String? name;
+  String? slug;
+  String? status;
 
   categories_model({
      this.id,

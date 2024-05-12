@@ -7,8 +7,8 @@ String surahInfoToJson(List<dailyDoaInfo> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class dailyDoaInfo {
-  String title;
-  int index;
+  String? title;
+  int? index;
 
   dailyDoaInfo({
     this.title,

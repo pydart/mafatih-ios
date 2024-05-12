@@ -3,18 +3,18 @@ import 'package:flutter/widgets.dart';
 class video_file_model
 {
 
-  int id;
-  String file_name;
-  String file_address;
-  String file_address_server;
-  String file_type;
-  String file_extention;
-  String file_size;
-  String file_hash;
-  String file_date_time;
-  int user_id;
-  String created_at;
-  String updated_at;
+  int? id;
+  String? file_name;
+  String? file_address;
+  String? file_address_server;
+  String? file_type;
+  String? file_extention;
+  String? file_size;
+  String? file_hash;
+  String? file_date_time;
+  int? user_id;
+  String? created_at;
+  String? updated_at;
 
   video_file_model({
      this.id,

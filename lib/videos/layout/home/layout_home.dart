@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mafatih/videos/Screens/Activity_Review.dart';
-import 'package:mafatih/videos/Screens/Activity_ShowAllStoreies.dart';
-import 'package:mafatih/videos/Screens/Activity_ShowAllVideo.dart';
 import 'package:mafatih/videos/api/api.dart';
 import 'package:mafatih/videos/data/data.dart';
 import 'package:mafatih/videos/models/categories_model.dart';
 import 'package:mafatih/videos/models/theme_model.dart';
 
-import '../../Screens/Activity_ShowAllVideo_PerPageLoading.dart';
+import '../../Screens/EndlessGridView.dart';
+import '../../Screens/SingleVideoPage.dart';
+import '../../Widgets/CustomCircularProgressIndicator.dart';
 import '../staggered.dart';
 
 
@@ -26,7 +25,7 @@ class layout_home_State extends State<layout_home>
 {
 
 
-  
+
   //Globla Varibales
   var SelectedItem=0;
 
@@ -34,45 +33,46 @@ class layout_home_State extends State<layout_home>
 
   //Main function start
   @override
-  Widget build(BuildContext context) 
+  Widget build(BuildContext context)
   {
     return SingleChildScrollView(
       child: Directionality(
-      textDirection: TextDirection.rtl ,
-      child: Container(
-        child: Column(
-          children: [
+          textDirection: TextDirection.rtl ,
+          child: Container(
+            child: Column(
+              children: [
 
-            HomeTopButtoms(context)
-            // ,
-            // TopVideoBoxes(context)
-            ,
-            FutureBuilder<List<categories_model>>(
-              future: api().GetAllCategories(),
-              builder: (context, snapshot) {
-                if(snapshot.hasData) {
-                  return Column(
-                    children: [
-                      for(int i = 0; i < all_categories.length; i++)
-                        videosSection(context, all_categories[i])
-                    ],
-                  );
-                }
-                else
-                {
-                  return CircularProgressIndicator();
-                }
-              },
-            )
-            ,
-            Container(
-              margin: EdgeInsets.all(25),
-            )
-                        
-          ],
-        ),
-      )
-    ),
+                HomeTopButtoms(context)
+                // ,
+                // TopVideoBoxes(context)
+                ,
+                FutureBuilder<List<categories_model>>(
+                  future: api().GetAllCategories(),
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData) {
+                      return Column(
+                        children: [
+                          for(int i = 0; i < all_categories!.length; i++)
+                            videosSection(context, all_categories![i]),
+
+                        ],
+                      );
+                    }
+                    else
+                    {
+                      return CustomCircularProgressIndicator();
+                    }
+                  },
+                )
+                ,
+                Container(
+                  margin: EdgeInsets.all(25),
+                )
+
+              ],
+            ),
+          )
+      ),
     );
   }
   //Main function end
@@ -87,15 +87,15 @@ class layout_home_State extends State<layout_home>
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: FutureBuilder<List<categories_model>>(
-          future: api().GetAllCategories(),
+          future: api().GetAllCategories() ,
           builder: ((context, snapshot) {
 
             if(snapshot.hasData)
             {
-              // snapshot.data.insert(0, categories_model(id: 0, name: "همه", slug: "", status: ""));
+              snapshot.data!.insert(0, categories_model(id: 0, name: "همه", slug: "", status: ""));
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context,index){
                   return Padding(
                     padding: EdgeInsets.all(5)
@@ -104,7 +104,7 @@ class layout_home_State extends State<layout_home>
                       borderRadius: BorderRadius.circular(10),
                       child: TextButton(
                           style: TextButton.styleFrom(
-                              // backgroundColor: (SelectedItem==index)?Colors.green:Color.fromARGB(255, 247, 247, 247),
+                            // backgroundColor: (SelectedItem==index)?Colors.green:Color.fromARGB(255, 247, 247, 247),
                               backgroundColor: Color.fromARGB(255, 247, 247, 247),
 
                               shape: RoundedRectangleBorder(
@@ -114,12 +114,12 @@ class layout_home_State extends State<layout_home>
                           ),
                           onPressed: (){
 
-                            selected_category_index=snapshot.data[index].id;
-                            Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(selected_category_index.toString(),snapshot.data[index].name.toString()) )));
+                            selected_category_index=snapshot.data![index].id;
+                            // Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(selected_category_index.toString(),0, snapshot.data![index].name.toString()) )));
 
                           },
                           // child: Text(snapshot.data[index].name,style: TextStyle( color: (SelectedItem==index)?Colors.white:Colors.black87 ,fontSize: 12,fontFamily: 'IRANSans'),)
-                        child: Text(snapshot.data[index].name,style: TextStyle( color: Colors.black87 ,fontSize: 12,fontFamily: 'IRANSans'),)
+                          child: Text(snapshot.data![index].name!,style: TextStyle( color: Colors.black87 ,fontSize: 12,fontFamily: 'IRANSans'),)
                       ),
                     ),
                   );
@@ -129,7 +129,7 @@ class layout_home_State extends State<layout_home>
             else
             {
               return Center(
-                child: Container()
+                  child: Container()
               );
             }
 
@@ -138,189 +138,6 @@ class layout_home_State extends State<layout_home>
       ),
     );
   }
-  //Top Button Item End
-
-
-  //Get Top Items Start
-  Widget TopVideoBoxes(BuildContext context)
-  {
-    return Directionality(
-      textDirection: TextDirection.rtl, 
-      child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-
-        Container(
-          width: MediaQuery.of(context).size.width/2-10,
-          color: Colors.white,
-          height: 140,
-          child: Column(
-            children: [
-              Image.network("https://www.videoir.com/FileManager/themes/00c3617e06d3243d792cfd381f39b19e7b8c02e74329dcf91aa73f9dc4ea8c19/338-cover.jpg",height: 100,fit: BoxFit.cover,)
-              ,
-              Container(
-                padding: EdgeInsets.all(5),
-                height: 40,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-
-                  Container(
-                    width: 35,
-                    height: 25,
-                    margin: EdgeInsets.only(left: 8,right: 8),
-                    child: Icon(Icons.play_arrow,color: Colors.green),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 1,color: Colors.green,style: BorderStyle.solid)
-                    ),
-                  )
-                  ,
-                  Text("قالب دیجیتال مارکتینگ",style: TextStyle( color: Colors.black87 ,fontSize: 10,fontWeight: FontWeight.bold,fontFamily: 'IRANSans'),)
-
-                ],
-              ),
-              )
-            ],
-          ),
-        )
-        ,
-        Container(
-          width: MediaQuery.of(context).size.width/2-10,
-          color: Colors.white,
-          height: 140,
-          child: Column(
-            children: [
-              Image.network("https://www.videoir.com/FileManager/themes/00c3617e06d3243d792cfd381f39b19e7b8c02e74329dcf91aa73f9dc4ea8c19/338-cover.jpg",height: 100,fit: BoxFit.cover,)
-              ,
-              Container(
-                padding: EdgeInsets.all(5),
-                height: 40,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-
-                  Container(
-                    width: 35,
-                    height: 25,
-                    margin: EdgeInsets.only(left: 8,right: 8),
-                    child: Icon(Icons.play_arrow,color: Colors.green),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 1,color: Colors.green,style: BorderStyle.solid)
-                    ),
-                  )
-                  ,
-                  Text("قالب دیجیتال مارکتینگ",style: TextStyle( color: Colors.black87 ,fontSize: 10,fontWeight: FontWeight.bold),)
-
-                ],
-              ),
-              )
-            ],
-          ),
-        )
-
-      ],
-    )
-    );
-  }
-  //Get Top Items End
-  
-
-  //Stories section Start
-  /*
-  Widget StoriesSection(BuildContext context)
-  {
-    return FutureBuilder(
-      future: api().GetAllThemeData(),
-      builder: (context, snapshot) {
-
-        if(snapshot.hasData)
-        {
-          List<theme_model>? data = snapshot.data as List<theme_model>?;
-          debugPrint("https://videoir.com/"+data![0].files[2].file_address);
-          return Container(
-        margin: EdgeInsets.only(top: 6),
-        child: Column(
-        children: [
-
-          Container(
-            margin: EdgeInsets.all(14),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-
-              Text("قالب های استوری",style: TextStyle( fontSize: 13))
-              ,
-              TextButton(
-                style: TextButton.styleFrom(
-                  shape:RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(width: 1,color: Colors.blue)
-                  )
-                ),
-                onPressed: (){
-                    Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllStoreies() )));
-                },
-                child: Row(
-                  children: [
-                    Text("نمایش همه",style: TextStyle( fontSize: 13 ))
-                    ,
-                    Icon(Icons.keyboard_arrow_left,size: 13,)
-                  ],
-                )
-              )
-
-            ],
-          ),
-          )
-          ,
-          Container(
-            height: 200,
-            child: ListView.builder(
-            itemCount: data.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index)
-            {
-              return Padding(
-                padding: EdgeInsets.all(6),
-                child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.all(0)
-                ),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Activity_Review()));
-                },
-                child: Container(
-                  width: 115,
-                  height: 200,
-                  child: Image.network("https://videoir.com/"+data[index].files[2].file_address,height: 270,fit: BoxFit.fill),
-                )
-              ),
-              );
-            }
-          )
-        )
-
-      ],
-    ),
-    );
-        }
-        else
-        {
-          return Container(
-            child: Center(
-              child: CircularProgressIndicator(
-              ),
-            ),
-          );
-        }
-
-      },
-    );
-  }
-   */
-  //Stories section End
 
 
   //Video section Start
@@ -329,85 +146,94 @@ class layout_home_State extends State<layout_home>
     return Container(
       margin: EdgeInsets.only(top: 6),
       child: Column(
-      children: [
+        children: [
 
-        Container(
-          margin: EdgeInsets.only(top: 14,left: 14,right: 14,bottom: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          Container(
+            margin: EdgeInsets.only(top: 14,left: 14,right: 14,bottom: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
 
-            Text(catgegory.name,style: TextStyle( fontSize: 13 , fontWeight: FontWeight.bold,fontFamily: 'IRANSans'))
-            ,
-            TextButton(
-              style: TextButton.styleFrom(
-                shape:RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(width: 1,color: Colors.green)
+                Text(catgegory.name!,style: TextStyle( fontSize: 13 , fontWeight: FontWeight.bold,fontFamily: 'IRANSans'))
+                ,
+                TextButton(
+                    style: TextButton.styleFrom(
+                        shape:RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(width: 2,color: Colors.green)
+                        )
+                    ),
+                    onPressed: (){
+                      selected_category_index=catgegory.id;
+                      // Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(catgegory.id.toString(),0, catgegory.name.toString()) )));
+                      Navigator.push(context, (MaterialPageRoute(builder: (context)=>EndlessGridView(catgegory.id.toString(),0, catgegory.name.toString())  )));
+                    },
+                    child: Row(
+                      children: [
+                        Text("نمایش همه",style: TextStyle( fontSize: 13 ,fontFamily: 'IRANSans', color:Colors.green))
+                        ,
+                        Icon(Icons.keyboard_arrow_left,size: 13,)
+                      ],
+                    )
                 )
-              ),
-              onPressed: (){
-                selected_category_index=catgegory.id;
-                Navigator.push(context, (MaterialPageRoute(builder: (context)=>Activity_ShowAllVideo(catgegory.id.toString(), catgegory.name.toString()) )));
-              },
-              child: Row(
-                children: [
-                  Text("نمایش همه",style: TextStyle( fontSize: 13 ,fontFamily: 'IRANSans'))
-                  ,
-                  Icon(Icons.keyboard_arrow_left,size: 13,)
-                ],
-              )
-            )
 
-          ],
-        ),
-        )
-        ,
-        Container(
-          height: 120,
-          child: FutureBuilder<List<theme_model>>(
-            future: api().GetAllThemeOfCategoriesById(catgegory.id.toString()),
-            builder: (context, snapshot) {
-              if(snapshot.hasData)
-              {
-                return ListView.builder(
-                    itemCount: (snapshot.data.length > 5 )?5:snapshot.data.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index)
-                    {
-                      return Padding(
-                        padding: EdgeInsets.all(6),
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(0)
-                            ),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> Activity_Review(theme_data: snapshot.data[index])));
-                            },
-                            child: Container(
-                              width: 200,
-                              height: 120,
-                              child: Image.network("https://arbaeentv.com/" + snapshot.data[index].cover_address,height: 120,fit: BoxFit.cover),
-                              // child: Image.network("https://www.videoir.com/FileManager/themes/00c3617e06d3243d792cfd381f39b19e7b8c02e74329dcf91aa73f9dc4ea8c19/338-cover.jpg",height: 120,fit: BoxFit.cover),
-                            )
-                        ),
-                      );
-                    }
-                );
-              }
-              else
-              {
-                return Center(child: CircularProgressIndicator(),);
-              }
-            },
+              ],
+            ),
           )
-        )
+          ,
+          Container(
+              height: 120,
+              child: FutureBuilder<List<theme_model>>(
+                future: api().GetAllThemeOfCategoriesById(catgegory.id.toString()),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData)
+                  {
+                    return ListView.builder(
+                        itemCount: (snapshot.data!.length > 5 )?5:snapshot.data!.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index)
+                        {
+                          return Padding(
+                            padding: EdgeInsets.all(6),
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                    padding: EdgeInsets.all(0)
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Activity_Review(
+                                                  theme_data:
+                                                  snapshot.data![index])));
+                                },
+                                child: Container(
+                                  width: 200,
+                                  height: 120,
+                                  child: Image.network(
+                                      "https://arbaeentv.com/" + snapshot.data![index].cover_address!,
+                                      height: 120,fit: BoxFit.cover),
+                                  // child: Image.network("https://www.videoir.com/FileManager/themes/00c3617e06d3243d792cfd381f39b19e7b8c02e74329dcf91aa73f9dc4ea8c19/338-cover.jpg",height: 120,fit: BoxFit.cover),
+                                )
+                            ),
+                          );
+                        }
+                    );
+                  }
+                  else
+                  {
+                    return Center(child: CustomCircularProgressIndicator(),);
+                  }
+                },
+              )
+          )
 
-      ],
-    ),
+        ],
+      ),
     );
   }
-  //Video section End
+//Video section End
 
 
 

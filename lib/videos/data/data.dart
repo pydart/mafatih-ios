@@ -4,25 +4,25 @@ import 'package:mafatih/videos/models/theme_model.dart';
 import 'package:mafatih/videos/models/user_model.dart';
 import 'package:mafatih/videos/models/video_project_model.dart';
 //User Data
-user_model user;
-String token;
+late user_model user;
+String? token;
 
-String Phone_Number;
+String? Phone_Number;
 
-String forgetpass_code_catch;
+String? forgetpass_code_catch;
 
-String email;
-String username;
-String repassword1;
-String repassword2;
+String? email;
+String? username;
+String? repassword1;
+String? repassword2;
 
 
-List<theme_model> story;
-List<categories_model> all_categories;
+List<theme_model>? story;
+List<categories_model>? all_categories;
 
-theme_model curent_theme;
+theme_model? curent_theme;
 
-int selected_category_index=0;
+int? selected_category_index=0;
 
 List<video_project_model> video_projects_list=[];
 

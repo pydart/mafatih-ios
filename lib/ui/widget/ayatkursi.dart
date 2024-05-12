@@ -12,7 +12,7 @@ class AyatKursi extends StatefulWidget {
 
 class _AyatKursiState extends State<AyatKursi> {
 
-  bool isInstalled;
+  bool? isInstalled;
 
   @override
   Widget build(BuildContext context) {

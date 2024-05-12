@@ -8,10 +8,10 @@ class SelectButton extends StatefulWidget {
   final GestureTapCallback onPressed;
 
   const SelectButton({
-    Key key,
-    @required this.title,
-    @required this.onOff,
-    @required this.onPressed,
+    Key? key,
+    required this.title,
+    required this.onOff,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -28,17 +28,17 @@ class _SelectButtonState extends State<SelectButton> {
           borderRadius: AppBorderRadius.onboardingBarRadius,
           child: Container(
             color: widget.onOff
-                ? Theme.of(context).iconTheme.color.withOpacity(0.60)
+                ? Theme.of(context).iconTheme.color!.withOpacity(0.60)
                 : Colors.transparent,
             child: InkWell(
               onTap: widget.onPressed,
               splashColor: widget.onOff
-                  ? Theme.of(context).iconTheme.color.withOpacity(0.60)
+                  ? Theme.of(context).iconTheme.color!.withOpacity(0.60)
                   : Colors.transparent,
               borderRadius: AppBorderRadius.onboardingBarRadius,
               child: DottedBorder(
                 borderType: BorderType.RRect,
-                color: Theme.of(context).iconTheme.color.withOpacity(0.60),
+                color: Theme.of(context).iconTheme.color!.withOpacity(0.60),
                 radius: AppBorderRadius.buttonRadius,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(18, 5, 18, 5),

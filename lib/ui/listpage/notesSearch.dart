@@ -26,13 +26,13 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
         // decoration: TextDecoration.none,
       );
 
-  List<MixedTextInfoAll> notes;
+  List<MixedTextInfoAll>? notes;
   List<MixedTextInfoAll> filteredNotes = [];
   List<MixedTextInfoAll> filteredNotesTitle = [];
   List<MixedTextInfoAll> filteredNotesArabic = [];
 
-  bool titleSearchActive = true;
-  bool textSearchActive = false;
+  bool? titleSearchActive = true;
+  bool? textSearchActive = false;
   List<int> selectedDoa = [
     3082,
     2229,
@@ -136,7 +136,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
             Text(
               'جستجو در برنامه',
               style: TextStyle(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).shadowColor,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w900,
                 fontFamily: 'IRANSans',
@@ -161,7 +161,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
           future: ServiceData().loadMixedTextInfoAll(),
           builder: (c, snapshot) {
             if (snapshot.hasData) {
-              getFilteredList(notes = snapshot.data);
+              getFilteredList((notes = snapshot.data)!);
             }
             if (filteredNotes.length == 0) {
               return Container(
@@ -180,7 +180,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     Text(
                       'هیچ نتیجه ای یافت نشد!',
                       style: TextStyle(
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).shadowColor,
                         fontSize: 15.0,
                         fontWeight: FontWeight.w900,
                         fontFamily: 'IRANSans',
@@ -196,7 +196,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     // BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,),
 
                     InkWell(
-                      onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgifsearch1"]);
+                      onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap!["urlgifsearch1"]);
                       final date = DateTime.now();
                       print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
                       child: CachedNetworkImage(
@@ -227,16 +227,16 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                             padding: EdgeInsets.all(0.0),
                             child: Column(
                               children: [
-                                textSearchActive
+                                textSearchActive!
                                     ? ListTile(
                                         title: Row(
                                           children: <Widget>[
                                             selectedDoa.contains(1000 *
                                                         filteredNotesTitle[
                                                                 index]
-                                                            .bab +
+                                                            .bab! +
                                                     filteredNotesTitle[index]
-                                                        .indexbab)
+                                                        .indexbab!)
                                                 ? Icon(
                                                     Icons.star,
                                                     color: Colors.green,
@@ -254,7 +254,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                                   fontFamily: 'IRANSans',
                                                   fontSize: 17,
                                                   color: Theme.of(context)
-                                                      .accentColor, // color: Colors.grey,
+                                                      .shadowColor, // color: Colors.grey,
                                                 ),
                                               ),
                                             ),
@@ -297,10 +297,10 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                                   query: query,
                                                   code: filteredNotesTitle[
                                                                   index]
-                                                              .bab *
+                                                              .bab! *
                                                           1000 +
                                                       filteredNotesTitle[index]
-                                                          .indexbab),
+                                                          .indexbab!),
                                             ),
                                           );
                                         },
@@ -347,7 +347,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                           );
                         },
                       ),
-                      textSearchActive
+                      textSearchActive!
                           ? ListView.builder(
                               itemCount: filteredNotesArabic.length == null
                                   ? 0
@@ -363,9 +363,9 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                             selectedDoa.contains(1000 *
                                                         filteredNotesArabic[
                                                                 index]
-                                                            .bab +
+                                                            .bab! +
                                                     filteredNotesArabic[index]
-                                                        .indexbab)
+                                                        .indexbab!)
                                                 ? Icon(
                                                     Icons.star,
                                                     color: Colors.green,
@@ -385,7 +385,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                                   fontFamily: 'IRANSans',
                                                   fontSize: 17,
                                                   color: Theme.of(context)
-                                                      .accentColor, // color: Colors.grey,
+                                                      .shadowColor, // color: Colors.grey,
                                                 ),
                                               ),
                                             ),
@@ -425,10 +425,10 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                                   query: query,
                                                   code: filteredNotesArabic[
                                                                   index]
-                                                              .bab *
+                                                              .bab! *
                                                           1000 +
                                                       filteredNotesArabic[index]
-                                                          .indexbab),
+                                                          .indexbab!),
                                             ),
                                           );
                                         },
@@ -465,7 +465,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
     filteredNotesArabic = [];
 
     for (int i = 0; i < note.length; i++) {
-      if (titleSearchActive == true && note[i].title.contains(query)) //
+      if (titleSearchActive == true && note[i].title!.contains(query)) //
       {
         print(
             "///////////////////////////////mmmmmmmmmmmmmmmmmmmmmmmmmmm     _filteredNotesTitle.add(note[i])  ${note[i]}");
@@ -473,7 +473,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
 
       }
 
-      if (textSearchActive == true && note[i].arabic.contains(query)
+      if (textSearchActive == true && note[i].arabic!.contains(query)
           ) //
       {
         filteredNotesArabic.add(note[i]);
@@ -507,7 +507,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     Checkbox(
                       activeColor: Colors.green,
                       value: titleSearchActive,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
                           titleSearchActive = value;
                         });
@@ -528,7 +528,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                     Checkbox(
                       value: textSearchActive,
                       activeColor: Colors.green,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         setState(() {
                           textSearchActive = value;
                         });
@@ -559,7 +559,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                 Text(
                   "جستجو در برنامه",
                   style: TextStyle(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).shadowColor,
                     fontSize: 15.0,
                     fontWeight: FontWeight.w900,
                     fontFamily: 'IRANSans',
@@ -615,7 +615,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
           future: ServiceData().loadMixedTextInfoAll(),
           builder: (c, snapshot) {
             if (snapshot.hasData) {
-              getFilteredList(notes = snapshot.data);
+              getFilteredList((notes = snapshot.data)!);
             }
             if (filteredNotes.length == 0) {
               return Container(
@@ -645,8 +645,8 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                           title: Row(
                             children: <Widget>[
                               selectedDoa.contains(
-                                      1000 * filteredNotes[index].bab +
-                                          filteredNotes[index].indexbab)
+                                      1000 * filteredNotes[index].bab! +
+                                          filteredNotes[index].indexbab!)
                                   ? Icon(
                                       Icons.star,
                                       color: Colors.green,
@@ -664,7 +664,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                       fontFamily: 'IRANSans',
                                       fontSize: 17,
                                       color: Theme.of(context)
-                                          .accentColor, // color: Colors.grey,
+                                          .shadowColor, // color: Colors.grey,
                                     ),
                                   ),
                                 ),
@@ -676,7 +676,7 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             text: TextSpan(
-                              children: textSearchActive
+                              children: textSearchActive!
                                   ? highlightOccurrences(
                                       filteredNotes[index].arabic, query)
                                   : highlightOccurrences(
@@ -715,12 +715,12 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                                 filteredNotes[index].indexbab,
                                             indexFasl: filteredNotes[index].bab,
                                             query: query,
-                                            code: filteredNotes[index].bab *
+                                            code: filteredNotes[index].bab! *
                                                     1000 +
-                                                filteredNotes[index].indexbab,
+                                                filteredNotes[index].indexbab!,
                                           )));
                             } else if (filteredNotes[index].bab == 4 &&
-                                !ui.terjemahan) {
+                                !ui.terjemahan!) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -730,12 +730,12 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                             index:
                                                 filteredNotes[index].indexbab,
                                             indexFasl: 5,
-                                            code: filteredNotes[index].bab *
+                                            code: filteredNotes[index].bab! *
                                                     1000 +
-                                                filteredNotes[index].indexbab,
+                                                filteredNotes[index].indexbab!,
                                           )));
                             } else if (filteredNotes[index].bab == 4 &&
-                                ui.terjemahan) {
+                                ui.terjemahan!) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -745,9 +745,9 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
                                             index:
                                                 filteredNotes[index].indexbab,
                                             indexFasl: filteredNotes[index].bab,
-                                            code: filteredNotes[index].bab *
+                                            code: filteredNotes[index].bab! *
                                                     1000 +
-                                                filteredNotes[index].indexbab,
+                                                filteredNotes[index].indexbab!,
                                           )));
                             }
                           },
@@ -763,10 +763,10 @@ class NotesSearch extends SearchDelegate<MixedTextInfoAll> {
   }
 }
 
-List<TextSpan> highlightOccurrences(String source, String query) {
+List<TextSpan> highlightOccurrences(String? source, String query) {
   if (query == null ||
       query.isEmpty ||
-      !source.toLowerCase().contains(query.toLowerCase())) {
+      !source!.toLowerCase().contains(query.toLowerCase())) {
     return [TextSpan(text: source)];
   }
   final matches = query.toLowerCase().allMatches(source.toLowerCase());

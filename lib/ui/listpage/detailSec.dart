@@ -26,8 +26,8 @@ import 'package:mafatih/library/Globals.dart' as globals;
 class DetailSec extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
   DetailSec({
-    Key key,
-    @required this.detail,
+    Key? key,
+    required this.detail,
     this.index,
     this.indent,
     this.indexFasl,
@@ -42,28 +42,28 @@ class DetailSec extends StatefulWidget {
 class _DetailSecState extends State<DetailSec> {
   int _selectedIndex = 0;
 
-  SharedPreferences prefs;
-  bool isBookmarked;
-  static Color iconBookmarkcolor;
+  late SharedPreferences prefs;
+  late bool isBookmarked;
+  static Color? iconBookmarkcolor;
   Widget _bookmarkWidget = Container();
-  String titleCurrentPage;
-  int indexCurrentPage;
-  int indexFaslCurrentPage;
-  int codeCurrentPage;
-  final itemSize = globals.fontTozihLevel * 1.7;
+  String? titleCurrentPage;
+  int? indexCurrentPage;
+  int? indexFaslCurrentPage;
+  int? codeCurrentPage;
+  final itemSize = globals.fontTozihLevel! * 1.7;
   final queryOffset = 100;
 
   var client = http.Client();
   bool isPlaying = false;
   num curIndex = 0;
-  AudioPlayer _player;
+  late AudioPlayer _player;
 
   @override
   void dispose() {
     _player.stop();     _player.setLoopMode(LoopMode.off);
     _player.dispose();
     print("************************************************************************dispos detailsec");
-    _scrollController.dispose();
+    _scrollController!.dispose();
     super.dispose();
   }
 
@@ -88,21 +88,21 @@ class _DetailSecState extends State<DetailSec> {
         isBookmarked
             ? setState(() {
                 iconBookmarkcolor = Colors.white;
-                globals.titleBookMarked.remove(globals.titleCurrentPage);
-                globals.indexBookMarked.remove(globals.indexCurrentPage);
-                globals.indexFaslBookMarked
+                globals.titleBookMarked!.remove(globals.titleCurrentPage);
+                globals.indexBookMarked!.remove(globals.indexCurrentPage);
+                globals.indexFaslBookMarked!
                     .remove(globals.indexFaslCurrentPage);
-                globals.codeBookMarked.remove(globals.codeCurrentPage);
+                globals.codeBookMarked!.remove(globals.codeCurrentPage);
                 isBookmarked = false;
                 print(
                     "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
               })
             : setState(() {
                 iconBookmarkcolor = Colors.red;
-                globals.titleBookMarked.add(globals.titleCurrentPage);
-                globals.indexBookMarked.add(globals.indexCurrentPage);
-                globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage);
-                globals.codeBookMarked.add(globals.codeCurrentPage);
+                globals.titleBookMarked!.add(globals.titleCurrentPage);
+                globals.indexBookMarked!.add(globals.indexCurrentPage);
+                globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage);
+                globals.codeBookMarked!.add(globals.codeCurrentPage);
                 isBookmarked = true;
                 print(
                     "${globals.codeCurrentPage} -----------------------------------------------globals.codeCurrentPage------------------------------------------------");
@@ -111,8 +111,8 @@ class _DetailSecState extends State<DetailSec> {
               });
 
         if (globals.indexBookMarked != null) {
-          setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-              globals.indexFaslBookMarked, globals.codeBookMarked);
+          setBookmark(globals.titleBookMarked!, globals.indexBookMarked!,
+              globals.indexFaslBookMarked!, globals.codeBookMarked!);
         }
       } else if (indexTab == 0) {
         Navigator.push(
@@ -125,11 +125,11 @@ class _DetailSecState extends State<DetailSec> {
   }
 
   /// set bookmarkPage in sharedPreferences
-  void setBookmark(List<String> _title, List<int> _index, List<int> _indexFasl,
-      List<int> _code) async {
+  void setBookmark(List<String?> _title, List<int?> _index, List<int?> _indexFasl,
+      List<int?> _code) async {
     prefs = await SharedPreferences.getInstance();
 //    if (_index[0] != null && !_index[0].isNaN) {
-    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title as List<String>);
 
     List<String> _strindex = _index.map((i) => i.toString()).toList();
     await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
@@ -142,14 +142,14 @@ class _DetailSecState extends State<DetailSec> {
   }
 
   /// set lastViewedPage in sharedPreferences
-  void setLastViewedPage(String _titleCurrentPage, int _indexCurrentPage,
-      int _indexFaslCurrentPage, String _indentCurrentPage) async {
+  void setLastViewedPage(String? _titleCurrentPage, int? _indexCurrentPage,
+      int? _indexFaslCurrentPage, String? _indentCurrentPage) async {
     prefs = await SharedPreferences.getInstance();
     if (_indexCurrentPage != null && !_indexCurrentPage.isNaN) {
-      prefs.setString(globals.LAST_VIEWED_PAGE_title, _titleCurrentPage);
+      prefs.setString(globals.LAST_VIEWED_PAGE_title, _titleCurrentPage!);
       prefs.setInt(globals.LAST_VIEWED_PAGE_index, _indexCurrentPage);
-      prefs.setInt(globals.LAST_VIEWED_PAGE_indexFasl, _indexFaslCurrentPage);
-      prefs.setString(globals.LAST_VIEWED_PAGE_indent, _indentCurrentPage);
+      prefs.setInt(globals.LAST_VIEWED_PAGE_indexFasl, _indexFaslCurrentPage!);
+      prefs.setString(globals.LAST_VIEWED_PAGE_indent, _indentCurrentPage!);
     }
   }
 
@@ -157,9 +157,9 @@ class _DetailSecState extends State<DetailSec> {
     await page.close();
   }
 
-  PageController pageController;
-  double _scrollPosition;
-  ScrollController _scrollController;
+  PageController? pageController;
+  double? _scrollPosition;
+  ScrollController? _scrollController;
   setLastScolledPixel(double level) async {
     globals.lastScrolledPixel = level;
     prefs = await SharedPreferences.getInstance();
@@ -169,7 +169,7 @@ class _DetailSecState extends State<DetailSec> {
   }
   _scrollListener() {
     setState(() {
-      _scrollPosition = _scrollController.position.pixels;
+      _scrollPosition = _scrollController!.position.pixels;
       setLastScolledPixel(_scrollPosition??0);
     });
   }
@@ -180,7 +180,7 @@ class _DetailSecState extends State<DetailSec> {
 
     print("********************************************** widget.code  detail sec**************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
-    if (globals.jsonCodesHavingAudio.contains(widget.code)) {
+    if (globals.jsonCodesHavingAudio!.contains(widget.code)) {
       print("************************************************************************** jsonCodesHavingAudio.contains(widget.code) ");
       globals.audioExist=true;
     } else {
@@ -191,7 +191,7 @@ class _DetailSecState extends State<DetailSec> {
 
     _player = AudioPlayer();
     _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
+    _scrollController!.addListener(_scrollListener);
     _init(widget.code);
 
     print(
@@ -203,7 +203,7 @@ class _DetailSecState extends State<DetailSec> {
         "************************************************************************** widget.index " +
             widget.index.toString());
     setState(() {
-      if (globals.codeBookMarked.contains(widget.code)) {
+      if (globals.codeBookMarked!.contains(widget.code)) {
         print(
             "       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  globals.titleBookMarked.contains(${widget.detail})");
         isBookmarked = true;
@@ -229,10 +229,10 @@ class _DetailSecState extends State<DetailSec> {
   }
 
   List<TextSpan> highlightOccurrencesDetailSec(
-      String source, String query, double _fontSize) {
+      String? source, String? query, double _fontSize) {
     if (query == null ||
         query.isEmpty ||
-        !source.toLowerCase().contains(query.toLowerCase())) {
+        !source!.toLowerCase().contains(query.toLowerCase())) {
       return [TextSpan(text: source)];
     }
     final matches = query.toLowerCase().allMatches(source.toLowerCase());
@@ -268,7 +268,7 @@ class _DetailSecState extends State<DetailSec> {
   getLastScolledPixel() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.LAST_SCROLLED_PIXEL)) {
-      double _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
+      double? _lastScrolledPixel = prefs.getDouble(globals.LAST_SCROLLED_PIXEL);
       setState(() {
         globals.lastScrolledPixel = _lastScrolledPixel;
       });
@@ -276,8 +276,8 @@ class _DetailSecState extends State<DetailSec> {
   }
 
   void _scrollToPixel() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(globals.lastScrolledPixel,
+    if (_scrollController!.hasClients) {
+      _scrollController!.animateTo(globals.lastScrolledPixel!,
           duration: Duration(milliseconds: 100), curve: Curves.fastOutSlowIn);
     } else {
       Timer(Duration(milliseconds: 400), () => _scrollToPixel());
@@ -286,7 +286,7 @@ class _DetailSecState extends State<DetailSec> {
   }
 
   Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration, PositionData>(
+      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
           _player.positionStream,
           _player.bufferedPositionStream,
           _player.durationStream,
@@ -315,7 +315,7 @@ class _DetailSecState extends State<DetailSec> {
     }
   }
 
-  double progress = null;
+  double? progress = null;
   String status = "Not Downloaded";
   Future<bool> hasNetwork() async {
     try {
@@ -414,7 +414,7 @@ class _DetailSecState extends State<DetailSec> {
     return File("${dir.path}/$filename");
   }
 
-  Future<bool> checkInternetConnection() async {
+  Future<bool?> checkInternetConnection() async {
     try {
       final result = await InternetAddress.lookup('https://www.google.com/');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -456,10 +456,13 @@ class _DetailSecState extends State<DetailSec> {
 
         Scaffold(
           appBar: PreferredSize(
-            preferredSize:  globals.jsonCodesHavingAudio
+            preferredSize:  globals.jsonCodesHavingAudio!
                 .contains((1000 * widget.indexFasl + widget.index).toString()) && (audioIsSaved == true ||
-                (progress != null && progress == 1)) || (progress != null && progress != 0 && progress < 1)? Size.fromHeight(100.0):Size.fromHeight(50.0) , // here the desired height
+                (progress != null && progress == 1)) || (progress != null && progress != 0 && progress! < 1)? Size.fromHeight(100.0):Size.fromHeight(50.0) , // here the desired height
             child: AppBar(
+              backgroundColor:Theme.of(context).brightness == Brightness.light
+                  ? Colors.green
+                  : Colors.black,
               leading: IconButton(
                 icon: Icon(
                   Icons.bookmark,
@@ -478,7 +481,7 @@ class _DetailSecState extends State<DetailSec> {
                   _onItemTapped(2);
                 },
               ),
-              flexibleSpace: globals.jsonCodesHavingAudio
+              flexibleSpace: globals.jsonCodesHavingAudio!
                   .contains((1000 * widget.indexFasl + widget.index).toString())
                   ?
 // globals.audioExist?
@@ -511,7 +514,7 @@ class _DetailSecState extends State<DetailSec> {
                     //     (progress != null && progress == 1))
                     //   ControlButtons(_player),
 
-                    if (progress != null && progress != 0 && progress < 1)
+                    if (progress != null && progress != 0 && progress! < 1)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
@@ -604,7 +607,7 @@ class _DetailSecState extends State<DetailSec> {
                                     icon: const Icon(Icons.replay),
                                     iconSize: 30.0,
                                     onPressed: () => _player.seek(Duration.zero,
-                                        index: _player.effectiveIndices.first),
+                                        index: _player.effectiveIndices!.first),
                                   );
                                 }
                               },
@@ -626,7 +629,7 @@ class _DetailSecState extends State<DetailSec> {
               elevation: 0.0,
               actions: <Widget>[
 
-                if (globals.jsonCodesHavingAudio
+                if (globals.jsonCodesHavingAudio!
                     .contains((1000 * widget.indexFasl + widget.index).toString()) && (progress == null && audioIsSaved != true) ||
                     (progress == 0 && audioIsSaved != null))
                   IconButton(
@@ -647,13 +650,13 @@ class _DetailSecState extends State<DetailSec> {
         builder: (c, snapshot) {
           if (snapshot.hasData) {
             getOtherSettings();
-            titleCurrentPage = snapshot.data.title;
+            titleCurrentPage = snapshot.data!.title;
             globals.titleCurrentPage = titleCurrentPage;
-            indexCurrentPage = snapshot.data.number;
+            indexCurrentPage = snapshot.data!.number;
             globals.indexCurrentPage = indexCurrentPage;
-            indexFaslCurrentPage = snapshot.data.bab;
+            indexFaslCurrentPage = snapshot.data!.bab;
             globals.indexFaslCurrentPage = indexFaslCurrentPage;
-            codeCurrentPage = indexFaslCurrentPage * 1000 + indexCurrentPage;
+            codeCurrentPage = indexFaslCurrentPage! * 1000 + indexCurrentPage!;
             globals.codeCurrentPage = codeCurrentPage;
           }
 
@@ -665,12 +668,12 @@ class _DetailSecState extends State<DetailSec> {
                       child: ListView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.vertical,
-                        itemCount: snapshot.data.arabic.length,
+                        itemCount: snapshot.data!.arabic!.length,
                         shrinkWrap: true,
 //                        itemExtent: 1000,
                         physics: AlwaysScrollableScrollPhysics(),
                         itemBuilder: (BuildContext c, int i) {
-                          String key = snapshot.data.arabic.keys.elementAt(i);
+                          String key = snapshot.data!.arabic!.keys.elementAt(i);
                           return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -679,8 +682,8 @@ class _DetailSecState extends State<DetailSec> {
                                       const EdgeInsets.symmetric(vertical: 5.0),
                                   child: Column(
                                     children: <Widget>[
-                                      if (snapshot.data.tozih[key] != "" &&
-                                          snapshot.data.tozih[key] !=
+                                      if (snapshot.data!.tozih![key] != "" &&
+                                          snapshot.data!.tozih![key] !=
                                               null) //ui.tafsir &&
                                         ListTile(
                                             dense: true,
@@ -690,26 +693,26 @@ class _DetailSecState extends State<DetailSec> {
                                                 children:
                                                     highlightOccurrencesDetailSec(
                                                         snapshot
-                                                            .data.tozih[key],
+                                                            .data!.tozih![key],
                                                         widget.query,
-                                                        globals.fontTozihLevel +
+                                                        globals.fontTozihLevel! +
                                                             4),
                                                 style: TextStyle(
                                                     fontFamily: 'عربی ساده',
                                                     fontSize:
                                                         globals.fontTozihLevel,
                                                     height: 1.5,
-                                                    color: snapshot.data
-                                                            .arabic["1"].isEmpty
+                                                    color: snapshot.data!
+                                                            .arabic!["1"]!.isEmpty
                                                         ? Theme.of(context)
-                                                            .accentColor
+                                                            .shadowColor
                                                         : Theme.of(context)
-                                                            .buttonColor),
+                                                            .hoverColor),
                                               ),
                                             )),
 
-                                      if (snapshot.data.arabic[key] != "" &&
-                                          snapshot.data.arabic[key] != null &&
+                                      if (snapshot.data!.arabic![key] != "" &&
+                                          snapshot.data!.arabic![key] != null &&
                                           widget.indexFasl == 4)
                                         ListTile(
                                           dense: true,
@@ -718,13 +721,13 @@ class _DetailSecState extends State<DetailSec> {
                                             text: TextSpan(
                                               children:
                                                   highlightOccurrencesDetailSec(
-                                                      snapshot.data
-                                                              .arabic[key] +
+                                                      snapshot.data!
+                                                              .arabic![key]! +
                                                           "(" +
                                                           (key).toString() +
                                                           ")",
                                                       widget.query,
-                                                      globals.fontArabicLevel +
+                                                      globals.fontArabicLevel! +
                                                           4),
                                               style: TextStyle(
                                                 fontFamily: globals.fontArabic,
@@ -732,14 +735,14 @@ class _DetailSecState extends State<DetailSec> {
                                                     globals.fontArabicLevel,
                                                 height: 1.5,
                                                 color: Theme.of(context)
-                                                    .accentColor,
+                                                    .shadowColor,
                                               ),
                                             ),
                                           ),
                                         ),
 
-                                      if (snapshot.data.arabic[key] != "" &&
-                                          snapshot.data.arabic[key] != null &&
+                                      if (snapshot.data!.arabic![key] != "" &&
+                                          snapshot.data!.arabic![key] != null &&
                                           widget.indexFasl != 4)
                                         ListTile(
                                           dense: true,
@@ -748,9 +751,9 @@ class _DetailSecState extends State<DetailSec> {
                                             text: TextSpan(
                                               children:
                                                   highlightOccurrencesDetailSec(
-                                                      snapshot.data.arabic[key],
+                                                      snapshot.data!.arabic![key],
                                                       widget.query,
-                                                      globals.fontArabicLevel +
+                                                      globals.fontArabicLevel! +
                                                           4),
                                               style: TextStyle(
                                                 fontFamily: globals.fontArabic,
@@ -763,16 +766,16 @@ class _DetailSecState extends State<DetailSec> {
                                                     ? 2.30 // نه حرف من نه حرف اچ جی 2.30 والسلام
                                                     : 2,
                                                 color: Theme.of(context)
-                                                    .accentColor,
+                                                    .shadowColor,
                                               ),
                                             ),
                                           ),
                                         ),
 //                                  AppStyle.spaceH10,
 
-                                      if (ui.terjemahan &&
-                                          snapshot.data.farsi[key] != null &&
-                                          snapshot.data.farsi[key] != "")
+                                      if (ui.terjemahan! &&
+                                          snapshot.data!.farsi![key] != null &&
+                                          snapshot.data!.farsi![key] != "")
                                         ListTile(
                                           dense: true,
                                           title: RichText(
@@ -780,16 +783,16 @@ class _DetailSecState extends State<DetailSec> {
                                             text: TextSpan(
                                               children:
                                                   highlightOccurrencesDetailSec(
-                                                      snapshot.data.farsi[key],
+                                                      snapshot.data!.farsi![key],
                                                       widget.query,
-                                                      globals.fontTarjLevel +
+                                                      globals.fontTarjLevel! +
                                                           4),
                                               style: TextStyle(
                                                 fontFamily: 'عربی ساده',
                                                 fontSize: globals.fontTarjLevel,
                                                 height: 1.5,
                                                 color: Theme.of(context)
-                                                    .accentColor,
+                                                    .shadowColor,
                                               ),
                                             ),
                                           ),

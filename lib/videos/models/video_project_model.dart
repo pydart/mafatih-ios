@@ -6,29 +6,29 @@ import 'package:mafatih/videos/models/video_file_model.dart';
 class video_project_model
 {
 
-  int id;
-  String title;
-  String slug;
-  int seen;
-  String music;
-  String description;
-  String status;
-  int delete_flag;
-  String from;
-  String footage_path;
-  String hash_md5;
-  String duration;
-  String user_permission;
-  String admin_permission;
+  int? id;
+  String? title;
+  String? slug;
+  int? seen;
+  String? music;
+  String? description;
+  String? status;
+  int? delete_flag;
+  String? from;
+  String? footage_path;
+  String? hash_md5;
+  String? duration;
+  String? user_permission;
+  String? admin_permission;
   //int category_id;
-  int user_id;
-  int video_address_file_id;
-  int video_cover_address_file_id;
-  String created_at;
-  String updated_at;
-  video_file_model file;
-  video_file_model cover;
-  make_pool_model make_pool;
+  int? user_id;
+  int? video_address_file_id;
+  int? video_cover_address_file_id;
+  String? created_at;
+  String? updated_at;
+  video_file_model? file;
+  video_file_model? cover;
+  make_pool_model? make_pool;
 
 
 

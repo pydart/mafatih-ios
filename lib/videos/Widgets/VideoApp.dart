@@ -6,9 +6,9 @@ import 'package:video_player/video_player.dart';
 /// Stateful widget to fetch and then display video content.
 class VideoApp extends StatefulWidget {
 
-  String videoaddress;
+  String? videoaddress;
 
-  VideoApp({Key key, this.videoaddress});
+  VideoApp({Key? key, this.videoaddress});
 
   @override
   _VideoAppState createState() => _VideoAppState(videoaddress: videoaddress);
@@ -16,19 +16,19 @@ class VideoApp extends StatefulWidget {
 
 class _VideoAppState extends State<VideoApp>
 {
-  String videoaddress;
+  String? videoaddress;
 
   _VideoAppState({
      this.videoaddress
   });
 
-   VideoPlayerController _controller;
+   late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(
-        videoaddress)
+        videoaddress!)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});

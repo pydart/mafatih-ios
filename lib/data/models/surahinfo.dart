@@ -5,13 +5,13 @@ List<SurahInfo> surahInfoFromJson(String str) => List<SurahInfo>.from(json.decod
 String surahInfoToJson(List<SurahInfo> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SurahInfo {
-    String translation;
-    String arabic;
-    String latin;
-    int ayahCount;
-    int index;
-    String opening;
-    String closing;
+    String? translation;
+    String? arabic;
+    String? latin;
+    int? ayahCount;
+    int? index;
+    String? opening;
+    String? closing;
 
     SurahInfo({
         this.translation,

@@ -1,15 +1,15 @@
 class make_pool_model
 {
 
-  int id;
-  String status;
-  int importance;
-  int percent;
-  String delete_flag;
-  int file_id;
-  int template_id;
-  int video_id;
-  int user_id;
+  int? id;
+  String? status;
+  int? importance;
+  int? percent;
+  String? delete_flag;
+  int? file_id;
+  int? template_id;
+  int? video_id;
+  int? user_id;
 
   make_pool_model({
      this.id,

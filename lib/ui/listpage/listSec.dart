@@ -10,7 +10,7 @@ import 'notesSearch.dart';
 
 class ListSec extends StatefulWidget {
   final detail, indexFasl;
-  ListSec({Key key, @required this.detail, this.indexFasl}) : super(key: key);
+  ListSec({Key? key,  this.detail, this.indexFasl}) : super(key: key);
 
   @override
   _ListSecState createState() => _ListSecState();
@@ -23,6 +23,9 @@ class _ListSecState extends State<ListSec> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Theme.of(context).brightness == Brightness.light
+            ? Colors.green
+            : Colors.black,
         leading: IconButton(
           icon: Icon(
             Icons.keyboard_backspace,
@@ -56,7 +59,7 @@ class _ListSecState extends State<ListSec> {
 //                        itemExtent: 60,
                         physics: AlwaysScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        children: snapshot.data.map((data) {
+                        children: snapshot.data!.map((data) {
                           return data.indent == "1"
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -83,7 +86,7 @@ class _ListSecState extends State<ListSec> {
                                                     ListTile(
                                                         title: Center(
                                                           child: Text(
-                                                            data.title,
+                                                            data.title!,
                                                             style:
                                                                 AppStyle.title,
                                                             textAlign: TextAlign
@@ -134,7 +137,7 @@ class _ListSecState extends State<ListSec> {
                                                           } else if (widget
                                                                       .indexFasl ==
                                                                   4 &&
-                                                              !ui.terjemahan) {
+                                                              !ui.terjemahan!) {
                                                             Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
@@ -150,7 +153,7 @@ class _ListSecState extends State<ListSec> {
                                                           } else if (widget
                                                                       .indexFasl ==
                                                                   4 &&
-                                                              ui.terjemahan) {
+                                                              ui.terjemahan!) {
                                                             Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
@@ -194,7 +197,7 @@ class _ListSecState extends State<ListSec> {
                                                             width: 50,
                                                           ),
                                                           title: Text(
-                                                            data.title,
+                                                            data.title!,
                                                             style: AppStyle
                                                                 .titleFasl,
                                                             textAlign: TextAlign
