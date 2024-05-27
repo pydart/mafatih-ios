@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "203187198163",
+    "project_id": "mafatih-33abe",
+    "storage_bucket": "mafatih-33abe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203187198163:android:a24f78cbad6d6a5ffb1c26",
+        "android_client_info": {
+          "package_name": "pydart.mafatih"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQQtW1yiM0qil23ncZTEvV6AMgqWzHKdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

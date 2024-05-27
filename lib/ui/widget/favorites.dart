@@ -1,13 +1,17 @@
+import 'dart:io';
+
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:mafatih/utils/sharedFunc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../consent_manager.dart';
+import '../../utils/constants.dart';
 import '../listpage/detailSec.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:provider/provider.dart';
 import '../listpage/detailSec4.dart';
 import 'package:mafatih/data/uistate.dart';
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -48,19 +52,19 @@ getBookmark() async {
     globals.indexFaslBookMarked = [];
     globals.codeBookMarked = [];
   } else if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
-    final List<String?>? titleBookMarked = prefs.getStringList(globals.BOOKMARKED_PAGE_title);
+    final List<String> titleBookMarked = prefs.getStringList(globals.BOOKMARKED_PAGE_title)!;
 
     final savedStrList = prefs.getStringList(globals.BOOKMARKED_PAGE_index)!;
-    List<int?> indexBookMarked = savedStrList.map((i) => int.parse(i)).toList();
+    List<int> indexBookMarked = savedStrList.map((i) => int.parse(i)).toList();
 
     final savedStrFaslList =
         prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl)!;
-    List<int?> indexFaslBookMarked =
+    List<int> indexFaslBookMarked =
         savedStrFaslList.map((i) => int.parse(i)).toList();
 
     List<String> savedStrCodeList =
         prefs.getStringList(globals.BOOKMARKED_PAGE_Code)!;
-    List<int?> codeBookMarked =
+    List<int> codeBookMarked =
         savedStrCodeList.map((i) => int.parse(i)).toList();
 
     globals.titleBookMarked = titleBookMarked;
@@ -70,6 +74,11 @@ getBookmark() async {
   }
 
   if (globals.indexBookMarked == null) {
+
+
+
+
+
     List mapBookMarked = [
       for (int i = 0; i < globals.codeBookMarked!.length; i++)
         {
@@ -77,7 +86,7 @@ getBookmark() async {
           'titleBookMarked': globals.titleBookMarked![i],
           'indexBookMarked': globals.indexBookMarked![i],
           'indexFaslBookMarked': globals.indexFaslBookMarked![i],
-          'codeBookMarked': globals.codeBookMarked![i],
+          'codeBookMarked': globals.codeBookMarked![i]
         }
     ];
     globals.mapBookMarked = mapBookMarked;
@@ -110,6 +119,9 @@ class _FavoritesState extends State<Favorites> {
   @override
   void initState() {
     super.initState();
+    _initializeMobileAdsSDK();
+    _loadAd();
+
     getBookmark();
     widget.titlebookmark = globals.titleBookMarked;
     widget.indexbookmark = globals.indexBookMarked;
@@ -122,14 +134,13 @@ class _FavoritesState extends State<Favorites> {
           'titleBookMarked': globals.titleBookMarked![i],
           'indexBookMarked': globals.indexBookMarked![i],
           'indexFaslBookMarked': globals.indexFaslBookMarked![i],
-          'codeBookMarked': globals.codeBookMarked![i],
+          'codeBookMarked': globals.codeBookMarked![i]>1000000?int.parse(globals.codeBookMarked![i].toString().replaceAll(RegExp(r'0*$'), '').substring(globals.codeBookMarked![i].toString().length - 3)):globals.codeBookMarked![i],
+          // 'codeBookMarked': globals.codeBookMarked![i]
         }
     ];
     globals.mapBookMarked = mapBookMarked;
 //    Favorites();
   }
-
-
 
   /// Navigation event handler
   _onItemTapped(int indexTab, int _indexlocal) {
@@ -138,13 +149,13 @@ class _FavoritesState extends State<Favorites> {
       int? _index =
           (globals.mapBookMarked[_indexlocal]['codeBookMarked'] - 1000000) ~/
               1000;
-      int? _indexKey = (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) %
-          1000) -
-          1) <
-          0
-          ? 0
-          : (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) % 1000) -
-          1);
+      // int? _indexKey = (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) %
+      //     1000) -
+      //     1) <
+      //     0
+      //     ? 0
+      //     : (((globals.mapBookMarked[_indexlocal]['codeBookMarked']) % 1000) -
+      //     1);
       int _indexFasl = 1;
       int? _code = globals.mapBookMarked[_indexlocal]['codeBookMarked'];
       // globals.titleCurrentPage=
@@ -160,6 +171,8 @@ class _FavoritesState extends State<Favorites> {
             globals.codeBookMarked!.remove(_code);
             print(
                 "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+            print(
+                "toRemove %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.codeBookMarked}");
             widget.titlebookmark = globals.titleBookMarked;
             widget.indexbookmark = globals.indexBookMarked;
             widget.indexFaslbookmark = globals.indexFaslBookMarked;
@@ -235,6 +248,72 @@ class _FavoritesState extends State<Favorites> {
         ));
   }
 
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+  Orientation? _currentOrientation;
+
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+    if (size == null) {
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        // Called when an ad opens an overlay that covers the screen.
+        onAdOpened: (Ad ad) {},
+        // Called when an ad removes an overlay that covers the screen.
+        onAdClosed: (Ad ad) {},
+        // Called when an impression occurs on the ad.
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+  /// Initialize the Mobile Ads SDK if the SDK has gathered consent aligned with
+  /// the app's configured messages.
+  void _initializeMobileAdsSDK() async {
+    MobileAds.instance.initialize();
+    _loadAd();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
@@ -251,29 +330,7 @@ class _FavoritesState extends State<Favorites> {
           ),
           elevation: 0.0,
           actions: <Widget>[
-            // IconButton(
-            //   icon: Icon(Icons.search),
-            //   onPressed: () {
-            //     showSearch(context: context, delegate: NotesSearch());
-            //   },
-            // ),
 
-            // IconButton(
-            //     icon: Icon(Icons.delete_forever),
-            //     onPressed: () {
-            //       setState(() {
-            //         globals.titleBookMarked = [];
-            //         globals.indexBookMarked = [];
-            //         globals.indexFaslBookMarked = [];
-            //         globals.codeBookMarked = [];
-            //         widget.titlebookmark = globals.titleBookMarked;
-            //         widget.indexbookmark = globals.indexBookMarked;
-            //         widget.indexFaslbookmark = globals.indexFaslBookMarked;
-            //         widget.codebookmark = globals.codeBookMarked;
-            //       });
-            //       setBookmark(globals.titleBookMarked, globals.indexBookMarked,
-            //           globals.indexFaslBookMarked, globals.codeBookMarked);
-            //     }),
           ],
         ),
         body: Padding(
@@ -293,13 +350,7 @@ class _FavoritesState extends State<Favorites> {
                           // child: Column(
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           child: new ListTile(
-                              // children: <Widget>[
-                              // ListTile(
 
-                              // leading: Icon(
-                              //   Icons.height,
-                              //   color: Colors.grey.withOpacity(0.5),
-                              // ),
                               title: IntrinsicHeight(
                                 child: Stack(
                                   children: [
@@ -311,13 +362,6 @@ class _FavoritesState extends State<Favorites> {
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
-                                    // Positioned(
-                                    //   right: 0,
-                                    //   child: Icon(
-                                    //     Icons.height,
-                                    //     color: Colors.grey.withOpacity(0.5),
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -497,59 +541,12 @@ class _FavoritesState extends State<Favorites> {
                               })))),
               onReorder: reorderData,
             )),
-        // bottomNavigationBar: Padding(
-        //   padding: const EdgeInsets.fromLTRB(0,500,0,0),
-        //   child: Column(
-        //     children: [
-        //
-        //       AdmobBanner(
-        //         adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        //         adSize: AdmobBannerSize.FULL_BANNER,
-        //         // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //         //   if (event == AdmobAdEvent.clicked) {}
-        //         // },
-        //       ),
-
-      // bottomNavigationBar:
-      //         SizedBox(
-      //
-      //           child: InkWell(
-      //             onTap: () {sharedfunc.launchURL(globals.jsonGifAdUrlMap["urlgiffav1"]);
-      //             final date = DateTime.now();
-      //             print('timeeeeeeeeeeeeeeeeee' + date.weekOfYear.toString());},
-      //             child: CachedNetworkImage(
-      //               imageUrl: Constants.urlgiffav1,
-      //               cacheKey: Constants.urlgiffav1+ DateTime.now().weekOfYear.toString(),
-      //               errorWidget: (context, url, error) => SizedBox.shrink(),
-      //             ),
-      //           ),
-      //         ),
-//               SizedBox(height:5),
-//               SizedBox(
-//                 height: 500,
-//                 child: InkWell(
-//                   onTap: () {sharedfunc.launchURL(Constants.urlgiffav2);},
-//                   child: CachedNetworkImage(
-//                     imageUrl: Constants.urlgiffav2,
-//                     cacheKey: Constants.urlgiffav2+DateTime.now().weekOfYear.toString(),
-//                     errorWidget: (context, url, error) => SizedBox.shrink(),
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(height:5),
-//               SizedBox(
-//                 height: 500,
-//                 child: InkWell(
-//                   onTap: () {sharedfunc.launchURL(Constants.urlgiffav3);},
-//                   child: CachedNetworkImage(
-//                     imageUrl: Constants.urlgiffav3,
-//                     cacheKey: Constants.urlgiffav3+DateTime.now().weekOfYear.toString(),
-//                     errorWidget: (context, url, error) => SizedBox.shrink(),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
+        bottomNavigationBar:(_bannerAd != null && _isLoaded)?
+        SizedBox(
+          width: _bannerAd!.size.width.toDouble(),
+          height: _bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
+        ):null
         );
   }
 
@@ -577,7 +574,6 @@ class _FavoritesState extends State<Favorites> {
         globals.codeBookMarked!
             .insert(i, globals.mapBookMarked[i]['codeBookMarked']);
       }
-
       setBookmark(globals.titleBookMarked!, globals.indexBookMarked!,
           globals.indexFaslBookMarked!, globals.codeBookMarked!);
     });

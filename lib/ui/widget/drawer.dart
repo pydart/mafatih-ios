@@ -1,4 +1,3 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mafatih/data/utils/style.dart';
@@ -137,13 +136,13 @@ class Drawers extends StatelessWidget {
             ),
         // Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,)),
             Center(
-              child: AdmobBanner(
-                adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-                adSize: AdmobBannerSize.LARGE_BANNER,
-                // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                //   if (event == AdmobAdEvent.clicked) {}
-                // },
-              ),
+              // child: AdmobBanner(
+              //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
+              //   adSize: AdmobBannerSize.LARGE_BANNER,
+              //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //   //   if (event == AdmobAdEvent.clicked) {}
+              //   // },
+              // ),
             ),
 
           ],

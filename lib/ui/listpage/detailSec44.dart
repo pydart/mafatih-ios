@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
@@ -12,6 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 // import 'package:screen/screen.dart';
 
+import '../../consent_manager.dart';
+import '../../utils/constants.dart';
 import 'detailSec55.dart';
 
 class DetailSec44 extends StatefulWidget {
@@ -64,10 +68,13 @@ class _DetailSec44State extends State<DetailSec44> {
 
   @override
   void dispose() {
-    widget.player.stop();     widget.player.setLoopMode(LoopMode.off);
+    _bannerAd?.dispose();
+    widget.player.stop();
+    widget.player.setLoopMode(LoopMode.off);
     widget.player.dispose();
     print("************************************************************************dispos detailsec");
     _scrollController!.dispose();
+    _bannerAd?.dispose();
     super.dispose();
   }
 
@@ -92,10 +99,10 @@ class _DetailSec44State extends State<DetailSec44> {
         })
             : setState(() {
           iconBookmarkcolor = Colors.red;
-          globals.titleBookMarked!.add(globals.titleCurrentPage);
-          globals.indexBookMarked!.add(globals.indexCurrentPage);
-          globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage);
-          globals.codeBookMarked!.add(globals.codeCurrentPage);
+          globals.titleBookMarked!.add(globals.titleCurrentPage!);
+          globals.indexBookMarked!.add(globals.indexCurrentPage!);
+          globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage!);
+          globals.codeBookMarked!.add(globals.codeCurrentPage!);
           isBookmarked = true;
 
           print(
@@ -201,6 +208,10 @@ class _DetailSec44State extends State<DetailSec44> {
 
   @override
   void initState() {
+    _initializeMobileAdsSDK();
+    _loadAd();
+
+
     _scrollController = ScrollController();
     _scrollController!.addListener(_scrollListener);
 
@@ -226,9 +237,6 @@ class _DetailSec44State extends State<DetailSec44> {
       }
     });
 
-    // /// Update lastViewedPage
-    // setLastViewedPage(widget.detail, widget.index, widget.indexFasl);
-
     if (globals.titleBookMarked == null) {
       isBookmarked = false;
       print("globals.titleBookMarked== null ????????????????????????????");
@@ -236,10 +244,6 @@ class _DetailSec44State extends State<DetailSec44> {
       globals.indexBookMarked = [];
       globals.indexFaslBookMarked = [];
     }
-
-    /// Prevent screen from going into sleep mode:
-    // Screen.keepOn(true);
-
     super.initState();
   }
 
@@ -292,6 +296,69 @@ class _DetailSec44State extends State<DetailSec44> {
     }
 
   }
+
+
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+    if (size == null) {
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+
+  void _initializeMobileAdsSDK() async {
+    if (_isMobileAdsInitializeCalled) {
+      return;
+    }
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (canRequestAds) {
+      setState(() {
+        _isMobileAdsInitializeCalled = true;
+      });
+      MobileAds.instance.initialize();
+      _loadAd();
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
@@ -342,19 +409,30 @@ class _DetailSec44State extends State<DetailSec44> {
                                 children: <Widget>[
                                   if (int.parse(key) -
                                       snapshot.data!.delay! ==
-                                      1)
+                                      1  && (widget.index!=9 && widget.index!=1))
                                     ListTile(
                                       dense: true,
                                       title: Text(
                                         'بِسْمِ اللَّـهِ الرَّ حْمَـٰنِ الرَّ حِيمِ',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppStyle
-                                              .textQuranfontFamily,
-                                          fontSize: 1.2 *
-                                              globals.fontArabicLevel!,
-                                          height: 1.5,
+                                        style:
+                                        TextStyle(
+                                          fontFamily: globals.fontArabic,
+                                          fontSize:
+                                          globals.fontArabicLevel,
+                                          height: (globals.fontArabic=='نیریزی یک'||globals.fontArabic=='نیریزی دو')? 2:1.5,
+                                          color: Theme.of(context)
+                                              .shadowColor,
                                         ),
+                                        // TextStyle(
+                                        //   fontFamily: AppStyle
+                                        //       .textQuranfontFamily,
+                                        //   fontSize: 1.2 *
+                                        //       globals.fontArabicLevel!,
+                                        //   height: 1.5,
+                                        // ),
+
+
                                       ),
                                     ),
                                   if (snapshot.data!.arabic![key] !=
@@ -379,15 +457,23 @@ class _DetailSec44State extends State<DetailSec44> {
                                               '﴾')
                                               .toString()),
                                           style: TextStyle(
-                                            fontFamily: AppStyle
-                                                .textQuranfontFamily,
-                                            fontSize: 1.2 *
-                                                globals
-                                                    .fontArabicLevel!,
-                                            height: 1.5,
+                                            fontFamily: globals.fontArabic,
+                                            fontSize:
+                                            globals.fontArabicLevel,
+                                            height: (globals.fontArabic=='نیریزی یک'||globals.fontArabic=='نیریزی دو')? 2:1.5,
                                             color: Theme.of(context)
                                                 .shadowColor,
                                           ),
+                                          // style: TextStyle(
+                                          //   fontFamily: AppStyle
+                                          //       .textQuranfontFamily,
+                                          //   fontSize: 1.2 *
+                                          //       globals
+                                          //           .fontArabicLevel!,
+                                          //   height: 1.5,
+                                          //   color: Theme.of(context)
+                                          //       .shadowColor,
+                                          // ),
                                         ),
                                       ),
                                     ),
@@ -437,13 +523,12 @@ class _DetailSec44State extends State<DetailSec44> {
           code: widget.indexFasl * 1000 + widget.index,
           player:widget.player
         ),
-        // bottomNavigationBar: AdmobBanner(
-        //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        //   adSize: AdmobBannerSize.BANNER,
-        //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //   //   if (event == AdmobAdEvent.clicked) {}
-        //   // },
-        // ),
+          bottomNavigationBar:(_bannerAd != null && _isLoaded)?
+          SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          ):null
       );
   }
 }

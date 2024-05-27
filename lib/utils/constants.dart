@@ -6,8 +6,7 @@ class Constants {
   static final mafatihads = 'https://videoir.com/apps_versions/mafatihads';
 
   // flutter build appbundle --obfuscate --split-debug-info=/mafatih
-  static final adUnitId = 'ca-app-pub-5524959616213219/4375762078';
-
+  static final adUnitId = 'ca-app-pub-5524959616213219/7557264464';
 
   static final urlgifdrawer1="https://www.videoir.com/apps_versions/mafatihads/drawer/gif1.gif";
   static final urlgifdrawer2="https://www.videoir.com/apps_versions/mafatihads/drawer/gif2.gif";
@@ -60,7 +59,7 @@ class Constants {
   static final PLAY_STORE_URL = 'https://cafebazaar.ir/app/pydart.mafatih';
 
 
-//
+
 // static final newVersionUrl = 'https://videoir.com/apps_versions/kasa.php';
 // static final adUnitId = 'ca-app-pub-5524959616213219/4623975793';
 // static final PLAY_STORE_URL = 'https://cafebazaar.ir/app/pydart.kasa';

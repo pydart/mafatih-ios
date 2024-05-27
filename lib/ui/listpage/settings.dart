@@ -1,5 +1,7 @@
 // import 'package:admob_flutter/admob_flutter.dart';
-import 'package:admob_flutter/admob_flutter.dart';
+import 'dart:io';
+
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/theming/theme/custom_theme_mode.dart';
 import 'package:mafatih/theming/theme/locale_keys.g.dart';
@@ -12,6 +14,9 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart' show Provider;
 import 'package:easy_localization/easy_localization.dart';
+
+import '../../consent_manager.dart';
+import '../../utils/constants.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -30,12 +35,15 @@ class _SettingsState extends State<Settings> {
   late double briValue;
   List FontArabicList = [
     'نیریزی یک',
-    'عثمان طه',
+    'عثمان طه ۱',
+    'عثمان طه ۲',
     'نیریزی دو',
     'عربی ساده',
     'زر',
     'القلم',
   ];
+
+
 
   List ThemeList = [
     'اتوماتیک',
@@ -168,6 +176,87 @@ class _SettingsState extends State<Settings> {
         ),
       ],
     );
+  }
+
+
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+  Orientation? _currentOrientation;
+
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+
+  /// Loads and shows a banner ad.
+  ///
+  /// Dimensions of the ad are determined by the width of the screen.
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+
+    if (size == null) {
+      // Unable to get width of anchored banner.
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        // Called when an ad opens an overlay that covers the screen.
+        onAdOpened: (Ad ad) {},
+        // Called when an ad removes an overlay that covers the screen.
+        onAdClosed: (Ad ad) {},
+        // Called when an impression occurs on the ad.
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
+
+
+  void _initializeMobileAdsSDK() async {
+    MobileAds.instance.initialize();
+    _loadAd();
+  }
+
+
+  @override
+  void initState() {
+    _initializeMobileAdsSDK();
+    _loadAd();
   }
 
   @override
@@ -421,7 +510,17 @@ class _SettingsState extends State<Settings> {
                               : null,
                         ),
                       ),
-                      value: 5)
+                      value: 5),
+                  DropdownMenuItem(
+                      child: Text(
+                        FontArabicList[6],
+                        style: TextStyle(
+                          color: tempFontArabic == FontArabicList[6]
+                              ? Colors.green
+                              : null,
+                        ),
+                      ),
+                      value: 6)
                 ],
                 onChanged: (dynamic value) {
                   setState(() {
@@ -521,15 +620,31 @@ class _SettingsState extends State<Settings> {
           // SizedBox(
           //   height: 50,
           // )
-          Center(
-            child: AdmobBanner(
-              adUnitId: 'ca-app-pub-5524959616213219/3936589352',
-              adSize: AdmobBannerSize.LARGE_BANNER,
-              // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-              //   if (event == AdmobAdEvent.clicked) {}
-              // },
-            ),
-          ),
+          // Center(
+          //   child: AdmobBanner(
+          //     adUnitId: 'ca-app-pub-5524959616213219/3936589352',
+          //     adSize: AdmobBannerSize.LARGE_BANNER,
+          //     // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          //     //   if (event == AdmobAdEvent.clicked) {}
+          //     // },
+          //   ),
+          // ),
+
+          Stack(
+            children: [
+              if (_bannerAd != null && _isLoaded)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SafeArea(
+                    child: SizedBox(
+                      width: _bannerAd!.size.width.toDouble(),
+                      height: _bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+                  ),
+                )
+            ],
+          )
           // Center(child: BannerAd("2028260f-a8b1-4890-8ef4-224c4de96e02",BannerAdSize.LARGE_BANNER,)),
         ],
       ),

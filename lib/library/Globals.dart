@@ -1,8 +1,5 @@
 library mafatih.globals;
 
-// import 'package:audio_service/audio_service.dart';
-import 'package:just_audio/just_audio.dart';
-
 bool audioExist=false;
 int _nextMediaId = 0;
 String appNameEn="tavasol";
@@ -43,13 +40,13 @@ bool? edameFaraz;
 double? newVersionBuildNumber;
 double? currentBuildNumber;
 
-List<String?>? titleBookMarked;
-List<int?>? indexBookMarked;
-List<int?>? indexFaslBookMarked;
-List<int?>? codeBookMarked;
+List<String> titleBookMarked=[];
+List<int> indexBookMarked=[];
+List<int> indexFaslBookMarked=[];
+List<int> codeBookMarked=[];
 late List<dynamic> mapBookMarked;
-List<String>? jsonCodesHavingAudio=[];
-List<String>? jsonCodesHavingCat=[];
+List<String> jsonCodesHavingAudio=[];
+List<String> jsonCodesHavingCat=[];
 
 String? jsonGifAdUrl="";
 Map? jsonGifAdUrlMap ={
@@ -106,6 +103,7 @@ const TarjActive = 'TarjActive';
 const TozihActive = 'TozihActive';
 const DarkMode = 'DarkMode';
 const LaterDialog = 'LaterDialog';
+const OneTimeRateUs = 'OneTimeRateUs';
 const TarjKhati = 'TarjKhati';
 const Sound = 'Sound';
 const AudioExist = 'AudioExist';
@@ -127,4 +125,5 @@ bool? tarjActive;
 bool? tozihActive;
 bool? darkMode;
 bool? laterDialog;
+bool? oneTimeRateUs;
 bool? tarjKhati;

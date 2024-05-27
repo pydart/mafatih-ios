@@ -2,14 +2,17 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:mafatih/ui/listpage/detailSec.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:screen_brightness/screen_brightness.dart';
+import '../../consent_manager.dart';
 import '../../data/uistate.dart';
 import '../../utils/constants.dart';
+import '../RateUsDialog.dart';
 import 'detailSec4.dart';
 import 'detailSec5.dart';
 import '../widget/drawer.dart';
@@ -20,7 +23,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'notesSearch.dart';
-import 'package:admob_flutter/admob_flutter.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -90,6 +92,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       print("Exception Caught: $e");
     }
   }
+
+  void _showRateUsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => RateUsDialog(appPackageName: 'pydart.mafatih'),
+    );
+  }
+
 
   _getBuildNumber() async {
     try {
@@ -185,22 +195,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   getBookmark() async {
     prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(globals.BOOKMARKED_PAGE_Code)) {
-      List<String?>? titleBookMarked =
-          prefs.getStringList(globals.BOOKMARKED_PAGE_title);
+      List<String> titleBookMarked =
+          prefs.getStringList(globals.BOOKMARKED_PAGE_title)!;
 
       List<String> savedStrList =
           prefs.getStringList(globals.BOOKMARKED_PAGE_index)!;
-      List<int?> indexBookMarked =
+      List<int> indexBookMarked =
           savedStrList.map((i) => int.parse(i)).toList();
 
       List<String> savedStrFaslList =
           prefs.getStringList(globals.BOOKMARKED_PAGE_indexFasl)!;
-      List<int?> indexFaslBookMarked =
+      List<int> indexFaslBookMarked =
           savedStrFaslList.map((i) => int.parse(i)).toList();
 
       List<String> savedStrCodeList =
           prefs.getStringList(globals.BOOKMARKED_PAGE_Code)!;
-      List<int?> codeBookMarked =
+      List<int> codeBookMarked =
           savedStrCodeList.map((i) => int.parse(i)).toList();
 
       setState(() {
@@ -242,33 +252,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  AdmobBannerSize? bannerSize;
-
-
-  // void initPlatformState() {
-  //   // AdiveryPlugin.initialize("f53c7111-1b46-4b1f-8daa-a652bc5182a1");
-  //   // AdiveryPlugin.setLoggingEnabled(true);
-  //   // AdiveryPlugin.prepareInterstitialAd("de5db046-765d-478f-bb2e-30dc2eaf3f51");
-  //   // AdiveryPlugin.prepareRewardedAd("3f97dc4d-3e09-4024-acaf-931862c03ba8");
-  //   // AdiveryPlugin.addListener(
-  //   //     onError: onError,
-  //   //     onInterstitialLoaded: onInterstitialLoaded,
-  //   //     onRewardedClosed: onRewardedClosed,
-  //   //     onRewardedLoaded: (placement) => {});
-  // }
-
 
   @override
   void initState() {
-    // initPlatformState();
-
     try {
       versionCheck(context);
     } catch (e) {
       print(e);
     }
-    bannerSize = AdmobBannerSize.BANNER;
-
     getBookmark();
     getLastViewedPage();
     super.initState();
@@ -281,7 +272,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     checkCatList();
     checkAdUrlExist();
     KeepScreenOn.turnOn();
-
   }
 
   setAdUrl(String json) async {
@@ -314,15 +304,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  setAudioExist(List<String>? jsonCode) async {
+  setAudioExist(List<String> jsonCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     globals.jsonCodesHavingAudio = jsonCode;
     await prefs.setStringList(
         'JsonCodesHavingAudio', globals.jsonCodesHavingAudio!);
-    // print("*********************************************setAudioExist***************************** globals.jsonCodesHavingAudio ${globals.jsonCodesHavingAudio} ");
   }
 
-  setCatExist(List<String>? jsonCode) async {
+  setCatExist(List<String> jsonCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     globals.jsonCodesHavingCat= jsonCode;
     await prefs.setStringList(
@@ -331,7 +320,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   checkUrlExist() async {
-    // print("************************************************************************** checkUrlExist ");
     try {
       http.Response response = await http
           .get(Uri.parse(Constants.audiosListUrl + '/audiosList.php'))
@@ -487,7 +475,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       var _jsonCodesHavingAudio =
           prefs.getStringList(globals.JsonCodesHavingAudio);
       setState(() {
-        globals.jsonCodesHavingAudio = _jsonCodesHavingAudio;
+        globals.jsonCodesHavingAudio = _jsonCodesHavingAudio!;
       });
     }
 
@@ -495,7 +483,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       var _jsonCodesHavingCat =
       prefs.getStringList(globals.JsonCodesHavingCat);
       setState(() {
-        globals.jsonCodesHavingCat = _jsonCodesHavingCat;
+        globals.jsonCodesHavingCat = _jsonCodesHavingCat!;
       });
     }
 
@@ -532,6 +520,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             prefs.getString(globals.LAST_VIEWED_PAGE_indent);
       });
     }
+
+    if (prefs.containsKey(globals.OneTimeRateUs)) {
+      var _oneTimeRateUs = prefs.getBool(globals.OneTimeRateUs);
+      setState(() {
+        globals.oneTimeRateUs = _oneTimeRateUs;
+      });
+    }
+
+
   }
 
   @override
@@ -574,6 +571,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 18.0);
+
+      // globals.oneTimeRateUs!=true ? showDialog(
+      //   context: context,
+      //   builder: (context) => RateUsDialog(appPackageName: 'pydart.mafatih'),
+      // ):null;
       return Future.value(false);
     } else {
       Fluttertoast.cancel();
@@ -588,6 +590,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     prefs = await SharedPreferences.getInstance();
     prefs.setBool(globals.LaterDialog, level);
   }
+
+
 
   Future<bool?> _upgrader() {
     return showDialog(
@@ -809,19 +813,41 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          bottomNavigationBar: AdmobBanner(
-            adUnitId: 'ca-app-pub-5524959616213219/5790610979',
-            adSize: AdmobBannerSize.BANNER,
-            // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-            //   if (event == AdmobAdEvent.clicked) {}
-            // },
-          ),
-        //  bottomNavigationBar: BannerAd(
-        //   "2028260f-a8b1-4890-8ef4-224c4de96e02",
-        //   BannerAdSize.BANNER,
-        //   onAdLoaded: _onAdLoaded,
-        //   onAdClicked: _onAdClicked,
-        // ),
+          // bottomNavigationBar: AdmobBanner(
+          //   adUnitId: 'ca-app-pub-5524959616213219/5790610979',
+          //   adSize: AdmobBannerSize.BANNER,
+          //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          //   //   if (event == AdmobAdEvent.clicked) {}
+          //   // },
+          // ),
+          // bottomNavigationBar:
+          // OrientationBuilder(
+          //   builder: (context, orientation) {
+          //     if (_currentOrientation != orientation) {
+          //       _isLoaded = false;
+          //       _loadAd();
+          //       _currentOrientation = orientation;
+          //     }
+          //     return Stack(
+          //       children: [
+          //         if (_bannerAd != null && _isLoaded)
+          //           Align(
+          //             alignment: Alignment.bottomCenter,
+          //             child: SafeArea(
+          //               child: SizedBox(
+          //                 width: _bannerAd!.size.width.toDouble(),
+          //                 height: _bannerAd!.size.height.toDouble(),
+          //                 child: AdWidget(ad: _bannerAd!),
+          //               ),
+          //             ),
+          //           )
+          //       ],
+          //     );
+          //   },
+          // )
+
+
+
         ),
       ),
     );

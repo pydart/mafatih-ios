@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mafatih/data/models/FaslSecInfo.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../consent_manager.dart';
+import '../../utils/constants.dart';
 import 'detailSec.dart';
 import 'detailSec4.dart';
 import 'notesSearch.dart';
@@ -16,7 +21,72 @@ class ListSec extends StatefulWidget {
   _ListSecState createState() => _ListSecState();
 }
 
+
+
 class _ListSecState extends State<ListSec> {
+
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+    if (size == null) {
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+  void _initializeMobileAdsSDK() async {
+    MobileAds.instance.initialize();
+    _loadAd();
+  }
+
+
+  @override
+  void initState() {
+    _initializeMobileAdsSDK();
+    _loadAd();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
@@ -235,7 +305,17 @@ class _ListSecState extends State<ListSec> {
               : Container();
         },
       ),
-      // bottomNavigationBar: AdmobBanner(
+
+        bottomNavigationBar:(_bannerAd != null && _isLoaded)?
+        SizedBox(
+          width: _bannerAd!.size.width.toDouble(),
+          height: _bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
+        ):null
+
+
+      //
+      // AdmobBanner(
       //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
       //   adSize: AdmobBannerSize.LARGE_BANNER,
       //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {

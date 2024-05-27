@@ -1,8 +1,10 @@
-// import 'package:admob_flutter/admob_flutter.dart';
-import 'package:admob_flutter/admob_flutter.dart';
+import 'dart:io';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mafatih/data/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../consent_manager.dart';
+import '../../utils/constants.dart';
 
 
 class AyatKursi extends StatefulWidget {
@@ -10,17 +12,79 @@ class AyatKursi extends StatefulWidget {
   _AyatKursiState createState() => _AyatKursiState();
 }
 
+
 class _AyatKursiState extends State<AyatKursi> {
 
+  @override
+  void initState() {
+    _consentManager.gatherConsent((consentGatheringError) {
+      _initializeMobileAdsSDK();
+    });
+    _initializeMobileAdsSDK();
+    _loadAd();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
+
   bool? isInstalled;
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+    if (size == null) {
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+
+  void _initializeMobileAdsSDK() async {
+    MobileAds.instance.initialize();
+    _loadAd();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-//    var ui = Provider.of<UiState>(context);
-//    return FutureBuilder<AyathKursi>(
-//        future: ServiceData().loadAyatKursi(),
-//        builder: (context, snapshot) {
-//      if (snapshot.hasData) {
     return Scrollbar(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -128,211 +192,27 @@ class _AyatKursiState extends State<AyatKursi> {
                 ),
               ),
             ),
-//             Text(
-//               '   دیگر برنامه ها',
-//               style: AppStyle.settingRelated,
-//             ),
-//             Container(
-//               height: 1,
-//               color: Color(0xf6c40c0c),
-//             ),
-//             ListTile(
-//                 leading: Wrap(
-//                   spacing: 12, // space between two icons
-//                   children: <Widget>[
-//                     new IconTheme(
-//                       data: new IconThemeData(
-//                         color: null,
-//                       ), //IconThemeData
-//
-//                       child: Container(
-//                         child: new Image.asset("assets/ashoura.png"),
-//                         height: 25,
-//                         width: 25,
-//                       ),
-//                     ),
-//                     Text(
-//                       'زیارت عاشورا',
-//                       style: AppStyle.setting,
-//                     ),
-//                   ],
-//                 ),
-//                 onTap: () async {
-//                   isInstalled =
-//                   await DeviceApps.isAppInstalled('pydart.ashoura');
-//                   if (isInstalled) {
-//                     DeviceApps.openApp('pydart.ashoura');
-//                   } else {
-//                     String url = Constants.storeUrlAshoura;
-//                     if (await canLaunch(url))
-//                       await launch(url);
-//                     else
-//                       throw 'Could not launch $url';
-//                   }
-//                 }),
-//             ListTile(
-//                 leading: Wrap(
-//                   spacing: 12, // space between two icons
-//                   children: <Widget>[
-//                     new IconTheme(
-//                       data: new IconThemeData(
-//                         color: null,
-//                       ), //IconThemeData
-//
-//                       child: Container(
-//                         child: new Image.asset("assets/komeil.png"),
-//                         height: 25,
-//                         width: 25,
-//                       ),
-//                     ),
-//                     Text(
-//                       'دعای کمیل',
-//                       style: AppStyle.setting,
-//                     ),
-//                   ],
-//                 ),
-//                 onTap: () async {
-//                   isInstalled =
-//                   await DeviceApps.isAppInstalled('pydart.komeil');
-//                   if (isInstalled) {
-//                     DeviceApps.openApp('pydart.komeil');
-//                   } else {
-//                     String url = Constants.storeUrlKomeil;
-//                     if (await canLaunch(url))
-//                       await launch(url);
-//                     else
-//                       throw 'Could not launch $url';
-//                   }
-//                 }),
-//             ListTile(
-//                 leading: Wrap(
-//                   spacing: 12, // space between two icons
-//                   children: <Widget>[
-//                     new IconTheme(
-//                       data: new IconThemeData(
-//                         color: null,
-//                       ), //IconThemeData
-//
-//                       child: Container(
-//                         child: new Image.asset("assets/aahd.png"),
-// //                        color: Colors.white,
-//                         height: 25,
-//                         width: 25,
-//                       ),
-//                     ),
-//                     Text(
-//                       'دعای عهد',
-//                       style: AppStyle.setting,
-//                     ),
-//                   ],
-//                 ),
-//                 onTap: () async {
-//                   isInstalled = await DeviceApps.isAppInstalled('pydart.aahd');
-//                   if (isInstalled) {
-//                     DeviceApps.openApp('pydart.aahd');
-//                   } else {
-//                     String url = Constants.storeUrlAahd;
-//                     if (await canLaunch(url))
-//                       await launch(url);
-//                     else
-//                       throw 'Could not launch $url';
-//                   }
-//                 }),
-//             ListTile(
-//                 leading: Wrap(
-//                   spacing: 12, // space between two icons
-//                   children: <Widget>[
-//                     new IconTheme(
-//                       data: new IconThemeData(
-//                         color: null,
-//                       ), //IconThemeData
-//
-//                       child: Container(
-//                         child: new Image.asset("assets/nodbe.png"),
-// //                        color: Colors.white,
-//                         height: 25,
-//                         width: 25,
-//                       ),
-//                     ),
-//                     Text(
-//                       'دعای ندبه',
-//                       style: AppStyle.setting,
-//                     ),
-//                   ],
-//                 ),
-//                 onTap: () async {
-//                   isInstalled = await DeviceApps.isAppInstalled('pydart.nodbe');
-//                   if (isInstalled) {
-//                     DeviceApps.openApp('pydart.nodbe');
-//                   } else {
-//                     String url = Constants.storeUrlNodbe;
-//                     if (await canLaunch(url))
-//                       await launch(url);
-//                     else
-//                       throw 'Could not launch $url';
-//                   }
-//                 }),
-//             ListTile(
-//                 leading: Wrap(
-//                   spacing: 12, // space between two icons
-//                   children: <Widget>[
-// //                  Icon( icon: new Image.asset("assets / asmaIcon.png")), // icon-1
-// //                  new Image.asset("assets/asmaIcon.png"),
-//                     new IconTheme(
-//                       data: new IconThemeData(
-//                         color: null,
-//                       ), //IconThemeData
-//
-//                       child: Container(
-//                         child: new Image.asset("assets/kasa.png"),
-// //                        color: Colors.white,
-//                         height: 25,
-//                         width: 25,
-//                       ),
-//                     ),
-//
-//                     Text(
-//                       'حدیث کسا',
-//                       style: AppStyle.setting,
-//                     ),
-//                   ],
-//                 ),
-//                 onTap: () async {
-//                   isInstalled = await DeviceApps.isAppInstalled('pydart.kasa');
-//                   if (isInstalled) {
-//                     DeviceApps.openApp('pydart.kasa');
-//                   } else {
-//                     String url = Constants.storeUrlKasa;
-//                     if (await canLaunch(url))
-//                       await launch(url);
-//                     else
-//                       throw 'Could not launch $url';
-//                   }
-//                 }),
 
-            // Center(
-            //   child: BannerAd(
-            //     "2028260f-a8b1-4890-8ef4-224c4de96e02",
-            //     BannerAdSize.LARGE_BANNER,
-            //   ),
-            // ),
             Center(
-              child: AdmobBanner(
-                adUnitId: 'ca-app-pub-5524959616213219/5382351205',
-                adSize: AdmobBannerSize.LARGE_BANNER,
-                // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                //   if (event == AdmobAdEvent.clicked) {}
-                // },
-              ),
+              child: Stack(
+                children: [
+                  if (_bannerAd != null && _isLoaded)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SafeArea(
+                        child: SizedBox(
+                          width: _bannerAd!.size.width.toDouble(),
+                          height: _bannerAd!.size.height.toDouble(),
+                          child: AdWidget(ad: _bannerAd!),
+                        ),
+                      ),
+                    )
+                ],
+              )
             ),
           ],
         ),
       ),
     );
   }
-//      return PKCardPageSkeleton(
-//        totalLines: 1,
-//      );
-//    });
-//  }
 }

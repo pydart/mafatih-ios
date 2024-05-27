@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:audio_session/audio_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
@@ -18,6 +19,7 @@ import 'package:mafatih/library/Globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 // import 'package:screen/screen.dart';
+import '../../consent_manager.dart';
 import '../../utils/constants.dart';
 import 'detailSec44.dart';
 import 'detailSec55.dart';
@@ -58,6 +60,7 @@ class _DetailSec4State extends State<DetailSec4> {
 
   @override
   void dispose() {
+    _bannerAd?.dispose();
     _player!.stop();
     _player!.setLoopMode(LoopMode.off);
     _player!.dispose();
@@ -85,10 +88,10 @@ class _DetailSec4State extends State<DetailSec4> {
               })
             : setState(() {
                 iconBookmarkcolor = Colors.red;
-                globals.titleBookMarked!.add(globals.titleCurrentPage);
-                globals.indexBookMarked!.add(globals.indexCurrentPage);
-                globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage);
-                globals.codeBookMarked!.add(globals.codeCurrentPage);
+                globals.titleBookMarked!.add(globals.titleCurrentPage!);
+                globals.indexBookMarked!.add(globals.indexCurrentPage!);
+                globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage!);
+                globals.codeBookMarked!.add(globals.codeCurrentPage!);
                 isBookmarked = true;
 
                 print(
@@ -191,6 +194,9 @@ class _DetailSec4State extends State<DetailSec4> {
   @override
   void initState() {
     KeepScreenOn.turnOn();
+    _initializeMobileAdsSDK();
+    _loadAd();
+
 
     print(
         "********************************************** widget.code  4 **************************** ${widget.code} ");
@@ -442,6 +448,59 @@ class _DetailSec4State extends State<DetailSec4> {
     }
   }
 
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+  Orientation? _currentOrientation;
+
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+    if (size == null) {
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+  void _initializeMobileAdsSDK() async {
+    MobileAds.instance.initialize();
+    _loadAd();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
@@ -662,13 +721,12 @@ class _DetailSec4State extends State<DetailSec4> {
               indexFasl: 4,
               code: widget.indexFasl * 1000 + widget.index,
               player: _player),
-      // bottomNavigationBar: AdmobBanner(
-      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-      //   adSize: AdmobBannerSize.BANNER,
-      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-      //   //   if (event == AdmobAdEvent.clicked) {}
-      //   // },
-      // ),
+        bottomNavigationBar:(_bannerAd != null && _isLoaded)?
+        SizedBox(
+          width: _bannerAd!.size.width.toDouble(),
+          height: _bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
+        ):null
     );
   }
 }

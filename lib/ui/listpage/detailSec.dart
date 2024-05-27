@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:audio_session/audio_session.dart';
 // import 'package:screen/screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:mafatih/audio/common.dart';
@@ -22,6 +23,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
+
+import '../../consent_manager.dart';
+import '../../utils/constants.dart';
 
 class DetailSec extends StatefulWidget {
   final detail, index, indent, indexFasl, code, query;
@@ -58,12 +62,65 @@ class _DetailSecState extends State<DetailSec> {
   num curIndex = 0;
   late AudioPlayer _player;
 
+
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+    if (size == null) {
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+  void _initializeMobileAdsSDK() async {
+    MobileAds.instance.initialize();
+    _loadAd();
+  }
+
   @override
   void dispose() {
     _player.stop();     _player.setLoopMode(LoopMode.off);
     _player.dispose();
     print("************************************************************************dispos detailsec");
     _scrollController!.dispose();
+    _bannerAd?.dispose();
     super.dispose();
   }
 
@@ -99,19 +156,21 @@ class _DetailSecState extends State<DetailSec> {
               })
             : setState(() {
                 iconBookmarkcolor = Colors.red;
-                globals.titleBookMarked!.add(globals.titleCurrentPage);
-                globals.indexBookMarked!.add(globals.indexCurrentPage);
-                globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage);
-                globals.codeBookMarked!.add(globals.codeCurrentPage);
+                globals.titleBookMarked.add(globals.titleCurrentPage!);
+                globals.indexBookMarked.add(globals.indexCurrentPage!);
+                globals.indexFaslBookMarked.add(globals.indexFaslCurrentPage!);
+                globals.codeBookMarked.add(globals.codeCurrentPage!);
                 isBookmarked = true;
                 print(
                     "${globals.codeCurrentPage} -----------------------------------------------globals.codeCurrentPage------------------------------------------------");
                 print(
                     "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.titleBookMarked}");
+                print(
+                    "toSave %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%: ${globals.codeBookMarked}");
               });
 
         if (globals.indexBookMarked != null) {
-          setBookmark(globals.titleBookMarked!, globals.indexBookMarked!,
+          setBookmark(globals.titleBookMarked, globals.indexBookMarked!,
               globals.indexFaslBookMarked!, globals.codeBookMarked!);
         }
       } else if (indexTab == 0) {
@@ -124,12 +183,11 @@ class _DetailSecState extends State<DetailSec> {
     });
   }
 
-  /// set bookmarkPage in sharedPreferences
-  void setBookmark(List<String?> _title, List<int?> _index, List<int?> _indexFasl,
+  void setBookmark(List<String> _title, List<int?> _index, List<int?> _indexFasl,
       List<int?> _code) async {
     prefs = await SharedPreferences.getInstance();
 //    if (_index[0] != null && !_index[0].isNaN) {
-    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title as List<String>);
+    await prefs.setStringList(globals.BOOKMARKED_PAGE_title, _title);
 
     List<String> _strindex = _index.map((i) => i.toString()).toList();
     await prefs.setStringList(globals.BOOKMARKED_PAGE_index, _strindex);
@@ -141,7 +199,6 @@ class _DetailSecState extends State<DetailSec> {
     await prefs.setStringList(globals.BOOKMARKED_PAGE_Code, _strcode);
   }
 
-  /// set lastViewedPage in sharedPreferences
   void setLastViewedPage(String? _titleCurrentPage, int? _indexCurrentPage,
       int? _indexFaslCurrentPage, String? _indentCurrentPage) async {
     prefs = await SharedPreferences.getInstance();
@@ -177,6 +234,8 @@ class _DetailSecState extends State<DetailSec> {
   @override
   void initState() {
     KeepScreenOn.turnOn();
+    _initializeMobileAdsSDK();
+    _loadAd();
 
     print("********************************************** widget.code  detail sec**************************** ${widget.code} ");
     final url = globals.audioUrl+"${widget.indexFasl*1000+widget.index}.mp3";
@@ -186,8 +245,6 @@ class _DetailSecState extends State<DetailSec> {
     } else {
       globals.audioExist=false;
     }
-
-
 
     _player = AudioPlayer();
     _scrollController = ScrollController();
@@ -657,7 +714,7 @@ class _DetailSecState extends State<DetailSec> {
             indexFaslCurrentPage = snapshot.data!.bab;
             globals.indexFaslCurrentPage = indexFaslCurrentPage;
             codeCurrentPage = indexFaslCurrentPage! * 1000 + indexCurrentPage!;
-            globals.codeCurrentPage = codeCurrentPage;
+            globals.codeCurrentPage = widget.code;
           }
 
           globals.edameFaraz==true?globals.edameFaraz=false:globals.edameFaraz=false;
@@ -733,7 +790,7 @@ class _DetailSecState extends State<DetailSec> {
                                                 fontFamily: globals.fontArabic,
                                                 fontSize:
                                                     globals.fontArabicLevel,
-                                                height: 1.5,
+                                                height: (globals.fontArabic=='نیریزی یک'||globals.fontArabic=='نیریزی دو')? 2:1.5,
                                                 color: Theme.of(context)
                                                     .shadowColor,
                                               ),
@@ -809,13 +866,14 @@ class _DetailSecState extends State<DetailSec> {
               : Center(child: CircularProgressIndicator());
         },
       ),
-      // bottomNavigationBar: AdmobBanner(
-      //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-      //   adSize: AdmobBannerSize.BANNER,
-      //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-      //   //   if (event == AdmobAdEvent.clicked) {}
-      //   // },
-      // ),
+
+      bottomNavigationBar:(_bannerAd != null && _isLoaded)?
+      SizedBox(
+        width: _bannerAd!.size.width.toDouble(),
+        height: _bannerAd!.size.height.toDouble(),
+        child: AdWidget(ad: _bannerAd!),
+      ):null
+
     );
   }
 }

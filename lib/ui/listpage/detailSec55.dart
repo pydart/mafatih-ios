@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mafatih/data/services.dart';
 import 'package:mafatih/data/uistate.dart';
@@ -12,6 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mafatih/library/Globals.dart' as globals;
 // import 'package:screen/screen.dart';
 
+import '../../consent_manager.dart';
+import '../../utils/constants.dart';
 import 'detailSec44.dart';
 
 class DetailSec55 extends StatefulWidget {
@@ -48,12 +52,16 @@ class _DetailSec55State extends State<DetailSec55> {
 
   @override
   void dispose() {
+    _bannerAd?.dispose();
     widget.player.stop();     widget.player.setLoopMode(LoopMode.off);
     widget.player.dispose();
     print("************************************************************************dispos detailsec");
     _scrollController!.dispose();
+    _bannerAd?.dispose();
+
     super.dispose();
   }
+
 
   _onItemTapped(int indexTab) {
     setState(() {
@@ -74,10 +82,10 @@ class _DetailSec55State extends State<DetailSec55> {
         })
             : setState(() {
           iconBookmarkcolor = Colors.red;
-          globals.titleBookMarked!.add(globals.titleCurrentPage);
-          globals.indexBookMarked!.add(globals.indexCurrentPage);
-          globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage);
-          globals.codeBookMarked!.add(globals.codeCurrentPage);
+          globals.titleBookMarked!.add(globals.titleCurrentPage!);
+          globals.indexBookMarked!.add(globals.indexCurrentPage!);
+          globals.indexFaslBookMarked!.add(globals.indexFaslCurrentPage!);
+          globals.codeBookMarked!.add(globals.codeCurrentPage!);
           isBookmarked = true;
 
           print(
@@ -178,6 +186,10 @@ class _DetailSec55State extends State<DetailSec55> {
   }
   @override
   void initState() {
+
+    _initializeMobileAdsSDK();
+    _loadAd();
+
     _scrollController = ScrollController();
     _scrollController!.addListener(_scrollListener);
 
@@ -264,6 +276,61 @@ class _DetailSec55State extends State<DetailSec55> {
     }
 
   }
+
+
+  final _consentManager = ConsentManager();
+  var _isMobileAdsInitializeCalled = false;
+  BannerAd? _bannerAd;
+  bool _isLoaded = false;
+
+  final String _adUnitId = Platform.isAndroid
+      ? Constants.adUnitId
+      : Constants.adUnitId;
+
+
+  void _loadAd() async {
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    final size = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        MediaQuery.sizeOf(context).width.truncate());
+
+    if (size == null) {
+      return;
+    }
+
+    BannerAd(
+      adUnitId: _adUnitId,
+      request: const AdRequest(),
+      size: size,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdImpression: (Ad ad) {},
+      ),
+    ).load();
+  }
+
+  void _initializeMobileAdsSDK() async {
+    MobileAds.instance.initialize();
+    _loadAd();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var ui = Provider.of<UiState>(context);
@@ -272,7 +339,7 @@ class _DetailSec55State extends State<DetailSec55> {
       Scaffold(
         body: (ui.terjemahan == false || globals.tarjActive== false)
             ? FutureBuilder<DailyDoa4>(
-          future: ServiceData().loadSec4(widget.indexFasl, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
+          future: ServiceData().loadSec4(5, globals.tarjKhati==true && globals.khatiedDoa.contains(1000 *widget.indexFasl + widget.index) ? (1000 *widget.indexFasl + widget.index).toString() : widget.index.toString() ),
           builder: (c, snapshot) {
             if (snapshot.hasData) {
               titleCurrentPage = snapshot.data!.title;
@@ -313,19 +380,29 @@ class _DetailSec55State extends State<DetailSec55> {
                                 children: <Widget>[
                                   if (int.parse(key) -
                                       snapshot.data!.delay! ==
-                                      1)
+                                      1 && (widget.index!=9 || widget.index==1))
                                     ListTile(
                                       dense: true,
                                       title: Text(
                                         'بِسْمِ اللَّـهِ الرَّ حْمَـٰنِ الرَّ حِيمِ',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppStyle
-                                              .textQuranfontFamily,
-                                          fontSize: 1.2 *
-                                              globals.fontArabicLevel!,
-                                          height: 1.5,
+                                        style:
+                                        TextStyle(
+                                          fontFamily: globals.fontArabic,
+                                          fontSize:
+                                          globals.fontArabicLevel,
+                                          height: (globals.fontArabic=='نیریزی یک'||globals.fontArabic=='نیریزی دو')? 2:1.5,
+                                          color: Theme.of(context)
+                                              .shadowColor,
                                         ),
+
+                                        // TextStyle(
+                                        //   fontFamily: AppStyle
+                                        //       .textQuranfontFamily,
+                                        //   fontSize: 1.2 *
+                                        //       globals.fontArabicLevel!,
+                                        //   height: 1.5,
+                                        // ),
                                       ),
                                     ),
                                   if (snapshot.data!.arabic![key] !=
@@ -343,15 +420,23 @@ class _DetailSec55State extends State<DetailSec55> {
                                                   .arabic![key])
                                                   .toString()),
                                           style: TextStyle(
-                                            fontFamily: AppStyle
-                                                .textQuranfontFamily,
-                                            fontSize: 1.2 *
-                                                globals
-                                                    .fontArabicLevel!,
-                                            height: 1.5,
+                                            fontFamily: globals.fontArabic,
+                                            fontSize:
+                                            globals.fontArabicLevel,
+                                            height: (globals.fontArabic=='نیریزی یک'||globals.fontArabic=='نیریزی دو')? 2:1.5,
                                             color: Theme.of(context)
                                                 .shadowColor,
                                           ),
+                                          // style: TextStyle(
+                                          //   fontFamily: AppStyle
+                                          //       .textQuranfontFamily,
+                                          //   fontSize: 1.2 *
+                                          //       globals
+                                          //           .fontArabicLevel!,
+                                          //   height: 1.5,
+                                          //   color: Theme.of(context)
+                                          //       .shadowColor,
+                                          // ),
                                         ),
                                       ),
                                     ),
@@ -375,13 +460,12 @@ class _DetailSec55State extends State<DetailSec55> {
           code: widget.indexFasl * 1000 + widget.index,
           player: widget.player,
         ),
-        // bottomNavigationBar: AdmobBanner(
-        //   adUnitId: 'ca-app-pub-5524959616213219/7557264464',
-        //   adSize: AdmobBannerSize.LARGE_BANNER,
-        //   // listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        //   //   if (event == AdmobAdEvent.clicked) {}
-        //   // },
-        // ),
+          bottomNavigationBar:(_bannerAd != null && _isLoaded)?
+          SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          ):null
       );
   }
 }
